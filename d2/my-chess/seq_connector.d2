@@ -1,0 +1,50 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 4
+  }
+}
+classes: {
+  response: {
+    style: {
+      stroke-dash: 5
+    }
+  }
+}
+client: {shape: person}
+app: FastAPI
+router: endpoint router
+chess: python-chess
+networkx: NetworkX
+diagon: diagon CLI
+
+app.note1: |md
+  ```
+  startup: register routers
+  adjacencies, links, king_box, shadows, graphdag, none
+  add CORS middleware (allow all origins)
+  read PORT from env (default 8000)
+  ```
+|
+app -> uvicorn: "serve on 0.0.0.0:" # {PORT}
+
+client -> app: "GET /links?fen_string=<FEN>&heatmap=false"
+app -> router: route to links.py
+router -> chess: parse FEN → board
+chess -> router: board {class: response}
+router -> chess: get_nodes(board, heatmap)
+chess -> router: "nodes[]" {class: response}
+router -> chess: get_edges(board)
+chess -> router: "edges[] (threat + protection)" {class: response}
+router -> app: "{nodes, edges}" {class: response}
+app -> client: "200 {nodes, edges}" {class: response}
+
+client -> app: "PUT /graphdag"
+app -> router: route to graphdag.py
+router -> networkx: build_acyclic_graph(edges)
+networkx -> router: DAG {class: response}
+router -> diagon: pipe edge list to stdin
+diagon -> router: ASCII art string {class: response}
+router -> app: "{ascii}" {class: response}
+app -> client: "200 {ascii}" {class: response}

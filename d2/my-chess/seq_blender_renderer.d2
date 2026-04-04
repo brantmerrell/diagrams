@@ -1,0 +1,56 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 4
+  }
+}
+classes: {
+  response: {
+    style: {
+      stroke-dash: 5
+    }
+  }
+}
+blender: {shape: person}
+init_py: {label: __init__.py}
+operator: operators.py
+connector_svc: connector_service.py
+connector: connector API
+
+blender -> init_py: load addon
+init_py.note1: |md
+  ```
+  register classes:
+  BlendChessProperties, BLCHESS_PT_main_panel
+  submit_fen, select_position, submit_move,
+  undo_move, go_to_start/backward/forward/end
+  ```
+|
+init_py -> blender: attach BlendChessProperties to Scene {class: response}
+
+blender -> operator: click render button
+operator.note1: |md
+  read fen_string + connection_type
+  from scene.blchess_renderer
+|
+operator -> connector_svc: "fetch_<connection_type>(fen_string)"
+connector_svc -> connector: "GET /<endpoint>?fen_string=<FEN>"
+connector -> connector_svc: "{nodes, edges}" {class: response}
+connector_svc -> operator: "{nodes, edges}" {class: response}
+operator.note2: |md
+  load board_config.yaml (layers, global settings)
+  clear existing scene geometry
+|
+operator -> blender: render_layer() per enabled layer {class: response}
+blender -> blender: 3D scene updated
+
+blender -> operator: submit move / undo
+operator.note3: |md
+  update fen_string in scene properties
+|
+operator -> connector_svc: "fetch_<connection_type>(new_fen)"
+connector_svc -> connector: "GET /<endpoint>?fen_string=<new FEN>"
+connector -> connector_svc: "{nodes, edges}" {class: response}
+connector_svc -> operator: "{nodes, edges}" {class: response}
+operator -> blender: re-render scene {class: response}

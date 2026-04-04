@@ -1,0 +1,64 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 4
+  }
+}
+classes: {
+  response: {
+    style: {
+      stroke-dash: 5
+    }
+  }
+}
+user: {shape: person}
+app_R: {label: app.R}
+server: server.R
+chess_py: python-chess (reticulate)
+connector: connector API
+
+app_R.note1: |md
+  ```
+  source utilities (fen_map, find_index_of_rank, …)
+  source ui.R and server.R
+  read API_URL from env (default http://localhost:8000)
+  ```
+|
+app_R -> shiny: shinyApp(ui, server) on port 3838
+
+server.note1: |md
+  ```
+  import chess via reticulate
+  init reactive values:
+  asciiBoard, helperVisual, links, fenDescription, moveHistory
+  ```
+|
+
+user -> server: select preset FEN or submit FEN
+server -> chess_py: board.set_fen(fen)
+chess_py -> server: ok {class: response}
+server -> connector: "GET /links?fen_string=<FEN>"
+connector -> server: "{nodes, edges}" {class: response}
+server.note2: |md
+  ```
+  updateChessDependencies():
+  render ASCII board
+  call fenMap() for visualization
+  generate FEN description (YAML)
+  update move history
+  ```
+|
+server -> user: render board + connections + history {class: response}
+
+user -> server: submit move
+server -> chess_py: board.push_san(move)
+chess_py -> server: ok {class: response}
+server -> connector: "GET /links?fen_string=<updated FEN>"
+connector -> server: "{nodes, edges}" {class: response}
+server -> user: render updated board {class: response}
+
+user -> server: undo
+server -> chess_py: board.pop()
+chess_py -> server: ok {class: response}
+server -> user: render previous position {class: response}

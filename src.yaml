@@ -24,6 +24,23 @@ hi/:
       - hi/seq_generate_audio.d2
     process_sentences.py:
       - hi/seq_process_sentences.d2
+my-chess/:
+  details:
+    repository: https://github.com/brantmerrell/my-chess
+    description: chess visualization app
+  connector/:
+    main.py:
+      - my-chess/seq_connector.d2
+  ascii-chess-ts/:
+    src/:
+      index.tsx:
+        - my-chess/seq_ascii_chess_ts.d2
+  prototype-shiny/:
+    app.R:
+      - my-chess/seq_prototype_shiny.d2
+  blender-renderer/:
+    __init__.py:
+      - my-chess/seq_blender_renderer.d2
 examples:
   3-special-objects:
     - /examples/3-special-objects/block-strings.d2
