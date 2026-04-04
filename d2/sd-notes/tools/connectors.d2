@@ -1,0 +1,218 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+
+# AI System with Connectors Architecture
+ai_system: {
+  label: AI Agent/Model
+  shape: hexagon
+  style.fill: lightblue
+}
+
+connector_layer: {
+  label: Connector Layer
+  style.stroke-dash: 3
+  
+  data_connectors: {
+    label: Data Connectors
+    
+    api_connector: {
+      label: REST API\nConnector
+      shape: oval
+    }
+    
+    db_connector: {
+      label: Database\nConnector
+      shape: oval
+    }
+    
+    file_connector: {
+      label: File System\nConnector
+      shape: oval
+    }
+    
+    stream_connector: {
+      label: Real-time\nStream Connector
+      shape: oval
+    }
+  }
+  
+  service_connectors: {
+    label: Service Connectors
+    
+    auth_connector: {
+      label: Authentication\nConnector
+      shape: oval
+    }
+    
+    email_connector: {
+      label: Email/SMS\nConnector
+      shape: oval
+    }
+    
+    calendar_connector: {
+      label: Calendar\nConnector
+      shape: oval
+    }
+    
+    payment_connector: {
+      label: Payment\nConnector
+      shape: oval
+    }
+  }
+  
+  tool_connectors: {
+    label: Tool Connectors
+    
+    search_connector: {
+      label: Web Search\nConnector
+      shape: oval
+    }
+    
+    code_connector: {
+      label: Code Execution\nConnector
+      shape: oval
+    }
+    
+    vision_connector: {
+      label: Computer Vision\nConnector
+      shape: oval
+    }
+  }
+}
+
+external_systems: {
+  label: External Systems
+  
+  data_sources: {
+    label: Data Sources
+    
+    sql_db: {
+      shape: cylinder
+      label: SQL Database
+    }
+    
+    nosql_db: {
+      shape: cylinder
+      label: NoSQL Database
+    }
+    
+    object_store: {
+      shape: cylinder
+      label: Object Storage
+    }
+    
+    api_services: {
+      label: External APIs
+      style.multiple: true
+    }
+  }
+  
+  business_systems: {
+    label: Business Systems
+    
+    crm: {
+      label: CRM System
+      shape: rectangle
+    }
+    
+    erp: {
+      label: ERP System
+      shape: rectangle
+    }
+    
+    communication: {
+      label: Communication\nPlatforms
+      shape: rectangle
+    }
+  }
+  
+  cloud_services: {
+    label: Cloud Services
+    
+    aws_services: {
+      label: AWS Services
+      style.multiple: true
+    }
+    
+    saas_tools: {
+      label: SaaS Tools
+      style.multiple: true
+    }
+  }
+}
+
+# AI System connections
+ai_system -> connector_layer.data_connectors.api_connector: invoke
+ai_system -> connector_layer.data_connectors.db_connector: query
+ai_system -> connector_layer.service_connectors.auth_connector: authenticate
+ai_system -> connector_layer.tool_connectors.search_connector: search web
+
+# Connector to External System connections
+connector_layer.data_connectors.db_connector -> external_systems.data_sources.sql_db
+connector_layer.data_connectors.api_connector -> external_systems.data_sources.api_services
+connector_layer.service_connectors.email_connector -> external_systems.business_systems.communication
+connector_layer.tool_connectors.search_connector -> external_systems.cloud_services.saas_tools
+
+# Data flow patterns
+data_flow: {
+  label: Data Flow Patterns
+  
+  retrieval: {
+    label: Data Retrieval
+    shape: diamond
+  }
+  
+  augmentation: {
+    label: Context Augmentation
+    shape: diamond
+  }
+  
+  action_execution: {
+    label: Action Execution
+    shape: diamond
+  }
+  
+  feedback_loop: {
+    label: Feedback Loop
+    shape: diamond
+  }
+}
+
+ai_system -- data_flow.retrieval: fetch external data
+ai_system -- data_flow.augmentation: enhance context
+ai_system -- data_flow.action_execution: perform actions
+ai_system -- data_flow.feedback_loop: learn from results
+
+# Security and Management
+connector_management: {
+  label: Connector Management
+  
+  authentication: {
+    label: Authentication\n& Authorization
+    shape: hexagon
+  }
+  
+  rate_limiting: {
+    label: Rate Limiting\n& Throttling
+    shape: hexagon
+  }
+  
+  monitoring: {
+    label: Monitoring\n& Logging
+    shape: hexagon
+  }
+  
+  error_handling: {
+    label: Error Handling\n& Retry Logic
+    shape: hexagon
+  }
+}
+
+connector_layer -- connector_management.authentication
+connector_layer -- connector_management.rate_limiting
+connector_layer -- connector_management.monitoring
+connector_layer -- connector_management.error_handling

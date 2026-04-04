@@ -1,0 +1,100 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+
+# HTTP Request-Response Cycle
+http_flow: {
+  label: HTTP Communication
+  
+  client: {
+    class: obj_client
+    label: Web Client
+  }
+  
+  server: {
+    class: obj_server
+    label: Web Server
+  }
+  
+  request_flow: {
+    dns_lookup: DNS Lookup
+    tcp_handshake: TCP Handshake
+    http_request: HTTP Request
+    server_processing: Server Processing
+    http_response: HTTP Response
+    tcp_close: TCP Close
+    
+    dns_lookup -> tcp_handshake
+    tcp_handshake -> http_request
+    http_request -> server_processing
+    server_processing -> http_response
+    http_response -> tcp_close
+  }
+  
+  client -> server: {class: edge_request}
+  server -> client: {class: edge_response}
+  client -- request_flow
+}
+
+# WebSocket Persistent Connection
+websocket_flow: {
+  label: WebSocket Communication
+  
+  client: {
+    class: obj_client
+    label: WebSocket Client
+  }
+  
+  server: {
+    class: obj_server
+    label: WebSocket Server
+  }
+  
+  connection_upgrade: {
+    handshake: HTTP Upgrade Handshake
+    persistent_conn: Persistent Connection
+    bidirectional: Bidirectional Messages
+    
+    handshake -> persistent_conn
+    persistent_conn -> bidirectional
+  }
+  
+  client <-> server: {class: edge_request, label: bidirectional}
+  client -- connection_upgrade
+}
+
+# gRPC Service Mesh
+grpc_flow: {
+  label: gRPC Communication
+  
+  client_service: {
+    class: obj_server
+    label: Client Service
+  }
+  
+  server_service: {
+    class: obj_server
+    label: Server Service
+  }
+  
+  protobuf_layer: {
+    label: Protocol Buffers
+    shape: hexagon
+  }
+  
+  http2_layer: {
+    label: HTTP/2 + TLS
+    shape: hexagon
+  }
+  
+  client_service -> protobuf_layer: serialize
+  protobuf_layer -> http2_layer: transport
+  http2_layer -> server_service: {class: edge_request}
+  server_service -> http2_layer: {class: edge_response}
+  http2_layer -> protobuf_layer: transport
+  protobuf_layer -> client_service: deserialize
+}

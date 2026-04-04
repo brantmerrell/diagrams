@@ -1,0 +1,60 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+  }
+}
+classes: @"../classes"
+
+# Transaction System
+transaction: {
+  label: Database Transaction
+  shape: hexagon
+  style.fill: lightblue
+}
+
+# ACID Properties as simultaneous guarantees
+acid_properties: {
+  label: ACID Guarantees
+  
+  atomicity: {
+    label: ATOMICITY
+    all_ops: All Operations
+    none_ops: No Operations
+    all_ops -- none_ops: OR
+  }
+  
+  consistency: {
+    label: CONSISTENCY
+    valid_state1: Valid State A
+    valid_state2: Valid State B
+    valid_state1 -> valid_state2: maintains integrity
+  }
+  
+  isolation: {
+    label: ISOLATION
+    concurrent_tx: {
+      tx1: Transaction 1
+      tx2: Transaction 2
+      tx3: Transaction N
+      style.multiple: true
+    }
+    serial_equiv: Serial Equivalent Result
+    concurrent_tx -> serial_equiv: appears as
+  }
+  
+  durability: {
+    label: DURABILITY
+    committed_tx: Committed Transaction
+    persistent_storage: Persistent Storage
+    system_failure: System Failure
+    committed_tx -> persistent_storage
+    system_failure -> persistent_storage: survives
+  }
+}
+
+transaction -- acid_properties.atomicity
+transaction -- acid_properties.consistency  
+transaction -- acid_properties.isolation
+transaction -- acid_properties.durability
+

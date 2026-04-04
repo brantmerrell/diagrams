@@ -1,0 +1,121 @@
+grid-rows: 2
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+
+# Single Database Bottleneck
+single_db_system: {
+  label: Single Database System
+  
+  app_servers: {
+    class: objs_server
+    label: Application Servers
+  }
+  
+  database: {
+    class: obj_db
+    label: Single Database
+  }
+  
+  bottleneck: {
+    label: BOTTLENECK
+    class: negative
+    shape: oval
+  }
+  
+  app_servers -> database: { class: edge_query }
+  database -- bottleneck
+}
+
+read_replica_system: {
+  # distinguish between master-master and master-slave
+  # the industry is moving away from master/slave vocab. Find whatever the modern names for these are.
+  label: Read Replica System
+  
+  app_servers: {
+    class: objs_server
+    label: Application Servers
+  }
+  
+  master_db: {
+    class: obj_db
+    label: Master DB\n(writes)
+  }
+  
+  read_replicas: {
+    class: objs_db
+    label: Read Replicas
+  }
+  
+  app_servers -> master_db: {class: edge_write}
+  app_servers -> read_replicas: {class: edge_query}
+  master_db -> read_replicas: {class: edge_write, label: replication}
+}
+
+# Federation Solution
+federation_system: {
+  label: Federation System
+  
+  app_layer: {
+    class: obj_server
+    label: Application Layer\n(routing logic)
+  }
+  
+  user_db: {
+    class: obj_db
+    label: User Database
+  }
+  
+  product_db: {
+    class: obj_db
+    label: Product Database
+  }
+  
+  order_db: {
+    class: obj_db
+    label: Order Database
+  }
+  
+  app_layer -> user_db: user queries
+  app_layer -> product_db: product queries
+  app_layer -> order_db: order queries
+}
+
+# Sharding Solution
+sharding_system: {
+  label: Sharding System
+  
+  app_layer: {
+    class: obj_server
+    label: Application Layer\n(shard routing)
+  }
+  
+  shard_key_hasher: {
+    label: Shard Key Hasher
+    shape: diamond
+  }
+  
+  shard_a: {
+    class: obj_db
+    label: Shard A\n(users A-H)
+  }
+  
+  shard_b: {
+    class: obj_db
+    label: Shard B\n(users I-P)
+  }
+  
+  shard_c: {
+    class: obj_db
+    label: Shard C\n(users Q-Z)
+  }
+  
+  app_layer -> shard_key_hasher
+  shard_key_hasher -> shard_a: hash(user_id) % 3 = 0
+  shard_key_hasher -> shard_b: hash(user_id) % 3 = 1
+  shard_key_hasher -> shard_c: hash(user_id) % 3 = 2
+}

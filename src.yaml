@@ -41,6 +41,36 @@ my-chess/:
   blender-renderer/:
     __init__.py:
       - my-chess/seq_blender_renderer.d2
+sd-notes/:
+  classes.d2:
+    - sd-notes/classes.d2
+  designs/:
+    mint/:
+      - sd-notes/designs/mint/final.d2
+      - sd-notes/designs/mint/initial.d2
+      - sd-notes/designs/mint/mint.d2
+    pastebin/:
+      - sd-notes/designs/pastebin/pastebin.d2
+  GeneralMotors/:
+    - sd-notes/GeneralMotors/sd.d2
+  tools/:
+    - sd-notes/tools/application_caching.d2
+    - sd-notes/tools/application_layer.d2
+    - sd-notes/tools/asynchronism.d2
+    - sd-notes/tools/cdn.d2
+    - sd-notes/tools/communication.d2
+    - sd-notes/tools/connectors.d2
+    - sd-notes/tools/dns.d2
+    - sd-notes/tools/load_balancer.d2
+    - sd-notes/tools/mcp.d2
+    - sd-notes/tools/NoSQL.d2
+    - sd-notes/tools/RAG.d2
+    - sd-notes/tools/rdbms.d2
+    - sd-notes/tools/rdbms_scaling.d2
+    - sd-notes/tools/rdbms_systems.d2
+    - sd-notes/tools/rdbms_tuning.d2
+    - sd-notes/tools/reverse_proxy.d2
+    - sd-notes/tools/vector_database.d2
 hackerrank/:
   classes.d2:
     - hackerrank/classes.d2

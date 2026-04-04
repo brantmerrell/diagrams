@@ -1,0 +1,86 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+classes: @"../../classes"
+AccountsAPI: {
+  label: Accounts API
+  class: objs_service
+}
+BudgetService: {
+  label: BudgetService
+  class: objs_service
+}
+CategoryService: {
+  label: Category\nService
+  class: objs_service
+}
+CDN: {
+  class: obj_cdn
+}
+Client: {
+  class: obj_client
+}
+DNS: {
+  class: obj_dns
+}
+LB: {
+  label: Load Balancer
+  class: obj_lb
+}
+MemoryCache: {
+  label: Memory Cache
+  class: obj_caches
+}
+NotificationService: {
+  label: Notification Service
+  class: objs_service
+}
+ObjectStore: {
+  label: Object Store
+  class: obj_db
+}
+Queue: {
+  label: Queue
+  class: obj_queue
+}
+ReadAPI: {
+  label: Read API
+  class: objs_service
+}
+SQLReadReplicas: {
+  label: SQL\nRead\nReplicas
+  class: objs_db
+}
+SQLWriteMasterSlave: {
+  label: SQL\n Write\n Master-\n Slave
+  class: objs_db
+}
+TransactionExtractionService: {
+  label: Transaction\nExtraction\nService
+  class: objs_service
+}
+WS: {
+  label: Web Server
+  class: objs_service
+}
+Client -> DNS
+Client -> CDN
+Client -> LB
+LB -> WS
+WS -> AccountsAPI
+WS -> ReadAPI
+AccountsAPI -> Queue
+Queue -> TransactionExtractionService
+TransactionExtractionService -> CategoryService
+TransactionExtractionService -> BudgetService
+TransactionExtractionService -> NotificationService
+ReadAPI -> MemoryCache
+ReadAPI -> ObjectStore
+CDN -> ObjectStore
+AccountsAPI -> SQLReadReplicas
+TransactionExtractionService -> SQLReadReplicas
+AccountsAPI -> SQLWriteMasterSlave
+TransactionExtractionService -> SQLWriteMasterSlave

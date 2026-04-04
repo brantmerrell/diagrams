@@ -1,0 +1,57 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+
+client: {
+  class: obj_client
+  label: Client
+}
+
+load_balancer: {
+  class: obj_lb
+  label: Load Balancer
+  
+  algorithm: {
+    class: cond
+    label: Algorithm
+  }
+  
+  health_checker: {
+    label: Health Checker
+    shape: diamond
+  }
+}
+
+server_pool: {
+  server1: {
+    class: obj_server
+    label: Server 1
+  }
+  server2: {
+    class: obj_server
+    label: Server 2
+  }
+  server_n: {
+    class: obj_server
+    label: Server N
+  }
+}
+
+client -> load_balancer: {class: edge_request}
+load_balancer.algorithm -> server_pool.server1: round robin
+load_balancer.algorithm -> server_pool.server2: weighted
+load_balancer.algorithm -> server_pool.server_n: least conn
+
+load_balancer.health_checker -> server_pool.server1: {class: edge_query}
+load_balancer.health_checker -> server_pool.server2: {class: edge_query}
+load_balancer.health_checker -> server_pool.server_n: {class: edge_query}
+
+server_pool.server1 -> client: {class: edge_response}
+server_pool.server2 -> client: {class: edge_response}
+server_pool.server_n -> client: {class: edge_response}
+
+# algorithms: simple, capacity-aware, load-aware, session-sticky, retry-if-unhealthy (health-aware?)

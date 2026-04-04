@@ -1,0 +1,399 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 1
+  }
+}
+classes: @"../classes"
+
+# RAG (Retrieval-Augmented Generation) Architecture
+rag_system: {
+  label: RAG System Architecture
+  
+  # User Interface Layer
+  user_interface: {
+    label: User Interface
+    
+    user: {
+      shape: person
+      label: User
+    }
+    
+    chat_interface: {
+      class: obj_client
+      label: Chat Interface\n(Web/Mobile/API)
+    }
+    
+    user -> chat_interface: query/prompt
+  }
+  
+  # Orchestration Layer
+  orchestration_layer: {
+    label: Orchestration & Integration Layer
+    
+    api_gateway: {
+      class: obj_server
+      label: API Gateway\n(Auth, Rate Limiting)
+    }
+    
+    rag_orchestrator: {
+      class: obj_service
+      label: RAG Orchestrator\n(LangChain/LlamaIndex)
+    }
+    
+    prompt_engineer: {
+      class: obj_service
+      label: Prompt Engineering\nService
+    }
+    
+    query_router: {
+      class: cond
+      label: Query Router\n& Intent Analysis
+    }
+    
+    api_gateway -> rag_orchestrator
+    rag_orchestrator -> query_router
+    query_router -> prompt_engineer
+  }
+  
+  # Retrieval System
+  retrieval_system: {
+    label: Knowledge Retrieval System
+    
+    # Data Ingestion Pipeline
+    ingestion_pipeline: {
+      label: Data Ingestion Pipeline
+      
+      data_sources: {
+        class: objs_service
+        label: Data Sources\n(PDFs, Docs, APIs,\nDatabases, Websites)
+      }
+      
+      text_processor: {
+        class: obj_service
+        label: Text Processing\n(Chunking, Cleaning)
+      }
+      
+      embedding_model: {
+        class: ai_assistant
+        label: Embedding Model\n(BERT, Sentence-T5)
+      }
+      
+      data_sources -> text_processor: extract & chunk
+      text_processor -> embedding_model: generate embeddings
+    }
+    
+    # Vector Database
+    vector_store: {
+      class: obj_db
+      label: Vector Database\n(Pinecone, Chroma,\nWeaviate, FAISS)
+      style: {
+        fill: lightgreen
+        font-color: black
+      }
+    }
+    
+    # Retrieval Engine
+    retrieval_engine: {
+      class: obj_service
+      label: Retrieval Engine\n(Similarity Search,\nHybrid Search)
+    }
+    
+    # Metadata Store
+    metadata_store: {
+      class: obj_db
+      label: Metadata Store\n(Document Info,\nAccess Control)
+    }
+    
+    ingestion_pipeline.embedding_model -> vector_store: store vectors
+    ingestion_pipeline.text_processor -> metadata_store: store metadata
+    retrieval_engine -> vector_store: vector search
+    retrieval_engine -> metadata_store: metadata lookup
+  }
+  
+  # Generation System
+  generation_system: {
+    label: Generation System
+    
+    context_merger: {
+      class: obj_service
+      label: Context Merger\n(Retrieved + Query)
+    }
+    
+    llm_engine: {
+      class: ai_assistant
+      label: Large Language Model\n(GPT-4, Claude, Llama)
+    }
+    
+    response_validator: {
+      class: obj_service
+      label: Response Validator\n(Fact Check,\nHallucination Detection)
+    }
+    
+    context_merger -> llm_engine: augmented prompt
+    llm_engine -> response_validator: generated response
+  }
+  
+  # Memory & Caching Layer
+  memory_layer: {
+    label: Memory & Caching
+    
+    conversation_memory: {
+      class: obj_cache
+      label: Conversation\nMemory
+    }
+    
+    retrieval_cache: {
+      class: obj_cache
+      label: Retrieval Cache\n(Redis)
+    }
+    
+    response_cache: {
+      class: obj_cache
+      label: Response Cache
+    }
+  }
+  
+  # Security & Monitoring
+  security_monitoring: {
+    label: Security & Monitoring
+    
+    auth_service: {
+      class: security_layer
+      label: Authentication\n& Authorization
+    }
+    
+    audit_logger: {
+      class: security_layer
+      label: Audit Logging\n& Compliance
+    }
+    
+    performance_monitor: {
+      class: security_layer
+      label: Performance\nMonitoring
+    }
+    
+    cost_tracker: {
+      class: security_layer
+      label: Cost Tracking\n& Analytics
+    }
+  }
+  
+  # Main Flow Connections
+  user_interface.chat_interface -> orchestration_layer.api_gateway: {class: edge_request}
+  
+  orchestration_layer.query_router -> retrieval_system.retrieval_engine: retrieve context
+  orchestration_layer.prompt_engineer -> generation_system.context_merger: create augmented prompt
+  
+  retrieval_system.retrieval_engine -> generation_system.context_merger: {class: edge_response, label: relevant documents}
+  
+  generation_system.response_validator -> user_interface.chat_interface: {class: edge_response, label: validated response}
+  
+  # Memory connections
+  orchestration_layer.rag_orchestrator <-> memory_layer.conversation_memory: {class: edge_query}
+  retrieval_system.retrieval_engine <-> memory_layer.retrieval_cache: {class: edge_query}
+  generation_system.llm_engine <-> memory_layer.response_cache: {class: edge_query}
+  
+  # Security connections
+  orchestration_layer.api_gateway -- security_monitoring.auth_service
+  orchestration_layer.rag_orchestrator -- security_monitoring.audit_logger
+  generation_system.llm_engine -- security_monitoring.performance_monitor
+  retrieval_system.vector_store -- security_monitoring.cost_tracker
+}
+
+# Advanced RAG Patterns
+advanced_patterns: {
+  label: Advanced RAG Patterns (2025)
+  
+  # Self-RAG Pattern
+  self_rag: {
+    label: Self-RAG
+    
+    self_reflector: {
+      class: ai_assistant
+      label: Self-Reflection\nModel
+    }
+    
+    quality_assessor: {
+      class: cond
+      label: Quality\nAssessment
+    }
+    
+    refinement_loop: {
+      class: obj_service
+      label: Iterative\nRefinement
+    }
+    
+    self_reflector -> quality_assessor: evaluate response
+    quality_assessor -> refinement_loop: if inadequate
+    refinement_loop -> self_reflector: retry with feedback
+  }
+  
+  # Corrective RAG (CRAG)
+  corrective_rag: {
+    label: Corrective RAG (CRAG)
+    
+    retrieval_evaluator: {
+      class: cond
+      label: Retrieval\nEvaluator
+    }
+    
+    web_search_fallback: {
+      class: obj_service
+      label: Web Search\nFallback
+    }
+    
+    document_refiner: {
+      class: obj_service
+      label: Document\nRefiner
+    }
+    
+    retrieval_evaluator -> web_search_fallback: if low confidence
+    retrieval_evaluator -> document_refiner: if adequate
+    web_search_fallback -> document_refiner: additional context
+  }
+  
+  # Agentic RAG
+  agentic_rag: {
+    label: Agentic RAG
+    
+    planning_agent: {
+      class: ai_assistant
+      label: Planning Agent\n(Query Decomposition)
+    }
+    
+    retrieval_agent: {
+      class: ai_assistant
+      label: Retrieval Agent\n(Multi-source Search)
+    }
+    
+    reasoning_agent: {
+      class: ai_assistant
+      label: Reasoning Agent\n(Synthesis & Logic)
+    }
+    
+    action_agent: {
+      class: ai_assistant
+      label: Action Agent\n(Tool Usage)
+    }
+    
+    planning_agent -> retrieval_agent: sub-queries
+    retrieval_agent -> reasoning_agent: evidence
+    reasoning_agent -> action_agent: action plan
+    action_agent -> planning_agent: feedback loop
+  }
+  
+  # Multimodal RAG
+  multimodal_rag: {
+    label: Multimodal RAG
+    
+    text_embedder: {
+      class: ai_assistant
+      label: Text\nEmbedder
+    }
+    
+    image_embedder: {
+      class: ai_assistant
+      label: Image\nEmbedder
+    }
+    
+    audio_embedder: {
+      class: ai_assistant
+      label: Audio\nEmbedder
+    }
+    
+    unified_vector_store: {
+      class: obj_db
+      label: Unified\nVector Store
+      style: {
+        fill: lightcoral
+      }
+    }
+    
+    multimodal_llm: {
+      class: ai_assistant
+      label: Multimodal LLM\n(GPT-4V, Gemini)
+    }
+    
+    text_embedder -> unified_vector_store
+    image_embedder -> unified_vector_store
+    audio_embedder -> unified_vector_store
+    unified_vector_store -> multimodal_llm: multimodal context
+  }
+}
+
+evaluation_framework: {
+  label: RAG Evaluation Framework
+  
+  # End-to-End Metrics
+  e2e_metrics: {
+    label: End-to-End Evaluation
+    
+    user_satisfaction: {
+      label: User Satisfaction\n(Thumbs Up/Down)
+      shape: oval
+    }
+    
+    task_completion: {
+      label: Task Completion\n(Success Rate)
+      shape: oval
+    }
+    
+    latency: {
+      label: Response Latency\n(Time to Answer)
+      shape: oval
+    }
+    
+    cost_efficiency: {
+      label: Cost Efficiency\n(\$/Query)
+      shape: oval
+    }
+  }
+}
+
+# Data Flow
+rag_system.orchestration_layer.query_router -- advanced_patterns.self_rag: self-reflection mode
+rag_system.retrieval_system.retrieval_engine -- advanced_patterns.corrective_rag: quality check
+rag_system.generation_system.llm_engine -- advanced_patterns.agentic_rag: agent coordination
+rag_system.retrieval_system.vector_store -- advanced_patterns.multimodal_rag: multimodal search
+
+# Evaluation Connections
+rag_system.retrieval_system.retrieval_engine -- evaluation_framework.retrieval_metrics
+rag_system.generation_system.llm_engine -- evaluation_framework.generation_metrics
+rag_system.user_interface.chat_interface -- evaluation_framework.e2e_metrics
+
+# Implementation Notes
+implementation_notes: |md
+  ## RAG Architecture Implementation Notes
+  
+  ### Core Components
+  * **Vector Database**: Store document embeddings for fast similarity search
+  * **Embedding Models**: Convert text to dense vector representations
+  * **LLM Engine**: Generate responses based on retrieved context
+  * **Orchestration**: Coordinate retrieval and generation workflows
+  
+  ### Key Design Patterns (2025)
+  * **Self-RAG**: Models self-evaluate and refine responses
+  * **Corrective RAG**: Dynamic quality assessment with web fallback
+  * **Agentic RAG**: Multi-agent systems for complex reasoning
+  * **Multimodal RAG**: Support for text, images, audio, and video
+  
+  ### Best Practices
+  * **Chunking Strategy**: Optimize chunk size for your domain (100-512 tokens)
+  * **Hybrid Search**: Combine vector similarity with keyword search
+  * **Prompt Engineering**: Design effective augmentation templates
+  * **Evaluation**: Implement comprehensive metrics for continuous improvement
+  
+  ### Scalability Considerations
+  * **Caching**: Multiple layers to reduce latency and costs
+  * **Load Balancing**: Distribute requests across multiple instances
+  * **Async Processing**: Handle long-running operations efficiently
+  * **Cost Optimization**: Monitor and optimize LLM API usage
+|
+
+implementation_notes -> rag_system: {
+  style: {
+    stroke-dash: 5
+    stroke: gray
+  }
+}

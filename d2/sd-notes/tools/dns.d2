@@ -1,0 +1,39 @@
+vars: {
+  d2-config: {
+    layout-engine: dagre
+  }
+}
+classes: @"../classes"
+_rs: {
+    label: Root DNS Server
+    icon: https://icons.terrastruct.com/tech%2F022-server.svg
+}
+_isp: {
+    label: ISP DNS Server\nor Router
+    icon: https://icons.terrastruct.com/tech%2F022-server.svg
+}
+_devices: {
+    label: tablet \|\nphone \|\nlaptop
+    icon: https://icons.terrastruct.com/tech%2Flaptop.svg
+}
+_domain: {
+    label: Domain\nwww.google.com\n173.194.115.96
+}
+_devices -> _isp: {
+    class: edge_request
+    label: google.com?
+}
+_rs <- _isp: {
+    class: edge_request
+    label: google.com?
+}
+_rs -> _isp: {
+    label: 173.194.115.96
+    class: edge_response
+}
+_devices <- _isp: {
+    class: edge_response
+    label: 173.194.115.96
+}
+_devices -> _domain
+

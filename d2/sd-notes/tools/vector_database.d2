@@ -1,0 +1,200 @@
+direction: right
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+
+# Vector Database Core Flow
+vector_db_flow: {
+  label: Vector Database Data Flow
+  
+  # Input Processing
+  raw_document: {
+    class: data_source
+    label: Raw Document\n"The cat sat on the mat"
+  }
+  
+  text_chunker: {
+    class: obj_service
+    label: Text Chunker\n(split into segments)
+  }
+  
+  embedding_model: {
+    class: ai_assistant
+    label: Embedding Model\n(BERT/OpenAI)
+  }
+  
+  vector_output: {
+    class: obj_cache
+    label: Vector\n\[0.2, -0.1, 0.8, ...\]\n768 dimensions
+  }
+  
+  # Storage System
+  vector_index: {
+    class: obj_db
+    label: Vector Index\n(HNSW/IVF)
+    style: {
+      fill: lightgreen
+      font-color: black
+    }
+  }
+  
+  metadata_db: {
+    class: obj_db
+    label: Metadata DB\n(doc_id, source, tags)
+  }
+  
+  # Query Processing
+  user_query: {
+    shape: person
+    label: User Query\n"Find similar documents"
+  }
+  
+  query_embedder: {
+    class: ai_assistant
+    label: Query Embedder\n(same model)
+  }
+  
+  query_vector: {
+    class: obj_cache
+    label: Query Vector\n\[0.1, -0.2, 0.9, ...\]
+  }
+  
+  similarity_search: {
+    class: obj_service
+    label: Similarity Search\n(cosine distance)
+  }
+  
+  result_ranker: {
+    class: obj_service
+    label: Result Ranker\n(top-k results)
+  }
+  
+  search_results: {
+    class: data_source
+    label: Similar Documents\n+ similarity scores
+    style: {
+      multiple: true
+    }
+  }
+  
+  # Data Flow - Indexing
+  raw_document -> text_chunker
+  text_chunker -> embedding_model
+  embedding_model -> vector_output
+  vector_output -> vector_index: store vector
+  text_chunker -> metadata_db: store metadata
+  
+  # Data Flow - Querying
+  user_query -> query_embedder
+  query_embedder -> query_vector
+  query_vector -> similarity_search
+  similarity_search -> vector_index: search nearest neighbors
+  vector_index -> similarity_search: candidate vectors
+  similarity_search -> result_ranker
+  metadata_db -> result_ranker: enrich with metadata
+  result_ranker -> search_results
+}
+
+# Index Structure Detail
+index_detail: {
+  label: HNSW Index Structure
+  
+  query_point: {
+    shape: oval
+    label: Query
+    style: {
+      fill: red
+      font-color: white
+    }
+  }
+  
+  entry_point: {
+    shape: oval
+    label: Entry
+  }
+  
+  layer1_nodes: {
+    node_a: {
+      shape: oval
+      label: A
+    }
+    node_b: {
+      shape: oval
+      label: B
+    }
+  }
+  
+  layer0_nodes: {
+    node_c: {
+      shape: oval
+      label: C
+    }
+    node_d: {
+      shape: oval
+      label: D
+    }
+    node_e: {
+      shape: oval
+      label: E
+    }
+    node_f: {
+      shape: oval
+      label: F
+    }
+  }
+  
+  # Search path through HNSW
+  query_point -> entry_point: 1. start
+  entry_point -> layer1_nodes.node_a: 2. descend
+  layer1_nodes.node_a -> layer1_nodes.node_b: 3. greedy search
+  layer1_nodes.node_b -> layer0_nodes.node_c: 4. descend
+  layer0_nodes.node_c -> layer0_nodes.node_d: 5. refine
+  layer0_nodes.node_d -> layer0_nodes.node_e: 6. find neighbors
+  
+  # Connections within layers
+  layer1_nodes.node_a -> layer1_nodes.node_b
+  layer0_nodes.node_c -> layer0_nodes.node_d
+  layer0_nodes.node_d -> layer0_nodes.node_e
+  layer0_nodes.node_e -> layer0_nodes.node_f
+  layer0_nodes.node_c -> layer0_nodes.node_f
+}
+
+# Performance Comparison
+performance_flow: {
+  label: Search Performance
+  
+  large_dataset: {
+    class: obj_db
+    label: 1M Vectors
+    style: {
+      multiple: true
+    }
+  }
+  
+  search_method: {
+    class: cond
+    label: Search Method?
+  }
+  
+  brute_force: {
+    class: negative
+    label: Brute Force\nO(n) - 1 second
+  }
+  
+  ann_search: {
+    class: positive
+    label: ANN Search\nO(log n) - 10ms
+  }
+  
+  large_dataset -> search_method
+  search_method -> brute_force: exact
+  search_method -> ann_search: approximate
+}
+
+# Connect main flow to details
+vector_db_flow.similarity_search -> index_detail.query_point: uses HNSW
+vector_db_flow.vector_index -> performance_flow.large_dataset: scales to

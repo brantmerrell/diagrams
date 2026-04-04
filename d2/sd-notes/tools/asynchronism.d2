@@ -1,0 +1,68 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+
+# System components that handle back pressure
+producer: {
+  class: obj_server
+  label: Producer
+}
+
+queue: {
+  class: obj_queue
+  label: Message Queue
+}
+
+consumer: {
+  class: obj_server  
+  label: Consumer
+}
+
+queue_monitor: {
+  label: Queue Monitor
+  shape: diamond
+}
+
+# Back pressure strategies as system behaviors
+strategies: { # are these really strategies or are they mechanisms? 
+  # as labelled, a rate limiter, a circuit breaker, a buffer manager, and a load shredder sound like parts of the same goal
+  # it's possible the designer chooses between them because only one is needed, but it's possible multiple are needed
+  # unless there's a strategy called the "rate limiter" strategy, the "circuit breaker" strategy, etc
+  # in which case these objects should have nodes and edges inside of them
+  rate_limiter: {
+    label: Rate Limiter
+    shape: hexagon
+  }
+  
+  circuit_breaker: {
+    label: Circuit Breaker
+    shape: hexagon
+  }
+  
+  buffer_manager: {
+    label: Buffer Manager
+    shape: hexagon
+  }
+  
+  load_shedder: {
+    label: Load Shedder
+    shape: hexagon
+  }
+}
+
+producer -> queue: { class: edge_request } # are publishing events really requests? doesn't request imply that a response is necessary?
+queue -> consumer: { class: edge_request } # are publishing events really requests? doesn't request imply that a response is necessary?
+queue_monitor -> queue: monitors
+queue_monitor -> strategies.rate_limiter: high load
+queue_monitor -> strategies.circuit_breaker: system stress
+queue_monitor -> strategies.buffer_manager: manageable load
+queue_monitor -> strategies.load_shedder: overload
+
+strategies.rate_limiter -> producer: slow down
+strategies.circuit_breaker -> producer: reject requests
+strategies.buffer_manager -> queue: expand capacity
+strategies.load_shedder -> queue: drop requests

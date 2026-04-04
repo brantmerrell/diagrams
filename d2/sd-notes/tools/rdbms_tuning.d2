@@ -1,0 +1,118 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+
+# SQL Performance Optimization Flow
+performance_issue: {
+  label: Performance Issue
+  shape: oval
+  style.fill: red
+}
+
+diagnostic_tools: {
+  label: Diagnostic Tools
+  
+  benchmark: {
+    label: Benchmark\n(ab, JMeter) # what tools? Why is it called benchmark?
+    shape: diamond
+  }
+  
+  profiler: {
+    label: Profile\n(slow query log) # Why is it called Profile?
+    shape: diamond
+  }
+  
+  explain_plan: {
+    label: Explain Plan\n(query execution) # Why call query execution "Explain Plan"?
+    shape: diamond
+  }
+}
+
+optimization_strategies: {
+  schema_optimization: |md
+    # Schema Optimization
+    
+    ## Data Types
+    * **Char vs varchar**: Fixed vs Variable length
+    * **Int vs decimal**: Performance vs Precision
+    * **Text fields**: Include boolean search capability
+    * **Blob storage**: 
+      + Avoid large BLOBs
+      + Store file paths instead
+    
+    ## Constraints
+    * NOT NULL: Improve search performance
+    * VARCHAR(255): 8-bit length optimization
+    * ...
+  |
+  
+  index_optimization: |md
+    # Index Optimization
+    
+    ## Index Types
+    * **B-Tree Index**: Default, range queries
+      + elaborate
+    * **Hash Index**: Equality lookups only
+    * **Bitmap Index**: Low cardinality columns
+      + elaborate
+    * **Composite Index**: Multi-column (order matters)
+      + order of columns?
+    
+    ## Index Strategy
+    * Covering indexes, Avoid table lookups
+      + what?
+    * Index selective columns
+    * **Memory Trade**: More indexes = more memory, slower writes
+    * ...
+  |
+  
+  
+  cache_optimization: |md
+    # Cache Optimization
+    
+    ## Query Cache
+    * Enable/disable based on workload
+    * Monitor Cache-hit ratio 
+    * Handle Invalidation of cache
+      + Is this not auto-provided?
+    
+    ## Connection Pooling
+    * Optimize Pool Size
+    * Reuse connections
+    * Configure timeouts
+    * ...
+  |
+  query_optimization: |md
+    # Query Optimization
+    
+    ## Join Optimization
+    * Avoid expensive joins 
+      + what\'s less expensive than a JOIN? 
+      + If the Join is so expensive why not a materialized view?
+    * Denormalize for performance 
+      * Doesn\'t this defeat or at least erode the purpose of a database? 
+      * Would a materialized view or replication not accomplish the same goal?
+    * Optimize join order 
+      + It\'s a Set Theory engine. Does it not do this automatically?
+    
+    ## Partitioning
+    * Horizontal partitioning: Split by rows
+    * Vertical partitioning: Split by columns
+    * Functional partitioning: Separate hot data
+  |
+}
+
+performance_issue -> diagnostic_tools.benchmark
+performance_issue -> diagnostic_tools.profiler
+performance_issue -> diagnostic_tools.explain_plan
+
+diagnostic_tools.benchmark -> optimization_strategies.schema_optimization: 1.schema issues
+diagnostic_tools.profiler -> optimization_strategies.index_optimization: 2.missing indexes
+diagnostic_tools.explain_plan -> optimization_strategies.query_optimization: 3.inefficient queries
+diagnostic_tools.profiler -> optimization_strategies.cache_optimization: 4.cache misses
+

@@ -1,0 +1,152 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 1
+  }
+}
+classes: @"../../classes"
+
+Initial: {
+  Client: {
+    class: obj_client
+  }
+
+  WebServer: {
+    label: Web Server\n(Reverse Proxy)
+    class: obj_server
+  }
+
+  AccountsAPI: {
+    label: Accounts API
+    class: obj_service
+  }
+
+  TransactionExtractionService: {
+    label: Transaction\nExtraction\nService
+    class: obj_service
+  }
+  CategoryService: {
+    label: Category\nService
+    class: obj_service
+  }
+
+  BudgetService: {
+    label: Budget\nService
+    class: obj_service
+  }
+
+  NotificationService: {
+    label: Notification\nService
+    class: obj_service
+  }
+
+  SQLDatabase: {
+    label: SQL Database\n(Single)
+    class: obj_db
+  }
+
+  # Simple request flow
+  Client -> WebServer
+  WebServer -> AccountsAPI
+
+  # Core transaction processing flow
+  AccountsAPI -> TransactionExtractionService: { 
+    class: edge_request # is this the right edge class?
+    label: extract\ntransactions
+  }
+  TransactionExtractionService -> CategoryService: categorize
+  TransactionExtractionService -> BudgetService: analyze spending
+  BudgetService -> NotificationService: budget alerts
+
+  # All services connect to single database
+  AccountsAPI -> SQLDatabase
+  TransactionExtractionService -> SQLDatabase
+  CategoryService -> SQLDatabase
+  BudgetService -> SQLDatabase
+  NotificationService -> SQLDatabase
+}
+Final: {
+  AccountsAPI: {
+    label: Accounts API
+    class: objs_service
+  }
+  BudgetService: {
+    label: BudgetService
+    class: objs_service
+  }
+  CategoryService: {
+    label: Category\nService
+    class: objs_service
+  }
+  CDN: {
+    class: obj_cdn
+  }
+  Client: {
+    class: obj_client
+  }
+  DNS: {
+    class: obj_dns
+  }
+  LB: {
+    label: Load Balancer
+    class: obj_lb
+  }
+  MemoryCache: {
+    label: Memory Cache
+    class: objs_cache
+  }
+  NotificationService: {
+    label: Notification Service
+    class: objs_service
+  }
+  ObjectStore: {
+    label: Object Store
+    class: obj_db
+    style: {
+      fill: darkslategray
+      font-color: white
+    }
+  }
+  Queue: {
+    label: Queue
+    class: obj_queue
+  }
+  ReadAPI: {
+    label: Read API
+    class: objs_service
+  }
+  SQLReadReplicas: {
+    label: SQL\nRead\nReplicas
+    class: objs_db
+  }
+  SQLWriteMasterSlave: {
+    label: SQL\n Write\n Master-\n Slave
+    class: objs_db
+  }
+  TransactionExtractionService: {
+    label: Transaction\nExtraction\nService
+    class: objs_service
+  }
+  WS: {
+    label: Web Server
+    class: objs_server
+  }
+  Client -> DNS
+  Client -> CDN
+  Client -> LB
+  LB -> WS
+  WS -> AccountsAPI
+  WS -> ReadAPI
+  AccountsAPI -> Queue
+  Queue -> TransactionExtractionService
+  TransactionExtractionService -> CategoryService
+  TransactionExtractionService -> BudgetService
+  TransactionExtractionService -> NotificationService
+  ReadAPI -> MemoryCache
+  ReadAPI -> ObjectStore
+  CDN -> ObjectStore
+  AccountsAPI -> SQLReadReplicas
+  TransactionExtractionService -> SQLReadReplicas
+  AccountsAPI -> SQLWriteMasterSlave
+  TransactionExtractionService -> SQLWriteMasterSlave
+}

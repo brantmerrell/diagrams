@@ -1,0 +1,140 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+
+# Monolithic vs Microservices Architecture
+monolithic_system: {
+  label: Monolithic Architecture
+  
+  load_balancer: {
+    class: obj_lb
+    label: Load Balancer
+  }
+  
+  app_instances: {
+    class: objs_server
+    label: Application Instances\n(full codebase)
+  }
+  
+  shared_database: {
+    class: obj_db
+    label: Shared Database
+  }
+  
+  load_balancer -> app_instances: {class: edge_request}
+  app_instances -> shared_database: {class: edge_query}
+}
+
+microservices_system: {
+  label: Microservices Architecture
+  
+  api_gateway: {
+    class: obj_server
+    label: API Gateway\n(routing, auth)
+  }
+  
+  user_service: {
+    class: obj_server
+    label: User Service
+  }
+  
+  product_service: {
+    class: obj_server
+    label: Product Service
+  }
+  
+  order_service: {
+    class: obj_server
+    label: Order Service
+  }
+  
+  user_db: {
+    class: obj_db
+    label: User DB
+  }
+  
+  product_db: {
+    class: obj_db
+    label: Product DB
+  }
+  
+  order_db: {
+    class: obj_db
+    label: Order DB
+  }
+  
+  message_queue: {
+    class: obj_queue
+    label: Message Queue\n(async communication)
+  }
+  
+  api_gateway -> user_service: {class: edge_request}
+  api_gateway -> product_service: {class: edge_request}
+  api_gateway -> order_service: {class: edge_request}
+  
+  user_service -> user_db: {class: edge_query}
+  product_service -> product_db: {class: edge_query}
+  order_service -> order_db: {class: edge_query}
+  
+  order_service -> message_queue: order created
+  user_service -> message_queue: user updated
+  product_service <- message_queue: inventory update
+}
+
+# Asynchronous Processing
+async_processing: {
+  label: Asynchronous Processing
+  
+  web_server: {
+    class: obj_server
+    label: Web Server
+  }
+  
+  task_queue: {
+    class: obj_queue
+    label: Task Queue
+  }
+  
+  worker_pool: {
+    class: objs_server
+    label: Background Workers
+  }
+  
+  result_store: {
+    class: obj_cache
+    label: Result Store\n(Redis)
+  }
+  
+  web_server -> task_queue: enqueue task
+  worker_pool -> task_queue: dequeue task
+  worker_pool -> result_store: store result
+  web_server -> result_store: check result
+}
+
+monolithic_system -> microservices_system: decompose services
+microservices_system -- async_processing
+# vocab still necessary:
+notes: |md
+# Asynchronism
+## Benefits
+* Improved user experience (non-blocking)
+* Better resource utilization
+* Fault tolerance and resilience
+
+## Implementation Approaches
+* **Message Queues**: Decouple producers/consumers
+* **Event Streaming**: Real-time data processing
+* **Background Jobs**: Long-running tasks
+* **WebSockets**: Bidirectional real-time communication
+| { class: notes }
+scaling_patterns: |md
+## Scaling Patterns
+* **Horizontal**: Add more servers
+* **Vertical**: Add more power to existing servers
+* **Auto-scaling**: Dynamic resource allocation
+* **Load distribution**: Spread work across instances
+| { class: notes }
