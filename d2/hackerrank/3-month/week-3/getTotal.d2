@@ -1,0 +1,52 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 301
+  }
+}
+
+a
+b
+getTotalX: {
+  iter: max(a) to min(b) inclusive {
+    class: iter
+  }
+  iter_a: {
+    label: elem in a
+    class: iter
+  }
+  cond_a: candidate %>% elem == 0 {
+    class: cond
+  }
+  iter_b: {
+    label: elem in b
+    class: iter
+  }
+  cond_b: elem %>% candidate == 0 {
+    class: cond
+  }
+  eligibility
+  result
+  iter -> iter_a
+  iter -> iter_b
+  iter_a -> cond_a
+  iter_b -> cond_b
+  cond_a -> AND 
+  cond_b -> AND
+  AND -> eligibility
+  eligibility -> result: increment
+}
+a -> getTotalX.iter
+b -> getTotalX.iter
+a -> getTotalX.iter_a
+b -> getTotalX.iter_b
+classes: {
+  iter: {
+    width: 500
+    height: 70
+  }
+  cond: {
+    shape: diamond
+  }
+}

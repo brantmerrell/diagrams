@@ -1,0 +1,70 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+  }
+}
+classes: @"../../classes"
+
+a
+n
+findZigZagSequence: {
+  label: findZigZagSequence(a, n)
+  sort: {
+    label: a.sort()
+    class: op
+  }
+  mid: {
+    label: mid\n (n + 1)/2 - 1
+    class: ndx
+  }
+  st: {
+    label: st\nstart\ninit mid + 1
+    class: ndx
+  }
+  ed: {
+    label: ed\nend\ninit n - 2
+    class: ndx
+  }
+  while: {
+    label: while
+    class: iter
+    condition: {
+      label: st <= ed
+      class: cond
+    }
+  }
+  switch: {
+    class: op
+    label: switch elems \n@ st, ed
+  }
+  increment: {
+    class: op
+    label: increment\n += 1
+  }
+  decrement: {
+    class: op
+    label: decrement\n -= 1
+  }
+  iterate: {
+    class: iter
+    label: for i in range(n)
+  }
+  indexAtEnd: {
+    class: cond
+    label: i == n - 1
+  }
+  print: {
+    class: op
+    label: print\e elem
+  }
+  ed <- decrement <- switch
+  st <- increment <- switch
+  while -> switch
+  while -> iterate: then
+  iterate -> indexAtEnd
+  indexAtEnd -> print: { class: positive }
+  indexAtEnd -> print: end = \' \' { class: negative }
+}
+a -> findZigZagSequence.sort
+n -> findZigZagSequence.mid

@@ -1,0 +1,17 @@
+grades
+
+def: gradingStudents() {
+  _iter: enumerate()\ni, grade
+  _cond: grade >= 38 {
+    shape: diamond
+    _cond: mod >= 3 {
+      shape: diamond
+    }
+  }
+  _res: result\ngrades {
+    shape: diamond
+  }
+  _iter -> _cond
+  _cond._cond -> _res: \@\[i\] += 5 - mod
+}
+grades -> def._iter

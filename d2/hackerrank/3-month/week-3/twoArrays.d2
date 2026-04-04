@@ -1,0 +1,23 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+k
+A
+B
+twoArrays: {
+  sort
+  iter: i in range(len(A))
+  cond: A\[i\] + B\[i\] < k {
+    shape: diamond
+  }
+  iter -> cond
+  sort -> cond: A
+  sort_rev -> cond: B
+  cond -> output
+}
+k -> twoArrays.cond
+A -> twoArrays.sort
+A -> twoArrays.iter
+B -> twoArrays.sort_rev

@@ -1,0 +1,60 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../../classes"
+
+arr: {
+  grid-rows: 2
+  grid-columns: 2
+  tl: {
+    label: \[0\]\[0\]
+  }
+  tr: {
+    label: \[0\]\[n-1\]
+  }
+  bl: {
+    label: \[n-1\]\[0\]
+  }
+  br: {
+    label: \[n-1\]\[n-1\]
+  }
+}
+diagonalDifference: {
+  label: diagonalDifference(arr)
+  length: {
+    label: len(arr)
+    class: op
+  }
+  iterate: {
+    label: for i in range(n):
+    class: iter
+  }
+  ascending: {
+    label: ascending\ninit 0
+  }
+  descending: {
+    label: descending\ninit 0
+  }
+  increment: {
+    label: increment +=
+    class: op
+  }
+  subtract: {
+    label: subtract
+    class: op
+  }
+  abs: {
+    label: abs()
+    class: op
+  }
+  length -> iterate
+  iterate -> increment -> ascending: asc
+  iterate -> increment -> descending: desc
+  ascending -> subtract
+  descending -> subtract
+  subtract -> abs
+}
+arr -> diagonalDifference.length

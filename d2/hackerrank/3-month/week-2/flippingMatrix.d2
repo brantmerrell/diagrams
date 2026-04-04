@@ -1,0 +1,95 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 105
+  }
+}
+classes: {
+  elem: {
+    shape: text
+    style: {
+      font-size: 22
+    }
+  }
+  rows: {
+    style: {
+      font-size: 28
+    }
+  }
+}
+matrix {
+  grid-columns: 1
+  i_0: {
+    class: rows
+    label.near: outside-left-center
+    grid-rows: 1
+    j_0: { class: elem }
+    j1: { 
+      label: '.. | ..'
+      class: elem
+    }
+    j2: {
+      label: j_2N
+      class: elem
+    }
+  }
+  i1: {
+    grid-rows: 1
+    label: '.. | ..'
+    class: rows
+    label.near: outside-left-center
+    j_0: { class: elem }
+    j1: { 
+      label: '.. | ..'
+      class: elem
+    }
+    j2: {
+      label: j_2N
+      class: elem
+    }
+  }
+  i2: {
+    grid-rows: 1
+    label: i_2N
+    class: rows
+    label.near: outside-left-center
+    j_0: { class: elem }
+    j1: { 
+      label: '.. | ..'
+      class: elem
+    }
+    j2: {
+      label: j_2N
+      class: elem
+    }
+  }
+}
+flippingMatrix {
+  _iter: {
+    label: iterate SQRT i, j 
+    _coord: coordinates {
+      label.near: outside-top-center
+      grid-rows: 2
+      grid-columns: 2
+      top_left: |md
+      ## [i][j]
+      top left
+      |
+      top_right: |md
+      ## [i][2N-j-1]
+      top right
+      |
+      bottom_left: |md
+      ## [2N-i-1][j]
+      bottom left
+      |
+      bottom_right: |md
+      ## [2N-i-1][2N-j-1]
+      bottom right
+      |
+    }
+  }
+  _iter._coord -> max
+  max -> result: add
+}
+matrix -> flippingMatrix

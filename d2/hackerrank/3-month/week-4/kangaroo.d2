@@ -1,0 +1,40 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+
+x1
+v1
+x2
+v2
+kangaroo: {
+  conditions: "" {
+    class: cond
+    description: |md
+    ## vertical OR slope
+    ### vertical
+    * hop is down
+    * v_2 >= v_1
+    ### slope
+    * diffs don\'t divide evenly
+    * not (x2-x1) \% (v1 - v2) == 0
+    |
+  }
+  conditions -> result: "YES" {
+    style.stroke: darkred
+  }
+  conditions -> result: "NO" {
+    style.stroke: darkgreen
+  }
+}
+x1 -> kangaroo.conditions
+v1 -> kangaroo.conditions
+x2 -> kangaroo.conditions
+v2 -> kangaroo.conditions
+classes: {
+  cond: {
+    shape: diamond
+  }
+}

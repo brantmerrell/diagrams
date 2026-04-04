@@ -1,0 +1,30 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 6
+  }
+}
+classes: @"../../classes"
+
+
+minimumAbsoluteDifference: {
+  sort: {
+    class: op
+  }
+  result: {
+    label: result\ninit arr\[1\]
+  }
+  iteration: {
+    label: for i in range(len(arr)-1):
+    class: iter
+  }
+  diff: {
+    class: op
+    elem: current\nelement
+    next_elem: next\nelement
+  }
+  sort -> iteration
+  iteration -> diff
+  diff -> result
+}
+arr -> minimumAbsoluteDifference.sort

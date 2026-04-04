@@ -1,0 +1,87 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+  }
+}
+classes: @"../../classes"
+grid: {
+  label: grid
+  notes: |md
+  * instructions say square
+  * test cases include rectangle
+  |
+}
+gridChallenge: {
+  label: def gridChallenge(grid):
+  class: op
+  n: {
+    label: n\ncolumns
+  }
+  m: {
+    label: m\ncolumns
+  }
+  len_n: { 
+    class: op
+    label: len(grid)
+  }
+  len_m: { 
+    class: op
+    label: len(grid\[0\])
+  }
+  iterate_sort: {
+    label: for i in range(n):
+    class: iter
+  }
+  sort_row: {
+    label: sort row
+    class: op
+    readme: |md
+    * sorts row
+    * expands from string to list
+    * downstream ops treat as list
+    |
+  }
+  iterate_cols: {
+    label: for col in range(m):
+    class: iter
+  }
+  then: {
+    class: edge_down
+  }
+  column: {
+    label: column\n init \[\]
+  }
+  iterate_rows: {
+    label: for row in range(n):
+    class: iter
+  }
+  append: {
+    label: .append()
+    class: op
+  }
+  is_sorted: {
+    label: is sorted
+    class: cond
+  }
+  len_n -> n
+  len_m -> m
+  n -> iterate_sort
+  m -> iterate_cols
+  iterate_sort -> sort_row
+  iterate_sort -> then
+  then -> iterate_cols
+  iterate_cols -> column
+  iterate_cols -> iterate_rows
+  iterate_rows -> append
+  append -> column
+  column -> is_sorted
+  is_sorted -> result: YES {
+    class: positive
+  }
+  is_sorted -> result: NO {
+    class: negative
+  }
+}
+grid -> gridChallenge.len_n
+grid -> gridChallenge.len_m

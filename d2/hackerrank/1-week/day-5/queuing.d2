@@ -1,0 +1,61 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+  }
+}
+classes: @"../../classes"
+input: {
+  label: input()
+  class: op
+}
+iteration: {
+  label: for line in range(1, q + 1):
+  class: iter
+}
+input_2: {
+  label: input()
+  class: op
+}
+split: {
+  label: split()
+  class: op
+}
+conditions: {
+  enqueue: {
+    label: len(query) == 2\n enqueue
+    class: cond
+  }
+  dequeue: {
+    label: query\[0\] == \'2\'\n dequeue
+    class: cond
+  }
+  print: {
+    label: query\[0\] == \'3\'\n print
+    class: cond
+  }
+}
+data: {
+  label: data\n init \[\]
+}
+enqueue: {
+  label: enqueue\n data.append(query\[1\])
+  class: op
+}
+dequeue: {
+  label: dequeue\n data.pop(0)
+  class: op
+}
+print: {
+  label: print\n print(data\[0\])
+  class: op
+}
+iteration -> input_2
+input_2 -> split
+int: int 
+input -> int
+int -> q -> iteration
+split -> conditions
+conditions.enqueue -> enqueue
+conditions.dequeue -> dequeue
+conditions.print -> print

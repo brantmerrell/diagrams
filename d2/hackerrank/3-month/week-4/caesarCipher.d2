@@ -1,0 +1,62 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 5
+  }
+}
+classes: @"../../classes"
+k -> caesarCipher.mod
+s -> caesarCipher.iteration_2
+caesarCipher: {
+  result: {
+    label: result\ninit \'\'
+  }
+  mod: {
+    label: mod\n k % 26
+    class: op
+  }
+  letters: {
+    label: letters\nabc...xyz
+  }
+  rotated: {
+    label: rotated letters\nletters\[k:\]\nletters\[:k\]
+  }
+  cipher: {
+    label: cipher\ninit \{\}
+  }
+  iteration_1: {
+    class: iter
+    label: for l, r in zip(letters, rotated):
+  }
+  iteration_2: {
+    class: iter
+    label: for elem in s:
+  }
+  condition: {
+    class: cond
+    label: elem in cipher # NOTE: this is inverse from code version
+  }
+  lookup: {
+    class: op
+    label: lookup
+  }
+  mod -> rotated
+  letters -> rotated
+  letters -> iteration_1
+  rotated -> iteration_1
+  iteration_1 -> cipher: build\nlookup
+  cipher -> condition
+  cipher <- lookup
+  iteration_2 -> condition
+  condition -> lookup: {
+    class: positive
+  }
+  lookup -> result: += {
+    style.font-color: red
+  }
+  condition -> result: {
+    class: negative
+  }
+}
+
+

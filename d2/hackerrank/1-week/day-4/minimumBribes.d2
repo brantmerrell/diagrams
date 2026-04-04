@@ -1,0 +1,61 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+  }
+}
+classes: @"../../classes"
+q: {
+  label: q\n\[...\]
+}
+minimumBribes: {
+  label: minimumBribes(q)
+  n
+  sorted_q: {
+    label: sorted_q
+  }
+  iterate: {
+    label: for i in range(n)
+    class: iter
+  }
+  same: {
+    label: already\nsorted
+    class: cond
+  }
+  bribe_one: {
+    label: bribe 1\nq\[i\] == sorted_q\[i + 1\]
+    class: cond
+  }
+  switch_one: {
+    label: switch 1\nsorted_q\[i\], \[i + 1\]
+    class: op
+  }
+  switch_one_offset: {
+    label: switch 1 offset\nsorted_q\[i + 1\], \[i + 2\]
+    class: op
+  }
+  bribe_two: {
+    label: bribe 2\nq\[i\] == sorted_q\[i + 2\]
+    class: cond
+  }
+  print_return: {
+    label: print(\"Too chaotic\")\nreturn
+    class: op
+  }
+  total
+  sorted_q -> iterate
+  n -> iterate
+  iterate -> same
+  iterate <- same: continue { class: positive }
+  same -> bribe_one: { class: negative }
+  bribe_one -> bribe_two: { class: negative }
+  switch_one <- bribe_one: { class: positive }
+  bribe_one -> total: increment 1: { class: positive }
+  switch_one <- bribe_two: { class: positive }
+  switch_one_offset <- bribe_two: { class: positive }
+  bribe_two -> print_return: { class: negative }
+  bribe_two -> total: increment 2: { class: positive }
+}
+q -> minimumBribes.n: len
+q -> minimumBribes.sorted_q: sort
+q -> minimumBribes.iterate

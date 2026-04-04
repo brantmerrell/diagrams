@@ -1,0 +1,52 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 100
+  }
+}
+classes: @"../../classes"
+
+arr
+miniMaxSum: {
+  label: miniMaxSum(arr)
+  sort: {
+    label: arr.sort()
+    class: op
+  }
+  left_splice: {
+    label: left splice\narr\[:4\]
+    class: op
+  }
+  left_sum: {
+    label: left_sum\nsum()
+    class: op
+  }
+  left_append: {
+    label: left append\n.append()
+    class: op
+  }
+  right_splice: {
+    label: right splice\narr\[len(arr)-4:\]
+    class: op
+  }
+  right_sum: {
+    label: right_sum\nsum()
+    class: op
+  }
+  right_append: {
+    label: right append\n.append()
+    class: op
+  }
+  result: {
+    label: result\ninit \[\]
+  }
+  sort -> left_splice
+  left_splice -> left_sum
+  left_sum -> left_append
+  sort -> right_splice
+  right_splice -> right_sum
+  right_sum -> right_append
+  left_append -> result
+  right_append -> result
+}
+arr -> miniMaxSum.sort

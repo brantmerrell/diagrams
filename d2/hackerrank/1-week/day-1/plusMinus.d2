@@ -1,0 +1,51 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 101
+  }
+}
+classes: @"../../classes"
+
+plusMinus: {
+  label: def plusMinus(arr)
+  iteration: {
+    label: for a in arr
+    class: iter
+  }
+  condition_negative: {
+    label: negative
+    class: cond
+  }
+  condition_zero: {
+    label: zero
+    class: cond
+  }
+  condition_positive: {
+    label: positive
+    class: cond
+  }
+  result: {
+    label: result\ninit \[0, 0, 0\]
+  }
+  print: {
+    class: op
+  }
+  iteration -> condition_negative
+  condition_negative -> result: {
+    label: increment\n\nresult\[0\]
+    class: positive
+  }
+
+  iteration -> condition_zero
+  condition_zero -> result: {
+    label: increment\n\nresult\[1\]
+    class: positive
+  }
+  iteration -> condition_positive
+  condition_positive -> result: {
+    label: increment\n\nresult\[2\]
+    class: positive
+  }
+  result -> print
+}
+arr -> plusMinus.iteration

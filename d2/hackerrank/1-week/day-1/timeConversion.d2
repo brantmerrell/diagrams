@@ -1,0 +1,58 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 100
+  }
+}
+classes: @"../../classes"
+
+s
+timeConversion: {
+  label: timeConversion(s)
+  split_colon: {
+    label: .split(\":\")
+    class: op
+  }
+  HH
+  MM
+  SS
+  XM
+  12AM: {
+    label: 12AM
+    class: cond
+  }
+  PM: {
+    label: PM\nnot 12
+    class: cond
+  }
+  splice_2: {
+    label: splice @2\n\[:2\]\[2:\]
+  }
+  join_colon: {
+    label: \":\".join()
+    class: op
+  }
+  split_colon -> HH
+  split_colon -> MM
+  split_colon -> SS
+  splice_2 -> XM
+  SS <- splice_2
+  SS -> splice_2
+  XM -> PM
+  HH -> PM
+  HH <- PM: {
+    label: +12
+    class: positive
+  }
+  XM -> 12AM
+  HH -> 12AM
+  HH <- 12AM: {
+    label: 00
+    class: positive
+  }
+  HH -> join_colon
+  MM -> join_colon
+  SS -> join_colon
+  join_colon -> result
+}
+s -> timeConversion.split_colon

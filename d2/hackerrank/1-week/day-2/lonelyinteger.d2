@@ -1,0 +1,32 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 102
+  }
+}
+classes: @"../../classes"
+a
+lonelyinteger {
+  tracker: {
+    label: tracker\ninit \{\}
+  }
+  iterate: {
+    label: for elem in a
+    class: iter
+  }
+  condition: {
+    label: elem in tracker
+    class: cond
+  }
+  iterate -> condition
+  tracker <- condition: {
+    class: positive
+    label: delete
+  }
+  tracker <- condition: {
+    class: negative
+    label: create
+  }
+  tracker -> return: last
+}
+a -> lonelyinteger
