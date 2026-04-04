@@ -1,0 +1,21 @@
+---
+examples:
+  3-special-objects:
+    - /examples/3-special-objects/block-strings.d2
+    - /examples/3-special-objects/grid-flask-pod.d2
+    - /examples/3-special-objects/grid-forge.d2
+    - /examples/3-special-objects/grid-japan.d2
+    - /examples/3-special-objects/languages.d2
+    - /examples/3-special-objects/latex-plugins.d2
+    - /examples/3-special-objects/latex.d2
+    - /examples/3-special-objects/link.d2
+    - /examples/3-special-objects/markdown.d2
+    - /examples/3-special-objects/sql.d2
+    - /examples/3-special-objects/uml.d2
+  4-customization:
+    - /examples/4-customization/d2-legend.d2
+    - /examples/4-customization/dimensions.d2
+    - /examples/4-customization/multi-class.d2
+    - /examples/4-customization/tooltip.d2
+  5-in-depth:
+    - /examples/5-in-depth/variables.d2
