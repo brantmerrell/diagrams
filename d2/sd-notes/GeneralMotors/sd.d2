@@ -1,0 +1,192 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+
+clients: {
+  web_browser: {
+    class: obj_client
+    label: Web Browser\n(WebGL/WASM)
+  }
+  
+  mobile_app: {
+    class: obj_client 
+    label: Mobile App\n(iOS/Android)
+  }
+  
+  vr_headset: {
+    class: obj_client
+    label: VR/AR Headset\n(Meta Quest, Vision Pro)
+  }
+  
+  showroom_kiosk: {
+    class: obj_client
+    label: Dealership Kiosk\n(Touch Display)
+  }
+}
+
+api_gateway: {
+  class: obj_lb
+  label: API Gateway\n(Kong/AWS ALB)
+}
+
+services: {
+  asset_ingestion: {
+    class: obj_service
+    label: Asset Ingestion\nService
+  }
+  
+  asset_validation: {
+    class: obj_service
+    label: Asset Validation\nService
+  }
+  
+  rendering_engine: {
+    class: obj_service
+    label: Rendering Engine\n(OpenGL/Vulkan)
+  }
+  
+  configurator_api: {
+    class: obj_service
+    label: Vehicle Configurator\nAPI
+  }
+  
+  streaming_service: {
+    class: obj_service
+    label: Pixel Streaming\nService
+  }
+}
+
+processing_pipeline: {
+  cad_converter: {
+    class: obj_service
+    label: CAD Converter\n(CATIA→USD)
+  }
+  
+  optimization_engine: {
+    class: obj_service
+    label: Asset Optimizer\n(LOD Generation)
+  }
+  
+  usd_processor: {
+    class: obj_service
+    label: USD Processor\n(Scene Assembly)
+  }
+  
+  texture_processor: {
+    class: obj_service
+    label: Texture Processor\n(PBR Materials)
+  }
+}
+
+storage: {
+  cad_storage: {
+    class: obj_db
+    label: CAD Asset Store\n(S3/Object Store)
+    style.fill: darkslategray
+    style.font-color: white
+  }
+  
+  usd_repository: {
+    class: obj_db
+    label: USD Repository\n(Versioned Assets)
+    style.fill: darkslategray
+    style.font-color: white
+  }
+  
+  texture_cdn: {
+    class: obj_cdn
+    label: Texture CDN\n(CloudFront)
+  }
+  
+  scene_cache: {
+    class: obj_cache
+    label: Scene Cache\n(Redis Cluster)
+  }
+}
+
+compute: {
+  gpu_cluster: {
+    class: objs_server
+    label: GPU Cluster\n(NVIDIA RTX/Tesla)
+  }
+  
+  kubernetes: {
+    class: obj_lb
+    label: Kubernetes\n(Auto-scaling)
+  }
+  
+  workflow_orchestrator: {
+    class: obj_queue
+    label: Workflow Engine\n(Temporal/Airflow)
+  }
+}
+
+databases: {
+  asset_metadata: {
+    class: obj_db
+    label: Asset Metadata\n(PostgreSQL)
+  }
+  
+  user_preferences: {
+    class: obj_db
+    label: User Preferences\n(DynamoDB)
+  }
+  
+  analytics_db: {
+    class: obj_db
+    label: Analytics DB\n(ClickHouse)
+  }
+}
+
+external: {
+  design_teams: {
+    class: obj_server
+    label: Design Teams\n(CATIA/Maya/Blender)
+  }
+  
+  dealer_systems: {
+    class: obj_server
+    label: Dealer Systems\n(CRM/Inventory)
+  }
+}
+
+clients.web_browser -> api_gateway: HTTPS
+clients.mobile_app -> api_gateway: HTTPS  
+clients.vr_headset -> api_gateway: HTTPS
+clients.showroom_kiosk -> api_gateway: HTTPS
+
+api_gateway -> services.configurator_api: route config requests
+api_gateway -> services.rendering_engine: route render requests
+api_gateway -> services.streaming_service: route streaming
+
+external.design_teams -> services.asset_ingestion: upload CAD files
+services.asset_ingestion -> processing_pipeline.cad_converter: convert
+processing_pipeline.cad_converter -> processing_pipeline.usd_processor: USD scenes
+processing_pipeline.usd_processor -> processing_pipeline.optimization_engine: optimize
+processing_pipeline.optimization_engine -> storage.usd_repository: store
+
+services.configurator_api -> storage.usd_repository: fetch assets
+storage.usd_repository -> services.rendering_engine: USD scenes
+services.rendering_engine -> compute.gpu_cluster: GPU rendering
+compute.gpu_cluster -> storage.scene_cache: cache frames
+storage.scene_cache -> services.streaming_service: serve pixels
+
+storage.cad_storage -> processing_pipeline.cad_converter: raw CAD
+processing_pipeline.texture_processor -> storage.texture_cdn: textures
+storage.texture_cdn -> services.rendering_engine: materials
+databases.asset_metadata -> services.configurator_api: metadata
+services.configurator_api -> databases.user_preferences: save config
+
+compute.workflow_orchestrator -> processing_pipeline.cad_converter: schedule jobs
+compute.workflow_orchestrator -> processing_pipeline.optimization_engine: batch process
+compute.kubernetes -> services.rendering_engine: auto-scale
+compute.kubernetes -> services.streaming_service: scale pods
+
+services.configurator_api -> databases.analytics_db: usage metrics
+services.streaming_service -> databases.analytics_db: performance data
+external.dealer_systems -> services.configurator_api: inventory sync
+
