@@ -1,0 +1,51 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 4
+  }
+}
+classes: {
+  response: {
+    style: {
+      stroke-dash: 5
+    }
+  }
+}
+script: generate_audio.py
+db: PostgreSQL
+tts: Google Cloud TTS
+fs: data/audio
+
+script.note1: |md
+  load .env → DATABASE_URL, GOOGLE_CLOUD_API_KEY
+|
+script -> db: psycopg2 connect
+
+script.note2: |md
+  Pass 1: Sentence audio
+|
+script -> db: "SELECT id, story_id, sequence_num, devanagari\nFROM sentences WHERE audio_path IS NULL"
+db -> script: "rows[]" {class: response}
+script -> tts: "POST /v1/text:synthesize (devanagari, hi-IN-Wavenet-D)"
+tts -> script: "audioContent (base64 MP3)" {class: response}
+script -> fs: "write data/audio/<story_id>/<seq>.mp3"
+script -> db: "UPDATE sentences SET audio_path WHERE id = ?"
+script -> db: COMMIT
+script.note3: |md
+  repeat per sentence (0.25s delay between requests)
+|
+
+script.note4: |md
+  Pass 2: Word audio
+|
+script -> db: "SELECT DISTINCT surface_devanagari\nFROM sentence_words WHERE word_audio_path IS NULL"
+db -> script: "unique_words[]" {class: response}
+script -> tts: "POST /v1/text:synthesize (surface_devanagari, hi-IN-Wavenet-D)"
+tts -> script: "audioContent (base64 MP3)" {class: response}
+script -> fs: "write data/audio/words/<md5>.mp3"
+script -> db: "UPDATE sentence_words SET word_audio_path WHERE surface_devanagari = ?"
+script -> db: COMMIT
+script.note5: |md
+  repeat per unique word form (skip if file already exists)
+|

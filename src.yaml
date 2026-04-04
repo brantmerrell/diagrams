@@ -1,4 +1,29 @@
 ---
+hi/:
+  details:
+    repository: https://github.com/brantmerrell/hi
+    description: hindi learning app
+  backend/:
+    alembic/:
+      script.py.mako:
+        - hi/seq_alembic.d2
+    app/:
+  data/:
+    audio/:
+    raw/:
+  frontend/:
+    src/:
+      main.tsx:
+        - hi/seq_frontend.d2
+  pipeline/:
+    enrich_glosses.py:
+      - hi/seq_enrich_glosses.d2
+    fetch_text.py:
+      - hi/seq_fetch_text.d2
+    generate_audio.py:
+      - hi/seq_generate_audio.d2
+    process_sentences.py:
+      - hi/seq_process_sentences.d2
 examples:
   3-special-objects:
     - /examples/3-special-objects/block-strings.d2
@@ -10,6 +35,7 @@ examples:
     - /examples/3-special-objects/latex.d2
     - /examples/3-special-objects/link.d2
     - /examples/3-special-objects/markdown.d2
+    - /examples/3-special-objects/sequence.d2
     - /examples/3-special-objects/sql.d2
     - /examples/3-special-objects/uml.d2
   4-customization:

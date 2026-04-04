@@ -1,10 +1,29 @@
 import { useState, useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
+import yaml from 'js-yaml'
 import YamlPanel from './YamlPanel'
 import DiagramPanel from './DiagramPanel'
 import ResizablePanels from './ResizablePanels'
 
 interface DiagramViewerProps {}
+
+const getFirstDiagramPath = (obj: any): string | null => {
+  if (!obj) return null
+  if (typeof obj === 'string' && obj.includes('.d2')) return obj
+  if (Array.isArray(obj)) {
+    for (const item of obj) {
+      const result = getFirstDiagramPath(item)
+      if (result) return result
+    }
+  }
+  if (typeof obj === 'object') {
+    for (const val of Object.values(obj)) {
+      const result = getFirstDiagramPath(val)
+      if (result) return result
+    }
+  }
+  return null
+}
 
 const DiagramViewer: React.FC<DiagramViewerProps> = () => {
   const { name } = useParams<{ name?: string }>()
@@ -12,15 +31,27 @@ const DiagramViewer: React.FC<DiagramViewerProps> = () => {
   const [diagramContent, setDiagramContent] = useState<string>('')
   const [loading, setLoading] = useState(true)
   const [isYamlCollapsed, setIsYamlCollapsed] = useState(false)
+  const [firstDiagramPath, setFirstDiagramPath] = useState<string | null>(null)
+
+  useEffect(() => {
+    const loadFirstDiagram = async () => {
+      try {
+        const response = await fetch('/src.yaml')
+        const text = await response.text()
+        const data = yaml.load(text)
+        setFirstDiagramPath(getFirstDiagramPath(data))
+      } catch (error) {
+        console.error('Error loading src.yaml:', error)
+      }
+    }
+    loadFirstDiagram()
+  }, [])
 
   useEffect(() => {
     setLoading(true)
     // Build diagram path from URL
-    // URL format: /diagram/vega/seq_authoring_workflow_init
-    // or /diagram/publishing/PRs/233
-    // or /diagram/seq_workflow_status_init
 
-    let diagramPath = '/d2/seq_workflow_status_init.d2'
+    let diagramPath: string | null = null
 
     if (location.pathname.startsWith('/diagram/')) {
       // Extract everything after /diagram/
@@ -30,9 +61,14 @@ const DiagramViewer: React.FC<DiagramViewerProps> = () => {
       }
     }
 
+    if (!diagramPath) {
+      if (!firstDiagramPath) return
+      diagramPath = `/d2/${firstDiagramPath.replace(/^\/+/, '')}`
+    }
+
     setDiagramContent(diagramPath)
     setLoading(false)
-  }, [location.pathname])
+  }, [location.pathname, firstDiagramPath])
 
   if (loading) {
     return <div className="loading">Loading diagram...</div>
@@ -42,7 +78,7 @@ const DiagramViewer: React.FC<DiagramViewerProps> = () => {
     <ResizablePanels
       leftPanel={
         <YamlPanel
-          currentDiagram={name || 'seq_workflow_status_init'}
+          currentDiagram={name || (firstDiagramPath ? firstDiagramPath.replace(/^\/+/, '').replace(/\.d2$/, '') : '')}
           onCollapseChange={setIsYamlCollapsed}
         />
       }

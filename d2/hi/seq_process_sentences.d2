@@ -1,0 +1,50 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 4
+  }
+}
+classes: {
+  response: {
+    style: {
+      stroke-dash: 5
+    }
+  }
+}
+user: {shape: person}
+script: process_sentences.py
+fs: data/raw
+azure: Azure Translator
+aksharamukha: Aksharamukha
+db: PostgreSQL
+
+user -> script: "python process_sentences.py <slug>"
+script -> fs: "read <slug>.txt + <slug>.json"
+fs -> script: "raw Devanagari text + metadata" {class: response}
+script.note1: |md
+  segment on ।  ॥  !  ?  .
+  filter segments < 10 chars
+|
+
+script -> db: psycopg2 connect
+script -> db: "SELECT id FROM stories WHERE source_url = ?"
+db -> script: story row (or empty) {class: response}
+script -> db: INSERT story (if new)
+script -> db: COMMIT
+
+script -> azure: "POST /translate?includeAlignment=true (Hindi sentence)"
+azure -> script: "english + alignment proj string" {class: response}
+script -> aksharamukha: transliterate Devanagari → IAST
+aksharamukha -> script: romanized sentence {class: response}
+script.note2: |md
+  parse alignment offsets → word_glosses()
+  romanize each surface word form
+|
+script -> db: "INSERT sentences (devanagari, romanized, english)"
+script -> db: "INSERT sentence_words (position, surface_devanagari, surface_romanized, english_gloss)"
+script -> db: COMMIT
+script.note3: |md
+  repeat translate → romanize → insert for each sentence
+  audio_path left NULL (filled later by generate_audio.py)
+|

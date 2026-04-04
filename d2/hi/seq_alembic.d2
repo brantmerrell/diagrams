@@ -1,0 +1,36 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 4
+  }
+}
+classes: {
+  response: {
+    style: {
+      stroke-dash: 5
+    }
+  }
+}
+developer: {shape: person}
+alembic
+env_py: {label: env.py}
+models: app.models.Base
+db: PostgreSQL
+
+developer -> alembic: alembic upgrade head
+alembic -> env_py: load env.py
+env_py.note1: |md
+  read DATABASE_URL from environment
+|
+env_py -> models: import Base
+models -> env_py: target_metadata {class: response}
+alembic -> env_py: run_migrations_online()
+env_py -> db: async connect
+db -> env_py: connection {class: response}
+env_py -> db: 7e8e2b8ceb85 — create tables\n(lemmas, stories, users, sentences, …)
+db -> env_py: ok {class: response}
+env_py -> db: b3c1d2e4f5a6 — add word_audio_path\nto sentence_words
+db -> env_py: ok {class: response}
+env_py -> alembic: migrations complete {class: response}
+alembic -> developer: success {class: response}
