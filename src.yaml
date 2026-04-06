@@ -51,8 +51,8 @@ sd-notes/:
       - sd-notes/designs/mint/mint.d2
     pastebin/:
       - sd-notes/designs/pastebin/pastebin.d2
-  GeneralMotors/:
-    - sd-notes/GeneralMotors/sd.d2
+  Memory/:
+    - sd-notes/Memory/sd.d2
   tools/:
     - sd-notes/tools/application_caching.d2
     - sd-notes/tools/application_layer.d2
