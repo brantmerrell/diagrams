@@ -39,7 +39,7 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ diagramPath }) => {
           signal: abortController.signal,
         })
 
-        if (!response.ok) {
+        if (!response.ok && window.location.hostname === 'localhost') {
           setError(`Failed to start d2 watch for ${diagramPath}`)
         }
       } catch (err) {
