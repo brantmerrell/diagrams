@@ -9,7 +9,7 @@ interface YamlPanelProps {
   onCollapseChange?: (collapsed: boolean) => void
 }
 
-const YamlPanel: React.FC<YamlPanelProps> = ({ currentDiagram, onCollapseChange }) => {
+const YamlPanel: React.FC<YamlPanelProps> = ({ currentDiagram: _currentDiagram, onCollapseChange }) => {
   const [yamlData, setYamlData] = useState<any>(null)
   const [rawYaml, setRawYaml] = useState<string>('')
   const [isFiltered, setIsFiltered] = useState<boolean>(false)
@@ -262,12 +262,10 @@ const YamlPanel: React.FC<YamlPanelProps> = ({ currentDiagram, onCollapseChange 
     }
 
     return Object.entries(obj)
-      .filter(([key, value]) => {
-        // Only show entries that contain diagrams
-        const currentPath = path ? `${path}.${key}` : key
+      .filter(([_key, value]) => {
         return containsDiagram(value)
       })
-      .map(([key, value]) => {
+      .map(([key, value]: [string, any]) => {
         const currentPath = path ? `${path}.${key}` : key
         const isExpanded = expandedSections.has(currentPath)
         const hasChildren = value && typeof value === 'object'
