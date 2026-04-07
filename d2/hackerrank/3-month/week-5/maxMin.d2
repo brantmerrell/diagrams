@@ -1,0 +1,40 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 4
+  }
+}
+classes: @"../../classes"
+k
+arr
+maxMin: {
+  label: maxMin()
+  len: {
+    label: len()
+    class: op
+  }
+  n
+  iterate: {
+    label: for i in range(n-k+1)
+    class: iter
+  }
+  diff: {
+    class: op
+    label: diff\narr\[i+k-1\]-arr\[i\]
+  }
+  min: {
+    class: op
+    label: min()\nresult, diff
+  }
+  result: {
+    label: result
+  }
+  len -> n
+  n -> iterate
+  iterate -> diff
+  diff -> min
+  min -> result
+}
+k -> maxMin.iterate
+arr -> maxMin.len
+arr -> maxMin.iterate

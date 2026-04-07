@@ -1,0 +1,32 @@
+direction: right
+1: {
+  label: "Bash uses pipes |"
+  "d2 can wrap in double pipes ||": {shape: text}
+  code: ||sh
+    cat file.txt | grep "pattern" | wc -l
+    ps aux | grep node | awk '{print $2}'
+  ||
+}
+
+2: {
+  label: "TypeScript uses ||"
+  "d2 can wrap in |||": {shape: text}
+  code: |||ts
+    declare function getSmallPet(): Fish | Bird;
+    const works = (a > 1) || (b < 2)
+  |||
+}
+3: {
+  label: "markdown might have triple pipes |||"
+  "d2 can wrap in |`...`|": {shape: text}
+  code: |`md
+    ### Markdown Table
+
+    Triple pipes: ||| would break with regular delimiters
+    | Column A | Column B | Column C |
+    |----------|----------|----------|
+    | Data 1   | Data 2   | Data 3   |
+    ---
+
+  `|
+}

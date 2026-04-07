@@ -1,0 +1,159 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+
+# NoSQL Database Types Comparison
+nosql_comparison: {
+  grid-rows: 2
+  grid-columns: 2
+  label: NoSQL Database Types
+  
+  key_value: {
+    label: Key-Value Store
+    class: obj_db
+    
+    hash_table: {
+      shape: sql_table
+      key1: value1
+      key2: value2
+      keyN: valueN
+    }
+    
+    use_cases: |md
+      ## Use Cases
+      * Session Storage/caching
+      * Configuration
+      * Real-time Data
+    |
+    
+    examples: |md
+    ## Examples
+    * Redis
+    * DynamoDB
+    * Memcached
+    |
+  }
+  
+  document: {
+    label: Document Store
+    class: obj_db
+    
+    document_structure: {
+      shape: page
+      example: |json
+        {
+          "_id": "123",
+          "name": "John",
+          "address": {
+            "city": "NYC"
+          },
+          "tags": ["user", "premium"]
+        }
+      |
+    }
+    
+    use_cases: |md
+    ## Use Cases
+    * Content Management
+    * Product Catalogs
+    * User Profiles
+    |
+    
+    examples: |md
+    ## Examples
+    * MongoDB
+    * CouchDB
+    * Elasticsearch
+    |
+  }
+  
+  wide_column: {
+    label: Wide Column Store
+    class: obj_db
+    
+    column_family: {
+      shape: sql_table
+      row_key: ColumnFamily<RowKey>
+      col1: Column<Name, Value, Timestamp>
+      col2: Column<Name, Value, Timestamp>
+      colN: Column<Name, Value, Timestamp>
+    }
+    
+    use_cases: |md
+      ## Use Cases
+      * Large Datasets
+      * Time Series Data
+      * IoT Applications
+    |
+    
+    examples: |md
+    ## Examples
+    * Cassandra
+    * HBase
+    * BigTable
+    |
+  }
+  
+  graph: {
+    label: Graph Database
+    class: obj_db
+    
+    graph_structure: {
+      grid-columns: 2
+      node1: {
+        shape: oval
+        label: Node 1
+      }
+      node2: {
+        shape: oval
+        label: Node 2
+      }
+      node3: {
+        shape: oval
+        label: Node 3
+      }
+      
+      node1 -> node2
+      node2 -> node3
+      node1 <- node3
+    }
+    
+    use_cases: |md
+      ## Use Cases
+      * Social Networks
+      * Recommendation Engines
+      * Fraud Detection
+    |
+    
+    examples: |md
+    ## Examples
+    * Neo4j
+    * Amazon Neptune
+    * ArangoDB
+    |
+  }
+}
+
+cap_theorem: |md
+  ## CAP Theorem
+  * consistency: All nodes see same data
+  * availability: System remains operational
+  * partition_tolerance: System continues despite network failures
+|
+# since the cap theorem claims that only 2 of these are possible, which two are possible in this case (NoSQL?)
+
+# BASE vs ACID
+base_properties: |md
+  ## BASE Properties
+  * Basically Available: System guarantees availability
+  * Soft State: State may change over time
+  * Eventual Consistency: System becomes consistent eventually
+|
+
+nosql_comparison -- cap_theorem
+cap_theorem -- base_properties
+

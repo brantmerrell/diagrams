@@ -1,0 +1,99 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 105
+  }
+}
+classes: @"../classes"
+
+# Internet users
+clients: {
+  style.multiple: true
+}
+
+# Reverse Proxy with its functions
+reverse_proxy: {
+  label: Reverse Proxy\n(Nginx/Apache)
+  class: obj_server
+  
+  ssl_termination: { # what is SSL termination?
+    label: SSL Termination
+    shape: hexagon
+  }
+  
+  load_balancer: {
+    label: Load Balancing # where is this configured / managed?
+    class: obj_lb
+  }
+  
+  cache: {
+    label: Static Cache
+    class: obj_cache
+  }
+  
+  request_router: {
+    label: Request Router # what resource handles this? Does the developer configur it?
+    shape: diamond # why diamond? Is it a condition?
+  }
+  
+  rate_limiter: {
+    label: Rate Limiting # what performs the rate limiting?
+    shape: hexagon
+  }
+}
+
+# Backend servers
+backend_servers: {
+  label: Backend Servers
+  web_servers: {
+    class: objs_server
+    label: Web Servers
+  }
+  api_server: {
+    class: obj_server
+    label: API Server
+  }
+}
+
+# Client requests flow
+clients -> reverse_proxy.ssl_termination: HTTPS
+
+# Internal proxy processing
+reverse_proxy.ssl_termination -> reverse_proxy.rate_limiter: decrypt # what performs the decryption?
+reverse_proxy.rate_limiter -> reverse_proxy.cache: check limits # what checks the limits?
+reverse_proxy.cache -> reverse_proxy.request_router: cache miss # how to prevent false negatives when information is present but outdated?
+reverse_proxy.request_router -> reverse_proxy.load_balancer: route decision
+
+# Backend routing
+reverse_proxy.load_balancer -> backend_servers.web_servers: /app
+reverse_proxy.request_router -> backend_servers.api_server: /api
+
+# Response flow
+reverse_proxy.cache <- backend_servers.web_servers: {class: edge_response} # is this a CDN "push" pattern?
+reverse_proxy.cache <- backend_servers.api_server: {class: edge_response} # is this a CDN "push" pattern?
+
+clients <- reverse_proxy.cache: {class: edge_response}
+
+# Security features
+security_features: { # what performs these? Does the developer write them? Does the cloud provide them?
+  label: Security Features
+  
+  ddos_protection: {
+    label: DDoS Protection
+    shape: oval
+  }
+  
+  compression: {
+    label: Gzip Compression 
+    shape: oval
+  }
+  
+  header_manipulation: {
+    label: Header Manipulation
+    shape: oval
+  }
+}
+
+reverse_proxy.rate_limiter -- security_features.ddos_protection
+reverse_proxy.cache -- security_features.compression
+reverse_proxy.ssl_termination -- security_features.header_manipulation

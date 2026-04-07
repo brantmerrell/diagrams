@@ -1,0 +1,52 @@
+vars: {
+  d2-config: {
+    layout-engine: dagre
+    theme-id: 3
+  }
+}
+classes: @"../../classes"
+
+n
+queries
+dynamicArray: {
+  class: op
+  answers
+  arr: {
+    label: arr\ninit \[\[\] for _ in range(n)\]\]
+  }
+  append: {
+    class: op
+    label: arr\[idx\].append()
+  }
+  append2: {
+    class: op
+    label: arr\[idx\].append()
+  }
+  iterate_queries: {
+    class: iter
+    label: for query_type, x, y in queries:
+  }
+  is_type_1: {
+    class: cond
+    label: is type 1\nquery_type == 1
+  }
+  is_type_2: {
+    label: is type 2\nquery_type == 2
+    class: cond
+  }
+  lastAnswer
+  op_2: {
+    label: assign\narr\[idx\]\[mod\]
+    class: op
+  }
+  iterate_queries -> is_type_1
+  iterate_queries -> is_type_2
+  arr <- append: y
+  append <- is_type_1: y { class: positive }
+  append2 -> answers
+  op_2 -> lastAnswer
+  is_type_2 -> op_2: { class: positive }
+  lastAnswer -> append2
+}
+n -> dynamicArray.arr
+queries -> dynamicArray.iterate_queries

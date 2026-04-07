@@ -1,0 +1,60 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+classes: @"../../classes"
+
+Client: {
+  class: obj_client
+}
+
+WebServer: {
+  label: Web Server\n(Reverse Proxy)
+  class: obj_server
+}
+
+AccountsAPI: {
+  label: Accounts API
+  class: obj_server
+}
+
+TransactionExtractionService: {
+  label: Transaction\nExtraction\nService
+}
+CategoryService: {
+  label: Category\nService
+  class: obj_server
+}
+
+BudgetService: {
+  label: Budget\nService
+  class: obj_server
+}
+
+NotificationService: {
+  label: Notification\nService
+  class: obj_server
+}
+
+SQLDatabase: {
+  label: SQL Database\n(Single)
+  class: obj_db
+}
+
+# Simple request flow
+Client -> WebServer
+WebServer -> AccountsAPI
+
+# Core transaction processing flow
+AccountsAPI -> TransactionExtractionService: extract transactions
+TransactionExtractionService -> CategoryService: categorize
+TransactionExtractionService -> BudgetService: analyze spending
+BudgetService -> NotificationService: budget alerts
+
+# All services connect to single database
+AccountsAPI -> SQLDatabase
+TransactionExtractionService -> SQLDatabase
+CategoryService -> SQLDatabase
+BudgetService -> SQLDatabase
+NotificationService -> SQLDatabase

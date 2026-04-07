@@ -1,0 +1,66 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+
+application: {
+  class: obj_server
+  label: Application
+}
+
+cache: {
+  class: obj_cache
+  label: Cache
+}
+
+database: {
+  class: obj_db
+  label: Database
+}
+
+# Cache-Aside Pattern
+cache_aside_flow: {
+  label: Cache-Aside Flow
+  
+  read_request: Read Request
+  cache_check: {
+    class: cond
+    label: In Cache?
+  }
+  cache_hit: Cache Hit
+  cache_miss: Cache Miss
+  db_read: Database Read
+  cache_update: Update Cache
+  
+  read_request -> cache_check
+  cache_check -> cache_hit: yes
+  cache_check -> cache_miss: no
+  cache_miss -> db_read
+  db_read -> cache_update
+  cache_update -> cache_hit
+}
+
+# Write-Through Pattern
+write_through_flow: {
+  label: Write-Through Flow
+  
+  write_request: Write Request
+  write_cache: Write to Cache
+  write_db: Write to Database
+  confirm: Confirm Success
+  
+  write_request -> write_cache
+  write_cache -> write_db: synchronous
+  write_db -> confirm
+}
+
+application -- cache_aside_flow
+application -- write_through_flow
+cache_aside_flow -- cache
+cache_aside_flow -- database
+write_through_flow -- cache
+write_through_flow -- database
+

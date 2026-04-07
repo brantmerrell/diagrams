@@ -1,0 +1,65 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+  }
+}
+classes: @"../../classes"
+SinglyLinkedList: {
+  class: class
+}
+SinglyLinkedListNode: {
+  class: class
+}
+head1
+head2
+mergeLists: {
+  label: mergeLists(head1, head2)
+  head1
+  head2
+  dummy: {
+    label: dummy\ninit (0)\nreturn
+  }
+  tail
+  dummy -> tail: init
+  while: {
+    class: iter
+    label: while
+  }
+  exists_head1: {
+    label: head1 exists
+    class: cond
+  }
+  exists_head2: {
+    label: head2 exists
+    class: cond
+  }
+  condition1: {
+    label: head1.data <= head2.data
+    class: cond
+  }
+  leftover1: {
+    label: head1 leftover\nTHEN tail.next = head1
+    class: cond
+  }
+  leftover2: {
+    label: head2 leftover\nTHEN tail.next = head2
+    class: cond
+  }
+  exists_head1 -- while: { class: positive }
+  exists_head2 -- while: { class: positive }
+  while -> condition1
+  tail <- condition1: { class: positive }
+  head1 <- condition1: { class: positive }
+  tail <- condition1: { class: negative }
+  head2 <- condition1: { class: negative }
+  while -> tail
+  while -> end
+  end -> leftover1
+  end -> leftover2
+}
+SinglyLinkedList -> head1
+SinglyLinkedList -> head2
+SinglyLinkedListNode -- mergeLists.dummy
+head1 -> mergeLists
+head2 -> mergeLists

@@ -1,0 +1,48 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 3
+  }
+}
+classes {
+  highlight {
+    style {
+      stroke: crimson
+      fill: steelblue
+    }
+  }
+}
+input: input arr
+miniMaxSum: miniMaxSum {
+  sort: arr.sort
+  split: split {
+    lower: |md
+    ## lower
+    excludes last elem:  
+    ```python
+    arr[:(N-1)]
+    ```
+    |
+    upper: |md
+    ## upper
+    excludes first elem:
+    ```python
+    arr[1:]
+    ```
+    |
+  }
+  sum: sum()
+  str: str()
+  join: "' '.join()"
+  print: print()
+  sort -> split
+  split.lower -> sum
+  split.upper -> sum
+  sum -> str
+  sum -> str
+  str -> join
+  str -> join
+  join -> print
+}
+input -> miniMaxSum.sort

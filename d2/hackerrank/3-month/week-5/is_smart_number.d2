@@ -1,0 +1,34 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 3
+  }
+}
+classes: @"../../classes"
+
+num
+is_smart_number: {
+  class: op
+  sqrt: {
+    label: math.sqrt()
+    class: op
+  }
+  val {
+    label: val
+  }
+  condition: {
+    label: val ^ 2 == num
+    class: cond
+  }
+  result: {
+    True
+    False
+  }
+  sqrt -> val
+  val -> condition
+  condition -> result.True: print { class: positive }
+  condition -> result.False: print { class: negative }
+}
+num -> is_smart_number.sqrt
+num -> is_smart_number.condition
+

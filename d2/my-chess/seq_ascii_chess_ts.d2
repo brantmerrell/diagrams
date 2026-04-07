@@ -1,0 +1,78 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 4
+  }
+}
+classes: {
+  response: {
+    style: {
+      stroke-dash: 5
+    }
+  }
+}
+browser: {shape: person}
+index_tsx: {label: index.tsx}
+App
+Redux: Redux store
+connector: connector API
+lichess: Lichess API
+chesscom: Chess.com API
+
+browser -> index_tsx: load page
+index_tsx.note1: |md
+  ```
+  init Eruda mobile console
+  createRoot(#root).render(<App />)
+  ```
+|
+index_tsx -> App: render
+App.note1: |md
+  ```
+  Redux Provider
+  LichessGameProvider
+  BrowserRouter
+  route / → UnifiedChessContainer
+  route /auth/callback → AuthCallback
+  ```
+|
+
+App -> Redux: initialize store (positions, puzzles, setups slices)
+App -> connector: "GET /none?fen_string=<starting FEN>"
+connector -> App: "{nodes, edges:[]}" {class: response}
+App.note2: |md
+  ```
+  render UnifiedChessContainer:
+  control panels (Appearance, Setup, Moves)
+  main view (board / graph / arc / chord / graphdag)
+  history view (move table or metrics chart)
+  ```
+|
+
+browser -> App: change connection type or FEN
+App -> Redux: dispatch loadFen / setConnectionType
+App -> connector: "GET /<endpoint>?fen_string=<FEN>"
+connector -> App: "{nodes, edges}" {class: response}
+App.note3: |md
+  ```
+  D3.js renders updated visualization
+  URL params synced via useUrlSync hook
+  ```
+|
+
+browser -> App: sign in with Lichess
+App -> lichess: "redirect to /oauth (PKCE flow)"
+lichess -> App: auth code → /auth/callback {class: response}
+App -> lichess: "POST /api/token (exchange code)"
+lichess -> App: access token {class: response}
+App.note4: |md
+  ```
+  token stored in localStorage
+  enables game streaming and challenges
+  ```
+|
+
+browser -> App: load daily puzzle
+App -> chesscom: "GET /pub/puzzle"
+chesscom -> App: puzzle FEN + solution {class: response}

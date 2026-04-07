@@ -1,0 +1,215 @@
+---
+hi/:
+  details:
+    repository: https://github.com/brantmerrell/hi
+    description: hindi learning app
+  backend/:
+    alembic/:
+      script.py.mako:
+        - hi/seq_alembic.d2
+    app/:
+  data/:
+    audio/:
+    raw/:
+  frontend/:
+    src/:
+      main.tsx:
+        - hi/seq_frontend.d2
+  pipeline/:
+    enrich_glosses.py:
+      - hi/seq_enrich_glosses.d2
+    fetch_text.py:
+      - hi/seq_fetch_text.d2
+    generate_audio.py:
+      - hi/seq_generate_audio.d2
+    process_sentences.py:
+      - hi/seq_process_sentences.d2
+my-chess/:
+  details:
+    repository: https://github.com/brantmerrell/my-chess
+    description: chess visualization app
+  connector/:
+    main.py:
+      - my-chess/seq_connector.d2
+  ascii-chess-ts/:
+    src/:
+      index.tsx:
+        - my-chess/seq_ascii_chess_ts.d2
+  prototype-shiny/:
+    app.R:
+      - my-chess/seq_prototype_shiny.d2
+  blender-renderer/:
+    __init__.py:
+      - my-chess/seq_blender_renderer.d2
+sd-notes/:
+  classes.d2:
+    - sd-notes/classes.d2
+  designs/:
+    mint/:
+      - sd-notes/designs/mint/final.d2
+      - sd-notes/designs/mint/initial.d2
+      - sd-notes/designs/mint/mint.d2
+    pastebin/:
+      - sd-notes/designs/pastebin/pastebin.d2
+  Memory/:
+    - sd-notes/Memory/sd.d2
+  tools/:
+    - sd-notes/tools/application_caching.d2
+    - sd-notes/tools/application_layer.d2
+    - sd-notes/tools/asynchronism.d2
+    - sd-notes/tools/cdn.d2
+    - sd-notes/tools/communication.d2
+    - sd-notes/tools/connectors.d2
+    - sd-notes/tools/dns.d2
+    - sd-notes/tools/load_balancer.d2
+    - sd-notes/tools/mcp.d2
+    - sd-notes/tools/NoSQL.d2
+    - sd-notes/tools/RAG.d2
+    - sd-notes/tools/rdbms.d2
+    - sd-notes/tools/rdbms_scaling.d2
+    - sd-notes/tools/rdbms_systems.d2
+    - sd-notes/tools/rdbms_tuning.d2
+    - sd-notes/tools/reverse_proxy.d2
+    - sd-notes/tools/vector_database.d2
+hackerrank/:
+  classes.d2:
+    - hackerrank/classes.d2
+  1-week/:
+    day-1/:
+      1_plus-minus/:
+        - hackerrank/1-week/day-1/plusMinus.d2
+      2_mini-max-sum/:
+        - hackerrank/1-week/day-1/miniMaxSum.d2
+      3_time-conversion/:
+        - hackerrank/1-week/day-1/timeConversion.d2
+    day-2/:
+      1_lonely-integer/:
+        - hackerrank/1-week/day-2/lonelyinteger.d2
+      2_diagonal-difference/:
+        - hackerrank/1-week/day-2/diagonalDifference.d2
+      3_counting-sort/:
+        - hackerrank/1-week/day-2/countingSort.d2
+    day-3/:
+      1_zig-zag-sequence/:
+        - hackerrank/1-week/day-3/findZigZagSequence.d2
+      2_tower-breakers/:
+        - hackerrank/1-week/day-3/towerBreakers.d2
+      3_caesar-cipher/:
+        - hackerrank/1-week/day-3/caesarCipher.d2
+    day-4/:
+      1_grid-challenge/:
+        - hackerrank/1-week/day-4/gridChallenge.d2
+      2_recursive-digit-sum/:
+        - hackerrank/1-week/day-4/superDigit.d2
+      3_new-year-chaos/:
+        - hackerrank/1-week/day-4/minimumBribes.d2
+    day-5/:
+      1_merge-two-sorted-linked-lists/:
+        - hackerrank/1-week/day-5/mergeLists.d2
+      2_queue-using-two-stacks/:
+        - hackerrank/1-week/day-5/queuing.d2
+      3_balanced-brackets/:
+        - hackerrank/1-week/day-5/isBalanced.d2
+  3-month/:
+    week-1/:
+      1_plus-minus/:
+        - hackerrank/3-month/week-1/plusMinus.d2
+      2_mini-max-sum/:
+        - hackerrank/3-month/week-1/miniMaxSum.d2
+      3_time-conversion/:
+        - hackerrank/3-month/week-1/timeConversion.d2
+      4_breaking-records/:
+        - hackerrank/3-month/week-1/breakingRecords.d2
+      6_divisible-sum-pairs/:
+        - hackerrank/3-month/week-1/divisibleSumPairs.d2
+      7_sparse-arrays/:
+        - hackerrank/3-month/week-1/matchingStrings.d2
+    week-2/:
+      1_lonely-integer/:
+        - hackerrank/3-month/week-2/lonelyinteger.d2
+      2_grading-students/:
+        - hackerrank/3-month/week-2/gradingStudents.d2
+      3_flipping-bits/:
+        - hackerrank/3-month/week-2/flippingBits.d2
+      4_diagonal-difference/:
+        - hackerrank/3-month/week-2/diagonalDifference.d2
+      5_counting-sort-1/:
+        - hackerrank/3-month/week-2/countingSort.d2
+      6_counting-valleys/:
+        - hackerrank/3-month/week-2/countingValleys.d2
+      7_pangrams/:
+        - hackerrank/3-month/week-2/pangrams.d2
+      8_mars-exploration/:
+        - hackerrank/3-month/week-2/marsExploration.d2
+      challenge/:
+        - hackerrank/3-month/week-2/flippingMatrix.d2
+    week-3/:
+      1_permuting-two-arrays/:
+        - hackerrank/3-month/week-3/twoArrays.d2
+      2_birthday-bar/:
+        - hackerrank/3-month/week-3/birthday.d2
+      3_xor-strings/:
+        - hackerrank/3-month/week-3/strings_xor.d2
+      4_sock-merchant/:
+        - hackerrank/3-month/week-3/sockMerchant.d2
+      5_migratory-birds/:
+        - hackerrank/3-month/week-3/migratoryBirds.d2
+      6_maximum-perimeter-triangle/:
+        - hackerrank/3-month/week-3/maximumPerimeterTriangle.d2
+      7_zig-zag-sequence/:
+        - hackerrank/3-month/week-3/findZigZagSequence.d2
+      8_drawing-book/:
+        - hackerrank/3-month/week-3/pageCount.d2
+      9_between-two-sets/:
+        - hackerrank/3-month/week-3/getTotal.d2
+    week-4/:
+      1_picking-numbers/:
+        - hackerrank/3-month/week-4/pickingNumbers.d2
+      2_left-rotation/:
+        - hackerrank/3-month/week-4/leftRotation.d2
+      3_number-line-jumps/:
+        - hackerrank/3-month/week-4/kangaroo.d2
+      4_separate-numbers/:
+        - hackerrank/3-month/week-4/separateNumbers.d2
+      5_closest-numbers/:
+        - hackerrank/3-month/week-4/closestNumbers.d2
+      6_tower-breakers/:
+        - hackerrank/3-month/week-4/towerBreakers.d2
+      7_min-abs-diff-arr/:
+        - hackerrank/3-month/week-4/minimumAbsoluteDifference.d2
+      8_caesar-cipher/:
+        - hackerrank/3-month/week-4/caesarCipher.d2
+    week-5/:
+      1_max-min/:
+        - hackerrank/3-month/week-5/maxMin.d2
+      2_strong-password/:
+        - hackerrank/3-month/week-5/strongPassword.d2
+      3_dynamic-array/:
+        - hackerrank/3-month/week-5/dynamicArray.d2
+      4_smart-number-2/:
+        - hackerrank/3-month/week-5/is_smart_number.d2
+      5_missing-numbers/:
+        - hackerrank/3-month/week-5/missingNumbers.d2
+      7_grid-challenge/:
+        - hackerrank/3-month/week-5/gridChallenge.d2
+examples:
+  3-special-objects:
+    - /examples/3-special-objects/block-strings.d2
+    - /examples/3-special-objects/grid-flask-pod.d2
+    - /examples/3-special-objects/grid-forge.d2
+    - /examples/3-special-objects/grid-japan.d2
+    - /examples/3-special-objects/languages.d2
+    - /examples/3-special-objects/latex-plugins.d2
+    - /examples/3-special-objects/latex.d2
+    - /examples/3-special-objects/link.d2
+    - /examples/3-special-objects/markdown.d2
+    - /examples/3-special-objects/sequence.d2
+    - /examples/3-special-objects/sql.d2
+    - /examples/3-special-objects/uml.d2
+  4-customization:
+    - /examples/4-customization/d2-legend.d2
+    - /examples/4-customization/dimensions.d2
+    - /examples/4-customization/multi-class.d2
+    - /examples/4-customization/tooltip.d2
+  5-in-depth:
+    - /examples/5-in-depth/variables.d2

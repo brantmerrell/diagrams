@@ -1,0 +1,37 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+  }
+}
+classes: @"../../classes"
+n
+k
+superDigit: {
+  label: superDigit(n, k)
+  super_digit: {
+    label: super_digit\n init sum digits n
+  }
+  sum_digits: {
+    label: sum digits
+    class: op
+  }
+  is_not_len_1: {
+    label: super digit\n is not length 1
+    class: cond
+  }
+  while: {
+    label: while
+    class: iter
+  }
+  sum_digits -> super_digit
+  while -- is_not_len_1
+  is_not_len_1 -> sum_digits: { class: positive }
+  is_not_len_1 -> result: { 
+    class: negative
+    label: super_digit
+
+  }
+}
+n -> superDigit.sum_digits
+k -> superDigit

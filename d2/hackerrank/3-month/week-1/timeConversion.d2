@@ -1,0 +1,53 @@
+direction: right
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 4
+  }
+}
+classes {
+  highlight {
+    style {
+      stroke: crimson
+      fill: steelblue
+    }
+  }
+}
+
+s: s {
+  shape: circle
+}
+
+timeConversion: timeConversion {
+  split: {
+    label:.split(\':\') 
+    shape: circle
+  }
+  HH: { 
+    "12 → 00"
+    "13:23 -= 12"
+  }
+  join: \":\".join
+  MM
+  SS 
+  XM 
+  XM -> IF1
+  IF1: {
+    label: ""
+    shape: diamond
+    12AM
+    "1PM to 11PM"
+  }
+  IF1 <- HH
+  IF1.12AM -> HH."12 → 00": "AM & 12"
+  IF1."1PM to 11PM" -> HH."13:23 -= 12": "PM & !=12"
+  SS -> XM
+  split -> HH: "[0]"
+  split -> MM: "[1]"
+  split -> SS: "[2]"
+  split -> XM: "[3]"
+  HH -> join
+  MM -> join
+  SS -> join
+}
+s -> timeConversion.split

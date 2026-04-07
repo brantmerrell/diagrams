@@ -1,0 +1,43 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 3
+  }
+}
+classes {
+  highlight {
+    style {
+      stroke: crimson
+      fill: steelblue
+    }
+  }
+}
+input
+arr: arr
+plusMinus: plusMinus {
+  enumerate: {
+    shape: diamond
+    positive: {
+      shape: oval
+    }
+    negative {
+      shape: oval
+    }
+    equal {
+      shape: oval
+    }
+  }
+  counts: counts {
+    0: 0
+    1: 1
+    2: 2
+  }
+  enumerate.positive -> counts.0
+  enumerate.negative -> counts.1
+  enumerate.equal -> counts.2
+  counts.0 -> print
+  counts.1 -> print
+  counts.2 -> print
+}
+arr -> plusMinus.enumerate

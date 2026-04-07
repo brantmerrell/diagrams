@@ -1,0 +1,33 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 7
+  }
+}
+classes: @"../../classes"
+n
+m
+towerBreakers {
+  AND: {
+    label: AND
+    class: cond
+    condition_0: {
+      label: isOne
+      class: cond
+    }
+    condition_1: {
+      label: isEven
+      class: cond
+    }
+  }
+  AND -> result: {
+    label: player 1 wins
+    class: negative
+  }
+  AND -> result: {
+    label: player 2 wins
+    class: positive
+  }
+}
+n -> towerBreakers.AND.condition_1
+m -> towerBreakers.AND.condition_0

@@ -1,0 +1,52 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+scaling_need: {
+  label: Scaling Need
+  shape: oval
+  style.fill: orange
+}
+scaling_type: {
+  class: cond
+  label: Scaling Type?
+}
+replication: {
+  label: REPLICATION
+  master_slave: {
+    label: Master-Slave 
+  }
+  master_master: {
+    label: Master-Master
+  }
+}
+federation: {
+  label: FEDERATION\nFunctional Partitioning
+  by_feature: Split by business function
+}
+sharding: {
+  label: SHARDING\nHorizontal Partitioning  
+  by_data: Split by data distribution
+}
+denormalization: {
+  label: DENORMALIZATION
+  read_optimized: Optimize for reads
+}
+sql_tuning: {
+  label: SQL TUNING
+  query_optimization: Optimize queries & indexes
+}
+scaling_need -> scaling_type
+scaling_type -> replication: distribute reads
+scaling_type -> federation: separate concerns
+scaling_type -> sharding: distribute data
+scaling_type -> denormalization: reduce joins
+scaling_type -> sql_tuning: optimize performance
+replication -> federation: outgrown single function # is this really a sequential relationship?
+federation -> sharding: outgrown functional split # is this really a sequential relationship?
+sharding -> denormalization: join complexity # is this really a sequential relationship?
+denormalization -> sql_tuning: write performance issues # is this really a sequential relationship?
+# these aren't sequential; at most their relationships to scaling_type can include numbers.

@@ -1,0 +1,68 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+  }
+}
+classes: @"../../classes"
+s
+isBalanced: {
+  imbalance: {
+    label: imbalance\n \[\]
+  }
+  left_to_right: {
+    label: left_to_right\n bracket lookup dict
+  }
+  iteration: {
+    label: for elem in s
+    class: iter
+  }
+  conditions: {
+    is_left: {
+      label: is left\n in left_to_right.keys()
+      class: cond
+    }
+    is_right: {
+      label: is right
+      class: cond
+    }
+    exists_imbalance: {
+      label: imbalance\n exists
+      class: cond
+    }
+    is_match: {
+      label: left-right match
+      class: cond
+    }
+    exists_imbalance <- is_right: { class: positive }
+  }
+  append: {
+    label: imbalance.append()
+    class: op
+  }
+  pop: {
+    label: imbalance.pop()
+    class: op
+  }
+  next: {
+    class: edge_down 
+  }
+  result: {
+    NO
+    YES
+  }
+  imbalance <- pop
+  imbalance <- append
+  append <- conditions.is_left: { class: positive }
+  pop -> conditions.is_match
+  pop <- conditions.exists_imbalance: { class: positive }
+  imbalance -> left_to_right
+  left_to_right -> conditions
+  iteration -> conditions
+  conditions.exists_imbalance -> result.NO: { class: negative }
+  conditions.exists_imbalance -> result.NO: { class: negative }
+  conditions.exists_imbalance -> result.YES: { class: positive }
+  conditions.is_match -> result.NO: { class: negative }
+  iteration -> next
+  next -> conditions.exists_imbalance
+}

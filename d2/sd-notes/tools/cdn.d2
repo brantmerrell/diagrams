@@ -1,0 +1,128 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+classes: @"../classes"
+
+# Global CDN System
+user_regions: {
+  user_us: {
+    shape: person
+    label: User (US)
+  }
+  user_eu: {
+    shape: person
+    label: User (EU)
+  }
+  user_asia: {
+    shape: person
+    label: User (Asia)
+  }
+}
+
+cdn_edges: {
+  edge_us: {
+    class: obj_cdn
+    label: CDN Edge\n(US West)
+  }
+  edge_eu: {
+    class: obj_cdn
+    label: CDN Edge\n(EU Central)
+  }
+  edge_asia: {
+    class: obj_cdn
+    label: CDN Edge\n(Asia Pacific)
+  }
+}
+
+origin_server: {
+  class: obj_server
+  label: Origin Server\n(US East)
+}
+
+# User requests flow to nearest edge
+user_regions.user_us -> cdn_edges.edge_us: {class: edge_request}
+user_regions.user_eu -> cdn_edges.edge_eu: {class: edge_request}
+user_regions.user_asia -> cdn_edges.edge_asia: {class: edge_request}
+
+# Cache miss flows
+cache_miss_flow: {
+  label: Cache Miss Flow
+  
+  edge_cache_check: {
+    class: cond
+    label: Content in Edge Cache?
+  }
+  
+  cache_hit: {
+    class: positive
+    label: Serve from Edge
+  }
+  
+  cache_miss: {
+    class: negative
+    label: Fetch from Origin
+  }
+  
+  edge_cache_check -> cache_hit: yes
+  edge_cache_check -> cache_miss: no
+  cache_miss -> origin_server: {class: edge_request}
+  origin_server -> cache_miss: {class: edge_response}
+  cache_miss -> edge_cache_check: update cache
+}
+
+cdn_edges.edge_us -- cache_miss_flow
+cdn_edges.edge_eu -- cache_miss_flow
+cdn_edges.edge_asia -- cache_miss_flow
+
+# TTL and Invalidation
+cache_management: {
+  label: Cache Management
+  
+  ttl_expiry: {
+    label: TTL Expiry
+    shape: diamond
+  }
+  
+  manual_purge: {
+    label: Manual Purge
+    shape: oval
+  }
+  
+  content_update: {
+    label: Content Update
+    shape: oval
+  }
+  
+  ttl_expiry -> cdn_edges.edge_us: expire old content
+  manual_purge -> cdn_edges.edge_us: remove specific content
+  content_update -> origin_server: new version
+}
+# the vocab and notes also deserve node-edge depiction:
+vocab: |md
+## Cache Headers
+* **Cache-Control**: max-age, no-cache, no-store
+* **ETag**: Version-based validation
+* **Last-Modified**: Time-based validation
+
+## Cache Invalidation
+* **Purge**: Remove specific content
+* **Ban**: Remove by pattern/tag
+* **TTL Expiration**: Automatic cleanup
+
+## Cache Levels
+* **Browser Cache**: Client-side caching
+* **Edge Cache**: CDN point-of-presence
+* **Origin Shield**: Additional caching layer
+|
+notes: |md
+## Tradeoffs
+* minimizes distance to users
+* can be costly for high bandwidth
+* content could be stale (TTL issues)
+* **Push CDN**: origin pushes content proactively
+* **Pull CDN**: CDN pulls on cache miss
+* URL changes optional (DNS/proxy methods available)
+|

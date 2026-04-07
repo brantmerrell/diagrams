@@ -1,0 +1,48 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 4
+  }
+}
+classes: @"../../classes"
+
+arr
+brr
+missingNumbers {
+  class: op
+  diff: {
+    label: diff\ninit \{\}
+  }
+  loop1: {
+    class: iter
+    label: for elem in brr
+  }
+  condition1: {
+    class: cond
+    label: elem in diff.keys()
+  }
+  end_loop: {
+    class: edge_down
+  }
+  increment: {
+    class: op
+    label: increment\n diff\[elem\] -= 1
+  }
+  add: {
+    class: op
+    label: add\ndiff\[elem\] = 1
+  }
+  loop2: {
+    class: iter
+    label: for elem in arr
+  }
+  loop1 -> condition1
+  increment -> diff
+  add -> diff
+  condition1 -> add: { class: positive }
+  condition1 -> increment: { class: negative }
+  loop1 -> end_loop
+  end_loop -> loop2
+}
+arr -> missingNumbers.loop2
+brr -> missingNumbers.loop1

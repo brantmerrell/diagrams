@@ -1,0 +1,25 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 105
+  }
+}
+classes: @"../../classes"
+
+arr
+countingSort: {
+  label: countingSort(arr)
+  result: {
+    label: result\ninit \[0\] * 100
+  }
+  iterate: {
+    label: for a in arr
+    class: iter
+  }
+  increment: {
+    label: increment @ i\nresult\[a\] += 1
+    class: op
+  }
+  iterate -> increment -> result
+}
+arr -> countingSort.iterate

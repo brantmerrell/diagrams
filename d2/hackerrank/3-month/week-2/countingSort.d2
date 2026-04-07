@@ -1,0 +1,14 @@
+direction: down
+
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+arr
+countingSort {
+  _freq: freq\n\[0\] * 100
+  _iter: elem in arr
+  _iter -> _freq: += @ i
+}
+arr -> countingSort

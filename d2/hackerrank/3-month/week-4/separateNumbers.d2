@@ -1,0 +1,31 @@
+_separateNumbers: {
+  label: def separateNumbers
+  _iteration: {
+    label: for L in range(1, len(s))
+    class: iter
+  }
+}
+s -> _separateNumbers
+classes: {
+  cond: {
+    shape: diamond
+  }
+  positive: {
+    shape: oval
+    style: {
+      font-color: darkgreen
+      stroke: darkgreen
+    }
+  }
+  negative: {
+    shape: oval
+    style: {
+      stroke: crimson
+      font-color: crimson
+    }
+  }
+  iter: {
+    width: 500
+    height: 50
+  }
+}
