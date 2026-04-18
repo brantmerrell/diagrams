@@ -1,0 +1,32 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 201
+  }
+}
+classes: @"../sequence_classes"
+developer: {shape: c4-person}
+alembic: {
+  label: alembic\n script.py.mako
+  class: api
+}
+env_py: {label: env.py; class: api}
+models: {label: app.models.Base; class: api}
+db: {
+  label: PostgreSQL
+  class: database
+  icon: ../../icons/postgresql.svg
+  shape: image
+}
+
+developer -> alembic: alembic upgrade head
+alembic -> env_py: load env.py
+env_py.note1: |md
+  read DATABASE_URL from environment
+|
+env_py -> models: import Base {class: api}
+alembic -> env_py: run_migrations_online() {class: api}
+env_py -> db: async connect {class: api}
+env_py -> db: "7e8e2b8ceb85 — create tables\n(lemmas, stories, users, sentences, …)" {class: api}
+env_py -> db: "b3c1d2e4f5a6 — add word_audio_path\nto sentence_words" {class: api}

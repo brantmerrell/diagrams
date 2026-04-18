@@ -1,0 +1,28 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 201
+  }
+}
+classes: @"../sequence_classes"
+developer: {shape: c4-person; class: pipeline}
+heroku_cli: {label: "Heroku CLI"; class: pipeline}
+docker: {label: "Docker (hi-db-1)"; class: pipeline}
+local_db: {
+  label: "PostgreSQL (local)"
+  class: database
+  icon: ../../icons/postgresql.svg
+  shape: image
+}
+heroku_db: {
+  label: "PostgreSQL (Heroku)"
+  class: database
+  icon: ../../icons/postgresql.svg
+  shape: image
+}
+
+developer -> heroku_cli: "heroku config:get DATABASE_URL -a hi-api" {class: pipeline}
+developer -> docker: "docker exec hi-db-1 pg_dump -U postgres hindi_app" {class: pipeline}
+docker -> local_db: pg_dump {class: pipeline}
+local_db -> heroku_db: "psql \$DATABASE_URL (piped)" {class: database}

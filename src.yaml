@@ -3,18 +3,45 @@ hi/:
   details:
     repository: https://github.com/brantmerrell/hi
     description: hindi learning app
-  backend/:
-    alembic/:
-      script.py.mako:
-        - hi/seq_alembic.d2
-    app/:
-  data/:
-    audio/:
-    raw/:
   frontend/:
     src/:
       main.tsx:
-        - hi/seq_frontend.d2
+        - hi/seq_basic_usage.d2
+      App.tsx:
+        - hi/seq_basic_usage.d2
+        - hi/seq_auth.d2
+      pages/:
+        Auth.tsx:
+          - hi/seq_auth.d2
+        Reader.tsx:
+          - hi/seq_basic_usage.d2
+  backend/:
+    alembic/:
+      script.py.mako:
+        - hi/seq_migration.d2
+      env.py:
+        - hi/seq_migration.d2
+    app/:
+      database.py:
+        - hi/seq_basic_usage.d2
+        - hi/seq_auth.d2
+        - hi/seq_migration.d2
+      models.py:
+        - hi/seq_migration.d2
+      routes/:
+        stories.py:
+          - hi/seq_basic_usage.d2
+        auth.py:
+          - hi/seq_auth.d2
+    heroku.yml:
+      - hi/seq_data_sync.d2
+    Procfile:
+      - hi/seq_data_sync.d2
+    app.json:
+      - hi/seq_data_sync.d2
+  data/:
+    audio/:
+    raw/:
   pipeline/:
     enrich_glosses.py:
       - hi/seq_enrich_glosses.d2
@@ -24,24 +51,9 @@ hi/:
       - hi/seq_generate_audio.d2
     process_sentences.py:
       - hi/seq_process_sentences.d2
-my-chess/:
-  details:
-    repository: https://github.com/brantmerrell/my-chess
-    description: chess visualization app
-  connector/:
-    main.py:
-      - my-chess/seq_connector.d2
-  ascii-chess-ts/:
-    src/:
-      index.tsx:
-        - my-chess/seq_ascii_chess_ts.d2
-  prototype-shiny/:
-    app.R:
-      - my-chess/seq_prototype_shiny.d2
-  blender-renderer/:
-    __init__.py:
-      - my-chess/seq_blender_renderer.d2
-sd-notes/:
+  docker-compose.yml:
+    - hi/seq_data_sync.d2
+system-design/:
   classes.d2:
     - sd-notes/classes.d2
   designs/:
@@ -71,6 +83,23 @@ sd-notes/:
     - sd-notes/tools/rdbms_tuning.d2
     - sd-notes/tools/reverse_proxy.d2
     - sd-notes/tools/vector_database.d2
+my-chess/:
+  details:
+    repository: https://github.com/brantmerrell/my-chess
+    description: chess visualization app
+  connector/:
+    main.py:
+      - my-chess/seq_connector.d2
+  ascii-chess-ts/:
+    src/:
+      index.tsx:
+        - my-chess/seq_ascii_chess_ts.d2
+  prototype-shiny/:
+    app.R:
+      - my-chess/seq_prototype_shiny.d2
+  blender-renderer/:
+    __init__.py:
+      - my-chess/seq_blender_renderer.d2
 hackerrank/:
   classes.d2:
     - hackerrank/classes.d2
