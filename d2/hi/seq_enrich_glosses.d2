@@ -2,44 +2,48 @@ shape: sequence_diagram
 vars: {
   d2-config: {
     # layout-engine: elk
-    theme-id: 4
+    theme-id: 201
   }
 }
-classes: {
-  response: {
-    style: {
-      stroke-dash: 5
-    }
-  }
+classes: @"../sequence_classes"
+developer: {shape: c4-person; class: pipeline}
+script: enrich_glosses.py { class: pipeline }
+db: {
+  label: PostgreSQL
+  class: database
+  icon: ../../icons/postgresql.svg
+  shape: image
 }
-script: enrich_glosses.py
-db: PostgreSQL
-azure: Azure Translator
+azure: {
+  label: Azure Translator 
+  class: azure
+  icon: ../../icons/azure.png
+  shape: image
+}
 
+developer -> script: python enrich_glosses.py {class: pipeline}
 script.note1: |md
-  load .env → DATABASE_URL, AZURE_TRANSLATOR_KEY, AZURE_TRANSLATOR_REGION
-|
-script -> db: psycopg2 connect
-db -> script: connection {class: response}
-script -> db: "SELECT DISTINCT surface_devanagari, surface_romanized\nFROM sentence_words WHERE lemma_id IS NULL"
-db -> script: "unique_words[]" {class: response}
+  ## load .env 
+  * DATABASE_URL
+  * AZURE_TRANSLATOR_KEY
+  * AZURE_TRANSLATOR_REGION
+| { class: pipeline }
+script -> db: psycopg2 connect { class: pipeline }
+script -> db: "query" { class: pipeline }
 
 script.note2: |md
   split into batches of 100
-|
+| { class: pipeline }
 
-script -> azure: "POST /translate [batch of devanagari texts, hi→en]"
-azure -> script: "translations[]" {class: response}
+script -> azure: "POST [batch, hi→en]"  { class: pipeline }
 
-script -> db: SELECT id FROM lemmas WHERE devanagari = ?
-db -> script: lemma row (or empty) {class: response}
-script -> db: INSERT lemma (if new)
-script -> db: SELECT id FROM word_senses WHERE lemma_id = ? AND english_definition = ?
-db -> script: sense row (or empty) {class: response}
-script -> db: INSERT word_sense (if new)
-script -> db: "UPDATE sentence_words SET lemma_id, word_sense_id\nWHERE surface_devanagari = ? AND lemma_id IS NULL"
-script -> db: COMMIT
+script -> db: SELECT id FROM lemmas WHERE devanagari = ? { class: pipeline }
+script -> db: INSERT lemma (if new) { class: pipeline }
+script -> db: SELECT id FROM word_senses WHERE lemma_id = ? AND english_definition = ? { class: pipeline }
+script -> db: INSERT word_sense (if new) { class: pipeline }
+script -> db: "UPDATE sentence_words SET lemma_id, word_sense_id\nWHERE surface_devanagari = ? AND lemma_id IS NULL" { class: pipeline }
+script -> db: COMMIT { class: pipeline }
 
 script.note3: |md
   repeat translate → upsert → commit for each batch
-|
+| { class: pipeline }

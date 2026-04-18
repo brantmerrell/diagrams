@@ -2,49 +2,59 @@ shape: sequence_diagram
 vars: {
   d2-config: {
     # layout-engine: elk
-    theme-id: 4
+    theme-id: 201
   }
 }
-classes: {
-  response: {
-    style: {
-      stroke-dash: 5
-    }
-  }
+classes: @"../sequence_classes"
+developer: {shape: c4-person; class: pipeline}
+script: {label: process_sentences.py; class: pipeline}
+fs: {label: data/raw; class: database}
+azure: {
+  label: "Azure Translator"
+  class: azure
+  icon: ../../icons/azure.png
+  shape: image
 }
-user: {shape: person}
-script: process_sentences.py
-fs: data/raw
-azure: Azure Translator
-aksharamukha: Aksharamukha
-db: PostgreSQL
+aksharamukha: {
+  label: Aksharamukha\n python library
+  icon: ../../icons/python.svg
+  shape: image
+}
+db: {
+  label: PostgreSQL
+  class: database
+  icon: ../../icons/postgresql.svg
+  shape: image
+}
 
-user -> script: "python process_sentences.py <slug>"
-script -> fs: "read <slug>.txt + <slug>.json"
-fs -> script: "raw Devanagari text + metadata" {class: response}
+developer -> script: "python process_sentences.py <slug>" {class: pipeline}
+script -> fs: "read <slug>.txt + <slug>.json" {class: pipeline}
 script.note1: |md
+  ```
   segment on ।  ॥  !  ?  .
   filter segments < 10 chars
-|
+  ```
+| {class: pipeline}
 
-script -> db: psycopg2 connect
-script -> db: "SELECT id FROM stories WHERE source_url = ?"
-db -> script: story row (or empty) {class: response}
-script -> db: INSERT story (if new)
-script -> db: COMMIT
+script -> db: psycopg2 connect {class: pipeline}
+script -> db: "SELECT id FROM stories WHERE source_url = ?" {class: pipeline}
+script -> db: INSERT story (if new) {class: pipeline}
+script -> db: COMMIT {class: pipeline}
 
-script -> azure: "POST /translate?includeAlignment=true (Hindi sentence)"
-azure -> script: "english + alignment proj string" {class: response}
-script -> aksharamukha: transliterate Devanagari → IAST
-aksharamukha -> script: romanized sentence {class: response}
+script -> azure: "POST /translate?includeAlignment=true (Hindi sentence)" {class: pipeline}
+script -> aksharamukha: transliterate Devanagari → IAST {class: pipeline}
 script.note2: |md
+  ```
   parse alignment offsets → word_glosses()
   romanize each surface word form
-|
-script -> db: "INSERT sentences (devanagari, romanized, english)"
-script -> db: "INSERT sentence_words (position, surface_devanagari, surface_romanized, english_gloss)"
-script -> db: COMMIT
+  ```
+| {class: pipeline}
+script -> db: "INSERT sentences (devanagari, romanized, english)" {class: pipeline}
+script -> db: "INSERT sentence_words (position, surface_devanagari, surface_romanized, english_gloss)" {class: pipeline}
+script -> db: COMMIT {class: pipeline}
 script.note3: |md
+  ```
   repeat translate → romanize → insert for each sentence
   audio_path left NULL (filled later by generate_audio.py)
-|
+  ```
+| {class: pipeline}

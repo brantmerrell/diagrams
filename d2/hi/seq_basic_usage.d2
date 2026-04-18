@@ -1,0 +1,45 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 201
+  }
+}
+classes: @"../sequence_classes"
+browser: {class: frontend}
+main_tsx: {label: main.tsx; class: frontend}
+App: {class: frontend}
+Router: {label: BrowserRouter; class: frontend}
+Reader: {class: frontend}
+api_stories: {label: /api/stories; class: api}
+api_sentences: {label: "/api/stories/{id}/sentences"; class: api}
+db: {
+  label: PostgreSQL
+  class: database
+  icon: ../../icons/postgresql.svg
+  shape: image
+}
+
+browser -> main_tsx: load page
+main_tsx -> App: createRoot
+App -> Router: BrowserRouter
+Router.note1: |md
+  ```
+  / → Reader
+  /auth → Auth
+  * → redirect /
+  ```
+|
+
+Router -> Reader: route /
+Reader -> api_stories: GET /api/stories
+api_stories -> db: query stories {class: api}
+Reader -> api_sentences: "GET /api/stories/{id}/sentences"
+api_sentences -> db: query sentences {class: api}
+Reader.note1: |md
+  ```
+  render SentenceView,
+  WordGloss, AudioPlayer,
+  Navigation
+  ```
+|

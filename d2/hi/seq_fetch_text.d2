@@ -2,32 +2,36 @@ shape: sequence_diagram
 vars: {
   d2-config: {
     # layout-engine: elk
-    theme-id: 4
+    theme-id: 201
   }
 }
-classes: {
-  response: {
-    style: {
-      stroke-dash: 5
-    }
-  }
+classes: @"../sequence_classes"
+developer: {shape: c4-person; class: pipeline}
+script: {label: fetch_text.py; class: pipeline}
+wikisource: "Hindi Wikisource" {
+  icon: ../../icons/wikisource.png
+  shape: image
 }
-user: {shape: person}
-script: fetch_text.py
-wikisource: Hindi Wikisource
-fs: data/raw
+fs: {
+  label: data/raw
+  class: database
+  icon: ../../icons/folder.svg
+  shape: image
+}
 
-user -> script: "python fetch_text.py \"<page title>\""
+developer -> script: "python fetch_text.py \"<page title>\"" { class: pipeline }
 script.note1: |md
+  ```
   slugify(page_title) → ASCII slug
   (or codepoint-based slug for pure Devanagari)
-|
-script -> wikisource: "GET /w/api.php?action=parse&page=<title>&prop=text"
-wikisource -> script: rendered HTML {class: response}
+  ```
+| {class: pipeline}
+script -> wikisource: "GET /w/api.php?action=parse&page=<title>&prop=text" {class: pipeline}
 script.note2: |md
+  ```
   BeautifulSoup: strip tables, nav, edit links, footnotes
   extract `<p>` text → NFC normalize → collapse spaces
-|
-script -> fs: "write <slug>.txt (Devanagari prose)"
-script -> fs: "write <slug>.json (title_hi, slug, source_url, author, char_count)"
-fs -> user: paths printed to stdout {class: response}
+  ```
+| {class: pipeline}
+script -> fs: "write <slug>.txt (Devanagari prose)" {class: pipeline}
+script -> fs: "write <slug>.json (title_hi, slug, source_url, author, char_count)" {class: pipeline}
