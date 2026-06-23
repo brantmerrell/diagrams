@@ -46,8 +46,10 @@ my-chess/:
     __init__.py:
       - ./manual/my-chess/seq_blender_renderer.d2
 sd-notes/:
-  classes.d2:
-    - ./manual/sd-notes/classes.d2
+  sequence_classes.d2:
+    - ./manual/sd-notes/sequence_classes.d2
+  agent_classes.d2:
+    - ./manual/sd-notes/agent_classes.d2
   designs/:
     mint/:
       - ./manual/sd-notes/designs/mint/final.d2
@@ -76,8 +78,8 @@ sd-notes/:
     - ./manual/sd-notes/tools/reverse_proxy.d2
     - ./manual/sd-notes/tools/vector_database.d2
 hackerrank/:
-  classes.d2:
-    - ./manual/hackerrank/classes.d2
+  function_classes.d2:
+    - ./manual/hackerrank/function_classes.d2
   1-week/:
     day-1/:
       1_plus-minus/:
