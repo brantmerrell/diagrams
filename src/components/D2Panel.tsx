@@ -1,22 +1,35 @@
 import Toast from './Toast'
-import { useDiagramWatch } from '../hooks/useDiagramWatch'
+import { useManualDiagramWatch } from '../hooks/useManualDiagramWatch'
 import { useDiagramViewport } from '../hooks/useDiagramViewport'
 
-interface DiagramPanelProps {
+interface D2PanelProps {
   diagramPath?: string
+  initialLayerName?: string
+  onLayerChange?: (name: string) => void
 }
 
-const DiagramPanel: React.FC<DiagramPanelProps> = ({ diagramPath }) => {
+const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLayerChange }) => {
   const {
     svgContent, error, toastMessage, clearToast,
     scenarios, activeScenarioIndex, goToScenario,
-  } = useDiagramWatch(diagramPath)
+  } = useManualDiagramWatch(diagramPath, initialLayerName)
+
+  const handleGoToScenario = (index: number) => {
+    goToScenario(index)
+    const len = scenarios?.length ?? 0
+    if (len && onLayerChange) {
+      const normalizedIndex = ((index % len) + len) % len
+      const name = scenarios?.[normalizedIndex]?.name
+      if (name) onLayerChange(name)
+    }
+  }
 
   const {
     scale, position, isDragging,
-    onWheel, onMouseDown, onMouseMove, onMouseUp,
+    onMouseDown, onMouseMove, onMouseUp,
     onTouchStart, onTouchMove, onTouchEnd,
     onDoubleClick, zoomIn, zoomOut, reset,
+    wheelRef,
   } = useDiagramViewport(diagramPath)
 
   if (error) {
@@ -32,8 +45,8 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ diagramPath }) => {
   return (
     <>
       <div
+        ref={wheelRef}
         className="diagram-panel"
-        onWheel={onWheel}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
@@ -55,7 +68,7 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ diagramPath }) => {
             <div className="scenario-controls">
               <button
                 className="zoom-button"
-                onClick={e => { e.stopPropagation(); goToScenario(activeScenarioIndex - 1) }}
+                onClick={e => { e.stopPropagation(); handleGoToScenario(activeScenarioIndex - 1) }}
                 title="Previous scenario"
               >◀</button>
               <span className="scenario-label" title={activeScenario?.name}>
@@ -63,7 +76,7 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ diagramPath }) => {
               </span>
               <button
                 className="zoom-button"
-                onClick={e => { e.stopPropagation(); goToScenario(activeScenarioIndex + 1) }}
+                onClick={e => { e.stopPropagation(); handleGoToScenario(activeScenarioIndex + 1) }}
                 title="Next scenario"
               >▶</button>
             </div>
@@ -82,4 +95,4 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ diagramPath }) => {
   )
 }
 
-export default DiagramPanel
+export default D2Panel

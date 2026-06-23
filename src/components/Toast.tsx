@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 interface ToastProps {
   message: string
@@ -7,13 +7,14 @@ interface ToastProps {
 }
 
 const Toast: React.FC<ToastProps> = ({ message, onClose, duration = 3000 }) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onClose()
-    }, duration)
+  // Keep a ref so the timer is not reset when the parent re-renders with a new onClose identity
+  const onCloseRef = useRef(onClose)
+  useEffect(() => { onCloseRef.current = onClose })
 
+  useEffect(() => {
+    const timer = setTimeout(() => onCloseRef.current(), duration)
     return () => clearTimeout(timer)
-  }, [onClose, duration])
+  }, [duration])
 
   return (
     <div className="toast">

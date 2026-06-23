@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import yaml from 'js-yaml'
-import PointersView from './PointersView'
-import DiagramPanel from './DiagramPanel'
+import ManualNavigator from './ManualNavigator'
+import D2Panel from './D2Panel'
 import MermaidPanel from './MermaidPanel'
 import ResizablePanels from './ResizablePanels'
 import { yamlPathToUrlSegment, normalizeToCanonical, urlSegmentToCanonical, isMermaidPath, isDiagramPath } from '../lib/yamlExtract'
 
+type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
+
 // Walk a parsed YAML object and return the first diagram path (.d2 or .mmd)
-function findFirstDiagramPath(obj: any): string | null {
+function findFirstDiagramPath(obj: YamlValue): string | null {
   if (typeof obj === 'string') return isDiagramPath(obj) ? obj : null
   if (Array.isArray(obj)) {
     for (const item of obj) {
@@ -25,7 +27,7 @@ function findFirstDiagramPath(obj: any): string | null {
 }
 
 // Find the pointers.yaml path that corresponds to a URL path
-function findDiagramPathForUrl(obj: any, targetUrlPath: string): string | null {
+function findDiagramPathForUrl(obj: YamlValue, targetUrlPath: string): string | null {
   if (typeof obj === 'string' && isDiagramPath(obj)) {
     if (yamlPathToUrlSegment(obj) === targetUrlPath) return obj
     return null
@@ -51,25 +53,37 @@ interface DiagramContent {
   mmdPath?: string
 }
 
-const DiagramViewer: React.FC = () => {
+const ManualDiagramViewer: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [content, setContent] = useState<DiagramContent>({})
   const [loading, setLoading] = useState(true)
   const [isYamlCollapsed, setIsYamlCollapsed] = useState(false)
+
+  const initialLayerName = searchParams.get('layer') || undefined
+
+  const handleLayerChange = useCallback((name: string) => {
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev)
+      next.set('layer', name)
+      return next
+    }, { replace: true })
+  }, [setSearchParams])
 
   useEffect(() => {
     const ac = new AbortController()
     const { signal } = ac
 
-    if (location.pathname === '/') {
+    // If at bare /manual, load first diagram from pointers.yaml
+    if (location.pathname === '/manual' || location.pathname === '/manual/') {
       fetch('/pointers.yaml', { signal })
         .then((r) => r.text())
         .then((text) => {
-          const data = yaml.load(text)
+          const data = yaml.load(text) as YamlValue
           const firstPath = findFirstDiagramPath(data)
           const urlPath = firstPath ? yamlPathToUrlSegment(firstPath) : null
-          if (urlPath) navigate(`/${urlPath}`, { replace: true })
+          if (urlPath) navigate(`/manual/${urlPath}`, { replace: true })
           else setLoading(false)
         })
         .catch((err) => { if (err?.name !== 'AbortError') setLoading(false) })
@@ -77,12 +91,15 @@ const DiagramViewer: React.FC = () => {
     }
 
     setLoading(true)
-    const urlPath = location.pathname.substring(1)
+    // Strip /manual/ prefix from pathname to get the diagram path
+    const urlPath = location.pathname.startsWith('/manual/')
+      ? location.pathname.substring('/manual/'.length)
+      : location.pathname.substring(1)
 
     fetch('/pointers.yaml', { signal })
       .then((response) => response.text())
       .then((text) => {
-        const data = yaml.load(text)
+        const data = yaml.load(text) as YamlValue
         const yamlPath = findDiagramPathForUrl(data, urlPath)
         const canonical = yamlPath ? normalizeToCanonical(yamlPath) : urlSegmentToCanonical(urlPath)
 
@@ -103,28 +120,23 @@ const DiagramViewer: React.FC = () => {
     return () => ac.abort()
   }, [location.pathname, navigate])
 
+  const { d2Path, mmdPath } = content
+
+  const rightPanel = useMemo(() => {
+    return mmdPath ? (
+      <MermaidPanel diagramPath={mmdPath} />
+    ) : (
+      <D2Panel diagramPath={d2Path} initialLayerName={initialLayerName} onLayerChange={handleLayerChange} />
+    )
+  }, [d2Path, mmdPath, initialLayerName, handleLayerChange])
+
   if (loading) {
     return <div className="loading">Loading diagram...</div>
   }
 
-  const { d2Path, mmdPath } = content
-  const hasBoth = Boolean(d2Path && mmdPath)
-
-  const rightPanel = hasBoth ? (
-    <div className="dual-diagram-container">
-      <DiagramPanel diagramPath={d2Path!} />
-      <div className="dual-diagram-divider" />
-      <MermaidPanel diagramPath={mmdPath!} />
-    </div>
-  ) : mmdPath ? (
-    <MermaidPanel diagramPath={mmdPath} />
-  ) : (
-    <DiagramPanel diagramPath={d2Path} />
-  )
-
   return (
     <ResizablePanels
-      leftPanel={<PointersView onCollapseChange={setIsYamlCollapsed} />}
+      leftPanel={<ManualNavigator onCollapseChange={setIsYamlCollapsed} />}
       rightPanel={rightPanel}
       defaultLeftWidth={25}
       minLeftWidth={0}
@@ -134,4 +146,4 @@ const DiagramViewer: React.FC = () => {
   )
 }
 
-export default DiagramViewer
+export default ManualDiagramViewer

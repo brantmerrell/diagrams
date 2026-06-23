@@ -9,6 +9,8 @@ interface ResizablePanelsProps {
   forceLeftWidth?: number
 }
 
+const PANEL_WIDTH_KEY = 'yaml-panel-left-width'
+
 const ResizablePanels: React.FC<ResizablePanelsProps> = ({
   leftPanel,
   rightPanel,
@@ -17,7 +19,11 @@ const ResizablePanels: React.FC<ResizablePanelsProps> = ({
   minRightWidth = 10,
   forceLeftWidth,
 }) => {
-  const [leftWidth, setLeftWidth] = useState(defaultLeftWidth)
+  const [leftWidth, setLeftWidth] = useState(() => {
+    const saved = localStorage.getItem(PANEL_WIDTH_KEY)
+    const parsed = saved ? parseFloat(saved) : NaN
+    return isNaN(parsed) ? defaultLeftWidth : parsed
+  })
   const actualLeftWidth = forceLeftWidth !== undefined ? forceLeftWidth : leftWidth
   const [isDragging, setIsDragging] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -33,6 +39,7 @@ const ResizablePanels: React.FC<ResizablePanelsProps> = ({
       // Enforce min/max constraints
       if (newLeftWidth >= minLeftWidth && newLeftWidth <= (100 - minRightWidth)) {
         setLeftWidth(newLeftWidth)
+        localStorage.setItem(PANEL_WIDTH_KEY, String(newLeftWidth))
       }
     }
 

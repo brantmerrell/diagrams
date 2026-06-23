@@ -1,16 +1,19 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import DiagramViewer from './components/DiagramViewer'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import ManualDiagramViewer from './components/ManualDiagramViewer'
 import './App.css'
 
 function App() {
   return (
     <Router>
       <div className="app">
-        <Routes>
-          <Route path="/" element={<DiagramViewer />} />
-          <Route path="/diagram/:name" element={<DiagramViewer />} />
-          <Route path="/diagram/*" element={<DiagramViewer />} />
-        </Routes>
+        <div className="app-content">
+          <Routes>
+            <Route path="/manual" element={<ManualDiagramViewer />} />
+            <Route path="/manual/*.d2" element={<ManualDiagramViewer />} />
+            <Route path="/manual/*" element={<ManualDiagramViewer />} />
+            <Route path="/" element={<Navigate to="/manual" replace />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   )

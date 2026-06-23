@@ -1,0 +1,50 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 4
+  }
+}
+classes: {
+  response: {
+    style: {
+      stroke-dash: 5
+    }
+  }
+}
+browser: {shape: person}
+main_tsx: {label: main.tsx}
+App
+Router: BrowserRouter
+Reader
+Auth
+api: FastAPI
+
+browser -> main_tsx: load page
+main_tsx -> App: createRoot(#root).render(<App />)
+App -> Router: <BrowserRouter>
+Router.note1: |md
+  / → Reader
+  /auth → Auth
+  * → redirect /
+|
+
+Router -> Reader: "route /"
+Reader -> api: GET /api/stories
+api -> Reader: "stories[]" {class: response}
+Reader -> api: "GET /api/stories/{id}/sentences?limit=500"
+api -> Reader: "sentences[]" {class: response}
+Reader.note1: |md
+  render SentenceView, WordGloss, AudioPlayer, Navigation
+|
+
+Router -> Auth: route /auth
+Auth.note1: |md
+  render email form
+|
+browser -> Auth: submit email
+Auth -> api: POST /auth/request (not yet wired)
+api -> Auth: magic link sent {class: response}
+Auth.note2: |md
+  mount with ?token= → GET /auth/verify (not yet wired)
+|
