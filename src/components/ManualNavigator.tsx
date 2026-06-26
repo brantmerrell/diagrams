@@ -36,6 +36,7 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(false)
   const [filteredYamlData, setFilteredYamlData] = useState<YamlValue>(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [copyLabel, setCopyLabel] = useState('⎘')
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -136,8 +137,8 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
     const data = viewMode === 'focused' ? filteredYamlData : yamlData
     const text = yaml.dump(buildVisibleYaml(data), { indent: 2 })
     navigator.clipboard.writeText(text)
-      .then(() => setToastMessage('Copied to clipboard'))
-      .catch(() => setToastMessage('Copy failed'))
+      .then(() => { setCopyLabel('✓'); setTimeout(() => setCopyLabel('⎘'), 2000) })
+      .catch(() => { setCopyLabel('✗'); setTimeout(() => setCopyLabel('⎘'), 2000) })
   }
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -168,7 +169,7 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
             onClick={handleCopyVisible}
             title="Copy visible YAML to clipboard"
           >
-            COPY
+            {copyLabel}
           </button>
           <button
             className="collapse-button"

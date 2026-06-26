@@ -33,7 +33,10 @@ function touchDistance(touches: React.TouchList): number | null {
 }
 
 /** Pan/zoom state and event handlers for the diagram canvas. Resets when diagramPath changes. */
-export function useDiagramViewport(diagramPath: string | undefined): UseDiagramViewportResult {
+export function useDiagramViewport(diagramPath: string | undefined, showCode = false): UseDiagramViewportResult {
+  const showCodeRef = useRef(showCode)
+  showCodeRef.current = showCode
+
   const [scale, setScale] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
@@ -48,6 +51,7 @@ export function useDiagramViewport(diagramPath: string | undefined): UseDiagramV
 
   // Native wheel listener with { passive: false } to allow preventDefault()
   const handleWheel = useCallback((e: WheelEvent) => {
+    if (showCodeRef.current) return
     e.preventDefault()
     e.stopPropagation()
     // ctrlKey is set for trackpad pinch; deltaY magnitude differs but formula is the same
