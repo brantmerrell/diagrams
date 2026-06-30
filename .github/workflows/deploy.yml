@@ -32,7 +32,7 @@ jobs:
 
       - name: Compile d2 files to SVG
         run: |
-          find d2 -name "*.d2" | while read f; do
+          find manual -name "*.d2" | while read f; do
             d2 "$f" "${f%.d2}.svg" 2>/dev/null || true
           done
 
@@ -41,10 +41,10 @@ jobs:
         env:
           CI: false
 
-      - name: Copy d2 and src.yaml into dist
+      - name: Copy manual and pointers.yaml into dist
         run: |
-          cp -r d2 dist/
-          cp src.yaml dist/
+          cp -r manual dist/
+          cp pointers.yaml dist/
           cp dist/index.html dist/404.html
 
       - name: Deploy to GitHub Pages
