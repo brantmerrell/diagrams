@@ -144,14 +144,26 @@ app.get('/api/manual/events/:diagramPath(*)', (req, res) => {
     }
 
     if (fs.existsSync(manualDir)) {
-      // recursive: true (FSEvents on macOS) catches both foo.svg and foo/scenario.svg
-      entry.watcher = fs.watch(manualDir, { recursive: true }, (event, filename) => {
-        if (!filename) return
-        const f = filename.replace(/\\/g, '/')  // normalise Windows paths
-        if (f === svgRelInManual || (f.startsWith(scenarioDirPrefix) && f.endsWith('.svg'))) {
-          notify()
+      const watchDirs = [manualDir]
+      // On Linux, fs.watch does not support recursive:true — collect subdirs manually
+      try {
+        for (const entry of fs.readdirSync(manualDir, { withFileTypes: true })) {
+          if (entry.isDirectory()) watchDirs.push(path.join(manualDir, entry.name))
         }
-      })
+      } catch (_) {}
+
+      entry.watcher = { watchers: [], close() { this.watchers.forEach(w => w.close()) } }
+      for (const dir of watchDirs) {
+        const w = fs.watch(dir, (event, filename) => {
+          if (!filename) return
+          // Build a manualDir-relative path for matching
+          const rel = path.relative(manualDir, path.join(dir, filename)).replace(/\\/g, '/')
+          if (rel === svgRelInManual || (rel.startsWith(scenarioDirPrefix) && rel.endsWith('.svg'))) {
+            notify()
+          }
+        })
+        entry.watcher.watchers.push(w)
+      }
     }
 
     svgWatchers.set(diagramPath, entry)
@@ -246,6 +258,26 @@ app.get('/api/arch/data', (req, res) => {
   }
 
   res.json(result)
+})
+
+// Serve raw .d2 source text
+app.get('/api/d2/source/:d2Path(*)', (req, res) => {
+  const d2Path = req.params.d2Path
+  const fullPath = path.join(__dirname, d2Path.startsWith('manual/') ? d2Path : `manual/${d2Path}`)
+
+  if (!fullPath.startsWith(path.join(__dirname, 'manual'))) {
+    return res.status(400).json({ error: 'Invalid path' })
+  }
+
+  const filePath = fullPath.endsWith('.d2') ? fullPath : fullPath + '.d2'
+
+  fs.readFile(filePath, 'utf-8', (err, data) => {
+    if (err) {
+      if (err.code === 'ENOENT') return res.status(404).json({ error: 'D2 file not found' })
+      return res.status(500).json({ error: 'Failed to read D2 file' })
+    }
+    res.type('text/plain').send(data)
+  })
 })
 
 // ── Mermaid (.mmd) support ────────────────────────────────────────────────────

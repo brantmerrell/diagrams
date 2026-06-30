@@ -111,6 +111,25 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
     navigate({ pathname: targetPath, search: params.toString() })
   }
 
+  // ── Keyboard navigation (j / k) ──────────────────────────────────────────
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'j' && e.key !== 'k') return
+    if ((e.target as HTMLElement).tagName === 'INPUT') return
+
+    const navigable = (searchResults !== null ? searchResults : allDiagramPaths)
+      .filter(p => diagramStatus.get(p) !== false)
+    if (navigable.length === 0) return
+
+    const currentIndex = navigable.findIndex(p => isDiagramCurrentPath(p, urlPath))
+    const nextIndex = e.key === 'j'
+      ? (currentIndex + 1) % navigable.length
+      : (currentIndex - 1 + navigable.length) % navigable.length
+
+    e.preventDefault()
+    handleDiagramClick(navigable[nextIndex])
+  }
+
   // ── Copy helpers ──────────────────────────────────────────────────────────
 
   // Build a YAML-serialisable snapshot of what is currently expanded
@@ -151,7 +170,11 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
 
   return (
     <>
-      <div className={`yaml-panel ${isPanelCollapsed ? 'collapsed' : ''}`}>
+      <div
+        className={`yaml-panel ${isPanelCollapsed ? 'collapsed' : ''}`}
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+      >
         <div className="yaml-header">
           <h3>Pointers</h3>
           <select

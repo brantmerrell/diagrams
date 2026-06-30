@@ -5,14 +5,14 @@ vars: {
     theme-id: 201
   }
 }
-developer: {shape: person}
+developer: {shape: c4-person}
 alembic
 env_py: {label: env.py}
 models: models
 db: PostgreSQL
 
 developer -> alembic: alembic upgrade head
-alembic -> env_py: load env.py
+alembic -> env_py: load
 env_py -> models: import Base
 alembic -> env_py: run_migrations_online()
 env_py -> db: async connect
