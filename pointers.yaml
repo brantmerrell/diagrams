@@ -1,5 +1,15 @@
 ---
 hi/:
+  frontend/:
+    src/:
+      main.tsx:
+        - ./manual/hi/seq_frontend.d2
+      context/:
+        AuthContext.tsx:
+          - ./manual/hi/auth.d2
+      pages/:
+        Auth.tsx:
+          - ./manual/hi/auth.d2
   backend/:
     alembic/:
       env.py:
@@ -12,16 +22,6 @@ hi/:
   data/:
     audio/:
     raw/:
-  frontend/:
-    src/:
-      main.tsx:
-        - ./manual/hi/seq_frontend.d2
-      context/:
-        AuthContext.tsx:
-          - ./manual/hi/auth.d2
-      pages/:
-        Auth.tsx:
-          - ./manual/hi/auth.d2
   pipeline/:
     enrich_glosses.py:
       - ./manual/hi/seq_enrich_glosses.d2

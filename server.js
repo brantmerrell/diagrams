@@ -224,6 +224,45 @@ app.get('/api/manual/scenarios/:diagramPath(*)', (req, res) => {
   })
 })
 
+// Render a .d2 file to PNG via d2 CLI and return the image bytes
+app.get('/api/manual/png/:d2Path(*)', (req, res) => {
+  const d2RelPath = req.params.d2Path  // already includes 'manual/' prefix
+  const fullPath = path.join(__dirname, d2RelPath)
+
+  if (!fullPath.startsWith(path.join(__dirname, 'manual') + path.sep)) {
+    return res.status(400).json({ error: 'Invalid path' })
+  }
+
+  const d2File = fullPath.endsWith('.d2') ? fullPath : `${fullPath}.d2`
+
+  if (!fs.existsSync(d2File)) {
+    return res.status(404).json({ error: 'D2 file not found' })
+  }
+
+  const tmpPng = path.join('/tmp', `d2-${Date.now()}-${Math.random().toString(36).slice(2)}.png`)
+  const d2Process = spawn('d2', [d2File, tmpPng], { cwd: __dirname })
+
+  let stderr = ''
+  d2Process.stderr.on('data', d => { stderr += d.toString() })
+
+  d2Process.on('close', code => {
+    if (code !== 0 || !fs.existsSync(tmpPng)) {
+      console.error(`d2 PNG failed for ${d2File}:`, stderr)
+      return res.status(500).json({ error: 'D2 PNG rendering failed' })
+    }
+    res.setHeader('Content-Type', 'image/png')
+    const stream = fs.createReadStream(tmpPng)
+    stream.pipe(res)
+    stream.on('close', () => { try { fs.unlinkSync(tmpPng) } catch {} })
+    stream.on('error', () => res.status(500).end())
+  })
+
+  d2Process.on('error', err => {
+    console.error('d2 spawn error:', err)
+    res.status(500).json({ error: 'Failed to spawn d2' })
+  })
+})
+
 // ── Architecture YAML endpoints ───────────────────────────────────────────────
 
 function loadYamlFile(filePath) {

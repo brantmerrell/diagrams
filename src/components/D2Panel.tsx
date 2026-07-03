@@ -4,7 +4,6 @@ import Toast from './Toast'
 import CodeView from './CodeView'
 import { useManualDiagramWatch } from '../hooks/useManualDiagramWatch'
 import { useDiagramViewport } from '../hooks/useDiagramViewport'
-import { svgToPngBlob } from '../lib/svgToPng'
 import { normalizeToCanonical } from '../lib/yamlExtract'
 
 interface D2PanelProps {
@@ -59,8 +58,11 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
       if (showCode && sourceCode !== null) {
         await navigator.clipboard.writeText(sourceCode)
       } else {
-        if (!svgContent) return
-        const blob = await svgToPngBlob(svgContent)
+        if (!d2ServerPath) return
+        setCopyLabel('…')
+        const response = await fetch(`/api/manual/png/${d2ServerPath}`)
+        if (!response.ok) throw new Error(`PNG render failed: ${response.status}`)
+        const blob = await response.blob()
         await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
       }
       setCopyLabel('✓')
@@ -70,7 +72,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
       setCopyLabel('✗')
       setTimeout(() => setCopyLabel('⎘'), 2000)
     }
-  }, [showCode, sourceCode, svgContent])
+  }, [showCode, sourceCode, d2ServerPath])
 
   const handleGoToScenario = (index: number) => {
     goToScenario(index)
@@ -120,6 +122,17 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
             dangerouslySetInnerHTML={{ __html: svgContent }}
           />
         )}
+        {!showCode && (copyLabel === '…' || copyLabel === '✓') && (
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'rgba(0,0,0,0.45)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#fff', fontSize: '1.1rem', letterSpacing: '0.05em',
+            pointerEvents: 'none',
+          }}>
+            {copyLabel === '…' ? 'Rendering PNG…' : 'Copied to clipboard'}
+          </div>
+        )}
 
         <div className="zoom-controls" onDoubleClick={e => e.stopPropagation()}>
           {scenarios && scenarios.length > 1 && !showCode && (
@@ -150,6 +163,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
           <button
             className="zoom-button"
             onClick={handleCopy}
+            disabled={copyLabel === '…'}
             title={showCode ? 'Copy source code' : 'Copy PNG to clipboard'}
           >{copyLabel}</button>
           {!showCode && <div className="zoom-indicator">{Math.round(scale * 100)}%</div>}

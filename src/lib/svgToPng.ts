@@ -3,13 +3,16 @@
  *   1. @font-face rules with data-URI fonts
  *   2. <foreignObject> elements (always tainted, regardless of content)
  *
- * Strategy:
- *   - Apply string-level @font-face stripping to the RAW SVG string BEFORE
- *     DOMParser touches it — this is confirmed to work at the string level and
- *     sidesteps any DOMParser/XMLSerializer CDATA round-trip surprises.
- *   - After cloning, remove <foreignObject> elements (replacing with SVG <text>
- *     so labels are preserved as plain text).
- *   - Apply string-level stripping again after XMLSerializer as a final fallback.
+ * Strategy for D2 diagrams (svgToPngBlob):
+ *   - Strip @font-face at string level before DOMParser.
+ *   - Replace <foreignObject> blocks at string level before DOMParser, re-parsing
+ *     their inner HTML content with a separate text/html DOMParser call so that
+ *     <h2>, <li> etc. are accessible as real HTML elements (the image/svg+xml
+ *     parser does not give accessible HTML children inside <foreignObject>).
+ *
+ * Strategy for Mermaid diagrams (svgDomToPngBlob):
+ *   - Use the live DOM element; replace <foreignObject> at DOM level since the
+ *     browser has already parsed the HTML inside them correctly.
  */
 
 const SVG_NS = 'http://www.w3.org/2000/svg'
@@ -20,10 +23,80 @@ function detaintSvgString(svgStr: string): string {
     .replace(/@font-face\s*\{[^{}]*\}/gs, '')
 }
 
-/** Replace each <foreignObject> with a plain SVG <text> so text labels survive. */
+function escapeXml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+}
+
+type StyledLine = { text: string; bold: boolean; fontSize: number }
+
+function walkHtml(el: Element, lines: StyledLine[]): void {
+  const tag = el.tagName.toLowerCase()
+  if (tag === 'h1') {
+    const t = el.textContent?.trim() ?? ''
+    if (t) lines.push({ text: t, bold: true, fontSize: 20 })
+  } else if (tag === 'h2') {
+    const t = el.textContent?.trim() ?? ''
+    if (t) lines.push({ text: t, bold: true, fontSize: 16 })
+  } else if (tag === 'h3') {
+    const t = el.textContent?.trim() ?? ''
+    if (t) lines.push({ text: t, bold: true, fontSize: 14 })
+  } else if (tag === 'p') {
+    const t = el.textContent?.trim() ?? ''
+    if (t) lines.push({ text: t, bold: false, fontSize: 13 })
+  } else if (tag === 'li') {
+    const t = el.textContent?.trim() ?? ''
+    if (t) lines.push({ text: '• ' + t, bold: false, fontSize: 13 })
+  } else {
+    for (const child of Array.from(el.children)) walkHtml(child, lines)
+  }
+}
+
+/**
+ * String-level <foreignObject> replacement for the D2 path.
+ * Runs before DOMParser so the canvas never sees <foreignObject>.
+ * Inner HTML is re-parsed with text/html so <h2>, <li> etc. are real elements.
+ */
+function replaceForeignObjectsInString(svgStr: string): string {
+  // D2 hardcodes fill="..." directly on <text> elements; grab the first one.
+  const colorMatch =
+    svgStr.match(/class="[^"]*\btext\b[^"]*"[^>]*fill="([^"]+)"/) ??
+    svgStr.match(/fill="([^"]+)"[^>]*class="[^"]*\btext\b[^"]*"/)
+  const textColor = colorMatch?.[1] ?? '#000000'
+
+  return svgStr.replace(
+    /<foreignObject([^>]*)>([\s\S]*?)<\/foreignObject>/g,
+    (_, attrs, innerHtml) => {
+      const get = (name: string) => {
+        const m = new RegExp(`\\b${name}="([^"]+)"`).exec(attrs)
+        return m ? parseFloat(m[1]) : 0
+      }
+      const foX = get('x'), foY = get('y'), foW = get('width'), foH = get('height')
+      const cx = foX + foW / 2
+
+      const htmlDoc = new DOMParser().parseFromString(innerHtml, 'text/html')
+      const lines: StyledLine[] = []
+      for (const child of Array.from(htmlDoc.body.children)) walkHtml(child, lines)
+
+      if (!lines.length) return ''
+
+      const lineHeight = 18
+      const totalH = lines.length * lineHeight
+      let curY = foY + (foH - totalH) / 2 + lineHeight * 0.8
+
+      return lines.map(line => {
+        const y = curY; curY += lineHeight
+        return `<text x="${cx}" y="${y}" text-anchor="middle" font-size="${line.fontSize}" font-family="sans-serif" fill="${textColor}"${line.bold ? ' font-weight="bold"' : ''}>${escapeXml(line.text)}</text>`
+      }).join('\n')
+    },
+  )
+}
+
+/** DOM-level <foreignObject> replacement for the Mermaid live-DOM path. */
 function replaceForeignObjects(clone: SVGSVGElement): void {
+  const textColor = clone.querySelector('text[fill]')?.getAttribute('fill') ?? '#000000'
+
   for (const fo of Array.from(clone.querySelectorAll('foreignObject'))) {
-    const rawText = fo.textContent?.replace(/\s+/g, ' ').trim() ?? ''
+    const rawText = fo.textContent?.trim() ?? ''
     if (!rawText) { fo.remove(); continue }
 
     const x = parseFloat(fo.getAttribute('x') ?? '0') + parseFloat(fo.getAttribute('width') ?? '0') / 2
@@ -36,11 +109,10 @@ function replaceForeignObjects(clone: SVGSVGElement): void {
     text.setAttribute('dominant-baseline', 'middle')
     text.setAttribute('font-size', '13')
     text.setAttribute('font-family', 'sans-serif')
-    text.setAttribute('fill', 'currentColor')
+    text.setAttribute('fill', textColor)
 
-    // Split on real newlines or double-space from collapsed whitespace
-    const lines = rawText.split(/\n/)
-    if (lines.length === 1) {
+    const lines = rawText.split('\n').map(l => l.trim()).filter(l => l)
+    if (lines.length <= 1) {
       text.textContent = rawText
     } else {
       const lineHeight = 16
@@ -113,12 +185,11 @@ function svgElToPngBlob(svgEl: SVGSVGElement): Promise<Blob> {
 }
 
 /**
- * For D2 diagrams: strip @font-face from the raw string FIRST (before DOMParser),
- * then proceed with DOM-level foreignObject replacement and serialization.
+ * For D2 diagrams: replace <foreignObject> blocks at string level (before DOMParser)
+ * so the HTML inside them can be parsed correctly by a separate text/html DOMParser.
  */
 export function svgToPngBlob(svgContent: string): Promise<Blob> {
-  // Apply string-level strip BEFORE DOMParser so no @font-face reaches the DOM
-  const cleaned = detaintSvgString(svgContent)
+  const cleaned = replaceForeignObjectsInString(detaintSvgString(svgContent))
   return new Promise((resolve, reject) => {
     const parser = new DOMParser()
     const doc = parser.parseFromString(cleaned, 'image/svg+xml')
@@ -137,4 +208,3 @@ export function svgDomToPngBlob(container: HTMLElement): Promise<Blob> {
   if (!svgEl) return Promise.reject(new Error('No SVG element found'))
   return svgElToPngBlob(svgEl as SVGSVGElement)
 }
-
