@@ -4,6 +4,7 @@ import Toast from './Toast'
 import CodeView from './CodeView'
 import { useManualDiagramWatch } from '../hooks/useManualDiagramWatch'
 import { useDiagramViewport } from '../hooks/useDiagramViewport'
+import { svgToPngBlob } from '../lib/svgToPng'
 import { normalizeToCanonical } from '../lib/yamlExtract'
 
 interface D2PanelProps {
@@ -60,9 +61,16 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
       } else {
         if (!d2ServerPath) return
         setCopyLabel('…')
-        const response = await fetch(`/api/manual/png/${d2ServerPath}`)
-        if (!response.ok) throw new Error(`PNG render failed: ${response.status}`)
-        const blob = await response.blob()
+        let blob: Blob
+        try {
+          const response = await fetch(`/api/manual/png/${d2ServerPath}`)
+          if (!response.ok) throw new Error(`PNG render failed: ${response.status}`)
+          blob = await response.blob()
+        } catch {
+          // Static deployment (no backend): render the displayed SVG in-browser
+          if (!svgContent) throw new Error('No diagram loaded to copy')
+          blob = await svgToPngBlob(svgContent)
+        }
         await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
       }
       setCopyLabel('✓')
@@ -72,7 +80,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
       setCopyLabel('✗')
       setTimeout(() => setCopyLabel('⎘'), 2000)
     }
-  }, [showCode, sourceCode, d2ServerPath])
+  }, [showCode, sourceCode, d2ServerPath, svgContent])
 
   const handleGoToScenario = (index: number) => {
     goToScenario(index)

@@ -43,7 +43,13 @@ jobs:
 
       - name: Copy manual and pointers.yaml into dist
         run: |
-          cp -r manual dist/
+          # Exclude .d2/.mmd sources from the static Pages copy only. If a real
+          # file exists at e.g. /manual/hi/seq_frontend.d2, GitHub Pages serves
+          # it as a download instead of falling back to 404.html, breaking the
+          # SPA route of the same name on hard refresh. The Heroku container is
+          # unaffected: its Dockerfile COPYs manual/ (sources included) from the
+          # repo, not from dist/.
+          rsync -a --exclude='*.d2' --exclude='*.mmd' manual/ dist/manual/
           cp pointers.yaml dist/
           cp dist/index.html dist/404.html
 

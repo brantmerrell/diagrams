@@ -81,6 +81,9 @@ export function useDiagramWatch(diagramPath: string | undefined): UseDiagramWatc
 
     const loadSvg = () => loadSvgFromPath(svgPath, ac.signal)
 
+    // No-op on static deployments with no backend (e.g. GitHub Pages) — the
+    // pre-compiled SVG fetched below is the source of truth there, so a failure
+    // here is expected and shouldn't surface as a user-facing error.
     const startD2Watch = async () => {
       try {
         const response = await fetch('/api/manual/watch', {
@@ -90,11 +93,11 @@ export function useDiagramWatch(diagramPath: string | undefined): UseDiagramWatc
           signal: ac.signal,
         })
         if (!response.ok) {
-          setError(`Failed to start d2 watch for ${dp}`)
+          console.warn(`Could not start d2 watch for ${dp} (${response.status})`)
         }
       } catch (err) {
         if (err instanceof Error && err.name !== 'AbortError') {
-          console.error('Error starting d2 watch:', err)
+          console.warn('Error starting d2 watch:', err.message)
         }
       }
     }
