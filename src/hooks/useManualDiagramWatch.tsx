@@ -49,7 +49,12 @@ export function useManualDiagramWatch(
     try {
       // path is normalised to /manual/…; strip the leading / for the URL
       const encodedPath = path.startsWith('/') ? path.slice(1) : path
-      const response = await fetch(`/api/manual/scenarios/${encodedPath}`, { signal })
+      let response = await fetch(`/api/manual/scenarios/${encodedPath}`, { signal })
+      if (!response.ok) {
+        // Static deployments (GitHub Pages) have no API; the deploy workflow
+        // writes a scenarios.json manifest next to the compiled layer SVGs.
+        response = await fetch(`${path.replace(/\.d2$/, '')}/scenarios.json`, { signal })
+      }
       if (response.ok) {
         const data = await response.json()
         if (data.scenarios && data.scenarios.length > 1) {

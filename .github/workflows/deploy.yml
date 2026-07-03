@@ -36,6 +36,11 @@ jobs:
             d2 "$f" "${f%.d2}.svg" 2>/dev/null || true
           done
 
+      - name: Generate scenario manifests
+        # Static stand-in for /api/manual/scenarios — the frontend falls back to
+        # these scenarios.json files when the API is absent (GitHub Pages).
+        run: node scripts/build-scenario-manifests.mjs
+
       - name: Build frontend
         run: npm run build
         env:
