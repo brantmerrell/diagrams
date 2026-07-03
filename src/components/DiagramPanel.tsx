@@ -14,9 +14,10 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ diagramPath }) => {
 
   const {
     scale, position, isDragging,
-    onWheel, onMouseDown, onMouseMove, onMouseUp,
+    onMouseDown, onMouseMove, onMouseUp,
     onTouchStart, onTouchMove, onTouchEnd,
     onDoubleClick, zoomIn, zoomOut, reset,
+    wheelRef,
   } = useDiagramViewport(diagramPath)
 
   if (error) {
@@ -33,7 +34,7 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ diagramPath }) => {
     <>
       <div
         className="diagram-panel"
-        onWheel={onWheel}
+        ref={wheelRef}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}

@@ -151,13 +151,13 @@ const RenderPanel: React.FC<RenderPanelProps> = ({ source, viewId, onNodeClick }
   const [rendering, setRendering] = useState(true)
   const uid = useId().replace(/:/g, '_')
   const renderSeq = useRef(0)
-  const containerRef = useRef<HTMLDivElement>(null)  // outer pan/zoom wrapper
   const svgHostRef = useRef<HTMLDivElement>(null)    // direct SVG parent — bindFunctions target
 
   const { scale, position, isDragging,
-    onWheel, onMouseDown, onMouseMove, onMouseUp,
+    onMouseDown, onMouseMove, onMouseUp,
     onTouchStart, onTouchMove, onTouchEnd,
     onDoubleClick, zoomIn, zoomOut, reset,
+    wheelRef,
   } = useDiagramViewport(viewId)
 
   const onNodeClickRef = useRef(onNodeClick)
@@ -217,8 +217,7 @@ const RenderPanel: React.FC<RenderPanelProps> = ({ source, viewId, onNodeClick }
   return (
     <div
       className="diagram-panel"
-      ref={containerRef}
-      onWheel={onWheel}
+      ref={wheelRef}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}
