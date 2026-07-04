@@ -1,20 +1,146 @@
-shape: sequence_diagram
 vars: {
   d2-config: {
-    # layout-engine: elk
     theme-id: 201
+    layout-engine: elk
   }
 }
-developer: {shape: c4-person}
-alembic
-env_py: {label: env.py}
-models: models
-db: PostgreSQL
+classes: @"../classes/sequence"
+layers: {
+  migration: {
+    shape: sequence_diagram
+    developer: {shape: c4-person}
+    alembic: {class: api}
+    env_py: {label: env.py; class: api}
+    models: {label: app.models.Base; class: api}
+    versions: {label: alembic/versions; class: api}
+    db: {
+      label: PostgreSQL
+      class: database
+      icon: ../../icons/postgresql.svg
+      shape: image
+    }
 
-developer -> alembic: alembic upgrade head
-alembic -> env_py: load
-env_py -> models: import Base
-alembic -> env_py: run_migrations_online()
-env_py -> db: async connect
-env_py -> db: 7e8e2b8ceb85 — create tables\n(lemmas, stories, users, sentences, …)
-env_py -> db: b3c1d2e4f5a6 — add word_audio_path\nto sentence_words
+    developer -> alembic: alembic upgrade head
+    alembic -> env_py: load
+    env_py.note1: |md
+      DATABASE_URL overrides sqlalchemy.url  
+      (postgres:// → postgresql+asyncpg://)
+    |
+    env_py -> models: import Base → target_metadata {class: api}
+    alembic -> env_py: run_migrations_online() {class: api}
+    env_py -> db: async connect (asyncpg, NullPool) {class: api}
+    env_py -> versions: run pending revisions in a transaction {class: api}
+    versions -> db: "1. create tables" {class: api}
+    versions -> db: "2. sentence_words: add word_audio_path" {class: api}
+    versions -> db: "3. stories: add title_en, drop title" {class: api}
+    versions -> db: "4. create word_sense_notes" {class: api}
+    versions -> db: "5. stories: add position (unique)" {class: api}
+    versions -> db: "6. bookmarks: one per user (PK user_id)" {class: api}
+  }
+  schema: {
+    stories: {
+      shape: sql_table
+      id: uuid {constraint: primary_key}
+      position: int {constraint: unique}
+      title_hi: string
+      title_en: string
+      author: string
+      source_url: string
+      created_at: timestamptz
+    }
+    sentences: {
+      shape: sql_table
+      id: uuid {constraint: primary_key}
+      story_id: uuid {constraint: foreign_key}
+      sequence_num: int
+      devanagari: text
+      romanized: text
+      english: text
+      audio_path: string
+    }
+    lemmas: {
+      shape: sql_table
+      id: uuid {constraint: primary_key}
+      devanagari: string {constraint: unique}
+      romanized: string
+      part_of_speech: string
+      gender: string
+    }
+    word_senses: {
+      shape: sql_table
+      id: uuid {constraint: primary_key}
+      lemma_id: uuid {constraint: foreign_key}
+      english_definition: text
+      usage_notes: text
+    }
+    sentence_words: {
+      shape: sql_table
+      id: uuid {constraint: primary_key}
+      sentence_id: uuid {constraint: foreign_key}
+      position: int
+      surface_devanagari: string
+      surface_romanized: string
+      english_gloss: string
+      lemma_id: uuid {constraint: foreign_key}
+      word_sense_id: uuid {constraint: foreign_key}
+      word_audio_path: string
+    }
+    word_sense_notes: {
+      shape: sql_table
+      word_sense_id: uuid {constraint: [primary_key; foreign_key]}
+      display_gloss: text
+      updated_at: timestamptz
+    }
+    users: {
+      shape: sql_table
+      id: uuid {constraint: primary_key}
+      email: string {constraint: unique}
+      display_name: string
+      created_at: timestamptz
+    }
+    magic_links: {
+      shape: sql_table
+      id: uuid {constraint: primary_key}
+      user_id: uuid {constraint: foreign_key}
+      token: string {constraint: unique}
+      expires_at: timestamptz
+      used_at: timestamptz
+    }
+    bookmarks: {
+      shape: sql_table
+      user_id: uuid {constraint: [primary_key; foreign_key]}
+      story_id: uuid {constraint: foreign_key}
+      sentence_id: uuid {constraint: foreign_key}
+      updated_at: timestamptz
+    }
+    user_word_reads: {
+      shape: sql_table
+      id: uuid {constraint: primary_key}
+      user_id: uuid {constraint: foreign_key}
+      sentence_word_id: uuid {constraint: foreign_key}
+      read_at: timestamptz
+    }
+    user_sentence_reads: {
+      shape: sql_table
+      id: uuid {constraint: primary_key}
+      user_id: uuid {constraint: foreign_key}
+      sentence_id: uuid {constraint: foreign_key}
+      read_at: timestamptz
+    }
+
+    sentences.story_id -> stories.id
+    word_senses.lemma_id -> lemmas.id
+    sentence_words.sentence_id -> sentences.id
+    sentence_words.lemma_id -> lemmas.id
+    sentence_words.word_sense_id -> word_senses.id
+    word_sense_notes.word_sense_id -> word_senses.id
+    magic_links.user_id -> users.id
+    bookmarks.user_id -> users.id
+    bookmarks.story_id -> stories.id
+    bookmarks.sentence_id -> sentences.id
+    user_word_reads.user_id -> users.id
+    user_word_reads.sentence_word_id -> sentence_words.id
+    user_sentence_reads.user_id -> users.id
+    user_sentence_reads.sentence_id -> sentences.id
+  }
+}

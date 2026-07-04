@@ -98,13 +98,16 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
       return
     }
 
-    // Prepare search params, preserving yamlView and adding diagramParent if provided
+    // Prepare search params, preserving yamlView and adding diagramParent if provided.
+    // Drop 'layer' too — it's specific to the diagram being left and would otherwise
+    // mislabel the new diagram's default view if it happens to share a layer name.
     const params = new URLSearchParams(searchParams)
     if (parentPath) {
       params.set('diagramParent', parentPath)
     } else {
       params.delete('diagramParent')
     }
+    params.delete('layer')
 
     // Don't suppress scroll - user is clicking from navigator, the diagram
     // may not be visible yet and needs to be scrolled into view
