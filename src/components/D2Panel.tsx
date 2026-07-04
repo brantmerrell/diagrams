@@ -82,7 +82,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
     }
   }, [showCode, sourceCode, d2ServerPath, svgContent])
 
-  const handleGoToScenario = (index: number) => {
+  const handleGoToScenario = useCallback((index: number) => {
     goToScenario(index)
     const len = scenarios?.length ?? 0
     if (len && onLayerChange) {
@@ -90,7 +90,22 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
       const name = scenarios?.[normalizedIndex]?.name
       if (name) onLayerChange(name)
     }
-  }
+  }, [goToScenario, scenarios, onLayerChange])
+
+  // Keyboard layer navigation (h / l)
+  useEffect(() => {
+    if (!scenarios || scenarios.length <= 1 || showCode) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'h' && e.key !== 'l') return
+      if (e.ctrlKey || e.metaKey || e.altKey) return
+      const target = e.target as HTMLElement
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) return
+      e.preventDefault()
+      handleGoToScenario(activeScenarioIndex + (e.key === 'l' ? 1 : -1))
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [scenarios, showCode, activeScenarioIndex, handleGoToScenario])
 
   const {
     scale, position, isDragging,
@@ -148,7 +163,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
               <button
                 className="zoom-button"
                 onClick={e => { e.stopPropagation(); handleGoToScenario(activeScenarioIndex - 1) }}
-                title="Previous scenario"
+                title="Previous scenario (h)"
               >◀</button>
               <span className="scenario-label" title={activeScenario?.name}>
                 {activeScenario?.name}
@@ -156,7 +171,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
               <button
                 className="zoom-button"
                 onClick={e => { e.stopPropagation(); handleGoToScenario(activeScenarioIndex + 1) }}
-                title="Next scenario"
+                title="Next scenario (l)"
               >▶</button>
             </div>
           )}

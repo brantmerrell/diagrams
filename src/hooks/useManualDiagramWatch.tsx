@@ -126,10 +126,12 @@ export function useManualDiagramWatch(
 
         // On (re)connect: catch up in case a compile event fired while we were disconnected.
         // silent=true so a missing SVG (not compiled yet) doesn't pollute the console.
+        // When scenarios are found, checkScenarios stores a fresh array and the
+        // scenario-load effect below reloads the ACTIVE layer — don't load [0] here.
         es.addEventListener('open', async () => {
           delay = 1_000
           const found = await checkScenarios(dp, ac.signal, false, true)
-          await (found ? loadSvgFromPath(found[0].path, ac.signal, true) : loadSvgFromPath(svgPath, ac.signal, true))
+          if (!found) await loadSvgFromPath(svgPath, ac.signal, true)
         })
 
         es.onmessage = async (event) => {
@@ -139,7 +141,7 @@ export function useManualDiagramWatch(
             setToastMessage(data.message)
           } else if (data.type === 'success') {
             const found = await checkScenarios(dp, ac.signal, false, true)
-            await (found ? loadSvgFromPath(found[0].path, ac.signal) : loadSvg())
+            if (!found) await loadSvg()
           }
         }
 
@@ -192,10 +194,11 @@ export function useManualDiagramWatch(
     }
   }, [diagramPath, loadSvgFromPath, checkScenarios])
 
-  // Load the active scenario SVG when index changes
+  // Load the active scenario SVG when index changes or scenarios refresh
   useEffect(() => {
-    const scenario = scenarios?.[activeScenarioIndex]
-    if (!scenario) return
+    if (!scenarios || scenarios.length === 0) return
+    // A recompile can drop the layer we were on — clamp instead of loading nothing
+    const scenario = scenarios[Math.min(activeScenarioIndex, scenarios.length - 1)]
     const ac = new AbortController()
     loadSvgFromPath(scenario.path, ac.signal)
     return () => ac.abort()

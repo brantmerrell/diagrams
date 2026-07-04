@@ -1,0 +1,123 @@
+direction: right
+:q
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+
+keystrokes: {
+  label: "Vim Keystrokes"
+  style: {
+    fill: "#e8f4f8"
+    stroke: SteelBlue
+    stroke-width: 3
+  }
+
+  yy: {label: "yy"}
+  yank_plus: {label: '"+yy'}
+  yank_star: {label: '"*yy'}
+}
+
+registers: {
+  label: "Vim Registers"
+  style: {
+    fill: "#f0e8f8"
+    stroke: DarkSlateGray
+    stroke-width: 3
+  }
+
+  unnamed: {label: '" (unnamed)'}
+  plus: {label: "+ (clipboard)"}
+  star: {label: "* (primary)"}
+}
+
+bridge: {
+  label: "TextYankPost autocmd"
+  style: {
+    fill: "#fff8e0"
+    stroke: DarkGoldenrod
+    stroke-width: 3
+  }
+
+  autocmd: {label: "system('wl-copy', @\")"}
+}
+
+commands: {
+  label: "wl-clipboard"
+  style: {
+    fill: "#e8f8e8"
+    stroke: SeaGreen
+    stroke-width: 3
+  }
+
+  wl_copy: {label: "wl-copy"}
+  wl_copy_primary: {label: "wl-copy --primary"}
+  wl_paste: {label: "wl-paste"}
+  xclip: {
+    label: "xclip (X11 only)"
+    style: {stroke: crimson; font-color: crimson}
+  }
+}
+
+clipboards: {
+  label: "Clipboard Storage"
+  style: {
+    fill: "#f5f5f5"
+    stroke: DimGray
+    stroke-width: 3
+  }
+
+  wayland_clip: {
+    label: "Wayland\nCLIPBOARD"
+    style: {fill: lightgreen}
+  }
+  wayland_primary: {
+    label: "Wayland\nPRIMARY"
+    style: {fill: lightyellow}
+  }
+  x11: {
+    label: "X11 clipboard\n(no Wayland access)"
+    style: {fill: lightcoral; stroke-dash: 5}
+  }
+}
+
+paste: {
+  label: "Paste Operations"
+  style: {
+    fill: "#e8e8f8"
+    stroke: MediumBlue
+    stroke-width: 3
+  }
+
+  ctrl_shift_v: {label: "ctrl+shift+v\n(terminal)"}
+  ctrl_v: {label: "ctrl+v\n(GUI app)"}
+  middle_click: {label: "middle-click"}
+}
+
+# Keystrokes → Registers
+keystrokes.yy -> registers.unnamed
+keystrokes.yank_plus -> registers.plus
+keystrokes.yank_star -> registers.star
+
+# Registers → Autocmd / Commands
+registers.unnamed -> bridge.autocmd
+registers.plus -> commands.wl_copy: {label: "g:clipboard"; style: {stroke-dash: 4}}
+registers.star -> commands.wl_copy_primary: {label: "g:clipboard"; style: {stroke-dash: 4}}
+
+# Autocmd → wl-copy
+bridge.autocmd -> commands.wl_copy
+
+# Commands → Clipboards
+commands.wl_copy -> clipboards.wayland_clip
+commands.wl_copy_primary -> clipboards.wayland_primary
+commands.xclip -> clipboards.x11
+
+# Clipboards → Paste (read path)
+clipboards.wayland_clip -> paste.ctrl_shift_v
+clipboards.wayland_clip -> paste.ctrl_v
+clipboards.wayland_primary -> paste.middle_click
+
+# wl-paste reads clipboard
+clipboards.wayland_clip -> commands.wl_paste: {style: {stroke-dash: 3}}

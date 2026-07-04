@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import yaml from 'js-yaml'
 import Toast from './Toast'
@@ -89,7 +89,7 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
 
   // ── Navigation ────────────────────────────────────────────────────────────
 
-  const handleDiagramClick = (diagramPath: string, parentPath?: string) => {
+  const handleDiagramClick = useCallback((diagramPath: string, parentPath?: string) => {
     setToastMessage(null)
 
     const targetPath = `/manual/${yamlPathToUrlSegment(diagramPath)}`
@@ -109,26 +109,32 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
     // Don't suppress scroll - user is clicking from navigator, the diagram
     // may not be visible yet and needs to be scrolled into view
     navigate({ pathname: targetPath, search: params.toString() })
-  }
+  }, [location.pathname, searchParams, navigate])
 
   // ── Keyboard navigation (j / k) ──────────────────────────────────────────
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key !== 'j' && e.key !== 'k') return
-    if ((e.target as HTMLElement).tagName === 'INPUT') return
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'j' && e.key !== 'k') return
+      if (e.ctrlKey || e.metaKey || e.altKey) return
+      const target = e.target as HTMLElement
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) return
 
-    const navigable = (searchResults !== null ? searchResults : allDiagramPaths)
-      .filter(p => diagramStatus.get(p) !== false)
-    if (navigable.length === 0) return
+      const navigable = (searchResults !== null ? searchResults : allDiagramPaths)
+        .filter(p => diagramStatus.get(p) !== false)
+      if (navigable.length === 0) return
 
-    const currentIndex = navigable.findIndex(p => isDiagramCurrentPath(p, urlPath))
-    const nextIndex = e.key === 'j'
-      ? (currentIndex + 1) % navigable.length
-      : (currentIndex - 1 + navigable.length) % navigable.length
+      const currentIndex = navigable.findIndex(p => isDiagramCurrentPath(p, urlPath))
+      const nextIndex = e.key === 'j'
+        ? (currentIndex + 1) % navigable.length
+        : (currentIndex - 1 + navigable.length) % navigable.length
 
-    e.preventDefault()
-    handleDiagramClick(navigable[nextIndex])
-  }
+      e.preventDefault()
+      handleDiagramClick(navigable[nextIndex])
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [searchResults, allDiagramPaths, diagramStatus, urlPath, handleDiagramClick])
 
   // ── Copy helpers ──────────────────────────────────────────────────────────
 
@@ -170,11 +176,7 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
 
   return (
     <>
-      <div
-        className={`yaml-panel ${isPanelCollapsed ? 'collapsed' : ''}`}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-      >
+      <div className={`yaml-panel ${isPanelCollapsed ? 'collapsed' : ''}`}>
         <div className="yaml-header">
           <h3>Pointers</h3>
           <select

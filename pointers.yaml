@@ -6,10 +6,10 @@ hi/:
         - ./manual/hi/seq_frontend.d2
       context/:
         AuthContext.tsx:
-          - ./manual/hi/auth.d2
+          - ./manual/hi/seq_frontend.d2
       pages/:
         Auth.tsx:
-          - ./manual/hi/auth.d2
+          - ./manual/hi/seq_frontend.d2
   backend/:
     alembic/:
       env.py:

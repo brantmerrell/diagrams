@@ -121,19 +121,24 @@ app.get('/api/manual/events/:diagramPath(*)', (req, res) => {
   if (!sseClients.has(diagramPath)) sseClients.set(diagramPath, [])
   sseClients.get(diagramPath).push(res)
 
-  // Start watching the SVG output for this diagram if not already doing so
+  // Start watching the SVG output for this diagram if not already doing so.
+  // d2 writes single-board output next to the source (foo.d2 → foo.svg) and
+  // multi-board output into a sibling directory (foo.d2 → foo/index.svg,
+  // foo/<layer>.svg, …), so watch both locations at any nesting depth.
   if (!svgWatchers.has(diagramPath)) {
     const rel = diagramPath.startsWith('/') ? diagramPath.slice(1) : diagramPath
-    // rel = 'manual/foo.d2' or 'manual/sub/foo.d2'
-    const manualDir = path.join(__dirname, 'manual')
+    const fullD2 = path.join(__dirname, rel)
+    const svgDir = path.dirname(fullD2)
+    const svgName = path.basename(fullD2).replace(/\.d2$/, '.svg')
+    const scenarioDir = fullD2.replace(/\.d2$/, '')
+    const scenarioDirName = path.basename(scenarioDir)
 
-    // Path relative to manual/ dir so we correctly handle files in subdirectories
-    const svgRelInManual = rel.slice('manual/'.length).replace(/\.d2$/, '.svg')
-    // e.g. 'foo.svg' or 'sub/foo.svg'
-    const scenarioDirPrefix = svgRelInManual.replace(/\.svg$/, '/')
-    // e.g. 'foo/' or 'sub/foo/'
-
-    const entry = { watcher: null, timer: null }
+    const entry = {
+      watchers: [],
+      scenarioWatched: false,
+      timer: null,
+      close() { this.watchers.forEach(w => w.close()) },
+    }
 
     const notify = () => {
       if (entry.timer) clearTimeout(entry.timer)
@@ -143,28 +148,32 @@ app.get('/api/manual/events/:diagramPath(*)', (req, res) => {
       }, 150)
     }
 
-    if (fs.existsSync(manualDir)) {
-      const watchDirs = [manualDir]
-      // On Linux, fs.watch does not support recursive:true — collect subdirs manually
+    const watchScenarioDir = () => {
+      if (entry.scenarioWatched) return true
+      if (!fs.existsSync(scenarioDir) || !fs.statSync(scenarioDir).isDirectory()) return false
       try {
-        for (const entry of fs.readdirSync(manualDir, { withFileTypes: true })) {
-          if (entry.isDirectory()) watchDirs.push(path.join(manualDir, entry.name))
-        }
-      } catch (_) {}
-
-      entry.watcher = { watchers: [], close() { this.watchers.forEach(w => w.close()) } }
-      for (const dir of watchDirs) {
-        const w = fs.watch(dir, (event, filename) => {
-          if (!filename) return
-          // Build a manualDir-relative path for matching
-          const rel = path.relative(manualDir, path.join(dir, filename)).replace(/\\/g, '/')
-          if (rel === svgRelInManual || (rel.startsWith(scenarioDirPrefix) && rel.endsWith('.svg'))) {
-            notify()
-          }
+        const w = fs.watch(scenarioDir, (event, filename) => {
+          if (filename && filename.endsWith('.svg')) notify()
         })
-        entry.watcher.watchers.push(w)
+        entry.watchers.push(w)
+        entry.scenarioWatched = true
+        return true
+      } catch (_) {
+        return false
       }
     }
+
+    if (fs.existsSync(svgDir)) {
+      const w = fs.watch(svgDir, (event, filename) => {
+        if (!filename) return
+        if (filename === svgName) notify()
+        // d2 creates the multi-board output dir on first compile — attach a
+        // watcher as soon as it appears and notify for the initial write
+        else if (filename === scenarioDirName && watchScenarioDir()) notify()
+      })
+      entry.watchers.push(w)
+    }
+    watchScenarioDir()
 
     svgWatchers.set(diagramPath, entry)
   }
@@ -178,7 +187,7 @@ app.get('/api/manual/events/:diagramPath(*)', (req, res) => {
       const entry = svgWatchers.get(diagramPath)
       if (entry) {
         if (entry.timer) clearTimeout(entry.timer)
-        entry.watcher?.close()
+        entry.close()
         svgWatchers.delete(diagramPath)
       }
     }
@@ -422,7 +431,7 @@ process.on('SIGINT', () => {
   for (const proc of watchProcesses.values()) proc.kill()
   for (const entry of svgWatchers.values()) {
     if (entry.timer) clearTimeout(entry.timer)
-    entry.watcher?.close()
+    entry.close()
   }
   process.exit()
 })
