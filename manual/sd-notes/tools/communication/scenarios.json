@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {
+      "name": "grpc",
+      "path": "/manual/sd-notes/tools/communication/grpc.svg"
+    },
+    {
+      "name": "http",
+      "path": "/manual/sd-notes/tools/communication/http.svg"
+    },
+    {
+      "name": "websocket",
+      "path": "/manual/sd-notes/tools/communication/websocket.svg"
+    }
+  ]
+}

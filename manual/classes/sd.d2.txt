@@ -1,0 +1,144 @@
+grid-rows: 4
+notes: {
+  shape: page
+  style: {
+    font-size: 26
+  }
+}
+note: {
+  shape: page
+}
+edge_invis: {
+  style: {
+    stroke-width: 0
+  }
+}
+edge_request: {
+  label: rq
+  style: {
+    stroke-dash: 5
+    stroke: Orange
+    font-size: 18
+  }
+}
+edge_write: {
+  label: W
+  style: {
+    font-size: 25
+    stroke-dash: 2
+    stroke: green
+  }
+}
+edge_query: {
+  label: Q
+  style: {
+    stroke-dash: 4
+    stroke: navy
+  }
+}
+obj_cache: {
+  style: {
+    font-size: 20
+  }
+}
+objs_cache: {
+  style: {
+    font-size: 20
+    multiple: true
+  }
+}
+obj_cdn: {
+  style: {
+    font-size: 20
+  }
+}
+obj_client: {
+  shape: c4-person
+  label: client
+  style: {
+    font-size: 20
+  }
+}
+obj_db: {
+  shape: cylinder
+  style: {
+    font-size: 20
+  }
+}
+objs_db: {
+  shape: cylinder
+  style: {
+    font-size: 20
+    multiple: true
+  }
+}
+obj_dns: {
+  style: {
+    font-size: 16
+  }
+}
+obj_lb: {
+  shape: hexagon
+  icon: https://icons.terrastruct.com/gcp%2FProducts%20and%20services%2FNetworking%2FCloud%20Load%20Balancing.svg
+  style: {
+    font-size: 20
+  }
+}
+objs_lb: {
+  style: {
+    multiple: true
+    font-size: 20
+  }
+}
+obj_server: {
+  style: {
+    font-size: 20
+  }
+}
+objs_server: {
+  style: {
+    multiple: true
+    font-size: 20
+  }
+}
+obj_service: {
+  style: {
+    font-size: 20
+  }
+}
+objs_service: {
+  style: {
+    font-size: 20
+    multiple: true
+  }
+}
+obj_queue: {
+  shape: queue
+  style: {
+    font-size: 20
+  }
+}
+ai_assistant: {
+  style: {
+    stroke: blue
+    font-size: 18
+  }
+}
+mcp_server: {
+  style: {
+    stroke: green
+    font-size: 16
+  }
+}
+data_source: {
+  style: {
+    stroke: orange
+    font-size: 14
+  }
+}
+security_layer: {
+  style: {
+    stroke: red
+    font-size: 14
+  }
+}

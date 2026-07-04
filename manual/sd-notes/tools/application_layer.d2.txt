@@ -4,8 +4,7 @@ vars: {
     theme-id: 104
   }
 }
-classes: @"../../classes/sequence"
-classes: @"../../classes/agent"
+classes: @"../../classes/sd"
 
 # Monolithic vs Microservices Architecture
 monolithic_system: {

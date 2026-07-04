@@ -3,8 +3,7 @@ vars: {
     layout-engine: dagre
   }
 }
-classes: @"../../classes/sequence"
-classes: @"../../classes/agent"
+classes: @"../../classes/sd"
 _rs: {
     label: Root DNS Server
     icon: https://icons.terrastruct.com/tech%2F022-server.svg

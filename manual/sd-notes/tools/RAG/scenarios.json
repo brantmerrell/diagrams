@@ -1,0 +1,24 @@
+{
+  "scenarios": [
+    {
+      "name": "architecture",
+      "path": "/manual/sd-notes/tools/RAG/architecture.svg"
+    },
+    {
+      "name": "evaluation",
+      "path": "/manual/sd-notes/tools/RAG/evaluation.svg"
+    },
+    {
+      "name": "notes",
+      "path": "/manual/sd-notes/tools/RAG/notes.svg"
+    },
+    {
+      "name": "overview",
+      "path": "/manual/sd-notes/tools/RAG/overview.svg"
+    },
+    {
+      "name": "patterns",
+      "path": "/manual/sd-notes/tools/RAG/patterns.svg"
+    }
+  ]
+}

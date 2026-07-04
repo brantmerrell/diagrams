@@ -5,7 +5,7 @@ vars: {
     theme-id: 201
   }
 }
-classes: @"../sequence_classes"
+classes: @"../classes/sequence"
 developer: {shape: c4-person}
 alembic: {
   label: alembic\n script.py.mako

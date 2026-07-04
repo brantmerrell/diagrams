@@ -2,10 +2,10 @@ direction: down
 vars: {
   d2-config: {
     layout-engine: elk
+    theme-id: 8
   }
 }
-classes: @"../../../classes/sequence"
-classes: @"../../../classes/agent"
+classes: @"../../../classes/sd"
 Analytics: {
   class: objs_service
 }
