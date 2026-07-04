@@ -1,0 +1,83 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 7
+  }
+}
+arr
+closestNumbers {
+  sort {
+    label: sort()
+  }
+  sort -> iterate
+  result {
+    label: result\ninit \[arr\[:2\]\]
+  }
+  smallest_diff: {
+    label: smallest_diff\ninit arr\[1\]-arr\[0\]
+  }
+  iterate: {
+    label: for i in range(len(arr)-1)
+    class: iter
+  }
+  current_diff: {
+    label: current_diff\ninit arr\[i+1\]-arr\[i\]
+  }
+  iterate -> current_diff: init
+  smallest_diff -> condition_1
+  condition_1: {
+    label: current_diff < smallest_diff
+    class: cond
+  }
+  condition_2: {
+    label: current_diff == smallest_diff
+    class: cond
+  }
+  reset: {
+    label: reset\n\[arr\[\i\], arr\[i+1\]\]\nsmallest_diff = current_diff
+    class: op
+  }
+  append: {
+    label: append\nelem & next elem
+    class: op
+  }
+  result <- reset 
+  smallest_diff <- reset
+  reset <- condition_1: {
+    class: positive
+  }
+  current_diff -> condition_1
+  condition_1 -> condition_2: {
+    class: negative
+  }
+  result <- append <- condition_2
+}
+arr -> closestNumbers.sort
+closestNumbers -> closestNumbers.smallest_diff: init
+classes: {
+  cond: {
+    shape: diamond
+  }
+  positive: {
+    shape: oval
+    style: {
+      font-color: darkgreen
+      stroke: darkgreen
+    }
+  }
+  negative: {
+    shape: oval
+    style: {
+      stroke: crimson
+      font-color: crimson
+    }
+  }
+  iter: {
+    width: 500
+    height: 50
+  }
+  op: {
+    shape: parallelogram
+  }
+}
+

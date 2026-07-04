@@ -1,0 +1,44 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+a
+n
+findZigZagSequence: {
+  sort: sort
+  mid: mid
+  switch: switch @ st & ed\ninit: switch @ mid \& last
+  iter: while {
+    cond: st <= ed {
+      shape: diamond
+    }
+    style.stroke-dash: 4
+    ed: ed\ninit n-2
+  }
+  iter <- iter.cond
+  iter2: for i in range(n)
+  cond: index matches implied sequence {
+    shape: diamond
+    y: {
+      style.stroke: darkgreen
+    }
+    n: {
+      style.stroke: crimson
+    }
+  }
+  sort -> switch: a
+  mid -> iter.st: init\nmid+1
+  iter -> iter.ed: decrement
+  iter -> iter.st: increment
+  iter -> switch
+  switch -> iter2
+  iter2 -> cond
+}
+a -> findZigZagSequence.sort
+n -> findZigZagSequence.mid: init\nn/2
+n -> findZigZagSequence.iter.ed
+n -> findZigZagSequence.iter
+findZigZagSequence.cond.y -> print: print(elem)
+findZigZagSequence.cond.n -> print: print(elem, end = ' ')

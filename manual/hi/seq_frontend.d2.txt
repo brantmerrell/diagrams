@@ -1,0 +1,55 @@
+vars: {
+  d2-config: {
+    theme-id: 201
+  }
+}
+classes: @"../classes/sequence"
+layers: {
+  auth: {
+    shape: sequence_diagram
+    browser: {shape: c4-person}
+    AuthProvider: {label: "context\nAuthContext\nAuthProvider"}
+    Reader: {label: "Reader.tsx\n/"}
+    Auth: {label: "Auth.tsx\n/auth"}
+    api: FastAPI
+    browser -> Reader: click "Sign in"
+    Auth.note1: |md
+      render email form
+    |
+    browser -> Auth: submit email address
+    Auth -> api: "POST /api/auth/request\n{email}"
+    api.note1: |md
+      sends magic-link email
+    |
+    browser -> Auth: "/auth?token=…"
+    Auth -> api: "GET /api/auth/verify?token=…\n(credentials: include)"
+    Auth -> api: "GET /api/auth/me\n(credentials: include)"
+    Auth -> AuthProvider: setUser(user)
+    Auth -> browser: navigate /
+    Reader -> api: "POST /api/auth/logout\n(credentials: include)"
+    Reader -> AuthProvider: setUser(null)
+  }
+  load: {
+    shape: sequence_diagram
+    browser: {shape: c4-person}
+    main_tsx: {label: main.tsx}
+    App: {label: App.tsx}
+    AuthProvider: {label: "context\nAuthContext\nAuthProvider"}
+    Reader: {label: "Reader.tsx\n/"}
+    api: FastAPI
+    browser -> main_tsx: load page
+    main_tsx -> App
+    App -> AuthProvider: mount
+    AuthProvider -> api: "GET /api/auth/me\n(credentials: include)"
+    App -> Reader: "route /"
+    Reader -> api: GET /api/stories
+    Reader -> api: "GET /api/stories/{id}/sentences?limit=500"
+    Reader.note1: |md
+      render:
+      * SentenceView
+      * WordGloss
+      * AudioPlayer
+      * Navigation
+    |
+  }
+}

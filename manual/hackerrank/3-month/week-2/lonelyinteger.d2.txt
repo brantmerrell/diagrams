@@ -1,0 +1,43 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 200
+  }
+}
+_a: a
+_def: def lonelyinteger(a) {
+  _lookup: lookup
+  _iter: enumerate(a)\nndx,elem {
+  }
+  _cond: elem in lookup.keys() {
+    shape: diamond
+    y: {
+      style: {
+        fill: mediumseagreen
+        font-color: white
+      }
+    }
+    n: {
+      style: {
+        fill: crimson
+        font-color: white
+      }
+    }
+  }
+  _cond.y -> _lookup: create key\]placholder\] {
+    style: {
+      stroke: mediumseagreen
+      font-color: mediumseagreen
+    }
+  }
+  _cond.n -> _lookup: delete key {
+    style: {
+      stroke: crimson
+      font-color: crimson
+    }
+  }
+  _iter -> _cond
+}
+_a -> _def._iter
+

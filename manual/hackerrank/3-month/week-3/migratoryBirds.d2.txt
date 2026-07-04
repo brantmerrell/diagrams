@@ -1,0 +1,19 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+arr: birds
+migratoryBirds {
+  type_freq: types\ninit\[0\] * 6
+  iter: bird in birds
+  iter_freq: type,freq in types
+  cond: freq == max(type_freq)
+  iter -> type_freq: load
+  type_freq -> iter_freq
+  iter_freq -> cond
+}
+result
+arr -> migratoryBirds.iter
+migratoryBirds.cond -> result

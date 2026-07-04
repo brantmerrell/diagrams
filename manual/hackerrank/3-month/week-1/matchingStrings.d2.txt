@@ -1,0 +1,80 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 301
+  }
+}
+classes: {
+  length: {
+    style: {
+      stroke-dash: 5
+      stroke-width: 3
+    }
+  }
+  constant: {
+    style: {
+      stroke-dash: 4
+      stroke-width: 3
+    }
+  }
+  data: {
+    style: {
+      stroke-dash: 3
+      stroke-width: 3
+    }
+  }
+  condition: {
+    shape: diamond
+    style: {
+      font-color: orange
+      fill: black
+      font-size: 22
+    }
+  }
+  node-iterate: {
+    shape: circle
+    style: {
+      opacity: 1
+      stroke: mediumspringgreen
+      font-size: 22
+    }
+  }
+  end: {
+    shape: circle
+    style: {
+      fill: black
+      font-color: white
+    }
+  }
+}
+_start: start {
+  class: end
+}
+_input: inputs {
+  strings
+  queries
+}
+_end: "" {
+  end: {
+    class: end
+  }
+}
+_def: def\nmatchingStrings {
+  style.font-size: 14
+  _iter_e: enumerate(queries) { }
+  _iter_str: string in strings
+  _condition: {
+    label: re.search(string, query)
+    class: condition
+  }
+  _result: result
+  _iter_e -> _iter_str: index
+  _iter_e -> _condition: query
+  _iter_str -> _condition
+  _condition -> _result: increment\nresult\[i\]
+}
+_start -> _input
+_input.strings -> _def._iter_str: { class: data }
+_input.queries -> _def._iter_e: { class: data }
+_def -> _end

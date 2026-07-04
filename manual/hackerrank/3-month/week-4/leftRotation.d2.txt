@@ -1,0 +1,20 @@
+d
+arr
+rotateLeft {
+  left_splice: |md
+  # Left to Right
+  * left to d exclusive (arr\[\:d\])
+  |
+  right_splice: |md
+  # Right to Left
+  * d to right inclusive (arr\[d\:\])
+  |
+  result: |md
+  # Result
+  * arr\[d\:\] + arr\[\:d\]
+  |
+  left_splice -> result
+  right_splice -> result
+}
+d -> rotateLeft
+arr -> rotateLeft

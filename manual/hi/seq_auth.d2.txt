@@ -1,0 +1,45 @@
+shape: sequence_diagram
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    theme-id: 201
+  }
+}
+classes: @"../sequence_classes"
+inbox: {label: "email inbox"}
+browser: {class: frontend}
+Router: {label: BrowserRouter; class: frontend}
+Auth: {class: frontend}
+api_auth: {label: /auth; class: api}
+db: {
+  label: PostgreSQL
+  class: database
+  icon: ../../icons/postgresql.svg
+  shape: image
+}
+ses: {
+  label: "AWS SES"
+  class: aws
+  icon: ../../icons/aws_ses.svg
+  shape: image
+}
+
+Router -> Auth: route /auth
+Auth.note1: |md
+  render email form
+|
+browser -> Auth: submit email
+Auth -> api_auth: POST /auth/request
+api_auth -> db: upsert user {class: api}
+api_auth -> db: "insert magic_link (token, expires_at)" {class: api}
+api_auth -> ses: send email {class: api}
+api_auth -> Auth: check your email {class: api}
+ses -> inbox: magic link email {class: aws}
+inbox -> browser: click link
+
+browser -> Router: "navigate /auth?token="
+Router -> Auth: "route /auth?token="
+Auth -> api_auth: "GET /auth/verify?token="
+api_auth -> db: validate token {class: api}
+api_auth -> db: "set used_at" {class: api}
+api_auth -> browser: set session cookie {class: api}

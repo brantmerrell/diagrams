@@ -1,0 +1,20 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+s
+d
+m
+birthday: {
+  iter: iter\; leave space for segment
+  cond: check if segment sums to d
+  result
+  iter -> cond
+  cond -> result: increment
+}
+s -> birthday.iter
+m -> birthday.iter
+d -> birthday.cond
+

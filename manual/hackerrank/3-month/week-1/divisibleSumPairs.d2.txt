@@ -1,0 +1,100 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 300
+  }
+}
+classes: {
+  length: {
+    style: {
+      stroke-dash: 5
+      stroke-width: 3
+    }
+  }
+  constant: {
+    style: {
+      stroke-dash: 4
+      stroke-width: 3
+    }
+  }
+  data: {
+    style: {
+      stroke-dash: 3
+      stroke-width: 3
+    }
+  }
+  condition: {
+    shape: diamond
+    style: {
+      font-color: orange
+      fill: black
+      font-size: 22
+    }
+  }
+  node-iterate: {
+    shape: circle
+    style: {
+      opacity: 1
+      stroke: mediumspringgreen
+      font-size: 22
+    }
+  }
+  end: {
+    shape: circle
+    style: {
+      fill: black
+      font-color: white
+    }
+  }
+}
+_start: start {
+  class: end
+}
+_input: input {
+  n
+  k
+  ar
+}
+_def: def divisibleSumPairs {
+  _res: {
+    label: result \n init @ 0
+    style: {
+      font-size: 22
+    }
+  }
+  _iter_i: iterate i {
+    grid-rows: 1
+    0: i=0 { class: node-iterate }
+    1: ... { class: node-iterate }
+    2: ... { class: node-iterate }
+    3: i=N { class: node-iterate }
+  }
+  _iter_j: iterate j > i . {
+    grid-rows: 1
+    2: ... { class: node-iterate }
+    3: i=N { class: node-iterate }
+  }
+  _condition: ar\[i\] + ar\[j\] % k == 0 {
+    class: condition
+  }
+  _iter_j -> _condition
+  _condition -> _res: increment
+}
+_end: {
+  label: ""
+  shape: circle
+  style: {
+    fill: white
+    stroke: black
+  }
+  end: {
+    class: end
+  }
+}
+_start -> _input
+_def._res -> _end
+_input.n -> _def._iter_i: { class: length }
+_def._iter_i -> _def._iter_j: n { class: length }
+_input.ar -> _def._condition: { class: data }
+_input.k -> _def._condition: { class: constant }

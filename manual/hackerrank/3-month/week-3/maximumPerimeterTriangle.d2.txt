@@ -1,0 +1,40 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+sticks
+maximumPerimeterTriangle {
+  sort: sort\ndescending
+  iter: i in range(len(sticks)-2)
+    cond: isTriangle\nC < B + A {
+      shape: diamond
+      y: sorted\nedges {
+        shape: circle
+        style: {
+          stroke: darkgreen
+        }
+      }
+      n: \[-1\] {
+        shape: circle
+        style: {
+          stroke: crimson
+        }
+      }
+    }
+  result
+  sort -> iter
+  iter -> cond
+  cond.y -> result: {
+    style: {
+      stroke: darkgreen
+    }
+  }
+  cond.n -> result: {
+    style: {
+      stroke: crimson
+    }
+  }
+}
+sticks -> maximumPerimeterTriangle.sort

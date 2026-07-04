@@ -1,0 +1,28 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+_steps: steps
+_path: path
+_countingValleys: countingValleys {
+  elevation: elevation\ninit 0
+  valleys: valleys\ninit 0
+  _iter: step in range(steps)
+  _cond: step goes up {
+    shape: diamond
+    _cond: elevation is neutral {
+      shape: diamond
+    }
+  }
+  _iter -> _cond
+  _cond._cond -> valleys: increment
+  _cond -> elevation: increment
+  _cond -> elevation: decrement {
+    style.stroke: crimson
+  }
+}
+_steps -> _countingValleys._iter
+_path -> _countingValleys._cond._cond
+_countingValleys.valleys -> output

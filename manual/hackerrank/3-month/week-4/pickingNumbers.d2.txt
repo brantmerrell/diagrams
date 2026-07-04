@@ -1,0 +1,71 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+pickingNumbers {
+  condition_1: {
+    label: max(a) == min(a)
+    class: cond
+    y: {
+      label: result = len(a)
+      class: positive
+    }
+    n: {
+      label: calculate
+      class: negative
+    }
+  }
+  iter_1: {
+    class: iter
+    label: left in range(len(a) - 1)
+  }
+  iter_2: {
+    class: iter
+    width: 400
+    label: while a\[right\] - a\[left\] < 2 and right < len(a) - 1
+  }
+  right: {
+    label: right\n init left+1
+  }
+  result: {
+    label: result\n init 2
+  }
+  condition_1.y -> result: {
+    class: positive
+  }
+  update: {
+    label: max(result, right - left)
+  }
+  condition_1.n -> iter_1: a.sort
+  iter_1 -> iter_2
+  iter_1 -> right
+  iter_2 -> right: increment
+  right -> update
+  update -> result
+}
+a -> pickingNumbers.condition_1
+classes: {
+  cond: {
+    shape: diamond
+  }
+  positive: {
+    shape: oval
+    style: {
+      font-color: darkgreen
+      stroke: darkgreen
+    }
+  }
+  negative: {
+    shape: oval
+    style: {
+      stroke: crimson
+      font-color: crimson
+    }
+  }
+  iter: {
+    width: 500
+    height: 50
+  }
+}

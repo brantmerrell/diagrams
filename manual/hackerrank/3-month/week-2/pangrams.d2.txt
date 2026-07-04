@@ -1,0 +1,20 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+s
+pangrams {
+  _letters: letters\ninit \{\}
+  _iter: letter in s.lower()
+  _cond_1: letter not in letters.keys()\n& letter != ' '
+  _cond_3: key count == alphabet count
+  _iter -> _cond_1
+  _cond_1 -> _letters: add to keys
+  _letters -> _cond_3
+  _cond_3 -> "pangram"
+  _cond_3 -> "not pangram" {
+    style.stroke: crimson
+  }
+}
+s -> pangrams

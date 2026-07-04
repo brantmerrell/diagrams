@@ -1,0 +1,28 @@
+direction: right
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+s
+t
+strings_xor: {
+  iter: i in range(len(s))
+  cond: identical {
+    shape: diamond
+  }
+  res: result\ninit \"\"
+  iter -> cond
+  cond -> res: append '1' {
+    style: {
+      stroke: darkgreen
+    }
+  }
+  cond -> res: append '0' {
+    style: {
+      stroke: crimson
+    }
+  }
+}
+s -> strings_xor.iter
+t -> strings_xor.cond

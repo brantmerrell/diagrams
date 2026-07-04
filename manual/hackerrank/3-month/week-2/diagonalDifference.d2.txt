@@ -1,0 +1,17 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+arr
+n
+diagonalDifference {
+  _iter: ndx in range(n) { }
+  _diff: abs(diff)
+  _iter -> descending_sum: increment\narr\[ndx\]\[ndx\]
+  _iter -> ascending_sum: increment\narr\[n-1-ndx\]\[ndx\]
+  descending_sum -> _diff
+  ascending_sum -> _diff
+}
+arr -> diagonalDifference
+n -> diagonalDifference

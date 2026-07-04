@@ -1,0 +1,6 @@
+direction: right
+n
+flippingBits {
+  const: const 4294967295
+}
+n -> flippingBits.const: subtract\nfrom

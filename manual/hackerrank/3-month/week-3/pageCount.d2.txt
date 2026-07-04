@@ -1,0 +1,48 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 105
+  }
+}
+pageCount {
+  from_left: from left\np <= n / 2 {
+    shape: diamond
+    return: floor(left_dist / 2) {
+      shape: oval
+    }
+  }
+  from_right: from right\np > n / 2 {
+    shape: diamond
+    even: even\nceiling {
+      shape: diamond
+      style: {
+        font-size: 20
+      }
+      return: ceil(right_dist / 2) {
+        shape: oval
+      }
+    }
+    odd: odd\nfloor {
+      shape: diamond
+      style: {
+        font-size: 20
+      }
+      return: floor(right_dist / 2) {
+        shape: oval
+      }
+    }
+  }
+  from_left -> from_right: {
+    style: {
+      stroke: darkred
+    }
+  }
+}
+n -> pageCount.from_left
+p -> pageCount.from_left.return
+pageCount.from_right.even.return -> return
+pageCount.from_right.odd.return -> return
+pageCount.from_left.return -> return: {
+  style.stroke: darkgreen
+}

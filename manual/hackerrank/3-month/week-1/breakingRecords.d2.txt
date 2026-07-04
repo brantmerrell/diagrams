@@ -1,0 +1,44 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 3
+  }
+}
+classes {
+  highlight {
+    style {
+      stroke: crimson
+      fill: steelblue
+    }
+  }
+}
+
+_input: scores
+_breaking_records: def breakingRecords {
+  scoreRange: {
+    0: 0.min
+    1: 1.max
+  }
+  rangeChanges: {
+    label: result\nrangeChanges
+    0: down
+    1: up
+  }
+  _iter: iteration\nscore in scores {
+    belowRange: {
+      label: score\nbelowRange
+      shape: diamond
+    }
+    aboveRange: {
+      label: score\naboveRange
+      shape: diamond
+    }
+  }
+  scoreRange.0 <- _iter.belowRange: adjust
+  scoreRange.1 <- _iter.aboveRange: adjust
+  _iter.belowRange -> rangeChanges.0: increment
+  _iter.aboveRange -> rangeChanges.1: increment
+}
+_input -> _breaking_records.scoreRange.0: \[0\]
+_input -> _breaking_records.scoreRange.1: \[0\]

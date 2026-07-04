@@ -1,0 +1,37 @@
+grid-rows: 4
+class: {
+  shape: hexagon
+}
+cond: {
+  shape: diamond
+}
+ndx: {
+  shape: step
+}
+edge_down: {
+  shape: oval
+  label: ↓
+  width: 25
+  height: 35
+}
+positive: {
+  shape: oval
+  style: {
+    font-color: darkgreen
+    stroke: darkgreen
+  }
+}
+negative: {
+  shape: oval
+  style: {
+    stroke: crimson
+    font-color: crimson
+  }
+}
+iter: {
+  width: 700
+  height: 50
+}
+op: {
+  shape: parallelogram
+}

@@ -1,0 +1,217 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 104
+  }
+}
+
+# Main components
+user: {
+  shape: person
+  label: Enterprise User
+}
+
+claude: {
+  class: ai_assistant
+  label: Claude AI Assistant
+}
+
+# MCP Protocol Layer
+mcp_protocol: {
+  label: Model Context Protocol (MCP)
+  
+  auth_layer: {
+    class: security_layer
+    label: Authentication\n& Authorization
+  }
+  
+  connection_manager: {
+    class: mcp_server
+    label: Connection Manager
+  }
+  
+  data_router: {
+    class: mcp_server
+    label: Data Router\n& Transformer
+  }
+}
+
+# Enterprise Data Sources
+enterprise_systems: {
+  label: Enterprise Systems
+  
+  google_workspace: {
+    class: data_source
+    label: Google Workspace\n(Drive, Gmail, Calendar)
+    icon: https://icons.terrastruct.com/social%2F038-google-drive.svg
+  }
+  
+  slack: {
+    class: data_source
+    label: Slack Workspace
+    icon: https://icons.terrastruct.com/dev%2Fslack.svg
+  }
+  
+  salesforce: {
+    class: data_source
+    label: Salesforce CRM
+    shape: cylinder
+  }
+  
+  github: {
+    class: data_source
+    label: GitHub Repository
+    icon: https://icons.terrastruct.com/dev%2Fgithub.svg
+  }
+  
+  database: {
+    class: data_source
+    label: Company Database\n(PostgreSQL)
+    shape: cylinder
+  }
+}
+
+# Request Flow
+user -> claude: "Find all Q4 reports\nand schedule review meeting"
+
+claude -> mcp_protocol.auth_layer: {
+  label: MCP Request
+  style: {
+    stroke-dash: 3
+    stroke: blue
+  }
+}
+
+mcp_protocol.auth_layer -> mcp_protocol.connection_manager: {
+  label: Authenticated
+  style: {
+    stroke: green
+  }
+}
+
+mcp_protocol.connection_manager -> mcp_protocol.data_router: {
+  label: Route Request
+}
+
+# Data Source Connections
+mcp_protocol.data_router -> enterprise_systems.google_workspace: {
+  label: Search Drive\nfor Q4 reports
+  style: {
+    stroke-dash: 2
+    stroke: orange
+  }
+}
+
+mcp_protocol.data_router -> enterprise_systems.slack: {
+  label: Find relevant\nchannels/discussions
+  style: {
+    stroke-dash: 2
+    stroke: orange
+  }
+}
+
+mcp_protocol.data_router -> enterprise_systems.salesforce: {
+  label: Query Q4\nsales data
+  style: {
+    stroke-dash: 2
+    stroke: orange
+  }
+}
+
+# Response Flow
+enterprise_systems.google_workspace -> mcp_protocol.data_router: {
+  label: Report files\n+ metadata
+  style: {
+    stroke: green
+  }
+}
+
+enterprise_systems.slack -> mcp_protocol.data_router: {
+  label: Discussion\nsummaries
+  style: {
+    stroke: green
+  }
+}
+
+enterprise_systems.salesforce -> mcp_protocol.data_router: {
+  label: Sales metrics\n+ trends
+  style: {
+    stroke: green
+  }
+}
+
+mcp_protocol.data_router -> claude: {
+  label: Aggregated\nContextual Data
+  style: {
+    stroke: blue
+    stroke-width: 3
+  }
+}
+
+claude -> user: {
+  label: "Found 5 Q4 reports.\nScheduled review for Tuesday.\nSales up 15% vs Q3."
+  style: {
+    stroke: purple
+    stroke-width: 2
+  }
+}
+
+# Security & Compliance Layer
+security_features: {
+  label: Security Features
+  
+  oauth: {
+    class: security_layer
+    label: OAuth 2.0\nTokens
+  }
+  
+  encryption: {
+    class: security_layer
+    label: End-to-End\nEncryption
+  }
+  
+  audit_log: {
+    class: security_layer
+    label: Audit Trail\n& Logging
+  }
+  
+  permissions: {
+    class: security_layer
+    label: Granular\nPermissions
+  }
+}
+
+mcp_protocol.auth_layer -- security_features.oauth
+mcp_protocol.connection_manager -- security_features.encryption
+mcp_protocol.data_router -- security_features.audit_log
+enterprise_systems -- security_features.permissions
+
+# Implementation Details
+implementation_notes: |md
+## MCP Implementation Details
+
+### Protocol Features
+* **Standardized APIs**: Consistent interface across all data sources
+* **Real-time Access**: Live data rather than cached/stale information  
+* **Bidirectional**: AI can both read and write (with permissions)
+* **Type Safety**: Structured data exchange with validation
+
+### Security Mechanisms
+* **Scoped Access**: AI only accesses explicitly granted resources
+* **Token Refresh**: Automatic handling of expired credentials
+* **Rate Limiting**: Prevents system overload
+* **Data Residency**: Compliance with regional data requirements
+
+### Development Benefits
+* **Plug-and-Play**: Easy to add new data sources
+* **Vendor Agnostic**: Works across different AI platforms
+* **Enterprise Ready**: Built-in compliance and security features
+* **Scalable**: Handles multiple concurrent requests efficiently
+|
+
+implementation_notes -> mcp_protocol: {
+  style: {
+    stroke-dash: 5
+    stroke: gray
+  }
+}

@@ -1,0 +1,28 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+n
+ar
+sockMerchant {
+  result: result\ninit 0
+  iter: i in range(n)
+  cond: elem in hash {
+    shape: diamond
+  }
+  iter -> cond
+  cond -> result: yes {
+    style: {
+      stroke: darkgreen
+    }
+  }
+  cond -> result: no {
+    style: {
+      stroke: crimson
+    }
+  }
+}
+n -> sockMerchant.iter
+ar -> sockMerchant
