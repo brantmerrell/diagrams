@@ -135,7 +135,6 @@ Client -> DNS: {
   class: edge_request 
 }
 Client -> LoadBalancer: { class: edge_request }
-Client <- DNS: { class: edge_response }
 notes -- WebServer: { class: edge_invis }
 ReadAPI -> SQLReadReplicas: { class: edge_query }
 ReadAPI -> MemoryCache: { class: edge_query }

@@ -92,7 +92,12 @@ const MermaidPanel: React.FC<MermaidPanelProps> = ({ diagramPath }) => {
 
   const fetchAndRender = async (signal: AbortSignal, silent = false) => {
     try {
-      const res = await fetch(`/api/mmd/source/${serverPath}?t=${Date.now()}`, { signal })
+      let res = await fetch(`/api/mmd/source/${serverPath}?t=${Date.now()}`, { signal })
+      if (!res.ok) {
+        // Static deployment (no backend): deploy.yml publishes sources with a
+        // .txt suffix so they can't shadow the SPA route of the same name.
+        res = await fetch(`${canonicalPath}.txt?t=${Date.now()}`, { signal })
+      }
       if (!res.ok) {
         if (!silent && !signal.aborted) setError(`Could not load ${serverPath} (${res.status})`)
         return

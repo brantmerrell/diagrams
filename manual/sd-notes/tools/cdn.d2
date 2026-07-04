@@ -70,7 +70,6 @@ cache_miss_flow: {
   edge_cache_check -> cache_hit: yes
   edge_cache_check -> cache_miss: no
   cache_miss -> origin_server: {class: edge_request}
-  origin_server -> cache_miss: {class: edge_response}
   cache_miss -> edge_cache_check: update cache
 }
 

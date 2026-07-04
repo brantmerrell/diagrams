@@ -37,7 +37,6 @@ http_flow: {
   }
   
   client -> server: {class: edge_request}
-  server -> client: {class: edge_response}
   client -- request_flow
 }
 
@@ -95,7 +94,7 @@ grpc_flow: {
   client_service -> protobuf_layer: serialize
   protobuf_layer -> http2_layer: transport
   http2_layer -> server_service: {class: edge_request}
-  server_service -> http2_layer: {class: edge_response}
+  server_service -> http2_layer
   http2_layer -> protobuf_layer: transport
   protobuf_layer -> client_service: deserialize
 }

@@ -55,6 +55,12 @@ jobs:
           # unaffected: its Dockerfile COPYs manual/ (sources included) from the
           # repo, not from dist/.
           rsync -a --exclude='*.d2' --exclude='*.mmd' manual/ dist/manual/
+          # Publish sources under a .txt suffix instead — no SPA route ends in
+          # .txt, so these can't shadow a route. The frontend's code view falls
+          # back to them when /api/*/source is absent (GitHub Pages).
+          find manual \( -name '*.d2' -o -name '*.mmd' \) | while read -r f; do
+            cp "$f" "dist/$f.txt"
+          done
           cp pointers.yaml dist/
           cp dist/index.html dist/404.html
 

@@ -69,12 +69,6 @@ reverse_proxy.request_router -> reverse_proxy.load_balancer: route decision
 reverse_proxy.load_balancer -> backend_servers.web_servers: /app
 reverse_proxy.request_router -> backend_servers.api_server: /api
 
-# Response flow
-reverse_proxy.cache <- backend_servers.web_servers: {class: edge_response} # is this a CDN "push" pattern?
-reverse_proxy.cache <- backend_servers.api_server: {class: edge_response} # is this a CDN "push" pattern?
-
-clients <- reverse_proxy.cache: {class: edge_response}
-
 # Security features
 security_features: { # what performs these? Does the developer write them? Does the cloud provide them?
   label: Security Features

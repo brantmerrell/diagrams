@@ -186,10 +186,6 @@ rag_system: {
   orchestration_layer.query_router -> retrieval_system.retrieval_engine: retrieve context
   orchestration_layer.prompt_engineer -> generation_system.context_merger: create augmented prompt
   
-  retrieval_system.retrieval_engine -> generation_system.context_merger: {class: edge_response, label: relevant documents}
-  
-  generation_system.response_validator -> user_interface.chat_interface: {class: edge_response, label: validated response}
-  
   # Memory connections
   orchestration_layer.rag_orchestrator <-> memory_layer.conversation_memory: {class: edge_query}
   retrieval_system.retrieval_engine <-> memory_layer.retrieval_cache: {class: edge_query}

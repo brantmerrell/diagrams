@@ -36,10 +36,22 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
   useEffect(() => {
     if (!showCode || sourceCode !== null || !d2ServerPath) return
     const controller = new AbortController()
-    fetch(`/api/d2/source/${d2ServerPath}?t=${Date.now()}`, { signal: controller.signal })
-      .then(res => res.ok ? res.text() : Promise.reject(res.status))
-      .then(text => { if (!controller.signal.aborted) setSourceCode(text) })
-      .catch(err => { if (!controller.signal.aborted) setSourceCode(`// Could not load source (${err})`) })
+    const load = async () => {
+      try {
+        let res = await fetch(`/api/d2/source/${d2ServerPath}?t=${Date.now()}`, { signal: controller.signal })
+        if (!res.ok) {
+          // Static deployment (no backend): deploy.yml publishes sources with a
+          // .txt suffix so they can't shadow the SPA route of the same name.
+          res = await fetch(`/${d2ServerPath}.txt?t=${Date.now()}`, { signal: controller.signal })
+        }
+        if (!res.ok) throw res.status
+        const text = await res.text()
+        if (!controller.signal.aborted) setSourceCode(text)
+      } catch (err) {
+        if (!controller.signal.aborted) setSourceCode(`// Could not load source (${err})`)
+      }
+    }
+    load()
     return () => controller.abort()
   }, [showCode, sourceCode, d2ServerPath])
 

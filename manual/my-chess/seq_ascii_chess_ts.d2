@@ -5,22 +5,16 @@ vars: {
     theme-id: 4
   }
 }
-classes: {
-  response: {
-    style: {
-      stroke-dash: 5
-    }
-  }
-}
-browser: {shape: person}
-index_tsx: {label: index.tsx}
-App
-Redux: Redux store
-connector: connector API
-lichess: Lichess API
-chesscom: Chess.com API
+classes: @"../classes/sequence"
+browser: {shape: person; class: obj_client}
+index_tsx: {label: index.tsx; class: obj_service}
+App: {class: obj_service}
+Redux: {label: Redux store; class: obj_cache}
+connector: {label: connector API; class: obj_server}
+lichess: {label: Lichess API; class: obj_service}
+chesscom: {label: Chess.com API; class: obj_service}
 
-browser -> index_tsx: load page
+browser -> index_tsx: load page {class: edge_request}
 index_tsx.note1: |md
   ```
   init Eruda mobile console
@@ -38,9 +32,8 @@ App.note1: |md
   ```
 |
 
-App -> Redux: initialize store (positions, puzzles, setups slices)
-App -> connector: "GET /none?fen_string=<starting FEN>"
-connector -> App: "{nodes, edges:[]}" {class: response}
+App -> Redux: initialize store (positions, puzzles, setups slices) {class: edge_write}
+App -> connector: "GET /none?fen_string=<starting FEN>" {class: edge_request}
 App.note2: |md
   ```
   render UnifiedChessContainer:
@@ -50,10 +43,9 @@ App.note2: |md
   ```
 |
 
-browser -> App: change connection type or FEN
-App -> Redux: dispatch loadFen / setConnectionType
-App -> connector: "GET /<endpoint>?fen_string=<FEN>"
-connector -> App: "{nodes, edges}" {class: response}
+browser -> App: change connection type or FEN {class: edge_request}
+App -> Redux: dispatch loadFen / setConnectionType {class: edge_write}
+App -> connector: "GET /<endpoint>?fen_string=<FEN>" {class: edge_request}
 App.note3: |md
   ```
   D3.js renders updated visualization
@@ -61,11 +53,9 @@ App.note3: |md
   ```
 |
 
-browser -> App: sign in with Lichess
-App -> lichess: "redirect to /oauth (PKCE flow)"
-lichess -> App: auth code → /auth/callback {class: response}
-App -> lichess: "POST /api/token (exchange code)"
-lichess -> App: access token {class: response}
+browser -> App: sign in with Lichess {class: edge_request}
+App -> lichess: "redirect to /oauth (PKCE flow)" {class: edge_request}
+App -> lichess: "POST /api/token (exchange code)" {class: edge_request}
 App.note4: |md
   ```
   token stored in localStorage
@@ -73,6 +63,5 @@ App.note4: |md
   ```
 |
 
-browser -> App: load daily puzzle
-App -> chesscom: "GET /pub/puzzle"
-chesscom -> App: puzzle FEN + solution {class: response}
+browser -> App: load daily puzzle {class: edge_request}
+App -> chesscom: "GET /pub/puzzle" {class: edge_request}

@@ -5,18 +5,13 @@ vars: {
     theme-id: 4
   }
 }
-classes: {
-  response: {
-    style: {
-      stroke-dash: 5
-    }
-  }
-}
-user: {shape: person}
-app_R: {label: app.R}
-server: server.R
-chess_py: python-chess (reticulate)
-connector: connector API
+classes: @"../classes/sequence"
+user: {shape: person; class: obj_client}
+app_R: {label: app.R; class: obj_service}
+server: {label: server.R; class: obj_server}
+chess_py: {label: python-chess (reticulate); class: obj_service}
+connector: {label: connector API; class: obj_server}
+shiny: {class: obj_server}
 
 app_R.note1: |md
   ```
@@ -35,11 +30,9 @@ server.note1: |md
   ```
 |
 
-user -> server: select preset FEN or submit FEN
-server -> chess_py: board.set_fen(fen)
-chess_py -> server: ok {class: response}
-server -> connector: "GET /links?fen_string=<FEN>"
-connector -> server: "{nodes, edges}" {class: response}
+user -> server: select preset FEN or submit FEN {class: edge_request}
+server -> chess_py: board.set_fen(fen) {class: edge_write}
+server -> connector: "GET /links?fen_string=<FEN>" {class: edge_request}
 server.note2: |md
   ```
   updateChessDependencies():
@@ -49,16 +42,10 @@ server.note2: |md
   update move history
   ```
 |
-server -> user: render board + connections + history {class: response}
 
-user -> server: submit move
-server -> chess_py: board.push_san(move)
-chess_py -> server: ok {class: response}
-server -> connector: "GET /links?fen_string=<updated FEN>"
-connector -> server: "{nodes, edges}" {class: response}
-server -> user: render updated board {class: response}
+user -> server: submit move {class: edge_request}
+server -> chess_py: board.push_san(move) {class: edge_write}
+server -> connector: "GET /links?fen_string=<updated FEN>" {class: edge_request}
 
-user -> server: undo
-server -> chess_py: board.pop()
-chess_py -> server: ok {class: response}
-server -> user: render previous position {class: response}
+user -> server: undo {class: edge_request}
+server -> chess_py: board.pop() {class: edge_write}

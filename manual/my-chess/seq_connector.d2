@@ -2,22 +2,17 @@ shape: sequence_diagram
 vars: {
   d2-config: {
     # layout-engine: elk
-    theme-id: 4
+    theme-id: 1
   }
 }
-classes: {
-  response: {
-    style: {
-      stroke-dash: 5
-    }
-  }
-}
-client: {shape: person}
-app: FastAPI
-router: endpoint router
-chess: python-chess
-networkx: NetworkX
-diagon: diagon CLI
+classes: @"../classes/sequence"
+client: {shape: person; class: obj_client}
+app: {label: FastAPI; class: obj_server}
+router: {label: endpoint router; class: obj_service}
+chess: {label: python-chess; class: obj_service}
+networkx: {label: NetworkX; class: obj_service}
+diagon: {label: diagon CLI; class: obj_service}
+uvicorn: {class: obj_server}
 
 app.note1: |md
   ```
@@ -29,22 +24,13 @@ app.note1: |md
 |
 app -> uvicorn: "serve on 0.0.0.0:" # {PORT}
 
-client -> app: "GET /links?fen_string=<FEN>&heatmap=false"
-app -> router: route to links.py
-router -> chess: parse FEN → board
-chess -> router: board {class: response}
-router -> chess: get_nodes(board, heatmap)
-chess -> router: "nodes[]" {class: response}
-router -> chess: get_edges(board)
-chess -> router: "edges[] (threat + protection)" {class: response}
-router -> app: "{nodes, edges}" {class: response}
-app -> client: "200 {nodes, edges}" {class: response}
+client -> app: "GET /links?fen_string=<FEN>&heatmap=false" {class: edge_request}
+app -> router: route to links.py {class: edge_request}
+router -> chess: parse FEN → board {class: edge_query}
+router -> chess: get_nodes(board, heatmap) {class: edge_query}
+router -> chess: get_edges(board) {class: edge_query}
 
-client -> app: "PUT /graphdag"
-app -> router: route to graphdag.py
-router -> networkx: build_acyclic_graph(edges)
-networkx -> router: DAG {class: response}
-router -> diagon: pipe edge list to stdin
-diagon -> router: ASCII art string {class: response}
-router -> app: "{ascii}" {class: response}
-app -> client: "200 {ascii}" {class: response}
+client -> app: "PUT /graphdag" {class: edge_request}
+app -> router: route to graphdag.py {class: edge_request}
+router -> networkx: build_acyclic_graph(edges) {class: edge_query}
+router -> diagon: pipe edge list to stdin {class: edge_request}
