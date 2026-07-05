@@ -1,0 +1,253 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 201
+  }
+}
+classes: @"../classes/L4"
+
+layers: {
+  0_problem: {
+    direction: down
+
+    diagrams: {
+      label: "diagrams"
+      vite_dev: {class: obj_socket; label: "vite dev server"}
+      express_server: {class: obj_socket; label: "express (server.js)"}
+    }
+
+    hi: {
+      label: "hi"
+      vite_frontend: {class: obj_socket; label: "vite dev server"}
+      fastapi_backend: {class: obj_socket; label: "uvicorn (FastAPI)\nno --port flag"}
+      postgres: {class: obj_socket; label: "postgres (docker)"}
+    }
+
+    my_chess: {
+      label: "my-chess"
+      connector: {class: obj_socket; label: "connector\nuvicorn (FastAPI)\nPORT env"}
+      ascii_chess_ts: {
+        label: "ascii-chess-ts"
+        dev_server: {class: obj_socket; label: "react-scripts dev"}
+      }
+      blender_renderer: {
+        class: obj_socket
+        label: "blender-renderer\nBlender addon\nno listening port"
+      }
+    }
+
+    ports: {
+      label: "ports"
+      p3000: {class: obj_port; label: ":3000"}
+      p3002: {class: obj_port; label: ":3002"}
+      p5173: {class: obj_port; label: ":5173"}
+      p5432: {class: obj_port; label: ":5432"}
+      p8000: {class: obj_port; label: ":8000"}
+    }
+
+    # Ownership: which service listens on which port. Fan-in onto the same port is the conflict.
+    diagrams.vite_dev -> ports.p5173: {class: edge_own}
+    diagrams.express_server -> ports.p3002: {class: edge_own}
+    hi.vite_frontend -> ports.p5173: {class: edge_own; label: "falls back to :5174 if taken"}
+    hi.fastapi_backend -> ports.p8000: {class: edge_own}
+    hi.postgres -> ports.p5432: {class: edge_own}
+    my_chess.connector -> ports.p8000: {class: edge_own}
+    my_chess.ascii_chess_ts.dev_server -> ports.p3000: {class: edge_own}
+
+    # Calls: who reaches a service through its port, instead of a direct service-to-service edge.
+    diagrams.vite_dev -> ports.p3002: {class: edge_call}
+    hi.vite_frontend -> ports.p8000: {class: edge_call}
+    hi.fastapi_backend -> ports.p5432: {class: edge_call}
+    my_chess.ascii_chess_ts.dev_server -> ports.p8000: {class: edge_call}
+    my_chess.blender_renderer -> ports.p8000: {class: edge_call; label: "CONNECTOR_URL"}
+  }
+
+  1_static_solution: {
+    classes: @"../classes/plan"
+    direction: down
+
+    diagrams: {
+      label: "diagrams"
+      vite_dev: {class: [obj_socket; unchanged]; label: "vite dev server"}
+      express_server: {class: [obj_socket; unchanged]; label: "express (server.js)"}
+    }
+
+    hi: {
+      label: "hi"
+      vite_frontend: {class: [obj_socket]; label: "vite dev server"}
+      fastapi_backend: {class: [obj_socket; unchanged]; label: "uvicorn (FastAPI)\nno --port flag"}
+      postgres: {class: [obj_socket; unchanged]; label: "postgres (docker)"}
+    }
+
+    my_chess: {
+      label: "my-chess"
+      connector: {class: [obj_socket]; label: "connector\nuvicorn (FastAPI)\nPORT env"}
+      ascii_chess_ts: {
+        label: "ascii-chess-ts"
+        dev_server: {class: [obj_socket; unchanged]; label: "react-scripts dev"}
+      }
+      blender_renderer: {
+        class: [obj_socket; unchanged]
+        label: "blender-renderer\nBlender addon\nno listening port"
+      }
+    }
+
+    ports: {
+      label: "ports"
+      p3000: {class: [obj_port; unchanged]; label: ":3000"}
+      p3002: {class: [obj_port; unchanged]; label: ":3002"}
+      p5173: {class: [obj_port; unchanged]; label: ":5173"}
+      p5432: {class: [obj_port; unchanged]; label: ":5432"}
+      p8000: {class: [obj_port; unchanged]; label: ":8000"}
+      p5180: {class: [obj_port]; label: ":5180"}
+      p8001: {class: [obj_port]; label: ":8001"}
+    }
+
+    diagrams.vite_dev -> ports.p5173: {class: [edge_own; unchanged]}
+    diagrams.express_server -> ports.p3002: {class: [edge_own; unchanged]}
+    hi.vite_frontend -> ports.p5180: {class: [edge_own]}
+    hi.fastapi_backend -> ports.p8000: {class: [edge_own; unchanged]}
+    hi.postgres -> ports.p5432: {class: [edge_own; unchanged]}
+    my_chess.connector -> ports.p8001: {class: [edge_own]}
+    my_chess.ascii_chess_ts.dev_server -> ports.p3000: {class: [edge_own; unchanged]}
+
+    diagrams.vite_dev -> ports.p3002: {class: [edge_call; unchanged]}
+    hi.vite_frontend -> ports.p8000: {class: [edge_call; unchanged]}
+    hi.fastapi_backend -> ports.p5432: {class: [edge_call; unchanged]}
+    my_chess.ascii_chess_ts.dev_server -> ports.p8001: {class: [edge_call]}
+    my_chess.blender_renderer -> ports.p8001: {class: [edge_call]; label: "CONNECTOR_URL"}
+  }
+
+  2_dynamic_solution: {
+    classes: @"../classes/plan"
+    direction: down
+
+    # Every port here is dynamic, not just the ones that happened to collide today -
+    # a coworker's totally unrelated app defaulting to :3000 is just as real a conflict.
+    diagrams: {
+      label: "diagrams"
+      vite_dev: {class: [obj_socket]; label: "vite dev server"}
+      express_server: {class: [obj_socket]; label: "express (server.js)"}
+      coordinator: {class: to_add; label: "startup script\n(port handoff)"}
+    }
+
+    hi: {
+      label: "hi"
+      vite_frontend: {class: [obj_socket]; label: "vite dev server"}
+      fastapi_backend: {class: [obj_socket]; label: "uvicorn (FastAPI)"}
+      postgres: {class: [obj_socket]; label: "postgres (docker)"}
+      coordinator: {class: to_add; label: "startup script\n(port handoff)"}
+    }
+
+    my_chess: {
+      label: "my-chess"
+      connector: {class: [obj_socket]; label: "connector\nuvicorn (FastAPI)"}
+      ascii_chess_ts: {
+        label: "ascii-chess-ts"
+        dev_server: {class: [obj_socket]; label: "react-scripts dev"}
+      }
+      blender_renderer: {
+        class: [obj_socket; unchanged]
+        label: "blender-renderer\nBlender addon\nno listening port"
+      }
+      coordinator: {class: to_add; label: "startup script\n(port handoff)"}
+    }
+
+    ports: {
+      label: "ports"
+      p0: {class: [obj_port]; label: ":0\n(request ephemeral)"}
+      p_diagrams_fe: {class: [obj_port]; label: "dynamic \n diagrams\n frontend"}
+      p_diagrams_be: {class: [obj_port]; label: "dynamic \n diagrams\n backend"}
+      p_hi_fe: {class: [obj_port]; label: "dynamic \n hi \n frontend"}
+      p_hi_be: {class: [obj_port]; label: "dynamic \n hi \n backend"}
+      p_hi_db: {class: [obj_port]; label: "dynamic \n hi \n database"}
+      p_my_chess_fe: {class: [obj_port]; label: "dynamic\n my-chess\n frontend"}
+      p_connector: {class: [obj_port]; label: "dynamic\n my-chess\n connector"}
+
+      # :0 forwards to whichever of these the OS picks - see ephemeral_protocol.
+      # Kept internal to the ports pool so the app graph above stays uncluttered.
+      p0 -> p_diagrams_fe: {class: [edge_forward]}
+      p0 -> p_diagrams_be: {class: [edge_forward]}
+      p0 -> p_hi_fe: {class: [edge_forward]}
+      p0 -> p_hi_be: {class: [edge_forward]}
+      p0 -> p_hi_db: {class: [edge_forward]}
+      p0 -> p_my_chess_fe: {class: [edge_forward]}
+      p0 -> p_connector: {class: [edge_forward]}
+    }
+
+    # Discovery: every service binds :0 first (the startup script mediates this
+    # per ephemeral_protocol; abbreviated here to one edge per service).
+    diagrams.vite_dev -> ports.p0: {class: [edge_own]}
+    diagrams.express_server -> ports.p0: {class: [edge_own]}
+    hi.vite_frontend -> ports.p0: {class: [edge_own]}
+    hi.fastapi_backend -> ports.p0: {class: [edge_own]}
+    hi.postgres -> ports.p0: {class: [edge_own]}
+    my_chess.connector -> ports.p0: {class: [edge_own]}
+    my_chess.ascii_chess_ts.dev_server -> ports.p0: {class: [edge_own]}
+
+    # Handoff: whoever calls a dynamic port has to learn it first via its app's coordinator.
+    diagrams.express_server -> diagrams.coordinator: {class: to_add; label: "writes assigned port"}
+    diagrams.coordinator -> diagrams.vite_dev: {class: to_add; label: "reads assigned port"}
+    diagrams.vite_dev -> ports.p_diagrams_be: {class: [edge_call]}
+
+    hi.fastapi_backend -> hi.coordinator: {class: to_add; label: "writes assigned port"}
+    hi.coordinator -> hi.vite_frontend: {class: to_add; label: "reads assigned port"}
+    hi.vite_frontend -> ports.p_hi_be: {class: [edge_call]}
+
+    hi.postgres -> hi.coordinator: {class: to_add; label: "writes assigned port"}
+    hi.coordinator -> hi.fastapi_backend: {class: to_add; label: "reads assigned port"}
+    hi.fastapi_backend -> ports.p_hi_db: {class: [edge_call]}
+
+    my_chess.connector -> my_chess.coordinator: {class: to_add; label: "writes assigned port"}
+    my_chess.coordinator -> my_chess.ascii_chess_ts.dev_server: {class: to_add; label: "reads assigned port"}
+    my_chess.coordinator -> my_chess.blender_renderer: {class: to_add; label: "reads assigned port"}
+    my_chess.ascii_chess_ts.dev_server -> ports.p_connector: {class: [edge_call]}
+    my_chess.blender_renderer -> ports.p_connector: {class: [edge_call]; label: "CONNECTOR_URL (dynamic)"}
+
+    # dev_server's own port has no in-diagram caller, so it needs discovery but no handoff.
+  }
+
+  # The generic pattern each concrete app in the `dynamic` layer follows.
+  # One frontend, one backend, one handoff script - shown once, in the abstract,
+  # instead of repeating this explanation for diagrams/hi/my-chess individually.
+  3_ephemeral_protocol: {
+    direction: down
+
+    app: {
+      label: "app (generic)"
+      script: {label: "startup script"}
+      backend: {class: obj_socket; label: "backend"}
+      frontend: {class: obj_socket; label: "frontend"}
+      file: {shape: page; label: "port file\n(e.g. .env.local)"}
+    }
+
+    ports: {
+      label: "ports"
+      p0: {class: obj_port; label: ":0\n(request ephemeral)"}
+      p_backend: {class: obj_port; label: "dynamic\nbackend"}
+      p_frontend: {class: obj_port; label: "dynamic\nfrontend"}
+
+      # :0 doesn't own these - it's the request address the OS resolves
+      # to one specific free port each time, same idea as a docker publish.
+      p0 -> p_backend: {class: edge_forward}
+      p0 -> p_frontend: {class: edge_forward}
+    }
+
+    # The script - not the backend itself - asks for and hands out ports.
+    app.script -> ports.p0: {class: edge_call; label: "requests port"}
+    app.script -> app.backend: {label: "assigns port"}
+    app.backend -> ports.p_backend: {class: edge_own}
+
+    # It writes the backend's port to a file, rather than telling it directly.
+    app.script -> app.file: {label: "writes backend port"}
+    app.frontend -> app.file: {label: "reads backend port"}
+
+    # Then it does the same discover/assign dance for the frontend's own port.
+    app.script -> ports.p0: {class: edge_call; label: "requests port"}
+    app.script -> app.frontend: {label: "assigns port"}
+    app.frontend -> ports.p_frontend: {class: edge_own}
+
+    # Only after reading the file can the frontend reach the backend's port.
+    app.frontend -> ports.p_backend: {class: edge_call}
+  }
+}

@@ -4,7 +4,7 @@ vars: {
     theme-id: 1
   }
 }
-classes: @"../../../classes/sd"
+classes: @"../../classes/L7"
 layers: {
   initial: {
     Client: {
@@ -14,6 +14,15 @@ layers: {
     WebServer: {
       label: Web Server\n(Reverse Proxy)
       class: obj_server
+      grid-columns: 1
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Reverse_proxy
+        class: _link
+      }
+      diagram: {
+        link: ../../tools/reverse_proxy.d2
+        class: _link
+      }
     }
 
     AccountsAPI: {
@@ -43,6 +52,15 @@ layers: {
     SQLDatabase: {
       label: SQL Database\n(Single)
       class: obj_db
+      grid-columns: 1
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Relational_database
+        class: _link
+      }
+      diagram: {
+        link: ../../tools/rdbms.d2
+        class: _link
+      }
     }
 
     # Simple request flow
@@ -81,20 +99,56 @@ layers: {
     }
     CDN: {
       class: obj_cdn
+      grid-columns: 1
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Content_delivery_network
+        class: _link
+      }
+      diagram: {
+        link: ../../tools/cdn.d2
+        class: _link
+      }
     }
     Client: {
       class: obj_client
     }
     DNS: {
       class: obj_dns
+      grid-columns: 1
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Domain_Name_System
+        class: _link
+      }
+      diagram: {
+        link: ../../tools/dns.d2
+        class: _link
+      }
     }
     LB: {
       label: Load Balancer
       class: obj_lb
+      grid-columns: 1
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Load_balancing_(computing)
+        class: _link
+      }
+      diagram: {
+        link: ../../tools/load_balancer.d2
+        class: _link
+      }
     }
     MemoryCache: {
       label: Memory Cache
       class: objs_cache
+      grid-columns: 1
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Cache_(computing)
+        class: _link
+      }
+      diagram: {
+        link: ../../tools/application_caching.d2
+        class: _link
+      }
     }
     NotificationService: {
       label: Notification Service
@@ -107,10 +161,23 @@ layers: {
         fill: darkslategray
         font-color: white
       }
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Object_storage
+        class: _link
+      }
     }
     Queue: {
       label: Queue
       class: obj_queue
+      grid-columns: 1
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Message_queue
+        class: _link
+      }
+      diagram: {
+        link: ../../tools/asynchronism.d2
+        class: _link
+      }
     }
     ReadAPI: {
       label: Read API
@@ -119,10 +186,28 @@ layers: {
     SQLReadReplicas: {
       label: SQL\nRead\nReplicas
       class: objs_db
+      grid-columns: 1
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Replication_(computing)
+        class: _link
+      }
+      diagram: {
+        link: ../../tools/rdbms_scaling.d2
+        class: _link
+      }
     }
     SQLWriteMasterSlave: {
       label: SQL\n Write\n Master-\n Slave
       class: objs_db
+      grid-columns: 1
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Replication_(computing)
+        class: _link
+      }
+      diagram: {
+        link: ../../tools/rdbms_scaling.d2
+        class: _link
+      }
     }
     TransactionExtractionService: {
       label: Transaction\nExtraction\nService
@@ -131,6 +216,15 @@ layers: {
     WS: {
       label: Web Server
       class: objs_server
+      grid-columns: 1
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Reverse_proxy
+        class: _link
+      }
+      diagram: {
+        link: ../../tools/reverse_proxy.d2
+        class: _link
+      }
     }
     Client -> DNS
     Client -> CDN

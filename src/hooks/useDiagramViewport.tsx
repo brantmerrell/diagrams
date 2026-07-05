@@ -106,6 +106,7 @@ export function useDiagramViewport(diagramPath: string | undefined, showCode = f
   }, [])
 
   const onMouseDown = (e: React.MouseEvent) => {
+    if (e.button !== 0) return
     setIsDragging(true)
     setDragStart({ x: e.clientX - position.x, y: e.clientY - position.y })
   }
@@ -116,6 +117,20 @@ export function useDiagramViewport(diagramPath: string | undefined, showCode = f
   }
 
   const onMouseUp = () => setIsDragging(false)
+
+  // Safety net: a right-click during a drag opens the native context menu, which
+  // swallows the mouseup that would normally clear isDragging, leaving the panel
+  // stuck panning under the cursor. Reset on contextmenu and on any mouseup/pointerup
+  // reaching the window, not just the panel.
+  useEffect(() => {
+    const clear = () => setIsDragging(false)
+    window.addEventListener('mouseup', clear)
+    window.addEventListener('contextmenu', clear)
+    return () => {
+      window.removeEventListener('mouseup', clear)
+      window.removeEventListener('contextmenu', clear)
+    }
+  }, [])
 
   const onTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 2) {

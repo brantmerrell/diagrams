@@ -76,12 +76,17 @@ app.post('/api/manual/watch', (req, res) => {
     const output = data.toString()
     console.log(`d2 [${diagramPath}]: ${output}`)
 
-    // d2 uses stderr for both info and errors
+    // d2 uses stderr for both info and errors, prefixing each line with
+    // "success:", "info:", "warn:", or "err:" — classify on that prefix
+    // rather than searching the whole chunk, since a plain substring search
+    // for "err" also matches paths like manual/hackerrank/*.d2
     stderrBuffer += output
 
-    if (output.toLowerCase().includes('err') ||
-        output.toLowerCase().includes('syntax') ||
-        output.toLowerCase().includes('failed')) {
+    const isErrorLine = output
+      .split('\n')
+      .some((line) => /^\s*err(or)?:/i.test(line))
+
+    if (isErrorLine) {
       notifyClients({
         type: 'error',
         message: 'D2 compilation error - check server logs for details',

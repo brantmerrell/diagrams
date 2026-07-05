@@ -5,7 +5,7 @@ vars: {
     theme-id: 8
   }
 }
-classes: @"../../../classes/sd"
+classes: @"../../classes/L7"
 Analytics: {
   class: objs_service
 }
@@ -14,9 +14,27 @@ Client: {
 }
 DNS: {
   class: obj_dns
+  grid-columns: 1
+  wiki: {
+    link: https://en.wikipedia.org/wiki/Domain_Name_System
+    class: _link
+  }
+  diagram: {
+    link: ../../tools/dns.d2
+    class: _link
+  }
 }
 CDN: {
   class: obj_cdn
+  grid-columns: 1
+  wiki: {
+    link: https://en.wikipedia.org/wiki/Content_delivery_network
+    class: _link
+  }
+  diagram: {
+    link: ../../tools/cdn.d2
+    class: _link
+  }
 }
 ObjectStore: {
   label: Object\n Store
@@ -24,14 +42,36 @@ ObjectStore: {
   notes: |md
   * Object Store vs File Server vs NoSQL
   |
+  wiki: {
+    link: https://en.wikipedia.org/wiki/Object_storage
+    class: _link
+  }
 }
 LoadBalancer: {
   label: Load\n Balancer
   class: objs_lb
+  grid-columns: 1
+  wiki: {
+    link: https://en.wikipedia.org/wiki/Load_balancing_(computing)
+    class: _link
+  }
+  diagram: {
+    link: ../../tools/load_balancer.d2
+    class: _link
+  }
 }
 MemoryCache: {
   label: Memory\n Cache
   class: objs_cache
+  grid-columns: 1
+  wiki: {
+    link: https://en.wikipedia.org/wiki/Cache_(computing)
+    class: _link
+  }
+  diagram: {
+    link: ../../tools/application_caching.d2
+    class: _link
+  }
 }
 notes: {
   class: note
@@ -85,16 +125,34 @@ ReadAPI: {
 SQLAnalytics: {
   label: SQL\n Analytics
   class: obj_db
+  grid-columns: 1
+  wiki: {
+    link: https://en.wikipedia.org/wiki/Relational_database
+    class: _link
+  }
+  diagram: {
+    link: ../../tools/rdbms.d2
+    class: _link
+  }
 }
 SQLReadReplicas: {
   label: SQL\n Read\n Replicas
   class: objs_db
+  grid-columns: 1
+  wiki: {
+    link: https://en.wikipedia.org/wiki/Replication_(computing)
+    class: _link
+  }
+  diagram: {
+    link: ../../tools/rdbms_scaling.d2
+    class: _link
+  }
 }
 SQLWriteMasterSlave: {
   label: SQL\n Write\n Master-\n Slave
   class: objs_db
   pastes: {
-    shape: sql_table 
+    shape: sql_table
     shortlink: char(7) NOT NULL { constraint: primary_key }
     expiration_length_in_minutes: int NOT NULL
     created_at: datetime NOT NULL { constraint: index }
@@ -102,9 +160,17 @@ SQLWriteMasterSlave: {
   }
   notes: |md
   * 1 MB seq ~ 250 microseconds
-  * SSD 4x 
-  * disk 80x 
+  * SSD 4x
+  * disk 80x
   |
+  wiki: {
+    link: https://en.wikipedia.org/wiki/Replication_(computing)
+    class: _link
+  }
+  diagram: {
+    link: ../../tools/rdbms_scaling.d2
+    class: _link
+  }
 }
 WebServer: {
   label: Web\n Server
@@ -113,6 +179,14 @@ WebServer: {
   * Page view analytics do not need to be realtime
   * 10:1 read to write ratio
   | { class: objs_server }
+  wiki: {
+    link: https://en.wikipedia.org/wiki/Reverse_proxy
+    class: _link
+  }
+  diagram: {
+    link: ../../tools/reverse_proxy.d2
+    class: _link
+  }
 }
 WriteAPI: {
   label: Write\n API
