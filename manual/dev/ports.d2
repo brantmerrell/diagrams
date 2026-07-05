@@ -5,10 +5,13 @@ vars: {
   }
 }
 classes: @"../classes/L4"
+classes: @"../classes/basic"
 
 layers: {
   0_problem: {
     direction: down
+
+    _quality: {class: styled}
 
     diagrams: {
       label: "diagrams"
@@ -66,6 +69,8 @@ layers: {
     classes: @"../classes/plan"
     direction: down
 
+    _quality: {class: styled}
+
     diagrams: {
       label: "diagrams"
       vite_dev: {class: [obj_socket; unchanged]; label: "vite dev server"}
@@ -121,6 +126,8 @@ layers: {
   2_dynamic_solution: {
     classes: @"../classes/plan"
     direction: down
+
+    _quality: {class: styled}
 
     # Every port here is dynamic, not just the ones that happened to collide today -
     # a coworker's totally unrelated app defaulting to :3000 is just as real a conflict.
@@ -212,6 +219,8 @@ layers: {
   # instead of repeating this explanation for diagrams/hi/my-chess individually.
   3_ephemeral_protocol: {
     direction: down
+
+    _quality: {class: styled}
 
     app: {
       label: "app (generic)"

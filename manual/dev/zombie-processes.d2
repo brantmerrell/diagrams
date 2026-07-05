@@ -5,11 +5,14 @@ vars: {
   }
 }
 classes: @"../classes/process"
+classes: @"../classes/basic"
 
 layers: {
   spawn: {
     label: "1. How bun run start spins these up"
     direction: down
+
+    _quality: {class: compiles}
 
     bun_start: {class: obj_proc; label: "bun run start\npid 2114546 (pgid 2114546)"}
     concurrently: {class: obj_proc; label: "concurrently\nbun run server, bun run dev"}
@@ -53,6 +56,8 @@ layers: {
     label: "2. What Ctrl+C actually does to this tree"
     direction: down
 
+    _quality: {class: compiles}
+
     keyboard: {shape: text; label: "user types\nCtrl+C"}
 
     group: {
@@ -75,6 +80,8 @@ layers: {
   wrong_pane: {
     label: "3. The likelier real-world miss: wrong tmux pane"
     direction: right
+
+    _quality: {class: compiles}
 
     keyboard: {shape: text; label: "user types\nCtrl+C"}
 
@@ -104,6 +111,8 @@ layers: {
   fix: {
     classes: @"../classes/plan"
     direction: down
+
+    _quality: {class: compiles}
 
     server_js: {
       class: to_add

@@ -6,8 +6,11 @@ vars: {
 }
 classes: @"../../classes/L7"
 classes: @"../../classes/function"
+classes: @"../../classes/basic"
 layers: {
   0_overview: {
+    _quality: {class: compiles}
+
     user: {
       shape: person
       label: User
@@ -77,6 +80,8 @@ layers: {
     orchestration -- security
   }
   0_architecture: {
+    _quality: {class: compiles}
+
     user_interface: {
       label: User Interface
       user: {
@@ -229,6 +234,7 @@ layers: {
   }
   2_self_rag_pattern: {
     label: Self-RAG
+    _quality: {class: compiles}
     wiki: {
       link: https://en.wikipedia.org/wiki/Retrieval-augmented_generation
       class: _link
@@ -251,6 +257,7 @@ layers: {
   }
   3_corrective_rag_pattern: {
     label: Corrective RAG (CRAG)
+    _quality: {class: compiles}
     wiki: {
       link: https://en.wikipedia.org/wiki/Retrieval-augmented_generation
       class: _link
@@ -273,6 +280,7 @@ layers: {
   }
   4_agentic_rag_pattern: {
     label: Agentic RAG
+    _quality: {class: compiles}
     wiki: {
       link: https://en.wikipedia.org/wiki/Retrieval-augmented_generation
       class: _link
@@ -300,6 +308,7 @@ layers: {
   }
   5_multimodal_rag_pattern: {
     label: Multimodal RAG
+    _quality: {class: compiles}
     wiki: {
       link: https://en.wikipedia.org/wiki/Multimodal_learning
       class: _link
@@ -334,6 +343,7 @@ layers: {
   }
   6_evaluation: {
     grid-rows: 3
+    _quality: {class: compiles}
     retrieval_metrics: {
       label: Retrieval Evaluation
       precision: {

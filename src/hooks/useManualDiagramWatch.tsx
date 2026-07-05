@@ -1,9 +1,15 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { normalizeToCanonical, canonicalToSvgPath } from '../lib/yamlExtract'
 
 export interface Scenario {
   name: string
   path: string
+}
+
+function scenariosEqual(a: Scenario[] | null, b: Scenario[] | null): boolean {
+  if (a === b) return true
+  if (!a || !b || a.length !== b.length) return false
+  return a.every((s, i) => s.name === b[i].name && s.path === b[i].path)
 }
 
 export interface UseManualDiagramWatchResult {
@@ -27,11 +33,26 @@ export function useManualDiagramWatch(
   const [scenarios, setScenarios] = useState<Scenario[] | null>(null)
   const [activeScenarioIndex, setActiveScenarioIndex] = useState(0)
 
+  // Mirrors state into refs so the SSE handler below can read the latest value
+  // without retriggering the scenario-reload effect on every recompile — a
+  // multi-layer diagram recompiles each layer's SVG at a different time, firing
+  // one SSE success event per layer, and only the truly active one should reload.
+  const scenariosRef = useRef<Scenario[] | null>(null)
+  const activeScenarioIndexRef = useRef(activeScenarioIndex)
+  activeScenarioIndexRef.current = activeScenarioIndex
+
   const loadSvgFromPath = useCallback(async (svgPath: string, signal: AbortSignal, silent = false) => {
     try {
       const response = await fetch(`${svgPath}?t=${Date.now()}`, { signal })
       if (response.ok) {
-        setSvgContent(await response.text())
+        const text = await response.text()
+        // d2 deletes and rewrites output SVGs during a recompile; a fetch landing
+        // in that window gets an empty or truncated body. Keep the last good
+        // render instead of blanking — the write's own SSE event refetches soon.
+        if (!text.includes('<svg')) return
+        // Skip the re-render when a sibling layer's compile fired this reload but
+        // the active layer's own SVG didn't actually change — avoids a visible flash.
+        setSvgContent(prev => text === prev ? prev : text)
       }
     } catch (err) {
       if (!silent && err instanceof Error && err.name !== 'AbortError') {
@@ -58,7 +79,10 @@ export function useManualDiagramWatch(
       if (response.ok) {
         const data = await response.json()
         if (data.scenarios && data.scenarios.length > 1) {
-          setScenarios(data.scenarios)
+          if (!scenariosEqual(scenariosRef.current, data.scenarios)) {
+            scenariosRef.current = data.scenarios
+            setScenarios(data.scenarios)
+          }
           if (resetIndex) setActiveScenarioIndex(0)
           return data.scenarios
         }
@@ -68,7 +92,12 @@ export function useManualDiagramWatch(
         console.warn('Error checking scenarios:', err.message)
       }
     }
-    setScenarios(null)
+    // Fewer than 2 scenarios listed (or the check failed): during a recompile
+    // d2 briefly deletes the layer SVGs, so a check landing in that window sees
+    // a truncated directory listing. Keep the established list rather than
+    // tearing down the layer switcher on a transient read — it only resets when
+    // the user navigates to a different diagram.
+    if (scenariosRef.current) return scenariosRef.current
     return null
   }, [])
 
@@ -77,6 +106,7 @@ export function useManualDiagramWatch(
 
     setSvgContent('')
     setError(null)
+    scenariosRef.current = null
     setScenarios(null)
     setActiveScenarioIndex(0)
 
@@ -126,12 +156,18 @@ export function useManualDiagramWatch(
 
         // On (re)connect: catch up in case a compile event fired while we were disconnected.
         // silent=true so a missing SVG (not compiled yet) doesn't pollute the console.
-        // When scenarios are found, checkScenarios stores a fresh array and the
-        // scenario-load effect below reloads the ACTIVE layer — don't load [0] here.
+        // Reload the active layer directly from the fresh list rather than relying on
+        // the scenario-load effect below, since setScenarios (and thus that effect) no
+        // longer fires when the list's content is unchanged — see scenariosEqual.
         es.addEventListener('open', async () => {
           delay = 1_000
           const found = await checkScenarios(dp, ac.signal, false, true)
-          if (!found) await loadSvgFromPath(svgPath, ac.signal, true)
+          if (found) {
+            const idx = Math.min(activeScenarioIndexRef.current, found.length - 1)
+            await loadSvgFromPath(found[idx].path, ac.signal, true)
+          } else {
+            await loadSvgFromPath(svgPath, ac.signal, true)
+          }
         })
 
         es.onmessage = async (event) => {
@@ -140,8 +176,17 @@ export function useManualDiagramWatch(
           if (data.type === 'error') {
             setToastMessage(data.message)
           } else if (data.type === 'success') {
+            // Reload the active scenario directly from the fresh list rather than
+            // relying on the scenarios-changed effect below — a multi-layer diagram
+            // recompiles each layer at a different time, so a single edit fires one
+            // success event per layer; only the currently active one should reload.
             const found = await checkScenarios(dp, ac.signal, false, true)
-            if (!found) await loadSvg()
+            if (found) {
+              const idx = Math.min(activeScenarioIndexRef.current, found.length - 1)
+              await loadSvgFromPath(found[idx].path, ac.signal)
+            } else {
+              await loadSvg()
+            }
           }
         }
 
@@ -190,6 +235,9 @@ export function useManualDiagramWatch(
 
     return () => {
       ac.abort()
+      // Closing the SSE stream is the unwatch signal: the server stops this
+      // diagram's d2 -w process once its last SSE client has been gone for a
+      // grace period, so a refresh's quick reconnect keeps the warm watcher.
       eventStreamCleanup?.()
     }
   }, [diagramPath, loadSvgFromPath, checkScenarios])

@@ -30,6 +30,30 @@ const sseClients = new Map()
 // Store SVG file watchers — started lazily when SSE clients connect (mirrors mmd pattern)
 const svgWatchers = new Map()  // diagramPath → { watcher, timer }
 
+// Pending delayed stops, scheduled when a diagram's last SSE client disconnects.
+// The grace period lets a page refresh reconnect without losing its d2 -w process —
+// killing and respawning it would force a full recompile of an unchanged diagram.
+const watcherStopTimers = new Map()  // diagramPath → Timeout
+const WATCHER_STOP_GRACE_MS = 30_000
+
+function cancelPendingStop(diagramPath) {
+  const timer = watcherStopTimers.get(diagramPath)
+  if (timer) {
+    clearTimeout(timer)
+    watcherStopTimers.delete(diagramPath)
+  }
+}
+
+// Stop a diagram's watch process, if any. The map entry is removed up front;
+// the close handler's identity guard keeps a dying process from ever deleting
+// a successor's entry.
+function stopWatcher(diagramPath) {
+  const proc = watchProcesses.get(diagramPath)
+  if (!proc) return
+  watchProcesses.delete(diagramPath)
+  proc.kill()
+}
+
 app.post('/api/manual/watch', (req, res) => {
   const { diagramPath } = req.body
 
@@ -37,10 +61,14 @@ app.post('/api/manual/watch', (req, res) => {
     return res.status(400).json({ error: 'diagramPath is required' })
   }
 
-  // Kill existing process for this diagram if any
+  cancelPendingStop(diagramPath)
+
+  // Reuse a healthy running watcher. A page refresh re-POSTs this endpoint, and
+  // killing + respawning d2 -w would force a full recompile of an unchanged
+  // diagram — during which d2 deletes and rewrites the output SVGs, blanking
+  // the viewer for the duration of the compile.
   if (watchProcesses.has(diagramPath)) {
-    watchProcesses.get(diagramPath).kill()
-    watchProcesses.delete(diagramPath)
+    return res.json({ success: true, message: `Already watching ${diagramPath}` })
   }
 
   // Remove leading slash and construct file path
@@ -106,7 +134,14 @@ app.post('/api/manual/watch', (req, res) => {
         error: stderrBuffer.trim()
       })
     }
-    watchProcesses.delete(diagramPath)
+    // Only clear the map entry if it still points to THIS process. A replaced
+    // process takes 1-2s to die after SIGTERM; when its close fires, the map
+    // already holds its successor — deleting unconditionally would untrack the
+    // live successor, making it unkillable by every future watch/unwatch call
+    // (this was the source of the duplicate d2 -w process leak).
+    if (watchProcesses.get(diagramPath) === d2Process) {
+      watchProcesses.delete(diagramPath)
+    }
   })
 
   watchProcesses.set(diagramPath, d2Process)
@@ -125,6 +160,9 @@ app.get('/api/manual/events/:diagramPath(*)', (req, res) => {
 
   if (!sseClients.has(diagramPath)) sseClients.set(diagramPath, [])
   sseClients.get(diagramPath).push(res)
+
+  // A viewer is (re)attached — keep the d2 -w process alive
+  cancelPendingStop(diagramPath)
 
   // Start watching the SVG output for this diagram if not already doing so.
   // d2 writes single-board output next to the source (foo.d2 → foo.svg) and
@@ -195,6 +233,14 @@ app.get('/api/manual/events/:diagramPath(*)', (req, res) => {
         entry.close()
         svgWatchers.delete(diagramPath)
       }
+      // Last viewer left — stop the d2 -w process after a grace period, so a
+      // page refresh (SSE drops and reconnects within a second or two) keeps
+      // the warm watcher instead of forcing a full recompile.
+      cancelPendingStop(diagramPath)
+      watcherStopTimers.set(diagramPath, setTimeout(() => {
+        watcherStopTimers.delete(diagramPath)
+        if (!sseClients.has(diagramPath)) stopWatcher(diagramPath)
+      }, WATCHER_STOP_GRACE_MS))
     }
   })
 })

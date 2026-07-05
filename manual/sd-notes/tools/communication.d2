@@ -5,8 +5,11 @@ vars: {
   }
 }
 classes: @"../../classes/L7"
+classes: @"../../classes/basic"
 layers: {
   http: {
+    _quality: {class: compiles}
+
     client: {
       class: obj_client
       label: Web Client
@@ -36,6 +39,8 @@ layers: {
     client -- request_flow
   }
   websocket: {
+    _quality: {class: compiles}
+
     client: {
       class: obj_client
       label: WebSocket Client
@@ -59,6 +64,8 @@ layers: {
     client -- connection_upgrade
   }
   grpc: {
+    _quality: {class: compiles}
+
     client_service: {
       class: obj_server
       label: Client Service

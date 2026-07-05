@@ -5,11 +5,14 @@ vars: {
   }
 }
 classes: @"../classes/process"
+classes: @"../classes/basic"
 
 layers: {
   tmux_focus: {
     label: "1. Why Ctrl+C never reached the backend"
     direction: right
+
+    _quality: {class: styled}
 
     keyboard: {shape: text; label: "user types\nCtrl+C"}
 
@@ -34,6 +37,8 @@ layers: {
   process_group: {
     label: "2. No isolation even if it had arrived"
     direction: down
+
+    _quality: {class: styled}
 
     pgid: {
       label: "pgid 243370 - one group\ndash runs with job control off:\nnon-interactive shells never enable monitor mode"
@@ -64,6 +69,8 @@ layers: {
     label: "3. The Makefile's own cleanup line is dead code"
     direction: down
 
+    _quality: {class: styled}
+
     demo: |sh
     dash -c 'sleep 50 & bg=$!; kill %1; kill "$bg"'
     |
@@ -77,6 +84,8 @@ layers: {
   fix: {
     classes: @"../classes/plan"
     direction: down
+
+    _quality: {class: styled}
 
     makefile: {
       class: to_add

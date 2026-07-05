@@ -5,8 +5,11 @@ vars: {
   }
 }
 classes: @"../../classes/L7"
+classes: @"../../classes/basic"
 layers: {
   initial: {
+    _quality: {class: compiles}
+
     Client: {
       class: obj_client
     }
@@ -85,6 +88,8 @@ layers: {
   }
   final: {
     direction: down
+    _quality: {class: compiles}
+
     AccountsAPI: {
       label: Accounts API
       class: objs_service

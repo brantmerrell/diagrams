@@ -5,9 +5,11 @@ vars: {
   }
 }
 classes: @"../classes/sequence"
+classes: @"../classes/basic"
 layers: {
   migration: {
     shape: sequence_diagram
+    _quality: {class: styled}
     developer: {shape: c4-person}
     alembic: {class: api}
     env_py: {label: env.py; class: api}
@@ -38,6 +40,7 @@ layers: {
     versions -> db: "6. bookmarks: one per user (PK user_id)" {class: api}
   }
   schema: {
+    _quality: {class: styled}
     stories: {
       shape: sql_table
       id: uuid {constraint: primary_key}
