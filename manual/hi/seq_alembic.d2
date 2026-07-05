@@ -8,36 +8,39 @@ classes: @"../classes/sequence"
 classes: @"../classes/basic"
 layers: {
   migration: {
-    shape: sequence_diagram
     _quality: {class: styled}
-    developer: {shape: c4-person}
-    alembic: {class: api}
-    env_py: {label: env.py; class: api}
-    models: {label: app.models.Base; class: api}
-    versions: {label: alembic/versions; class: api}
-    db: {
-      label: PostgreSQL
-      class: database
-      icon: ../../icons/postgresql.svg
-      shape: image
-    }
 
-    developer -> alembic: alembic upgrade head
-    alembic -> env_py: load
-    env_py.note1: |md
-      DATABASE_URL overrides sqlalchemy.url  
-      (postgres:// → postgresql+asyncpg://)
-    |
-    env_py -> models: import Base → target_metadata {class: api}
-    alembic -> env_py: run_migrations_online() {class: api}
-    env_py -> db: async connect (asyncpg, NullPool) {class: api}
-    env_py -> versions: run pending revisions in a transaction {class: api}
-    versions -> db: "1. create tables" {class: api}
-    versions -> db: "2. sentence_words: add word_audio_path" {class: api}
-    versions -> db: "3. stories: add title_en, drop title" {class: api}
-    versions -> db: "4. create word_sense_notes" {class: api}
-    versions -> db: "5. stories: add position (unique)" {class: api}
-    versions -> db: "6. bookmarks: one per user (PK user_id)" {class: api}
+    seq: {
+      shape: sequence_diagram
+      developer: {shape: c4-person}
+      alembic: {class: api}
+      env_py: {label: env.py; class: api}
+      models: {label: app.models.Base; class: api}
+      versions: {label: alembic/versions; class: api}
+      db: {
+        label: PostgreSQL
+        class: database
+        icon: ../../icons/postgresql.svg
+        shape: image
+      }
+
+      developer -> alembic: alembic upgrade head
+      alembic -> env_py: load
+      env_py.note1: |md
+        DATABASE_URL overrides sqlalchemy.url
+        (postgres:// → postgresql+asyncpg://)
+      |
+      env_py -> models: import Base → target_metadata {class: api}
+      alembic -> env_py: run_migrations_online() {class: api}
+      env_py -> db: async connect (asyncpg, NullPool) {class: api}
+      env_py -> versions: run pending revisions in a transaction {class: api}
+      versions -> db: "1. create tables" {class: api}
+      versions -> db: "2. sentence_words: add word_audio_path" {class: api}
+      versions -> db: "3. stories: add title_en, drop title" {class: api}
+      versions -> db: "4. create word_sense_notes" {class: api}
+      versions -> db: "5. stories: add position (unique)" {class: api}
+      versions -> db: "6. bookmarks: one per user (PK user_id)" {class: api}
+    }
   }
   schema: {
     _quality: {class: styled}

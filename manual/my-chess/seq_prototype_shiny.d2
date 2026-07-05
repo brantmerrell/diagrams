@@ -1,4 +1,3 @@
-shape: sequence_diagram
 vars: {
   d2-config: {
     theme-id: 201
@@ -9,18 +8,21 @@ classes: @"../classes/basic"
 
 _quality: {class: styled}
 
-user: {class: obj_client; label: user}
-app_R: {label: app.R; class: obj_service}
-server: {label: server.R; class: obj_server}
-chess_py: {label: python-chess (reticulate); class: obj_service}
-connector: {label: connector API; class: obj_server}
-shiny: {class: obj_server}
-app_R -> shiny: shinyApp(ui, server) on port 3838
-user -> server: {class: edge_request; label: "select preset FEN or submit FEN"}
-server -> chess_py: {class: edge_write; label: "board.set_fen(fen)"}
-server -> connector: {class: edge_request; label: "GET /links?fen_string=<FEN>"}
-user -> server: {class: edge_request; label: "submit move"}
-server -> chess_py: {class: edge_write; label: "board.push_san(move)"}
-server -> connector: {class: edge_request; label: "GET /links?fen_string=<updated FEN>"}
-user -> server: {class: edge_request; label: "undo"}
-server -> chess_py: {class: edge_write; label: "board.pop()"}
+seq_prototype_shiny: {
+  shape: sequence_diagram
+  user: {class: obj_client; label: user}
+  app_R: {label: app.R; class: obj_service}
+  server: {label: server.R; class: obj_server}
+  chess_py: {label: python-chess (reticulate); class: obj_service}
+  connector: {label: connector API; class: obj_server}
+  shiny: {class: obj_server}
+  app_R -> shiny: shinyApp(ui, server) on port 3838
+  user -> server: {class: edge_request; label: "select preset FEN or submit FEN"}
+  server -> chess_py: {class: edge_write; label: "board.set_fen(fen)"}
+  server -> connector: {class: edge_request; label: "GET /links?fen_string=<FEN>"}
+  user -> server: {class: edge_request; label: "submit move"}
+  server -> chess_py: {class: edge_write; label: "board.push_san(move)"}
+  server -> connector: {class: edge_request; label: "GET /links?fen_string=<updated FEN>"}
+  user -> server: {class: edge_request; label: "undo"}
+  server -> chess_py: {class: edge_write; label: "board.pop()"}
+}

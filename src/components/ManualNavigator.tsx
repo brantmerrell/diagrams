@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import yaml from 'js-yaml'
 import Toast from './Toast'
@@ -37,6 +37,9 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
   const [filteredYamlData, setFilteredYamlData] = useState<YamlValue>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [copyLabel, setCopyLabel] = useState('⎘')
+  const [highlightedIndex, setHighlightedIndex] = useState(0)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const lastKeyRef = useRef<{ key: string; time: number } | null>(null)
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -87,6 +90,8 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
     })
   }, [searchQuery, allDiagramPaths])
 
+  useEffect(() => { setHighlightedIndex(0) }, [searchResults])
+
   // ── Navigation ────────────────────────────────────────────────────────────
 
   const handleDiagramClick = useCallback((diagramPath: string, parentPath?: string) => {
@@ -114,18 +119,70 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
     navigate({ pathname: targetPath, search: params.toString() })
   }, [location.pathname, searchParams, navigate])
 
-  // ── Keyboard navigation (j / k) ──────────────────────────────────────────
+  // While the search input is focused, up/down pick a result and Enter opens it —
+  // instead of the global j/k/g/G handler below, which bails on focused inputs.
+  const handleSearchKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      setSearchQuery('')
+      e.currentTarget.blur()
+      return
+    }
+    if (!searchResults || searchResults.length === 0) return
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setHighlightedIndex(i => (i + 1) % searchResults.length)
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setHighlightedIndex(i => (i - 1 + searchResults.length) % searchResults.length)
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      const path = searchResults[Math.min(highlightedIndex, searchResults.length - 1)]
+      if (diagramStatus.get(path) !== false) handleDiagramClick(path)
+    }
+  }, [searchResults, highlightedIndex, diagramStatus, handleDiagramClick])
+
+  // ── Keyboard navigation (j / k / gg / G / /) ─────────────────────────────
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'j' && e.key !== 'k') return
+      // Any key other than 'g' breaks a pending gg sequence, even keys the rest
+      // of this handler ignores or when focus is inside an input.
+      if (e.key !== 'g') lastKeyRef.current = null
+
+      if (!['j', 'k', 'g', 'G', '/'].includes(e.key)) return
       if (e.ctrlKey || e.metaKey || e.altKey) return
       const target = e.target as HTMLElement
       if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) return
 
+      if (e.key === '/') {
+        e.preventDefault()
+        searchInputRef.current?.focus()
+        searchInputRef.current?.select()
+        return
+      }
+
       const navigable = (searchResults !== null ? searchResults : allDiagramPaths)
         .filter(p => diagramStatus.get(p) !== false)
       if (navigable.length === 0) return
+
+      if (e.key === 'g') {
+        const now = Date.now()
+        if (lastKeyRef.current?.key === 'g' && now - lastKeyRef.current.time < 500) {
+          lastKeyRef.current = null
+          e.preventDefault()
+          handleDiagramClick(navigable[0])
+        } else {
+          lastKeyRef.current = { key: 'g', time: now }
+        }
+        return
+      }
+
+      if (e.key === 'G') {
+        e.preventDefault()
+        handleDiagramClick(navigable[navigable.length - 1])
+        return
+      }
 
       const currentIndex = navigable.findIndex(p => isDiagramCurrentPath(p, urlPath))
       const nextIndex = e.key === 'j'
@@ -210,11 +267,13 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
 
         <div className="pointers-search-bar">
           <input
+            ref={searchInputRef}
             type="text"
             className="pointers-search-input"
             placeholder="Search diagrams…"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
+            onKeyDown={handleSearchKeyDown}
             spellCheck={false}
           />
           {searchQuery && (
@@ -245,6 +304,7 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
                       isCurrent ? 'yaml-diagram-current' : '',
                       exists === false ? 'yaml-diagram-not-found' : '',
                       exists !== false ? 'yaml-diagram-link' : '',
+                      i === highlightedIndex ? 'pointers-search-result-highlighted' : '',
                     ].join(' ').trim()}
                     onClick={() => exists !== false && handleDiagramClick(path)}
                     title={exists === false ? 'Diagram not found' : urlSeg}

@@ -1,4 +1,3 @@
-shape: sequence_diagram
 vars: {
   d2-config: {
     theme-id: 201
@@ -9,16 +8,19 @@ classes: @"../classes/basic"
 
 _quality: {class: styled}
 
-blender: {class: obj_client; label: blender}
-init_py: {label: __init__.py; class: obj_service}
-operator: {label: operators.py; class: obj_service}
-connector_svc: {label: connector_service.py; class: obj_service}
-connector: {label: connector API; class: obj_server}
-blender -> init_py: {class: edge_request; label: "load addon"}
-blender -> operator: {class: edge_request; label: "click render button"}
-operator -> connector_svc: {class: edge_request; label: "fetch_<connection_type>(fen_string)"}
-connector_svc -> connector: {class: edge_request; label: "GET /<endpoint>?fen_string=<FEN>"}
-blender.note: 3D scene updated
-blender -> operator: {class: edge_request; label: "submit move / undo"}
-operator -> connector_svc: {class: edge_request; label: "fetch_<connection_type>(new_fen)"}
-connector_svc -> connector: {class: edge_request; label: "GET /<endpoint>?fen_string=<new FEN>"}
+seq_blender_renderer: {
+  shape: sequence_diagram
+  blender: {class: obj_client; label: blender}
+  init_py: {label: __init__.py; class: obj_service}
+  operator: {label: operators.py; class: obj_service}
+  connector_svc: {label: connector_service.py; class: obj_service}
+  connector: {label: connector API; class: obj_server}
+  blender -> init_py: {class: edge_request; label: "load addon"}
+  blender -> operator: {class: edge_request; label: "click render button"}
+  operator -> connector_svc: {class: edge_request; label: "fetch_<connection_type>(fen_string)"}
+  connector_svc -> connector: {class: edge_request; label: "GET /<endpoint>?fen_string=<FEN>"}
+  blender.note: 3D scene updated
+  blender -> operator: {class: edge_request; label: "submit move / undo"}
+  operator -> connector_svc: {class: edge_request; label: "fetch_<connection_type>(new_fen)"}
+  connector_svc -> connector: {class: edge_request; label: "GET /<endpoint>?fen_string=<new FEN>"}
+}

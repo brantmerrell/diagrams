@@ -12,7 +12,7 @@ layers: {
     label: "1. Why Ctrl+C never reached the backend"
     direction: right
 
-    _quality: {class: styled}
+    _quality: {class: compiles}
 
     keyboard: {shape: text; label: "user types\nCtrl+C"}
 
@@ -38,7 +38,7 @@ layers: {
     label: "2. No isolation even if it had arrived"
     direction: down
 
-    _quality: {class: styled}
+    _quality: {class: compiles}
 
     pgid: {
       label: "pgid 243370 - one group\ndash runs with job control off:\nnon-interactive shells never enable monitor mode"
@@ -69,7 +69,7 @@ layers: {
     label: "3. The Makefile's own cleanup line is dead code"
     direction: down
 
-    _quality: {class: styled}
+    _quality: {class: compiles}
 
     demo: |sh
     dash -c 'sleep 50 & bg=$!; kill %1; kill "$bg"'
@@ -85,7 +85,7 @@ layers: {
     classes: @"../classes/plan"
     direction: down
 
-    _quality: {class: styled}
+    _quality: {class: compiles}
 
     makefile: {
       class: to_add

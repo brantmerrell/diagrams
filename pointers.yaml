@@ -81,7 +81,6 @@ classes/:
   - ./manual/classes/L4.d2
   - ./manual/classes/plan.d2
   - ./manual/classes/process.d2
-  - ./manual/classes/sd.d2
   - ./manual/classes/sequence.d2
 hackerrank/:
   1-week/:

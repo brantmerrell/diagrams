@@ -249,6 +249,11 @@
   font-size: 0.85rem;
 }
 
+.pointers-search-result-highlighted {
+  outline: 1px solid #646cff;
+  border-radius: 3px;
+}
+
 .pointers-search-empty {
   color: #555;
   font-size: 0.85rem;

@@ -89,6 +89,8 @@ export function useDiagramViewport(diagramPath: string | undefined, showCode = f
   // Keyboard pan and zoom
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) return
       switch (e.key) {
         case 'ArrowUp':    e.preventDefault(); setPosition(p => ({ ...p, y: p.y + PAN_STEP })); break
         case 'ArrowDown':  e.preventDefault(); setPosition(p => ({ ...p, y: p.y - PAN_STEP })); break
