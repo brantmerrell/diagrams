@@ -14,8 +14,8 @@ edge_down: {
 positive: {
   shape: oval
   style: {
-    font-color: darkgreen
-    stroke: darkgreen
+    font-color: Chartreuse
+    stroke: Chartreuse
   }
 }
 negative: {

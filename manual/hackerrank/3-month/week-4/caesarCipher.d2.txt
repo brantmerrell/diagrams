@@ -30,11 +30,11 @@ caesarCipher: {
   }
   iteration_1: {
     class: iter
-    label: for l, r in zip(letters, rotated):
+    label: "for [(l, r), (l, r), (l, r)...] in zip(letters, rotated):"
   }
   iteration_2: {
     class: iter
-    label: for elem in s:
+    label: "for [elem, elem, elem...] in s:"
   }
   condition: {
     class: cond

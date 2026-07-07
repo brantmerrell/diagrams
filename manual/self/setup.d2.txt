@@ -1,0 +1,63 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 201
+  }
+}
+classes: @"../classes/L7"
+classes: @"../classes/basic"
+
+layers: {
+  0_dev: {
+    direction: down
+
+    _quality: {class: compiles}
+
+    browser: {class: obj_client; label: "browser\nlocalhost:5173"}
+    vite: {class: obj_server; label: "vite dev server\n:5173"}
+    express: {class: obj_server; label: "express (server.js)\n:3002"}
+    d2watch: {class: obj_service; label: "d2 --watch\n(one per open diagram)"}
+    sources: {class: obj_db; label: "manual/**/*.d2\npointers.yaml"}
+
+    browser -> vite: {class: edge_request; label: "SPA routes + assets"}
+    vite -> express: {class: edge_request; label: "proxy /api, /manual/*.svg"}
+    express -> d2watch: "spawn on /api/manual/watch"
+    d2watch -> sources: {class: edge_query; label: "compile .d2 → .svg"}
+    express -> browser: {class: edge_write; label: "SSE: svg updated"}
+  }
+
+  1_pages: {
+    direction: down
+
+    _quality: {class: compiles}
+
+    browser: {class: obj_client; label: "browser\ndiagrams.jbm.eco"}
+    pages: {class: obj_cdn; label: "GitHub Pages\nstatic dist/"}
+    actions: {class: obj_service; label: "deploy.yml\ncompile d2 → svg\nbuild manifests\nvite build"}
+    artifacts: {class: obj_db; label: "manual/*.svg\nscenarios.json\ntags.json\n*.d2.txt sources"}
+
+    actions -> artifacts: {class: edge_write; label: "publish"}
+    artifacts -> pages: "served as dist/manual/"
+    browser -> pages: {class: edge_request; label: "GET"}
+
+    fallbacks: |md
+      no backend: the frontend falls back from
+      /api/manual/tags → /manual/tags.json,
+      /api/manual/scenarios → scenarios.json,
+      /api/d2/source → \*.d2.txt
+    | {class: note}
+  }
+
+  2_heroku: {
+    direction: down
+
+    _quality: {class: compiles}
+
+    browser: {class: obj_client; label: browser}
+    express: {class: obj_server; label: "express (server.js)\nserves dist/ + full API"}
+    container: {class: obj_service; label: "Dockerfile\ncopies repo incl. manual/ sources"}
+
+    browser -> express: {class: edge_request; label: "SPA + /api/*"}
+    container -> express: "runs"
+  }
+}

@@ -33,7 +33,7 @@ diagonalDifference: {
     class: op
   }
   iterate: {
-    label: for i in range(n):
+    label: "for [i, i, i...] in range(n):"
     class: iter
   }
   ascending: {

@@ -18,7 +18,7 @@ isBalanced: {
     label: left_to_right\n bracket lookup dict
   }
   iteration: {
-    label: for elem in s
+    label: "for [elem, elem, elem...] in s"
     class: iter
   }
   conditions: {

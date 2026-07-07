@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "0_index",
+      "path": "/manual/self/seq_tagging/0_index.svg"
+    },
+    {
+      "name": "1_filter",
+      "path": "/manual/self/seq_tagging/1_filter.svg"
+    }
+  ]
+}

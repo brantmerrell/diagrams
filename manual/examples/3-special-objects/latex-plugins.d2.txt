@@ -6,7 +6,7 @@ vars: {
 
 classes: @"../../classes/basic"
 
-_quality: {class: coherent}
+_quality: {class: styled}
 
 grid-columns: 3
 grid-gap: 100

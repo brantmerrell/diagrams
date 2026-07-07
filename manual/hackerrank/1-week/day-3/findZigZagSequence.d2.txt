@@ -52,7 +52,7 @@ findZigZagSequence: {
   }
   iterate: {
     class: iter
-    label: for i in range(n)
+    label: "for [i, i, i...] in range(n)"
   }
   indexAtEnd: {
     class: cond

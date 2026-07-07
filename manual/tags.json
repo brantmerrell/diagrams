@@ -1,0 +1,345 @@
+{
+  "vocabulary": [
+    "compiles",
+    "styled",
+    "coherent"
+  ],
+  "tags": {
+    "/manual/clipboard.d2": [
+      "compiles"
+    ],
+    "/manual/dev/make.d2": [
+      "compiles"
+    ],
+    "/manual/dev/ports.d2": [
+      "coherent"
+    ],
+    "/manual/dev/zombie-processes.d2": [
+      "compiles"
+    ],
+    "/manual/examples/3-special-objects/block-strings.d2": [
+      "compiles"
+    ],
+    "/manual/examples/3-special-objects/grid-flask-pod.d2": [
+      "compiles"
+    ],
+    "/manual/examples/3-special-objects/grid-forge.d2": [
+      "styled"
+    ],
+    "/manual/examples/3-special-objects/grid-japan.d2": [
+      "styled"
+    ],
+    "/manual/examples/3-special-objects/languages.d2": [
+      "compiles"
+    ],
+    "/manual/examples/3-special-objects/latex-plugins.d2": [
+      "styled"
+    ],
+    "/manual/examples/3-special-objects/latex.d2": [
+      "compiles"
+    ],
+    "/manual/examples/3-special-objects/link.d2": [
+      "compiles"
+    ],
+    "/manual/examples/3-special-objects/markdown.d2": [
+      "compiles"
+    ],
+    "/manual/examples/3-special-objects/sequence.d2": [
+      "compiles"
+    ],
+    "/manual/examples/3-special-objects/sql.d2": [
+      "compiles"
+    ],
+    "/manual/examples/3-special-objects/uml.d2": [
+      "styled"
+    ],
+    "/manual/examples/4-customization/d2-legend.d2": [
+      "compiles"
+    ],
+    "/manual/examples/4-customization/dimensions.d2": [
+      "compiles"
+    ],
+    "/manual/examples/4-customization/multi-class.d2": [
+      "compiles"
+    ],
+    "/manual/examples/4-customization/tooltip.d2": [
+      "compiles"
+    ],
+    "/manual/examples/5-in-depth/variables.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-1/miniMaxSum.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-1/plusMinus.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-1/timeConversion.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-2/countingSort.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-2/diagonalDifference.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-2/lonelyinteger.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-3/caesarCipher.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-3/findZigZagSequence.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-3/towerBreakers.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-4/gridChallenge.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-4/minimumBribes.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-4/superDigit.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-5/isBalanced.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-5/mergeLists.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/1-week/day-5/queuing.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-1/breakingRecords.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-1/divisibleSumPairs.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-1/matchingStrings.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-1/miniMaxSum.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-1/plusMinus.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-1/timeConversion.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-2/countingSort.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-2/countingValleys.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-2/diagonalDifference.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-2/flippingBits.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-2/flippingMatrix.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-2/gradingStudents.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-2/lonelyinteger.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-2/marsExploration.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-2/pangrams.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-3/birthday.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-3/findZigZagSequence.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-3/getTotal.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-3/maximumPerimeterTriangle.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-3/migratoryBirds.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-3/pageCount.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-3/sockMerchant.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-3/strings_xor.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-3/twoArrays.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-4/caesarCipher.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-4/closestNumbers.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-4/kangaroo.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-4/leftRotation.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-4/minimumAbsoluteDifference.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-4/pickingNumbers.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-4/separateNumbers.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-4/towerBreakers.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-5/dynamicArray.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-5/gridChallenge.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-5/is_smart_number.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-5/maxMin.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-5/missingNumbers.d2": [
+      "compiles"
+    ],
+    "/manual/hackerrank/3-month/week-5/strongPassword.d2": [
+      "compiles"
+    ],
+    "/manual/hi/seq_alembic.d2": [
+      "styled"
+    ],
+    "/manual/hi/seq_auth.d2": [
+      "styled"
+    ],
+    "/manual/hi/seq_basic_usage.d2": [
+      "styled"
+    ],
+    "/manual/hi/seq_data_sync.d2": [
+      "styled"
+    ],
+    "/manual/hi/seq_enrich_glosses.d2": [
+      "styled"
+    ],
+    "/manual/hi/seq_fetch_text.d2": [
+      "styled"
+    ],
+    "/manual/hi/seq_frontend.d2": [
+      "styled"
+    ],
+    "/manual/hi/seq_generate_audio.d2": [
+      "styled"
+    ],
+    "/manual/hi/seq_migration.d2": [
+      "styled"
+    ],
+    "/manual/hi/seq_process_sentences.d2": [
+      "styled"
+    ],
+    "/manual/my-chess/seq_ascii_chess_ts.d2": [
+      "styled"
+    ],
+    "/manual/my-chess/seq_blender_renderer.d2": [
+      "styled"
+    ],
+    "/manual/my-chess/seq_connector.d2": [
+      "styled"
+    ],
+    "/manual/my-chess/seq_prototype_shiny.d2": [
+      "styled"
+    ],
+    "/manual/sd-notes/GeneralMotors/sd.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/Memory/sd.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/designs/mint.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/designs/pastebin.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/NoSQL.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/RAG.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/application_caching.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/application_layer.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/asynchronism.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/cdn.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/communication.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/connectors.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/dns.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/load_balancer.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/mcp.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/rdbms.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/rdbms_scaling.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/rdbms_systems.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/rdbms_tuning.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/reverse_proxy.d2": [
+      "compiles"
+    ],
+    "/manual/sd-notes/tools/vector_database.d2": [
+      "compiles"
+    ],
+    "/manual/self/seq_tagging.d2": [
+      "styled"
+    ],
+    "/manual/self/seq_view.d2": [
+      "compiles"
+    ],
+    "/manual/self/setup.d2": [
+      "compiles"
+    ]
+  }
+}

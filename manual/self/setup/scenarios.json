@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {
+      "name": "0_dev",
+      "path": "/manual/self/setup/0_dev.svg"
+    },
+    {
+      "name": "1_pages",
+      "path": "/manual/self/setup/1_pages.svg"
+    },
+    {
+      "name": "2_heroku",
+      "path": "/manual/self/setup/2_heroku.svg"
+    }
+  ]
+}

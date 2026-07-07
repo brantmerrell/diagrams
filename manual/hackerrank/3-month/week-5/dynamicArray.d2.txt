@@ -28,7 +28,7 @@ dynamicArray: {
   }
   iterate_queries: {
     class: iter
-    label: for query_type, x, y in queries:
+    label: "for [(query_type, x, y), (query_type, x, y), (query_type, x, y)...] in queries:"
   }
   is_type_1: {
     class: cond

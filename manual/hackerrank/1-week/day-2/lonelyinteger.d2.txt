@@ -15,7 +15,7 @@ lonelyinteger {
     label: tracker\ninit \{\}
   }
   iterate: {
-    label: for elem in a
+    label: "for [elem, elem, elem... ] in a"
     class: iter
   }
   condition: {
@@ -33,4 +33,4 @@ lonelyinteger {
   }
   tracker -> return: last
 }
-a -> lonelyinteger
+a -> lonelyinteger.iterate

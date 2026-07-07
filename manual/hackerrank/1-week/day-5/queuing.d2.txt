@@ -14,7 +14,7 @@ input: {
   class: op
 }
 iteration: {
-  label: for line in range(1, q + 1):
+  label: "for [line, line, line...] in range(1, q + 1):"
   class: iter
 }
 input_2: {

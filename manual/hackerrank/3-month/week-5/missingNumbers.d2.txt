@@ -19,7 +19,7 @@ missingNumbers {
   }
   loop1: {
     class: iter
-    label: for elem in brr
+    label: "for [elem, elem, elem...] in brr"
   }
   condition1: {
     class: cond
@@ -38,7 +38,7 @@ missingNumbers {
   }
   loop2: {
     class: iter
-    label: for elem in arr
+    label: "for [elem, elem, elem...] in arr"
   }
   loop1 -> condition1
   increment -> diff
