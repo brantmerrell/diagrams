@@ -5,6 +5,7 @@ import ManualNavigator from './ManualNavigator'
 import D2Panel from './D2Panel'
 import MermaidPanel from './MermaidPanel'
 import ResizablePanels from './ResizablePanels'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { yamlPathToUrlSegment, normalizeToCanonical, urlSegmentToCanonical, isMermaidPath, isDiagramPath } from '../lib/yamlExtract'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
@@ -60,6 +61,8 @@ const ManualDiagramViewer: React.FC = () => {
   const [content, setContent] = useState<DiagramContent>({})
   const [loading, setLoading] = useState(true)
   const [isYamlCollapsed, setIsYamlCollapsed] = useState(false)
+  const isMobile = useIsMobile()
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   const initialLayerName = searchParams.get('layer') || undefined
 
@@ -132,6 +135,29 @@ const ManualDiagramViewer: React.FC = () => {
 
   if (loading) {
     return <div className="loading">Loading diagram...</div>
+  }
+
+  if (isMobile) {
+    return (
+      <div className="mobile-layout">
+        {rightPanel}
+        {!isDrawerOpen && (
+          <button
+            className="mobile-nav-button"
+            onClick={() => setIsDrawerOpen(true)}
+            title="Open navigator"
+            aria-label="Open navigator"
+          >
+            ☰
+          </button>
+        )}
+        {isDrawerOpen && (
+          <div className="mobile-drawer">
+            <ManualNavigator onRequestClose={() => setIsDrawerOpen(false)} />
+          </div>
+        )}
+      </div>
+    )
   }
 
   return (

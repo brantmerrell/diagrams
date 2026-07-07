@@ -17,6 +17,9 @@ type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string
 
 interface ManualNavigatorProps {
   onCollapseChange?: (collapsed: boolean) => void
+  // Drawer mode (mobile): the ◀ button and diagram selection call this instead
+  // of collapsing internally, letting the parent unmount the drawer.
+  onRequestClose?: () => void
 }
 
 function collectAllDiagramPaths(obj: YamlValue, seen = new Set<string>(), out: string[] = []): string[] {
@@ -30,7 +33,7 @@ function collectAllDiagramPaths(obj: YamlValue, seen = new Set<string>(), out: s
   return out
 }
 
-const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) => {
+const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onRequestClose }) => {
   const { yamlData, rawYaml, diagramStatus } = useManualNavigation()
   const [toastMessage, setToastMessage] = useState<string | null>(null)
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(false)
@@ -99,7 +102,9 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
 
     const targetPath = `/manual/${yamlPathToUrlSegment(diagramPath)}`
     if (location.pathname === targetPath) {
-      setToastMessage('Already viewing this diagram')
+      // In drawer mode, tapping the current diagram just closes the drawer to show it
+      if (onRequestClose) onRequestClose()
+      else setToastMessage('Already viewing this diagram')
       return
     }
 
@@ -117,7 +122,8 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
     // Don't suppress scroll - user is clicking from navigator, the diagram
     // may not be visible yet and needs to be scrolled into view
     navigate({ pathname: targetPath, search: params.toString() })
-  }, [location.pathname, searchParams, navigate])
+    onRequestClose?.()
+  }, [location.pathname, searchParams, navigate, onRequestClose])
 
   // While the search input is focused, up/down pick a result and Enter opens it —
   // instead of the global j/k/g/G handler below, which bails on focused inputs.
@@ -258,8 +264,11 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange }) =
           </button>
           <button
             className="collapse-button"
-            onClick={() => { setIsPanelCollapsed(true); onCollapseChange?.(true) }}
-            title="Collapse panel"
+            onClick={() => {
+              if (onRequestClose) { onRequestClose(); return }
+              setIsPanelCollapsed(true); onCollapseChange?.(true)
+            }}
+            title={onRequestClose ? 'Close navigator' : 'Collapse panel'}
           >
             ◀
           </button>

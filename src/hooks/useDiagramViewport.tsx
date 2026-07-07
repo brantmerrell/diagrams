@@ -136,23 +136,37 @@ export function useDiagramViewport(diagramPath: string | undefined, showCode = f
 
   const onTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 2) {
-      e.preventDefault()
       setLastPinchDistance(touchDistance(e.touches))
+      setIsDragging(false)
+    } else if (e.touches.length === 1) {
+      setIsDragging(true)
+      setDragStart({ x: e.touches[0].clientX - position.x, y: e.touches[0].clientY - position.y })
     }
   }
 
   const onTouchMove = (e: React.TouchEvent) => {
-    if (e.touches.length !== 2 || lastPinchDistance === null) return
-    e.preventDefault()
-    const dist = touchDistance(e.touches)
-    if (dist !== null) {
-      setScale(s => clampScale(s + (dist - lastPinchDistance) * 0.01))
-      setLastPinchDistance(dist)
+    if (e.touches.length === 2 && lastPinchDistance !== null) {
+      const dist = touchDistance(e.touches)
+      if (dist !== null) {
+        setScale(s => clampScale(s + (dist - lastPinchDistance) * 0.01))
+        setLastPinchDistance(dist)
+      }
+      return
+    }
+    if (e.touches.length === 1 && isDragging) {
+      setPosition({ x: e.touches[0].clientX - dragStart.x, y: e.touches[0].clientY - dragStart.y })
     }
   }
 
   const onTouchEnd = (e: React.TouchEvent) => {
     if (e.touches.length < 2) setLastPinchDistance(null)
+    if (e.touches.length === 1) {
+      // Pinch ended with one finger still down: re-anchor so the pan doesn't jump
+      setIsDragging(true)
+      setDragStart({ x: e.touches[0].clientX - position.x, y: e.touches[0].clientY - position.y })
+    } else if (e.touches.length === 0) {
+      setIsDragging(false)
+    }
   }
 
   const onDoubleClick = () => { setScale(1); setPosition({ x: 0, y: 0 }) }
