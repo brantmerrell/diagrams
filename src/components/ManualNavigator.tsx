@@ -5,12 +5,15 @@ import Toast from './Toast'
 import YamlNavigator from './YamlNavigator'
 import { useManualNavigation } from '../hooks/useManualNavigation'
 import { useYamlExpansion, ViewMode } from '../hooks/useYamlExpansion'
+import { useDiagramTags } from '../hooks/useDiagramTags'
 import {
   containsDiagram,
   extractDiagramContext,
   diagramFilenameFromPathname,
   yamlPathToUrlSegment,
   isDiagramCurrentPath,
+  isDiagramPath,
+  normalizeToCanonical,
 } from '../lib/yamlExtract'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
@@ -31,6 +34,19 @@ function collectAllDiagramPaths(obj: YamlValue, seen = new Set<string>(), out: s
   if (Array.isArray(obj)) { obj.forEach(item => collectAllDiagramPaths(item, seen, out)); return out }
   if (typeof obj === 'object') { Object.values(obj).forEach(v => collectAllDiagramPaths(v, seen, out)); return out }
   return out
+}
+
+// Null out diagram leaves that fail the tag predicate; YamlNavigator's
+// containsDiagram filtering then hides any branch left without diagrams.
+function pruneByTag(obj: YamlValue, matches: (p: string) => boolean): YamlValue {
+  if (typeof obj === 'string') return isDiagramPath(obj) && !matches(obj) ? null : obj
+  if (Array.isArray(obj)) return obj.map(item => pruneByTag(item, matches))
+  if (obj && typeof obj === 'object') {
+    const out: Record<string, YamlValue> = {}
+    for (const [k, v] of Object.entries(obj)) out[k] = pruneByTag(v, matches)
+    return out
+  }
+  return obj
 }
 
 const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onRequestClose }) => {
@@ -58,6 +74,23 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
     setSearchParams(p, { replace: true })
   }
 
+  // ── Quality-tag filter (tag URL param) ────────────────────────────────────
+
+  const { vocabulary, tags } = useDiagramTags()
+  const tagFilter = searchParams.get('tag') || ''
+
+  const updateTagFilter = (t: string) => {
+    const p = new URLSearchParams(searchParams)
+    if (t) p.set('tag', t)
+    else p.delete('tag')
+    setSearchParams(p, { replace: true })
+  }
+
+  const matchesTag = useCallback((p: string) => {
+    if (!tagFilter) return true
+    return tags.get(normalizeToCanonical(p))?.includes(tagFilter) ?? false
+  }, [tagFilter, tags])
+
   // ── Expansion / scroll ────────────────────────────────────────────────────
 
   // Strip /manual/ prefix from pathname for YAML matching
@@ -67,8 +100,12 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
     ? ''
     : location.pathname.substring(1)
   const diagramParent = searchParams.get('diagramParent') || undefined
+  const tagFilteredYamlData = useMemo(
+    () => tagFilter ? pruneByTag(yamlData, matchesTag) : yamlData,
+    [yamlData, tagFilter, matchesTag],
+  )
   const { expandedSections, toggleSection, yamlTreeRef } =
-    useYamlExpansion(yamlData, urlPath, viewMode, diagramStatus, diagramParent)
+    useYamlExpansion(tagFilteredYamlData, urlPath, viewMode, diagramStatus, diagramParent)
 
   // ── Focused view: filter YAML to only the active diagram's subtree ────────
 
@@ -82,7 +119,12 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
 
   // ── Search ────────────────────────────────────────────────────────────────
 
-  const allDiagramPaths = useMemo(() => collectAllDiagramPaths(yamlData), [yamlData])
+  // Tag filter applies here too, so search results and j/k/g/G navigation
+  // only cover diagrams carrying the selected tag.
+  const allDiagramPaths = useMemo(
+    () => collectAllDiagramPaths(yamlData).filter(matchesTag),
+    [yamlData, matchesTag],
+  )
 
   const searchResults = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
@@ -202,6 +244,13 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [searchResults, allDiagramPaths, diagramStatus, urlPath, handleDiagramClick])
 
+  // ── Tree data (view mode + tag filter applied) ────────────────────────────
+
+  const treeData = useMemo(() => {
+    if (viewMode !== 'focused') return tagFilteredYamlData
+    return tagFilter ? pruneByTag(filteredYamlData, matchesTag) : filteredYamlData
+  }, [viewMode, filteredYamlData, tagFilteredYamlData, tagFilter, matchesTag])
+
   // ── Copy helpers ──────────────────────────────────────────────────────────
 
   // Build a YAML-serialisable snapshot of what is currently expanded
@@ -225,8 +274,7 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
   }
 
   const handleCopyVisible = () => {
-    const data = viewMode === 'focused' ? filteredYamlData : yamlData
-    const text = yaml.dump(buildVisibleYaml(data), { indent: 2 })
+    const text = yaml.dump(buildVisibleYaml(treeData), { indent: 2 })
     navigator.clipboard.writeText(text)
       .then(() => { setCopyLabel('✓'); setTimeout(() => setCopyLabel('⎘'), 2000) })
       .catch(() => { setCopyLabel('✗'); setTimeout(() => setCopyLabel('⎘'), 2000) })
@@ -237,8 +285,6 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
   if (!yamlData) {
     return <div className="yaml-panel">Loading pointers...</div>
   }
-
-  const treeData = viewMode === 'focused' ? filteredYamlData : yamlData
 
   return (
     <>
@@ -294,6 +340,19 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
               ✕
             </button>
           )}
+          {vocabulary.length > 0 && (
+            <select
+              className={`view-mode-select tag-filter-select${tagFilter ? ' tag-filter-select--active' : ''}`}
+              value={tagFilter}
+              onChange={e => updateTagFilter(e.target.value)}
+              title="Filter diagrams by quality tag"
+            >
+              <option value="">all tags</option>
+              {vocabulary.map(t => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+          )}
         </div>
 
         <div className="yaml-tree" ref={yamlTreeRef}>
@@ -324,6 +383,8 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
                 )
               })}
             </div>
+          ) : tagFilter && !containsDiagram(treeData) ? (
+            <div className="pointers-search-empty">No diagrams tagged "{tagFilter}"</div>
           ) : (
             <YamlNavigator
               data={treeData}

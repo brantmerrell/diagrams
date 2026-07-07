@@ -238,6 +238,15 @@
   color: #ccc;
 }
 
+.tag-filter-select {
+  max-width: 8.5rem;
+}
+
+.tag-filter-select--active {
+  color: #fff;
+  border-color: #646cff;
+}
+
 .pointers-search-results {
   padding-top: 0.25rem;
 }

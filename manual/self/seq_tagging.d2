@@ -1,0 +1,74 @@
+vars: {
+  d2-config: {
+    theme-id: 201
+  }
+}
+classes: @"../classes/sequence"
+classes: @"../classes/basic"
+
+layers: {
+  0_index: {
+    _quality: {class: styled}
+
+    seq: {
+      shape: sequence_diagram
+      server: {label: "server.js\nGET /api/manual/tags"; class: api}
+      manifest: {label: "scripts/\nbuild-tags-manifest.mjs"; class: pipeline}
+      lib: {label: "scripts/lib/tags.mjs"; class: pipeline}
+      vocab: {label: "manual/classes/basic.d2\n(tags.d2 when renamed)"; class: database}
+      sources: {label: "manual/**/*.d2"; class: database}
+      tagsjson: {label: "manual/tags.json"; class: database}
+
+      server -> lib: "buildTagsIndex() per request\n(dev + Heroku; tag edits show up live)" {class: api}
+
+      manifest.note1: |md
+        run by deploy.yml before manual/
+        is copied into dist/, or by hand:
+        `node scripts/build-tags-manifest.mjs`
+      |
+      manifest -> lib: "buildTagsIndex() at build time"
+      lib -> vocab: "read top-level keys → vocabulary\n(compiles, styled, coherent)"
+      lib -> sources: "scan class: usages ∩ vocabulary"
+      lib.note1: |md
+        matches `class: name` and
+        `class: [a; b]` multi-class
+      |
+      manifest -> tagsjson: "write {vocabulary, tags}\n(tracked in git)"
+      tagsjson.note1: |md
+        static stand-in for the API on
+        GitHub Pages — useDiagramTags
+        falls back to /manual/tags.json
+      |
+    }
+  }
+
+  1_filter: {
+    _quality: {class: styled}
+
+    seq: {
+      shape: sequence_diagram
+      user: {shape: c4-person}
+      navigator: {label: "ManualNavigator.tsx\ntag select"; class: frontend}
+      hook: {label: "useDiagramTags"; class: frontend}
+      api: {label: "/api/manual/tags"; class: api}
+      static: {label: "/manual/tags.json"; class: database}
+
+      navigator -> hook: "mount"
+      hook -> api: "GET" {class: api}
+      api -> hook: "{vocabulary, tags}" {class: api}
+      hook -> static: "fallback when no backend\n(GitHub Pages)"
+
+      user -> navigator: "select tag, e.g. styled"
+      navigator.note1: |md
+        sets ?tag=styled URL param —
+        filtered views are shareable
+      |
+      navigator -> navigator: "pruneByTag() hides untagged branches"
+      navigator.note2: |md
+        search results, j/k/gg/G cycling,
+        and COPY all follow the filter
+      |
+      user -> navigator: "select all tags — filter off"
+    }
+  }
+}

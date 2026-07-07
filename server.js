@@ -4,6 +4,7 @@ import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
 import yaml from 'js-yaml'
+import { buildTagsIndex } from './scripts/lib/tags.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -452,6 +453,17 @@ app.get('/api/mmd/events/:mmdPath(*)', (req, res) => {
 })
 
 // ── Batch file-existence check (shared for .d2 and .mmd) ──────────────────────
+
+// Quality-tag index — { vocabulary: string[], tags: { '/manual/foo.d2': string[] } }.
+// Rescans on each request so tag edits show up without a server restart;
+// the scan reads ~100 small files, cheap enough to skip caching.
+app.get('/api/manual/tags', (req, res) => {
+  try {
+    res.json(buildTagsIndex(__dirname))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
 
 // Batch file-existence check — accepts { paths: string[] }, returns { [path]: boolean }
 app.post('/api/manual/exists', (req, res) => {

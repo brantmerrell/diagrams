@@ -3,6 +3,26 @@ spotlight:
   - manual/dev/ports.d2
   - manual/dev/make.d2
   - manual/dev/zombie-processes.d2
+diagrams/:
+  details:
+    repository: https://github.com/brantmerrell/diagrams
+    description: this viewer, described by itself
+  setup:
+    - ./manual/self/setup.d2
+  src/:
+    components/:
+      D2Panel.tsx:
+        - ./manual/self/seq_view.d2
+      ManualNavigator.tsx:
+        - ./manual/self/seq_view.d2
+        - ./manual/self/seq_tagging.d2
+  scripts/:
+    lib/:
+      tags.mjs:
+        - ./manual/self/seq_tagging.d2
+  server.js:
+    - ./manual/self/seq_view.d2
+    - ./manual/self/seq_tagging.d2
 hi/:
   frontend/:
     src/:
