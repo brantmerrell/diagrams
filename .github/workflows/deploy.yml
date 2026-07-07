@@ -41,6 +41,11 @@ jobs:
         # these scenarios.json files when the API is absent (GitHub Pages).
         run: node scripts/build-scenario-manifests.mjs
 
+      - name: Generate tags manifest
+        # Static stand-in for /api/manual/tags — the frontend's quality-tag
+        # filter falls back to /manual/tags.json when the API is absent.
+        run: node scripts/build-tags-manifest.mjs
+
       - name: Build frontend
         run: npm run build
         env:
