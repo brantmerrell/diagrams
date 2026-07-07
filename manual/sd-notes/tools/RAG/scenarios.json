@@ -1,24 +1,32 @@
 {
   "scenarios": [
     {
-      "name": "architecture",
-      "path": "/manual/sd-notes/tools/RAG/architecture.svg"
+      "name": "0_architecture",
+      "path": "/manual/sd-notes/tools/RAG/0_architecture.svg"
     },
     {
-      "name": "evaluation",
-      "path": "/manual/sd-notes/tools/RAG/evaluation.svg"
+      "name": "0_overview",
+      "path": "/manual/sd-notes/tools/RAG/0_overview.svg"
     },
     {
-      "name": "notes",
-      "path": "/manual/sd-notes/tools/RAG/notes.svg"
+      "name": "2_self_rag_pattern",
+      "path": "/manual/sd-notes/tools/RAG/2_self_rag_pattern.svg"
     },
     {
-      "name": "overview",
-      "path": "/manual/sd-notes/tools/RAG/overview.svg"
+      "name": "3_corrective_rag_pattern",
+      "path": "/manual/sd-notes/tools/RAG/3_corrective_rag_pattern.svg"
     },
     {
-      "name": "patterns",
-      "path": "/manual/sd-notes/tools/RAG/patterns.svg"
+      "name": "4_agentic_rag_pattern",
+      "path": "/manual/sd-notes/tools/RAG/4_agentic_rag_pattern.svg"
+    },
+    {
+      "name": "5_multimodal_rag_pattern",
+      "path": "/manual/sd-notes/tools/RAG/5_multimodal_rag_pattern.svg"
+    },
+    {
+      "name": "6_evaluation",
+      "path": "/manual/sd-notes/tools/RAG/6_evaluation.svg"
     }
   ]
 }

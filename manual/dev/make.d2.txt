@@ -1,0 +1,106 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 201
+  }
+}
+classes: @"../classes/process"
+classes: @"../classes/basic"
+
+layers: {
+  tmux_focus: {
+    label: "1. Why Ctrl+C never reached the backend"
+    direction: right
+
+    _quality: {class: compiles}
+
+    keyboard: {shape: text; label: "user types\nCtrl+C"}
+
+    tmux: {
+      label: "tmux session 6"
+
+      window_background: {
+        label: "window 6:0 \"background\"\n(not the active window)"
+        pane_pts16: {class: obj_proc; label: "pane .1 - pts/16\n\"hi make dev\"\nactive=0"}
+      }
+
+      window_hi: {
+        label: "window 6:3 \"hi\"\n(the active window)"
+        pane_pts18: {class: obj_proc; label: "pane .1 - pts/18\nClaude Code session\nactive=1"}
+      }
+    }
+
+    keyboard -> tmux.window_hi.pane_pts18: {class: edge_signal; label: "delivered here instead"}
+    keyboard -> tmux.window_background.pane_pts16: {class: edge_no_signal}
+  }
+
+  process_group: {
+    label: "2. No isolation even if it had arrived"
+    direction: down
+
+    _quality: {class: compiles}
+
+    pgid: {
+      label: "pgid 243370 - one group\ndash runs with job control off:\nnon-interactive shells never enable monitor mode"
+
+      make_proc: {class: obj_proc; label: "make\npid 243370"}
+      sh_recipe: {class: obj_proc; label: "sh (dash)\npid 243726\none sh -c, backslash-joined recipe"}
+      uvicorn_reloader: {class: obj_proc; label: "uvicorn --reload\npid 243727"}
+      uvicorn_worker: {class: obj_proc; label: "uvicorn worker\npid 243754\n(actual FastAPI process)"}
+      npm_dev: {class: obj_proc; label: "npm run dev\npid 243728"}
+      sh_vite: {class: obj_proc; label: "sh -c vite --open\npid 243755"}
+      vite_node: {class: obj_proc; label: "node vite\npid 243756"}
+
+      make_proc -> sh_recipe: {class: edge_spawn}
+      sh_recipe -> uvicorn_reloader: {class: edge_spawn; label: "& (backgrounded)"}
+      uvicorn_reloader -> uvicorn_worker: {class: edge_spawn; label: "reload supervises"}
+      sh_recipe -> npm_dev: {class: edge_spawn; label: "foreground"}
+      npm_dev -> sh_vite: {class: edge_spawn}
+      sh_vite -> vite_node: {class: edge_spawn}
+    }
+
+    note: {
+      shape: text
+      label: "Job control is what normally puts a backgrounded job in its\nown process group, so Ctrl+C (sent to the foreground group\nonly) skips it. Dash never does this for a non-interactive\nrecipe shell, so background and foreground share one group.\nA signal that actually reached pgid 243370 would have killed\neverything together, uvicorn and its worker included."
+    }
+  }
+
+  dash_jobspec_bug: {
+    label: "3. The Makefile's own cleanup line is dead code"
+    direction: down
+
+    _quality: {class: compiles}
+
+    demo: |sh
+    dash -c 'sleep 50 & bg=$!; kill %1; kill "$bg"'
+    |
+
+    result: {
+      shape: text
+      label: "kill %1        -> \"No such process\" (exit 1)\nkill <real pid> -> succeeds (exit 0)\n\ndash has no %-jobspec table outside interactive monitor\nmode. `kill %1` in the Makefile never killed the\nbackgrounded uvicorn, on any run, regardless of pane focus."
+    }
+  }
+
+  fix: {
+    classes: @"../classes/plan"
+    direction: down
+
+    _quality: {class: compiles}
+
+    makefile: {
+      class: to_add
+      label: |makefile
+      dev:
+      	docker-compose up -d
+      	trap 'kill 0' EXIT; \
+      	cd backend && .venv/bin/uvicorn app.main:app --reload & \
+      	cd frontend && npm run dev
+      |
+    }
+
+    note: {
+      shape: text
+      label: "trap 'kill 0' EXIT fires on normal exit and on the shell's\ndefault termination from an unhandled INT/TERM, sending the\nsignal to pgid 0 (the caller's own group) - which already\ncontains every process here, since dash never splits them\nout. Replaces the dead `kill %1` line.\n\nThis only helps once the signal is actually delivered - it\ndoes not fix the tmux pane-focus miss, which is a separate,\nunrelated failure mode (see tmux_focus layer)."
+    }
+  }
+}

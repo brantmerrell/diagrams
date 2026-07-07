@@ -2,11 +2,15 @@ grid-rows: 2
 vars: {
   d2-config: {
     layout-engine: elk
-    theme-id: 104
+    theme-id: 201
   }
 }
-classes: @"../../classes/sd"
+classes: @"../../classes/L7"
 classes: @"../../classes/function"
+classes: @"../../classes/basic"
+
+_quality: {class: compiles}
+
 
 # Single Database Bottleneck
 single_db_system: {

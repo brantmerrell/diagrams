@@ -1,0 +1,153 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 201
+  }
+}
+classes: @"../classes/process"
+classes: @"../classes/basic"
+
+layers: {
+  spawn: {
+    label: "1. How bun run start spins these up"
+    direction: down
+
+    _quality: {class: compiles}
+
+    bun_start: {class: obj_proc; label: "bun run start\npid 2114546 (pgid 2114546)"}
+    concurrently: {class: obj_proc; label: "concurrently\nbun run server, bun run dev"}
+    sh_server: {class: obj_proc; label: "sh -c\n\"bun run server\""}
+    bun_server: {class: obj_proc; label: "bun run server"}
+    node_server: {class: obj_proc; label: "node server.js\nExpress + SSE"}
+    sh_dev: {class: obj_proc; label: "sh -c\n\"bun run dev\""}
+    bun_dev: {class: obj_proc; label: "bun run dev"}
+    vite: {class: obj_proc; label: "vite (node)"}
+    esbuild: {class: obj_proc; label: "esbuild --service"}
+
+    d2_watchers: {
+      label: "one d2 -w per diagram POSTed to\n/api/manual/watch - never capped"
+      style.stroke-dash: 3
+
+      w1: {class: obj_proc; label: "d2 -w mint.d2"}
+      w2: {class: obj_proc; label: "d2 -w mint.d2\n(same file, revisited\nbefore w1 exited)"}
+      w3: {class: obj_proc; label: "d2 -w ports.d2"}
+      more: {shape: text; label: "... one per diagram\never viewed this session"}
+    }
+
+    bun_start -> concurrently: {class: edge_spawn}
+    concurrently -> sh_server: {class: edge_spawn}
+    sh_server -> bun_server: {class: edge_spawn}
+    bun_server -> node_server: {class: edge_spawn}
+    concurrently -> sh_dev: {class: edge_spawn}
+    sh_dev -> bun_dev: {class: edge_spawn}
+    bun_dev -> vite: {class: edge_spawn}
+    vite -> esbuild: {class: edge_spawn}
+    node_server -> d2_watchers.w1: {class: edge_spawn; label: "POST /api/manual/watch"}
+    node_server -> d2_watchers.w2: {class: edge_spawn; label: "revisit"}
+    node_server -> d2_watchers.w3: {class: edge_spawn}
+
+    note: {
+      shape: text
+      label: "Confirmed on a live session: node server.js, every d2 -w child,\nvite and esbuild all share ONE process group (pgid = bun run\nstart's own pid). Before the fix, nothing ever told a watcher to\nstop when the frontend navigated to a different diagram, so each\nview leaked one process for the life of the server, and a fast\nrevisit could orphan the previous process from the tracking Map\nbefore it had actually exited (see stopWatcher in server.js)."
+    }
+  }
+
+  ctrlc: {
+    label: "2. What Ctrl+C actually does to this tree"
+    direction: down
+
+    _quality: {class: compiles}
+
+    keyboard: {shape: text; label: "user types\nCtrl+C"}
+
+    group: {
+      label: "pgid 2114546 (the whole tree from layer 1)"
+      node_server: {class: obj_proc; label: "node server.js"}
+      d2_a: {class: obj_proc; label: "d2 -w mint.d2"}
+      d2_b: {class: obj_proc; label: "d2 -w mint.d2\n(orphaned from the Map,\nstill in the same pgid)"}
+    }
+
+    keyboard -> group.node_server: {class: edge_signal}
+    keyboard -> group.d2_a: {class: edge_signal; label: "SIGINT - same pgid,\ndelivered directly by the OS"}
+    keyboard -> group.d2_b: {class: edge_signal; label: "SIGINT still arrives -\npgid membership survives\nbeing dropped from the Map"}
+
+    note: {
+      shape: text
+      label: "Measured directly: d2 does catch SIGINT (\"received signal\ninterrupt: shutting down...\") and exits roughly 1-2s later, and\nevery process here shares the terminal's foreground process\ngroup, so the signal reaches all of them without node forwarding\nanything. Before the fix, node itself had no SIGINT/SIGTERM\nhandler at all - it just died instantly, leaving cleanup entirely\nto the OS delivering the same signal to the rest of the group by\nluck, not by design."
+    }
+  }
+
+  wrong_pane: {
+    label: "3. The likelier real-world miss: wrong tmux pane"
+    direction: right
+
+    _quality: {class: compiles}
+
+    keyboard: {shape: text; label: "user types\nCtrl+C"}
+
+    tmux: {
+      label: "tmux session"
+
+      pane_active: {
+        label: "active pane\n(editor / Claude Code / etc.)"
+        proc: {class: obj_proc; label: "whatever's\nin focus"}
+      }
+
+      pane_server: {
+        label: "inactive pane"
+        proc: {class: obj_proc; label: "bun run start\npgid 2114546"}
+      }
+    }
+
+    keyboard -> tmux.pane_active.proc: {class: edge_signal; label: "delivered here instead"}
+    keyboard -> tmux.pane_server.proc: {class: edge_no_signal}
+
+    note: {
+      shape: text
+      label: "Same failure mode already diagrammed for the hi/make setup (see\ndev/make.d2, layer 1): tmux routes a keystroke to whichever pane\nhas focus, not to the pane the user means to target. If bun run\nstart is running in a background pane, Ctrl+C typed in the active\npane never reaches pgid 2114546 at all - the whole tree, including\nevery already-leaked d2 -w process, just keeps running."
+    }
+  }
+
+  fix: {
+    classes: @"../classes/plan"
+    direction: down
+
+    _quality: {class: compiles}
+
+    server_js: {
+      class: to_add
+      label: |js
+        function stopWatcher(diagramPath) {
+          const proc = watchProcesses.get(diagramPath)
+          if (!proc) return
+          watchProcesses.delete(diagramPath)
+          const forceKillTimer = setTimeout(() => {
+            if (proc.exitCode === null && proc.signalCode === null) proc.kill('SIGKILL')
+          }, 3_000)
+          proc.once('exit', () => clearTimeout(forceKillTimer))
+          proc.kill('SIGTERM')
+        }
+        process.on('SIGINT', () => { stopAllWatchers(); process.exit(0) })
+        process.on('SIGTERM', () => { stopAllWatchers(); process.exit(0) })
+      |
+    }
+
+    frontend: {
+      class: to_add
+      label: |js
+        // hook cleanup, on navigate-away or unmount
+        fetch('/api/manual/unwatch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ diagramPath: dp }),
+          keepalive: true,
+        })
+      |
+    }
+
+    note: {
+      shape: text
+      label: "Fixes the accumulation itself (leaving a diagram now stops its\nwatcher immediately) and makes the server's own shutdown path\nforceful (SIGKILL fallback after 3s). Doesn't fix the tmux\npane-focus miss in layer 3 - that's a terminal-routing problem,\nnot a process-lifecycle one."
+    }
+  }
+}

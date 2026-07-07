@@ -1,8 +1,14 @@
 vars: {
   d2-config: {
+    theme-id: 201
     layout-engine: elk
   }
 }
+
+classes: @"../../../classes/basic"
+
+_quality: {class: compiles}
+
 arr
 n
 diagonalDifference {

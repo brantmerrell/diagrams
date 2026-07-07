@@ -1,10 +1,14 @@
 vars: {
   d2-config: {
     layout-engine: elk
-    theme-id: 0
+    theme-id: 201
   }
 }
-classes: @"../../classes/sd"
+classes: @"../../classes/L7"
+classes: @"../../classes/basic"
+
+_quality: {class: compiles}
+
 
 # Transaction System
 transaction: {

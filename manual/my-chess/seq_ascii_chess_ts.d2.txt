@@ -1,34 +1,40 @@
-shape: sequence_diagram
 vars: {
   d2-config: {
     theme-id: 201
   }
 }
-classes: @"../classes/sd"
-browser: {class: obj_client; label: browser}
-index_tsx: {label: index.tsx; class: obj_service}
-App: {class: obj_service}
-Redux: {label: Redux store; class: obj_cache}
-connector: {label: connector API; class: obj_server}
-lichess: {label: Lichess API; class: obj_service}
-chesscom: {label: Chess.com API; class: obj_service}
-browser -> index_tsx: {class: edge_request; label: "load page"}
-index_tsx -> App: render {class: edge_request }
-App -> Redux: {class: edge_write; label: "initialize store"}
-Redux.note: |md
-* positions
-* puzzles
-* setups
-* slices
-| {
-  class: obj_cache
+classes: @"../classes/L7"
+classes: @"../classes/basic"
+
+_quality: {class: styled}
+
+seq_ascii_chess_ts: {
+  shape: sequence_diagram
+  browser: {class: obj_client; label: browser}
+  index_tsx: {label: index.tsx; class: obj_service}
+  App: {class: obj_service}
+  Redux: {label: Redux store; class: obj_cache}
+  connector: {label: connector API; class: obj_server}
+  lichess: {label: Lichess API; class: obj_service}
+  chesscom: {label: Chess.com API; class: obj_service}
+  browser -> index_tsx: {class: edge_request; label: "load page"}
+  index_tsx -> App: render {class: edge_request }
+  App -> Redux: {class: edge_write; label: "initialize store"}
+  Redux.note: |md
+  * positions
+  * puzzles
+  * setups
+  * slices
+  | {
+    class: obj_cache
+  }
+  App -> connector: {class: edge_request; label: "GET /none?fen_string=<starting FEN>"}
+  browser -> App: {class: edge_request; label: "change connection type or FEN"}
+  App -> Redux: {class: edge_write; label: "dispatch loadFen / setConnectionType"}
+  App -> connector: {class: edge_request; label: "GET /<endpoint>?fen_string=<FEN>"}
+  browser -> App: {class: edge_request; label: "sign in with Lichess"}
+  App -> lichess: {class: edge_request; label: "redirect to /oauth (PKCE flow)"}
+  App -> lichess: {class: edge_request; label: "POST /api/token (exchange code)"}
+  browser -> App: {class: edge_request; label: "load daily puzzle"}
+  App -> chesscom: {class: edge_request; label: "GET /pub/puzzle"}
 }
-App -> connector: {class: edge_request; label: "GET /none?fen_string=<starting FEN>"}
-browser -> App: {class: edge_request; label: "change connection type or FEN"}
-App -> Redux: {class: edge_write; label: "dispatch loadFen / setConnectionType"}
-App -> connector: {class: edge_request; label: "GET /<endpoint>?fen_string=<FEN>"}
-browser -> App: {class: edge_request; label: "sign in with Lichess"}
-App -> lichess: {class: edge_request; label: "redirect to /oauth (PKCE flow)"}
-App -> lichess: {class: edge_request; label: "POST /api/token (exchange code)"}
-browser -> App: {class: edge_request; label: "load daily puzzle"}
-App -> chesscom: {class: edge_request; label: "GET /pub/puzzle"}

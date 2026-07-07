@@ -2,10 +2,14 @@ direction: down
 vars: {
   d2-config: {
     layout-engine: elk
-    theme-id: 104
+    theme-id: 201
   }
 }
-classes: @"../../classes/sd"
+classes: @"../../classes/L7"
+classes: @"../../classes/basic"
+
+_quality: {class: compiles}
+
 
 # SQL Performance Optimization Flow
 performance_issue: {

@@ -1,0 +1,20 @@
+{
+  "scenarios": [
+    {
+      "name": "dash_jobspec_bug",
+      "path": "/manual/dev/make/dash_jobspec_bug.svg"
+    },
+    {
+      "name": "fix",
+      "path": "/manual/dev/make/fix.svg"
+    },
+    {
+      "name": "process_group",
+      "path": "/manual/dev/make/process_group.svg"
+    },
+    {
+      "name": "tmux_focus",
+      "path": "/manual/dev/make/tmux_focus.svg"
+    }
+  ]
+}

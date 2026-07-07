@@ -2,9 +2,14 @@ direction: right
 vars: {
   d2-config: {
     layout-engine: elk
-    theme-id: 105
+    theme-id: 201
   }
 }
+
+classes: @"../../classes/basic"
+
+_quality: {class: coherent}
+
 DebitCard: Debit card {
   shape: class
   +cardno

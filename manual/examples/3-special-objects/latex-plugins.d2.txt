@@ -1,8 +1,18 @@
+vars: {
+  d2-config: {
+    theme-id: 201
+  }
+}
+
+classes: @"../../classes/basic"
+
+_quality: {class: coherent}
+
 grid-columns: 3
 grid-gap: 100
 
 *.style.fill: transparent
-*.style.stroke: black
+# *.style.stroke: black
 
 amscd plugin: {
   ex: |tex

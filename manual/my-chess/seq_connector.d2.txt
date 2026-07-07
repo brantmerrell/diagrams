@@ -1,28 +1,34 @@
-shape: sequence_diagram
 vars: {
   d2-config: {
     # layout-engine: elk
     theme-id: 201
   }
 }
-classes: @"../classes/sd"
-client: {class: obj_client}
-app: {label: FastAPI; class: obj_server}
-router: {label: endpoint router; class: obj_service}
-chess: {label: python-chess; class: obj_service}
-networkx: {label: NetworkX; class: obj_service}
-diagon: {label: diagon CLI; class: obj_service}
-uvicorn: {class: obj_server}
+classes: @"../classes/L7"
+classes: @"../classes/basic"
 
-app -> uvicorn: "serve on 0.0.0.0:" # {PORT}
+_quality: { class: styled }
 
-client -> app: {class: edge_request; label: "GET /links?fen_string=<FEN>&heatmap=false"}
-app -> router: {class: edge_request; label: "route to links.py"}
-router -> chess: {class: edge_query; label: "parse FEN → board"}
-router -> chess: {class: edge_query; label: "get_nodes(board, heatmap)"}
-router -> chess: {class: edge_query; label: "get_edges(board)"}
+seq_connector: {
+  shape: sequence_diagram
+  client: {class: obj_client}
+  app: {label: FastAPI; class: obj_server}
+  router: {label: endpoint router; class: obj_service}
+  chess: {label: python-chess; class: obj_service}
+  networkx: {label: NetworkX; class: obj_service}
+  diagon: {label: diagon CLI; class: obj_service}
+  uvicorn: {class: obj_server}
 
-client -> app: {class: edge_request; label: "PUT /graphdag"}
-app -> router: {class: edge_request; label: "route to graphdag.py"}
-router -> networkx: {class: edge_query; label: "build_acyclic_graph(edges)"}
-router -> diagon: {class: edge_request; label: "pipe edge list to stdin"}
+  app -> uvicorn: "serve on 0.0.0.0:" # {PORT}
+
+  client -> app: {class: edge_request; label: "GET /links?fen_string=<FEN>&heatmap=false"}
+  app -> router: {class: edge_request; label: "route to links.py"}
+  router -> chess: {class: edge_query; label: "parse FEN → board"}
+  router -> chess: {class: edge_query; label: "get_nodes(board, heatmap)"}
+  router -> chess: {class: edge_query; label: "get_edges(board)"}
+
+  client -> app: {class: edge_request; label: "PUT /graphdag"}
+  app -> router: {class: edge_request; label: "route to graphdag.py"}
+  router -> networkx: {class: edge_query; label: "build_acyclic_graph(edges)"}
+  router -> diagon: {class: edge_request; label: "pipe edge list to stdin"}
+}

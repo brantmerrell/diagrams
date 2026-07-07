@@ -1,9 +1,14 @@
 vars: {
   d2-config: {
     layout-engine: elk
-    theme-id: 104
+    theme-id: 201
   }
 }
+
+classes: @"../../classes/basic"
+
+_quality: {class: compiles}
+
 
 EnterpriseUser: Enterprise User {
   shape: class

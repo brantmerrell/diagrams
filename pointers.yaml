@@ -1,4 +1,8 @@
 ---
+spotlight:
+  - manual/dev/ports.d2
+  - manual/dev/make.d2
+  - manual/dev/zombie-processes.d2
 hi/:
   frontend/:
     src/:
@@ -51,9 +55,9 @@ my-chess/:
 sd-notes/:
   designs/:
     mint/:
-      - ./manual/sd-notes/designs/mint/mint.d2
+      - ./manual/sd-notes/designs/mint.d2
     pastebin/:
-      - ./manual/sd-notes/designs/pastebin/pastebin.d2
+      - ./manual/sd-notes/designs/pastebin.d2
   tools/:
     - ./manual/sd-notes/tools/application_caching.d2
     - ./manual/sd-notes/tools/application_layer.d2
@@ -73,12 +77,11 @@ sd-notes/:
     - ./manual/sd-notes/tools/reverse_proxy.d2
     - ./manual/sd-notes/tools/vector_database.d2
 classes/:
-  sequence.d2:
-    - ./manual/classes/sequence.d2
-  agent.d2:
-    - ./manual/classes/agent.d2
-  function.d2:
-    - ./manual/classes/function.d2
+  - ./manual/classes/function.d2
+  - ./manual/classes/L4.d2
+  - ./manual/classes/plan.d2
+  - ./manual/classes/process.d2
+  - ./manual/classes/sequence.d2
 hackerrank/:
   1-week/:
     day-1/:
@@ -198,24 +201,24 @@ hackerrank/:
         - ./manual/hackerrank/3-month/week-5/missingNumbers.d2
       7_grid-challenge/:
         - ./manual/hackerrank/3-month/week-5/gridChallenge.d2
-examples:
+d2-documentation:
   3-special-objects:
-    - ./manual//examples/3-special-objects/block-strings.d2
-    - ./manual//examples/3-special-objects/grid-flask-pod.d2
-    - ./manual//examples/3-special-objects/grid-forge.d2
-    - ./manual//examples/3-special-objects/grid-japan.d2
-    - ./manual//examples/3-special-objects/languages.d2
-    - ./manual//examples/3-special-objects/latex-plugins.d2
-    - ./manual//examples/3-special-objects/latex.d2
-    - ./manual//examples/3-special-objects/link.d2
-    - ./manual//examples/3-special-objects/markdown.d2
-    - ./manual//examples/3-special-objects/sequence.d2
-    - ./manual//examples/3-special-objects/sql.d2
-    - ./manual//examples/3-special-objects/uml.d2
+    - ./manual/examples/3-special-objects/block-strings.d2
+    - ./manual/examples/3-special-objects/grid-flask-pod.d2
+    - ./manual/examples/3-special-objects/grid-forge.d2
+    - ./manual/examples/3-special-objects/grid-japan.d2
+    - ./manual/examples/3-special-objects/languages.d2
+    - ./manual/examples/3-special-objects/latex-plugins.d2
+    - ./manual/examples/3-special-objects/latex.d2
+    - ./manual/examples/3-special-objects/link.d2
+    - ./manual/examples/3-special-objects/markdown.d2
+    - ./manual/examples/3-special-objects/sequence.d2
+    - ./manual/examples/3-special-objects/sql.d2
+    - ./manual/examples/3-special-objects/uml.d2
   4-customization:
-    - ./manual//examples/4-customization/d2-legend.d2
-    - ./manual//examples/4-customization/dimensions.d2
-    - ./manual//examples/4-customization/multi-class.d2
-    - ./manual//examples/4-customization/tooltip.d2
+    - ./manual/examples/4-customization/d2-legend.d2
+    - ./manual/examples/4-customization/dimensions.d2
+    - ./manual/examples/4-customization/multi-class.d2
+    - ./manual/examples/4-customization/tooltip.d2
   5-in-depth:
-    - ./manual//examples/5-in-depth/variables.d2
+    - ./manual/examples/5-in-depth/variables.d2

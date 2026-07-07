@@ -1,0 +1,27 @@
+direction: right
+obj_proc: {
+  style: {
+    font-size: 16
+  }
+}
+edge_spawn: {
+  label: "forks/execs"
+  style: {
+    stroke-width: 1
+  }
+}
+edge_signal: {
+  label: "SIGINT"
+  style: {
+    stroke: Red
+    stroke-width: 2
+  }
+}
+edge_no_signal: {
+  label: "SIGINT (never delivered)"
+  style: {
+    stroke: Gray
+    stroke-dash: 3
+    stroke-width: 2
+  }
+}

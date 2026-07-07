@@ -1,3 +1,13 @@
+vars: {
+  d2-config: {
+    theme-id: 201
+  }
+}
+
+classes: @"../../classes/basic"
+
+_quality: {class: compiles}
+
 plankton -> formula: will steal
 formula: |latex
   \lim_{h \rightarrow 0 } \frac{f(x+h)-f(x)}{h}

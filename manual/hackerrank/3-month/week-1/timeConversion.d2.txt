@@ -2,9 +2,14 @@ direction: right
 vars: {
   d2-config: {
     layout-engine: elk
-    theme-id: 4
+    theme-id: 201
   }
 }
+
+classes: @"../../../classes/basic"
+
+_quality: {class: compiles}
+
 classes {
   highlight {
     style {

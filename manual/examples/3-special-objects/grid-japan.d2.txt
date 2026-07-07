@@ -1,3 +1,13 @@
+vars: {
+  d2-config: {
+    theme-id: 201
+  }
+}
+
+classes: @"../../classes/basic"
+
+_quality: {class: coherent}
+
 classes: {
   NONE: {style.opacity: 0}
   GREEN: {style.stroke: "#2b9464"; style.fill: "#2b9464"}

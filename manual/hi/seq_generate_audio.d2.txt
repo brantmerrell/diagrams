@@ -1,4 +1,3 @@
-shape: sequence_diagram
 vars: {
   d2-config: {
     # layout-engine: elk
@@ -6,53 +5,60 @@ vars: {
   }
 }
 classes: @"../classes/sequence"
-developer: {shape: c4-person; class: pipeline}
-script: {label: generate_audio.py; class: pipeline}
-db: {
-  label: PostgreSQL
-  class: database
-  icon: ../../icons/postgresql.svg
-  shape: image
-}
-tts: "Google Cloud TTS" {
-  class: gcp
-  icon: ../../icons/gcp_tts.svg
-  shape: image
-}
-fs: {
-  label: data/audio
-  icon: ../../icons/folder.svg
-  shape: image
-}
+classes: @"../classes/basic"
 
-developer -> script: python generate_audio.py {class: pipeline}
-script.note1: |md
-  ```
-  load .env → DATABASE_URL, GOOGLE_CLOUD_API_KEY
-  ```
-| {class: pipeline}
-script -> db: psycopg2 connect {class: pipeline}
+_quality: {class: styled}
 
-script.note2: |md
-  Pass 1: Sentence audio
-| {class: pipeline}
-script -> db: "SELECT id, story_id, sequence_num, devanagari\nFROM sentences WHERE audio_path IS NULL" {class: pipeline}
-script -> tts: "POST /v1/text:synthesize (devanagari, hi-IN-Wavenet-D)" {class: pipeline}
-script -> fs: "write data/audio/<story_id>/<seq>.mp3" {class: pipeline}
-script -> db: "UPDATE sentences SET audio_path WHERE id = ?" {class: pipeline}
-script -> db: COMMIT {class: pipeline}
-script.note3: |md
-  repeat per sentence (0.25s delay between requests)
-| {class: pipeline}
+seq_generate_audio: {
+  shape: sequence_diagram
+  developer: {shape: c4-person; class: pipeline}
+  script: {label: generate_audio.py; class: pipeline}
+  db: {
+    label: PostgreSQL
+    class: database
+    icon: ../../icons/postgresql.svg
+    shape: image
+  }
+  tts: "Google Cloud TTS" {
+    class: gcp
+    icon: ../../icons/gcp_tts.svg
+    shape: image
+  }
+  fs: {
+    label: data/audio
+    icon: ../../icons/folder.svg
+    shape: image
+  }
 
-script.note4: |md
-  Pass 2: Word audio
-| {class: pipeline}
-script -> db: "SELECT DISTINCT surface_devanagari\nFROM sentence_words WHERE word_audio_path IS NULL" {class: pipeline}
-script -> tts: "POST /v1/text:synthesize (surface_devanagari, hi-IN-Wavenet-D)" {class: pipeline}
-script -> fs: "write data/audio/words/<md5>.mp3" {class: pipeline}
-script -> db: "UPDATE sentence_words SET word_audio_path WHERE surface_devanagari = ?" {class: pipeline}
-script -> db: COMMIT {class: pipeline}
-script.note5: |md
-  repeat per unique word form (skip if file already exists)
-| {class: pipeline}
+  developer -> script: python generate_audio.py {class: pipeline}
+  script.note1: |md
+    ```
+    load .env → DATABASE_URL, GOOGLE_CLOUD_API_KEY
+    ```
+  | {class: pipeline}
+  script -> db: psycopg2 connect {class: pipeline}
+
+  script.note2: |md
+    Pass 1: Sentence audio
+  | {class: pipeline}
+  script -> db: "SELECT id, story_id, sequence_num, devanagari\nFROM sentences WHERE audio_path IS NULL" {class: pipeline}
+  script -> tts: "POST /v1/text:synthesize (devanagari, hi-IN-Wavenet-D)" {class: pipeline}
+  script -> fs: "write data/audio/<story_id>/<seq>.mp3" {class: pipeline}
+  script -> db: "UPDATE sentences SET audio_path WHERE id = ?" {class: pipeline}
+  script -> db: COMMIT {class: pipeline}
+  script.note3: |md
+    repeat per sentence (0.25s delay between requests)
+  | {class: pipeline}
+
+  script.note4: |md
+    Pass 2: Word audio
+  | {class: pipeline}
+  script -> db: "SELECT DISTINCT surface_devanagari\nFROM sentence_words WHERE word_audio_path IS NULL" {class: pipeline}
+  script -> tts: "POST /v1/text:synthesize (surface_devanagari, hi-IN-Wavenet-D)" {class: pipeline}
+  script -> fs: "write data/audio/words/<md5>.mp3" {class: pipeline}
+  script -> db: "UPDATE sentence_words SET word_audio_path WHERE surface_devanagari = ?" {class: pipeline}
+  script -> db: COMMIT {class: pipeline}
+  script.note5: |md
+    repeat per unique word form (skip if file already exists)
+  | {class: pipeline}
+}

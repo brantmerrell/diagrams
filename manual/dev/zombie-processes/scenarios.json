@@ -1,0 +1,20 @@
+{
+  "scenarios": [
+    {
+      "name": "ctrlc",
+      "path": "/manual/dev/zombie-processes/ctrlc.svg"
+    },
+    {
+      "name": "fix",
+      "path": "/manual/dev/zombie-processes/fix.svg"
+    },
+    {
+      "name": "spawn",
+      "path": "/manual/dev/zombie-processes/spawn.svg"
+    },
+    {
+      "name": "wrong_pane",
+      "path": "/manual/dev/zombie-processes/wrong_pane.svg"
+    }
+  ]
+}

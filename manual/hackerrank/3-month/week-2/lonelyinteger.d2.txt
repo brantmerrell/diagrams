@@ -2,9 +2,14 @@ direction: down
 vars: {
   d2-config: {
     layout-engine: elk
-    theme-id: 200
+    theme-id: 201
   }
 }
+
+classes: @"../../../classes/basic"
+
+_quality: {class: compiles}
+
 _a: a
 _def: def lonelyinteger(a) {
   _lookup: lookup

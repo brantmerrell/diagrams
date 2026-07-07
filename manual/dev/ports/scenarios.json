@@ -1,0 +1,20 @@
+{
+  "scenarios": [
+    {
+      "name": "0_problem",
+      "path": "/manual/dev/ports/0_problem.svg"
+    },
+    {
+      "name": "1_static_solution",
+      "path": "/manual/dev/ports/1_static_solution.svg"
+    },
+    {
+      "name": "2_dynamic_solution",
+      "path": "/manual/dev/ports/2_dynamic_solution.svg"
+    },
+    {
+      "name": "3_ephemeral_protocol",
+      "path": "/manual/dev/ports/3_ephemeral_protocol.svg"
+    }
+  ]
+}

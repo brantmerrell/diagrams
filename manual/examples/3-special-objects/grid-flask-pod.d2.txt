@@ -1,3 +1,13 @@
+vars: {
+  d2-config: {
+    theme-id: 201
+  }
+}
+
+classes: @"../../classes/basic"
+
+_quality: {class: compiles}
+
 classes: {
   kuber: {
     style: {
