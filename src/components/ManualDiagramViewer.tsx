@@ -6,7 +6,17 @@ import D2Panel from './D2Panel'
 import MermaidPanel from './MermaidPanel'
 import ResizablePanels from './ResizablePanels'
 import { useIsMobile } from '../hooks/useIsMobile'
-import { yamlPathToUrlSegment, normalizeToCanonical, urlSegmentToCanonical, isMermaidPath, isDiagramPath } from '../lib/yamlExtract'
+import { useManualNavigation } from '../hooks/useManualNavigation'
+import { useDiagramTags } from '../hooks/useDiagramTags'
+import {
+  yamlPathToUrlSegment,
+  normalizeToCanonical,
+  urlSegmentToCanonical,
+  isMermaidPath,
+  isDiagramPath,
+  isDiagramCurrentPath,
+  collectAllDiagramPaths,
+} from '../lib/yamlExtract'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
 
@@ -63,6 +73,40 @@ const ManualDiagramViewer: React.FC = () => {
   const [isYamlCollapsed, setIsYamlCollapsed] = useState(false)
   const isMobile = useIsMobile()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
+  // ── Mobile prev/next diagram arrows (j/k equivalents) ─────────────────────
+  // The keyboard handler lives in ManualNavigator, which on mobile is only
+  // mounted while the drawer is open — so the cycling logic is replicated
+  // here, over the same tag-filtered, existing-diagram list.
+
+  const { yamlData: navYamlData, diagramStatus } = useManualNavigation(isMobile)
+  const { tags } = useDiagramTags()
+  const tagFilter = searchParams.get('tag') || ''
+
+  const navigable = useMemo(() => {
+    return collectAllDiagramPaths(navYamlData).filter(p => {
+      if (diagramStatus.get(p) === false) return false
+      if (!tagFilter) return true
+      return tags.get(normalizeToCanonical(p))?.includes(tagFilter) ?? false
+    })
+  }, [navYamlData, diagramStatus, tags, tagFilter])
+
+  const goToAdjacentDiagram = useCallback((direction: 1 | -1) => {
+    if (navigable.length === 0) return
+    const urlPath = location.pathname.startsWith('/manual/')
+      ? location.pathname.substring('/manual/'.length)
+      : ''
+    const currentIndex = navigable.findIndex(p => isDiagramCurrentPath(p, urlPath))
+    const nextIndex = (currentIndex + direction + navigable.length) % navigable.length
+    // Drop params specific to the diagram being left (mirrors ManualNavigator)
+    const params = new URLSearchParams(searchParams)
+    params.delete('diagramParent')
+    params.delete('layer')
+    navigate({
+      pathname: `/manual/${yamlPathToUrlSegment(navigable[nextIndex])}`,
+      search: params.toString(),
+    })
+  }, [navigable, location.pathname, searchParams, navigate])
 
   const initialLayerName = searchParams.get('layer') || undefined
 
@@ -142,14 +186,36 @@ const ManualDiagramViewer: React.FC = () => {
       <div className="mobile-layout">
         {rightPanel}
         {!isDrawerOpen && (
-          <button
-            className="mobile-nav-button"
-            onClick={() => setIsDrawerOpen(true)}
-            title="Open navigator"
-            aria-label="Open navigator"
-          >
-            ☰
-          </button>
+          <>
+            <button
+              className="mobile-nav-button mobile-nav-button--menu"
+              onClick={() => setIsDrawerOpen(true)}
+              title="Open navigator"
+              aria-label="Open navigator"
+            >
+              ☰
+            </button>
+            {navigable.length > 1 && (
+              <>
+                <button
+                  className="mobile-nav-button mobile-arrow-prev"
+                  onClick={() => goToAdjacentDiagram(-1)}
+                  title="Previous diagram (k)"
+                  aria-label="Previous diagram"
+                >
+                  ▲
+                </button>
+                <button
+                  className="mobile-nav-button mobile-arrow-next"
+                  onClick={() => goToAdjacentDiagram(1)}
+                  title="Next diagram (j)"
+                  aria-label="Next diagram"
+                >
+                  ▼
+                </button>
+              </>
+            )}
+          </>
         )}
         {isDrawerOpen && (
           <div className="mobile-drawer">

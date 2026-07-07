@@ -517,8 +517,6 @@
 
 .mobile-nav-button {
   position: fixed;
-  left: 0.75rem;
-  top: 0.75rem;
   width: 48px;
   height: 48px;
   background-color: #646cff;
@@ -533,6 +531,23 @@
 
 .mobile-nav-button:active {
   background-color: #535bf2;
+}
+
+.mobile-nav-button--menu {
+  left: 0.75rem;
+  top: 0.75rem;
+}
+
+/* Prev/next diagram arrows sit in the bottom corners, flanking the bottom
+   toolbar row (scenario ◀ label ▶ when present) */
+.mobile-arrow-prev {
+  left: 0.75rem;
+  bottom: 0.75rem;
+}
+
+.mobile-arrow-next {
+  right: 0.75rem;
+  bottom: 0.75rem;
 }
 
 .mobile-drawer {
@@ -556,6 +571,11 @@
 }
 
 @media (max-width: 768px) {
+  /* Pinch-zoom covers stepped zooming on touch screens */
+  .zoom-button--step {
+    display: none;
+  }
+
   /* Controls become a horizontal toolbar along the bottom instead of a
      vertical column climbing over the diagram */
   .zoom-controls {
@@ -568,14 +588,17 @@
     bottom: 0.75rem;
   }
 
-  /* Scenario switcher gets its own row above the buttons */
+  /* Scenario switcher gets its own row below the buttons, on the bottom
+     line between the prev/next diagram arrows in the corners */
   .scenario-controls {
+    order: 2;
     flex-basis: 100%;
     justify-content: center;
   }
 
   .scenario-label {
-    max-width: 50vw;
+    /* leave room for the corner arrows flanking this row */
+    max-width: calc(100vw - 16rem);
   }
 
   /* Comfortable tap targets */

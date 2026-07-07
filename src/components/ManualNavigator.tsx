@@ -14,6 +14,7 @@ import {
   isDiagramCurrentPath,
   isDiagramPath,
   normalizeToCanonical,
+  collectAllDiagramPaths,
 } from '../lib/yamlExtract'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
@@ -23,17 +24,6 @@ interface ManualNavigatorProps {
   // Drawer mode (mobile): the ◀ button and diagram selection call this instead
   // of collapsing internally, letting the parent unmount the drawer.
   onRequestClose?: () => void
-}
-
-function collectAllDiagramPaths(obj: YamlValue, seen = new Set<string>(), out: string[] = []): string[] {
-  if (!obj) return out
-  if (typeof obj === 'string') {
-    if ((obj.endsWith('.d2') || obj.endsWith('.mmd')) && !seen.has(obj)) { seen.add(obj); out.push(obj) }
-    return out
-  }
-  if (Array.isArray(obj)) { obj.forEach(item => collectAllDiagramPaths(item, seen, out)); return out }
-  if (typeof obj === 'object') { Object.values(obj).forEach(v => collectAllDiagramPaths(v, seen, out)); return out }
-  return out
 }
 
 // Null out diagram leaves that fail the tag predicate; YamlNavigator's

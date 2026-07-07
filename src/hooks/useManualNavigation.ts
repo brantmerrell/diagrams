@@ -43,14 +43,19 @@ async function batchCheckExistence(paths: string[], signal: AbortSignal): Promis
   return statusMap
 }
 
-/** Fetches and polls pointers.yaml every 2 s; runs a single batch existence check on change. */
-export function useManualNavigation(): UseManualNavigationResult {
+/**
+ * Fetches and polls pointers.yaml every 2 s; runs a single batch existence check on change.
+ * Pass `enabled: false` to skip polling entirely (e.g. desktop layout where another
+ * mounted instance already polls).
+ */
+export function useManualNavigation(enabled = true): UseManualNavigationResult {
   const [yamlData, setYamlData] = useState<YamlValue>(null)
   const [rawYaml, setRawYaml] = useState('')
   const [diagramStatus, setDiagramStatus] = useState<Map<string, boolean>>(new Map())
   const yamlDataRef = useRef<YamlValue>(null)
 
   useEffect(() => {
+    if (!enabled) return
     let cancelled = false
     let pollErrorLogged = false  // suppress repeated poll-failure spam
     const ac = new AbortController()
@@ -90,7 +95,7 @@ export function useManualNavigation(): UseManualNavigationResult {
       ac.abort()
       clearInterval(interval)
     }
-  }, [])
+  }, [enabled])
 
   return { yamlData, rawYaml, diagramStatus }
 }
