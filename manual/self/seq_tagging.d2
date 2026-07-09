@@ -4,7 +4,7 @@ vars: {
   }
 }
 classes: @"../classes/sequence"
-classes: @"../classes/basic"
+classes: @"../classes/tags"
 
 layers: {
   0_index: {
@@ -15,7 +15,7 @@ layers: {
       server: {label: "server.js\nGET /api/manual/tags"; class: api}
       manifest: {label: "scripts/\nbuild-tags-manifest.mjs"; class: pipeline}
       lib: {label: "scripts/lib/tags.mjs"; class: pipeline}
-      vocab: {label: "manual/classes/basic.d2\n(tags.d2 when renamed)"; class: database}
+      vocab: {label: "manual/classes/tags.d2"; class: database}
       sources: {label: "manual/**/*.d2"; class: database}
       tagsjson: {label: "manual/tags.json"; class: database}
 

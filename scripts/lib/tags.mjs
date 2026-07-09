@@ -2,13 +2,12 @@
 // scripts/build-tags-manifest.mjs (static tags.json for GitHub Pages).
 //
 // The tag vocabulary is the set of top-level class names defined in
-// manual/classes/basic.d2 (compiles, styled, coherent, …). A diagram carries a
+// manual/classes/tags.d2 (compiles, styled, coherent, …). A diagram carries a
 // tag when its source applies that class somewhere, e.g. `_quality: {class: compiles}`.
 import fs from 'fs'
 import path from 'path'
 
-// basic.d2 may be renamed to tags.d2 at some point; accept either.
-const CLASS_FILE_CANDIDATES = ['manual/classes/tags.d2', 'manual/classes/basic.d2']
+const CLASS_FILE = 'manual/classes/tags.d2'
 
 export function* walkD2Files(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -20,18 +19,15 @@ export function* walkD2Files(dir) {
 
 /** Top-level keys of the quality-classes d2 file, e.g. ["compiles", "styled", "coherent"]. */
 export function readTagVocabulary(root) {
-  for (const candidate of CLASS_FILE_CANDIDATES) {
-    const file = path.join(root, candidate)
-    if (!fs.existsSync(file)) continue
-    const source = fs.readFileSync(file, 'utf-8')
-    const vocabulary = []
-    for (const line of source.split('\n')) {
-      const m = line.match(/^([A-Za-z0-9_-]+)\s*:/)
-      if (m) vocabulary.push(m[1])
-    }
-    return vocabulary
+  const file = path.join(root, CLASS_FILE)
+  if (!fs.existsSync(file)) return []
+  const source = fs.readFileSync(file, 'utf-8')
+  const vocabulary = []
+  for (const line of source.split('\n')) {
+    const m = line.match(/^([A-Za-z0-9_-]+)\s*:/)
+    if (m) vocabulary.push(m[1])
   }
-  return []
+  return vocabulary
 }
 
 /**

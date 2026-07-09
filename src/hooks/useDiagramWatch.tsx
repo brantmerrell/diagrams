@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { normalizeToCanonical, canonicalToSvgPath } from '../lib/yamlExtract'
+import { openLinkAnchorsInNewTab } from '../lib/svgLinks'
 
 export interface Scenario {
   name: string
@@ -47,9 +48,10 @@ export function useDiagramWatch(diagramPath: string | undefined): UseDiagramWatc
         // in that window gets an empty or truncated body. Keep the last good
         // render instead of blanking — the write's own SSE event refetches soon.
         if (!text.includes('<svg')) return
+        const withLinkTargets = openLinkAnchorsInNewTab(text)
         // Skip the re-render when a sibling layer's compile fired this reload but
         // the active layer's own SVG didn't actually change — avoids a visible flash.
-        setSvgContent(prev => text === prev ? prev : text)
+        setSvgContent(prev => withLinkTargets === prev ? prev : withLinkTargets)
       }
     } catch (err) {
       if (!silent && err instanceof Error && err.name !== 'AbortError') {
