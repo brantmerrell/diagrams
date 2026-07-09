@@ -5,8 +5,9 @@ vars: {
   }
 }
 classes: @"../../classes/L7"
-classes: @"../../classes/function"
 classes: @"../../classes/basic"
+classes: @"../../classes/function"
+classes: @"../../classes/tags"
 layers: {
   0_overview: {
     _quality: {class: compiles}

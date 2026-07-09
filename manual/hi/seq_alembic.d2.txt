@@ -5,7 +5,7 @@ vars: {
   }
 }
 classes: @"../classes/sequence"
-classes: @"../classes/basic"
+classes: @"../classes/tags"
 layers: {
   migration: {
     _quality: {class: styled}

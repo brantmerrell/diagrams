@@ -4,7 +4,7 @@ vars: {
   }
 }
 classes: @"../classes/sequence"
-classes: @"../classes/basic"
+classes: @"../classes/tags"
 layers: {
   auth: {
     _quality: {class: styled}

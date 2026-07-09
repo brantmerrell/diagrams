@@ -1,6 +1,10 @@
 {
   "scenarios": [
     {
+      "name": "base",
+      "path": "/manual/dev/make/base.svg"
+    },
+    {
       "name": "dash_jobspec_bug",
       "path": "/manual/dev/make/dash_jobspec_bug.svg"
     },

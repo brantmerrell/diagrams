@@ -7,7 +7,7 @@ vars: {
   }
 }
 
-classes: @"../../../classes/basic"
+classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 

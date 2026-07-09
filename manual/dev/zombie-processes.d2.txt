@@ -5,7 +5,7 @@ vars: {
   }
 }
 classes: @"../classes/process"
-classes: @"../classes/basic"
+classes: @"../classes/tags"
 
 layers: {
   spawn: {
