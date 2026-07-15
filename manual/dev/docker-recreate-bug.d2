@@ -1,0 +1,101 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 201
+  }
+}
+classes: @"../classes/process"
+classes: @"../classes/tags"
+
+layers: {
+  base: {
+    classes: @"../classes/basic"
+    direction: right
+
+    _quality: {class: compiles}
+
+    glossary: {
+      label: "Docs links"
+      grid-columns: 2
+
+      docker_compose: {
+        label: Docker Compose v1 - deprecated, Python
+        link: "https://docs.docker.com/compose/"
+        class: _link
+      }
+
+      image_inspect: {
+        label: Image inspect format - ContainerConfig field
+        link: "https://docs.docker.com/reference/cli/docker/image/inspect/"
+        class: _link
+      }
+    }
+  }
+
+  recreate_attempt: {
+    label: "1. What make dev -> docker-compose up -d actually hit"
+    direction: down
+
+    _quality: {class: compiles}
+
+    make_dev: {class: obj_proc; label: "make dev\n(hi repo)"}
+    compose_up: {class: obj_proc; label: "docker-compose up -d\nv1.29.2"}
+    project_up: {class: obj_proc; label: "project.up()\ncompose/project.py:697"}
+    convergence: {class: obj_proc; label: "execute_convergence_plan\nservice.py:579"}
+    recreate: {class: obj_proc; label: "_execute_convergence_recreate\nservice.py:499"}
+    create_container: {class: obj_proc; label: "create_container\nservice.py:330"}
+    volume_merge: {class: obj_proc; label: "_build_container_volume_options\nservice.py:960"}
+    get_data_volumes: {class: obj_proc; label: "get_container_data_volumes\nservice.py:1579"}
+
+    make_dev -> compose_up: {class: edge_spawn}
+    compose_up -> project_up: {class: edge_spawn}
+    project_up -> convergence: {class: edge_spawn; label: "existing hi-db-1\nneeds recreating"}
+    convergence -> recreate: {class: edge_spawn}
+    recreate -> create_container: {class: edge_spawn}
+    create_container -> volume_merge: {class: edge_spawn}
+    volume_merge -> get_data_volumes: {class: edge_spawn}
+
+    note: {
+      shape: text
+      label: "get_container_data_volumes unconditionally reads\ncontainer.image_config['ContainerConfig'] to find the\nold container's declared volumes before merging them\ninto the new one. Both hi-db-1 and its child db\ncontainer failed here with the identical KeyError."
+    }
+  }
+
+  root_cause: {
+    label: "2. Why 'ContainerConfig' wasn't there"
+    direction: right
+
+    _quality: {class: compiles}
+
+    old_image: {shape: text; label: "hi-db-1's stored image config\n(created under an older\nDocker Engine)"}
+    new_engine: {shape: text; label: "Docker Engine now running\n(newer image inspect schema)"}
+    key_error: {class: obj_proc; label: "KeyError: 'ContainerConfig'\ncompose 1.29.2, service.py:1579"}
+
+    old_image -> key_error: {label: "compose 1.29.2 assumes\nthe legacy top-level key\nstill exists"}
+    new_engine -> key_error: {label: "newer engines stopped\npopulating it the same way"}
+
+    note: {
+      shape: text
+      label: "This is a known docker-compose v1.29.2 incompatibility:\nit was last updated for an image metadata shape that\nnewer Docker Engine versions no longer produce, and v1 has\nno further releases to fix it. It only surfaces on\n*recreate* (an existing container already present) - never\non a first-time up with no prior container."
+    }
+  }
+
+  fix: {
+    classes: @"../classes/plan"
+    direction: down
+
+    _quality: {class: compiles}
+
+    stale: {class: to_remove; label: "hi-db-1 and the orphaned\n4a614cea4eac_hi-db-1\n(leftover from a prior\nfailed recreate)"}
+    removed: {class: to_remove; label: "docker rm <container>\n(no -v: volumes kept)"}
+    fresh: {class: to_add; label: "docker-compose up -d\ncreates a fresh container -\nno recreate path, no\nContainerConfig lookup"}
+
+    stale -> removed: {label: "remove by ID"}
+    removed -> fresh: {label: "compose sees no\nexisting container"}
+
+    note: {
+      shape: text
+      label: "The fix isn't a docker-compose upgrade (v1 is dead) - it's\nsidestepping the recreate code path entirely. Deleting the\nstale container (not its volumes) makes the next up a plain\ncreate, which never touches get_container_data_volumes. Safe\nto repeat any time this specific error resurfaces."
+    }
+  }
+}

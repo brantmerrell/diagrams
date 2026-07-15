@@ -1,0 +1,104 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 201
+  }
+}
+classes: @"../classes/tags"
+
+layers: {
+  false_signal: {
+    label: "1. Why GitHub's Traffic tab was lying"
+    direction: down
+
+    _quality: {class: compiles}
+
+    repos: {
+      label: "4 repos, each with its own Traffic tab"
+      grid-columns: 2
+      jbm_eco: {shape: text; label: "jbm.eco"}
+      hi: {shape: text; label: "hi -> hi.jbm.eco"}
+      my_chess: {shape: text; label: "my-chess -> chess.jbm.eco"}
+      diagrams: {shape: text; label: "diagrams -> diagrams.jbm.eco"}
+    }
+
+    findings: {
+      label: "What gh api .../traffic/* actually showed"
+      top_paths: {shape: text; label: "top paths: /issues /pulls\n/commits /actions /deployments"}
+      uniques: {shape: text; label: "uniques: 1 (rarely 2)\non almost every day"}
+      referrer: {shape: text; label: "referrer: always github.com"}
+      clone_spikes: {shape: text; label: "diagrams: 168 clones 7/3,\n102 clones 7/4"}
+    }
+
+    repos -> findings: {label: "gh api repos/{owner}/{repo}/traffic/*"}
+
+    note: {
+      shape: text
+      label: "Every signal traced back to the owner, not outside\nvisitors: top paths are dev-only pages, uniques=1 is\nconsistent with one person, the referrer never leaves\ngithub.com, and the clone spikes line up exactly with\nactions/checkout@v4 running in this repo's own CI, not\nwith anyone actually cloning it. GitHub's Traffic tab only\nsees github.com activity - it can't see the deployed Pages\nsites at all."
+    }
+  }
+
+  decision: {
+    label: "2. Decision: GoatCounter, one site code across all four domains"
+    direction: right
+
+    _quality: {class: compiles}
+
+    goatcounter: {shape: text; label: "GoatCounter\nfree, no cookie banner"}
+    cloudflare: {shape: text; label: "Cloudflare Web Analytics\nfree, considered"}
+    plausible: {shape: text; label: "Plausible\n~9 USD/mo, nicer dashboard,\nruled out on cost"}
+    site_code: {shape: text; label: "site code: jbm\n(jbm.goatcounter.com)"}
+
+    goatcounter -> site_code
+  }
+
+  fix: {
+    classes: @"../classes/plan"
+    direction: down
+
+    _quality: {class: compiles}
+
+    snippet: {
+      class: to_add
+      label: |html
+        <script>window.goatcounter = {path: function(p) { return location.host + p }}</script>
+        <script data-goatcounter="https://jbm.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+      |
+    }
+
+    targets: {
+      label: "same snippet, added to all four <head>s"
+      grid-columns: 2
+      t1: {class: to_add; label: "index.html\n(jbm.eco)"}
+      t2: {class: to_add; label: "../hi/frontend/index.html"}
+      t3: {class: to_add; label: "../my-chess/ascii-chess-ts/\npublic/index.html"}
+      t4: {class: to_add; label: "../diagrams/index.html"}
+    }
+
+    snippet -> targets
+
+    note: {
+      shape: text
+      label: "GoatCounter records path, not hostname, by default -\nwithout the window.goatcounter.path override, all four\nsites sharing one site code would collapse to\nindistinguishable hits on \"/\". The override prefixes every\nhit with location.host, so one dashboard can still tell\nthe four sites apart."
+    }
+  }
+
+  outcome: {
+    label: "3. What the dashboard can answer now"
+    direction: down
+
+    _quality: {class: compiles}
+
+    pages_tab: {shape: text; label: "GoatCounter Pages tab\none row per hostname-prefixed path"}
+    comparison: {shape: text; label: "diagrams.jbm.eco/\nvs chess.jbm.eco/\nvs hi.jbm.eco/ vs jbm.eco/"}
+    caveat: {shape: text; label: "no retroactive data -\nonly counts from install forward"}
+
+    pages_tab -> comparison
+    comparison -> caveat: {style.stroke-dash: 3}
+
+    note: {
+      shape: text
+      label: "This answers the original question (recruiters vs. market\nslowdown) going forward, but the GitHub Traffic tab and\nclone-count data collected before this point stays useless\nfor that purpose - it was never measuring real visitors to\nbegin with."
+    }
+  }
+}

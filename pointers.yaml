@@ -3,12 +3,15 @@ spotlight:
   - manual/dev/ports.d2
   - manual/dev/make.d2
   - manual/dev/zombie-processes.d2
+  - manual/dev/docker-recreate-bug.d2
 diagrams/:
   details:
     repository: https://github.com/brantmerrell/diagrams
     description: this viewer, described by itself
   setup:
     - ./manual/self/setup.d2
+  index.html:
+    - ./manual/jbm-eco/analytics.d2
   src/:
     components/:
       D2Panel.tsx:
@@ -25,6 +28,8 @@ diagrams/:
     - ./manual/self/seq_tagging.d2
 hi/:
   frontend/:
+    index.html:
+      - ./manual/jbm-eco/analytics.d2
     src/:
       main.tsx:
         - ./manual/hi/seq_frontend.d2
@@ -66,12 +71,21 @@ my-chess/:
     src/:
       index.tsx:
         - ./manual/my-chess/seq_ascii_chess_ts.d2
+    public/:
+      index.html:
+        - ./manual/jbm-eco/analytics.d2
   prototype-shiny/:
     app.R:
       - ./manual/my-chess/seq_prototype_shiny.d2
   blender-renderer/:
     __init__.py:
       - ./manual/my-chess/seq_blender_renderer.d2
+jbm-eco/:
+  details:
+    repository: https://github.com/brantmerrell/jbm.eco
+    description: personal site at jbm.eco, deploys the resume/portfolio home page
+  index.html:
+    - ./manual/jbm-eco/analytics.d2
 sd-notes/:
   designs/:
     mint/:
