@@ -1,5 +1,5 @@
 ---
-spotlight:
+review:  # 1m: 40; 10m: 1;
   - manual/dev/ports.d2
   - manual/dev/make.d2
   - manual/dev/zombie-processes.d2

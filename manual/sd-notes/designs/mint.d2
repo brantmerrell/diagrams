@@ -7,9 +7,15 @@ vars: {
 classes: @"../../classes/L7"
 classes: @"../../classes/basic"
 classes: @"../../classes/tags"
+
 layers: {
-  initial: {
-    _quality: {class: compiles}
+  1_initial: {
+    """
+    TODO: zig-zag
+    """
+    _quality: {
+      class: compiles
+    }
 
     Client: {
       class: obj_client
@@ -87,7 +93,7 @@ layers: {
     BudgetService -> SQLDatabase
     NotificationService -> SQLDatabase
   }
-  final: {
+  2_final: {
     direction: down
     _quality: {class: compiles}
 

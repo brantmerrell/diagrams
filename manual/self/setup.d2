@@ -7,6 +7,10 @@ vars: {
 classes: @"../classes/L7"
 classes: @"../classes/tags"
 
+"""
+TODO: adjust to changes made defined in ports.d2
+"""
+
 layers: {
   0_dev: {
     direction: down
@@ -41,14 +45,18 @@ layers: {
     browser -> pages: {class: edge_request; label: "GET"}
 
     fallbacks: |md
-      no backend: the frontend falls back from
-      /api/manual/tags → /manual/tags.json,
-      /api/manual/scenarios → scenarios.json,
+      no backend: the frontend falls back from \
+      /api/manual/tags → /manual/tags.json, \
+      /api/manual/scenarios → scenarios.json, \
       /api/d2/source → \*.d2.txt
     | {class: note}
+    """
+    TODO: it seems like fallbacks should be its own diagram
+    """
   }
 
   2_heroku: {
+    # TODO: since the layer's name is heroku, shouldn't it show heroku's role?
     direction: down
 
     _quality: {class: compiles}

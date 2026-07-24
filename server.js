@@ -83,9 +83,18 @@ app.post('/api/manual/watch', (req, res) => {
 
   console.log('Starting d2 watch process')
 
-  // Spawn d2 -w process with --browser 0 to prevent opening a new tab
+  // Spawn d2 -w process with --browser 0 to prevent opening a new tab.
+  // d2's watch mode reads $PORT/$HOST and defaults to a random free port
+  // (localhost:0) only when PORT is unset. dev.sh runs this server as
+  // `PORT="${BACKEND_PORT}" node server.js`, so that fixed PORT is otherwise
+  // inherited by every spawned d2 child — the first watcher grabs the
+  // backend's own port and every subsequent one fails with "address already
+  // in use". Strip PORT/HOST from the child's env so each watcher still gets
+  // its own random port.
+  const { PORT: _PORT, HOST: _HOST, ...d2Env } = process.env
   const d2Process = spawn('d2', ['-w', '--browser', '0', fullPath], {
     cwd: __dirname,
+    env: d2Env,
   })
 
   let stderrBuffer = ''

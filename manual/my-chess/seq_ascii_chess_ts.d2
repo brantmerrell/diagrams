@@ -6,7 +6,7 @@ vars: {
 classes: @"../classes/L7"
 classes: @"../classes/tags"
 
-_quality: {class: styled}
+_quality: {class: compiles}
 
 seq_ascii_chess_ts: {
   shape: sequence_diagram
@@ -18,13 +18,13 @@ seq_ascii_chess_ts: {
   lichess: {label: Lichess API; class: obj_service}
   chesscom: {label: Chess.com API; class: obj_service}
   browser -> index_tsx: {class: edge_request; label: "load page"}
-  index_tsx -> App: render {class: edge_request }
+  index_tsx -> App: render {class: edge_request}
   App -> Redux: {class: edge_write; label: "initialize store"}
   Redux.note: |md
-  * positions
-  * puzzles
-  * setups
-  * slices
+    * positions
+    * puzzles
+    * setups
+    * slices
   | {
     class: obj_cache
   }

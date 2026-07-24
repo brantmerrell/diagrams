@@ -7,13 +7,12 @@ vars: {
 classes: @"../classes/process"
 classes: @"../classes/tags"
 
-
 layers: {
   base: {
     classes: @"../classes/basic"
     direction: right
 
-    _quality: {class: compiles}
+    _quality: {class: styled}
 
     glossary: {
       label: "Wikipedia links"
@@ -67,7 +66,6 @@ layers: {
         class: _link
       }
     }
-
   }
   tmux_focus: {
     label: "1. Why Ctrl+C never reached the backend"
@@ -96,10 +94,10 @@ layers: {
     _ctrl_c -> tmux.window_hi.pane_pts18: {class: edge_signal; label: "delivered here instead"}
     _ctrl_c -> tmux.window_background.pane_pts16: {class: edge_no_signal}
     unsorted: |md
-    was pts/18 confirmed active *at the moment*  
-    of the failed Ctrl+C, or inferred after the  
-    fact because this Claude session's own pane  
-    is always active while being asked about it?  
+      was pts/18 confirmed active *at the moment*  
+      of the failed Ctrl+C, or inferred after the  
+      fact because this Claude session's own pane  
+      is always active while being asked about it?  
     |
   }
 
@@ -141,7 +139,7 @@ layers: {
     _quality: {class: compiles}
 
     demo: |sh
-    dash -c 'sleep 50 & bg=$!; kill %1; kill "$bg"'
+      dash -c 'sleep 50 & bg=$!; kill %1; kill "$bg"'
     |
 
     result: {
@@ -159,11 +157,11 @@ layers: {
     makefile: {
       class: to_add
       label: |makefile
-      dev:
-      	docker-compose up -d
-      	trap 'kill 0' EXIT; \
-      	cd backend && .venv/bin/uvicorn app.main:app --reload & \
-      	cd frontend && npm run dev
+        dev:
+        	docker-compose up -d
+        	trap 'kill 0' EXIT; \
+        	cd backend && .venv/bin/uvicorn app.main:app --reload & \
+        	cd frontend && npm run dev
       |
     }
 
