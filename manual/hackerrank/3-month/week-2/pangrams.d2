@@ -6,6 +6,7 @@ vars: {
 }
 
 classes: @"../../../classes/tags"
+classes: @"../../../classes/function"
 
 _quality: {class: compiles}
 
@@ -14,7 +15,10 @@ pangrams {
   _letters: letters\ninit \{\}
   _iter: letter in s.lower()
   _cond_1: letter not in letters.keys()\n& letter != ' '
-  _cond_3: key count == alphabet count
+  _cond_3: {
+    label: key count == alphabet count
+    class: cond
+  }
   _iter -> _cond_1
   _cond_1 -> _letters: add to keys
   _letters -> _cond_3

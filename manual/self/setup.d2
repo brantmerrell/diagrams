@@ -7,24 +7,23 @@ vars: {
 classes: @"../classes/L7"
 classes: @"../classes/tags"
 
-"""
-TODO: adjust to changes made defined in ports.d2
-"""
-
 layers: {
   0_dev: {
     direction: down
 
     _quality: {class: compiles}
 
-    browser: {class: obj_client; label: "browser\nlocalhost:5173"}
-    vite: {class: obj_server; label: "vite dev server\n:5173"}
-    express: {class: obj_server; label: "express (server.js)\n:3002"}
+    browser: {class: obj_client; label: "browser\nlocalhost:<ephemeral>"}
+    coordinator: {class: obj_service; label: "scripts/dev.sh\n(port coordinator)"}
+    vite: {class: obj_server; label: "vite dev server\n(ephemeral port)"}
+    express: {class: obj_server; label: "express (server.js)\n(ephemeral port)"}
     d2watch: {class: obj_service; label: "d2 --watch\n(one per open diagram)"}
     sources: {class: obj_db; label: "manual/**/*.d2\npointers.yaml"}
 
+    coordinator -> express: {class: edge_write; label: "spawn: PORT=<ephemeral> node server.js"}
+    coordinator -> vite: {class: edge_write; label: "writes .env.local, then\nvite --port <ephemeral> --strictPort"}
     browser -> vite: {class: edge_request; label: "SPA routes + assets"}
-    vite -> express: {class: edge_request; label: "proxy /api, /manual/*.svg"}
+    vite -> express: {class: edge_request; label: "proxy /api, /manual/*.svg\n(reads VITE_BACKEND_PORT)"}
     express -> d2watch: "spawn on /api/manual/watch"
     d2watch -> sources: {class: edge_query; label: "compile .d2 → .svg"}
     express -> browser: {class: edge_write; label: "SSE: svg updated"}
@@ -56,16 +55,17 @@ layers: {
   }
 
   2_heroku: {
-    # TODO: since the layer's name is heroku, shouldn't it show heroku's role?
     direction: down
 
     _quality: {class: compiles}
 
     browser: {class: obj_client; label: browser}
+    heroku: {class: obj_cdn; label: "Heroku\ndyno, assigns PORT env var"}
     express: {class: obj_server; label: "express (server.js)\nserves dist/ + full API"}
     container: {class: obj_service; label: "Dockerfile\ncopies repo incl. manual/ sources"}
 
-    browser -> express: {class: edge_request; label: "SPA + /api/*"}
-    container -> express: "runs"
+    browser -> heroku: {class: edge_request; label: "SPA + /api/*"}
+    container -> heroku: "deployed as image"
+    heroku -> express: {class: edge_request; label: "runs container,\nbinds PORT env var"}
   }
 }

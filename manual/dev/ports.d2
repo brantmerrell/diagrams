@@ -15,11 +15,8 @@ layers: {
 
     diagrams: {
       label: "diagrams"
-      vite_dev: {class: obj_socket; label: "vite dev server"}
-      express_server: {class: obj_socket; label: "express (server.js)"}
-      """
-      TODO: make it clearer which of these is frontend - why are they both "server"?
-      """
+      vite_dev: {class: obj_socket; label: "vite dev server\n(frontend)"}
+      express_server: {class: obj_socket; label: "express (server.js)\n(backend)"}
     }
 
     hi: {
@@ -76,8 +73,8 @@ layers: {
 
     diagrams: {
       label: "diagrams"
-      vite_dev: {class: [obj_socket; unchanged]; label: "vite dev server"}
-      express_server: {class: [obj_socket; unchanged]; label: "express (server.js)"}
+      vite_dev: {class: [obj_socket; unchanged]; label: "vite dev server\n(frontend)"}
+      express_server: {class: [obj_socket; unchanged]; label: "express (server.js)\n(backend)"}
     }
 
     hi: {
@@ -136,8 +133,8 @@ layers: {
     # a coworker's totally unrelated app defaulting to :3000 is just as real a conflict.
     diagrams: {
       label: "diagrams"
-      vite_dev: {class: [obj_socket]; label: "vite dev server"}
-      express_server: {class: [obj_socket]; label: "express (server.js)"}
+      vite_dev: {class: [obj_socket]; label: "vite dev server\n(frontend)"}
+      express_server: {class: [obj_socket]; label: "express (server.js)\n(backend)"}
       coordinator: {class: to_add; label: "startup script\n(port handoff)"}
     }
 

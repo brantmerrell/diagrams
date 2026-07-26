@@ -1,0 +1,154 @@
+vars: {
+  d2-config: {
+    theme-id: 200
+  }
+}
+classes: @"basic"
+classes: @"function"
+classes: @"L4"
+classes: @"L7"
+classes: @"plan"
+classes: @"process"
+classes: @"sequence"
+classes: @"tags"
+
+layers: {
+  0_basic: {
+    _link: {class: _link; label: "_link"}
+  }
+  1_function: {
+    grid-columns: 3
+
+    cond: {class: cond; label: "cond"}
+    ndx: {class: ndx; label: "ndx"}
+    edge_down: {class: edge_down; label: "edge_down"}
+    positive: {class: positive; label: "positive"}
+    negative: {class: negative; label: "negative"}
+    iter: {class: iter; label: "iter"}
+    op: {class: op; label: "op"}
+  }
+  2_L4: {
+    grid-columns: 2
+
+    obj_socket: {class: obj_socket; label: "obj_socket"}
+    obj_port: {class: obj_port; label: "obj_port"}
+    edge_own_demo: {
+      label: "edge_own"
+      A: {label: "A"}
+      B: {label: "B"}
+      A -> B: {class: edge_own}
+    }
+    edge_call_demo: {
+      label: "edge_call"
+      A: {label: "A"}
+      B: {label: "B"}
+      A -> B: {class: edge_call}
+    }
+    edge_forward_demo: {
+      label: "edge_forward"
+      A: {label: "A"}
+      B: {label: "B"}
+      A -> B: {class: edge_forward}
+    }
+  }
+  3_L7: {
+    grid-columns: 5
+
+    debug: {class: debug; label: "debug"}
+    notes: {class: notes; label: "notes"}
+    note: {class: note; label: "note"}
+    obj_cache: {class: obj_cache; label: "obj_cache"}
+    objs_cache: {class: objs_cache; label: "objs_cache"}
+    obj_cdn: {class: obj_cdn; label: "obj_cdn"}
+    obj_client: {class: obj_client; label: "obj_client"}
+    obj_db: {class: obj_db; label: "obj_db"}
+    objs_db: {class: objs_db; label: "objs_db"}
+    obj_dns: {class: obj_dns; label: "obj_dns"}
+    obj_lb: {class: obj_lb; label: "obj_lb"}
+    objs_lb: {class: objs_lb; label: "objs_lb"}
+    obj_server: {class: obj_server; label: "obj_server"}
+    objs_server: {class: objs_server; label: "objs_server"}
+    obj_service: {class: obj_service; label: "obj_service"}
+    objs_service: {class: objs_service; label: "objs_service"}
+    obj_queue: {class: obj_queue; label: "obj_queue"}
+    ai_assistant: {class: ai_assistant; label: "ai_assistant"}
+    mcp_server: {class: mcp_server; label: "mcp_server"}
+    data_source: {class: data_source; label: "data_source"}
+    security_layer: {class: security_layer; label: "security_layer"}
+    edge_invis_demo: {
+      label: "edge_invis"
+      A: {label: "A"}
+      B: {label: "B"}
+      A -> B: {class: edge_invis}
+    }
+    edge_request_demo: {
+      label: "edge_request"
+      A: {label: "A"}
+      B: {label: "B"}
+      A -> B: {class: edge_request}
+    }
+    edge_write_demo: {
+      label: "edge_write"
+      A: {label: "A"}
+      B: {label: "B"}
+      A -> B: {class: edge_write}
+    }
+    edge_query_demo: {
+      label: "edge_query"
+      A: {label: "A"}
+      B: {label: "B"}
+      A -> B: {class: edge_query}
+    }
+  }
+  4_plan: {
+    grid-columns: 3
+
+    to_add: {class: to_add; label: "to_add"}
+    to_remove: {class: to_remove; label: "to_remove"}
+    unchanged: {class: unchanged; label: "unchanged"}
+  }
+
+  5_process: {
+    grid-columns: 4
+
+    obj_proc: {class: obj_proc; label: "obj_proc"}
+    edge_spawn_demo: {
+      label: "edge_spawn"
+      A: {label: "A"}
+      B: {label: "B"}
+      A -> B: {class: edge_spawn}
+    }
+    edge_signal_demo: {
+      label: "edge_signal"
+      A: {label: "A"}
+      B: {label: "B"}
+      A -> B: {class: edge_signal}
+    }
+    edge_no_signal_demo: {
+      label: "edge_no_signal"
+      A: {label: "A"}
+      B: {label: "B"}
+      A -> B: {class: edge_no_signal}
+    }
+  }
+
+  6_sequence: {
+    grid-columns: 3
+
+    user: {class: user; label: "user"}
+    highlight: {class: highlight; label: "highlight"}
+    frontend: {class: frontend; label: "frontend"}
+    pipeline: {class: pipeline; label: "pipeline"}
+    api: {class: api; label: "api"}
+    database: {class: database; label: "database"}
+    aws: {class: aws; label: "aws"}
+    azure: {class: azure; label: "azure"}
+    gcp: {class: gcp; label: "gcp"}
+  }
+
+  7_tags: {
+
+    demo_styled: {class: styled; label: "styled"}
+    demo_coherent: {class: coherent; label: "coherent"}
+  }
+}

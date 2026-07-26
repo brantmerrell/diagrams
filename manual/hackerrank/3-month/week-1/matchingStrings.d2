@@ -45,25 +45,10 @@ classes: {
       font-size: 22
     }
   }
-  end: {
-    shape: circle
-    style: {
-      fill: black
-      font-color: white
-    }
-  }
-}
-_start: start {
-  class: end
 }
 _input: inputs {
   strings
   queries
-}
-_end: "" {
-  end: {
-    class: end
-  }
 }
 _def: def\nmatchingStrings {
   style.font-size: 14
@@ -79,7 +64,5 @@ _def: def\nmatchingStrings {
   _iter_str -> _condition
   _condition -> _result: increment\nresult\[i\]
 }
-_start -> _input
 _input.strings -> _def._iter_str: { class: data }
 _input.queries -> _def._iter_e: { class: data }
-_def -> _end

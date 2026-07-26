@@ -21,7 +21,7 @@ sockMerchant {
   iter -> cond
   cond -> result: yes {
     style: {
-      stroke: darkgreen
+      stroke: darkgreen # TODO: use classes, not styles
     }
   }
   cond -> result: no {
@@ -29,6 +29,7 @@ sockMerchant {
       stroke: crimson
     }
   }
+  # TODO: what's actually returned? 
 }
 n -> sockMerchant.iter
 ar -> sockMerchant

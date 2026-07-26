@@ -10,7 +10,9 @@ _quality: {class: compiles}
 
 seq_view: {
   shape: sequence_diagram
-  user: {shape: c4-person}
+  user: {
+    class: user
+  }
   navigator: {label: "ManualNavigator.tsx\nPointers panel"; class: frontend}
   panel: {label: "D2Panel.tsx"; class: frontend}
   api: {label: "server.js\n:3002"; class: api}

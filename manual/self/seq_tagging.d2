@@ -25,15 +25,19 @@ layers: {
       run by deploy.yml before manual/\
       is copied into dist/, or by hand:\
       `node scripts/build-tags-manifest.mjs`
-    |
-    manifest -> lib: "buildTagsIndex() at build time"
-    lib -> vocab: "read top-level keys → vocabulary\n(compiles, styled, coherent)"
-    lib -> sources: "scan class: usages ∩ vocabulary"
+    | {
+      class: pipeline
+    }
+    manifest -> lib: "buildTagsIndex() at build time" {class: pipeline}
+    lib -> vocab: "read top-level keys → vocabulary\n(compiles, styled, coherent)" {class: pipeline}
+    lib -> sources: "scan class: usages ∩ vocabulary" {class: pipeline}
     lib.note1: |md
       matches `class: name` and\
       `class: [a; b]` multi-class
-    |
-    manifest -> tagsjson: "write {vocabulary, tags}\n(tracked in git)"
+    | {
+      class: pipeline
+    }
+    manifest -> tagsjson: "write {vocabulary, tags}\n(tracked in git)" {class: pipeline}
     tagsjson.note1: |md
       static stand-in for the API on\
       GitHub Pages — useDiagramTags\
@@ -54,20 +58,30 @@ layers: {
     navigator -> hook: "mount"
     hook -> api: "GET" {class: api}
     api -> hook: "{vocabulary, tags}" {class: api}
-    hook -> static: "fallback when no backend\n(GitHub Pages)"
+    hook -> static: "fallback when no backend\n(GitHub Pages)" {
+      class: frontend
+    }
 
     user -> navigator: "select tag, e.g. styled"
     navigator.note1: |md
       sets ?tag=styled URL param —
       filtered views are shareable
-    |
-    navigator.note1: |md
-      `pruneByTag()` hides untagged branches
-    |
+    | {
+      class: frontend
+    }
     navigator.note2: |md
+      `pruneByTag()` hides untagged branches
+    | {
+      class: frontend
+    }
+    navigator.note3: |md
       search results, j/k/gg/G cycling,
       and COPY all follow the filter
-    |
-    user -> navigator: "select all tags — filter off"
+    | {
+      class: frontend
+    }
+    user -> navigator: "select all tags — filter off" {
+      class: user
+    }
   }
 }
