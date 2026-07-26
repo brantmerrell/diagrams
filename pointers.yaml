@@ -1,77 +1,92 @@
 ---
-spotlight:
-  - manual/dev/ports.d2
-  - manual/dev/make.d2
-  - manual/dev/zombie-processes.d2
-diagrams/:
-  details:
-    repository: https://github.com/brantmerrell/diagrams
-    description: this viewer, described by itself
-  setup:
-    - ./manual/self/setup.d2
-  src/:
-    components/:
-      D2Panel.tsx:
-        - ./manual/self/seq_view.d2
-      ManualNavigator.tsx:
-        - ./manual/self/seq_view.d2
-        - ./manual/self/seq_tagging.d2
-  scripts/:
-    lib/:
-      tags.mjs:
-        - ./manual/self/seq_tagging.d2
-  server.js:
-    - ./manual/self/seq_view.d2
-    - ./manual/self/seq_tagging.d2
-hi/:
-  frontend/:
+review:  # 1m: 40; 10m: 1;
+  - ./manual/dev/docker-recreate-bug.d2
+  - ./manual/dev/make.d2
+  - ./manual/dev/ports.d2
+  - ./manual/dev/zombie-processes.d2
+  - ./manual/hackerrank/1-week/day-1/timeConversion.d2
+  - ./manual/hackerrank/3-month/week-1/timeConversion.d2
+  - ./manual/hackerrank/1-week/day-3/findZigZagSequence.d2
+  - ./manual/hackerrank/3-month/week-3/pageCount.d2
+jbm-eco domain:
+  diagrams subdomain:
+    details:
+      repository: https://github.com/brantmerrell/diagrams
+      description: this viewer, described by itself
+    classes/:
+      - ./manual/classes/class_legend.d2
+    setup:
+      - ./manual/self/setup.d2
+    index.html:
+      - ./manual/jbm-eco/analytics.d2
     src/:
-      main.tsx:
-        - ./manual/hi/seq_frontend.d2
-      context/:
-        AuthContext.tsx:
+      components/:
+        D2Panel.tsx:
+          - ./manual/self/seq_view.d2
+        ManualNavigator.tsx:
+          - ./manual/self/seq_view.d2
+          - ./manual/self/seq_tagging.d2
+    scripts/:
+      lib/:
+        tags.mjs:
+          - ./manual/self/seq_tagging.d2
+    server.js:
+      - ./manual/self/seq_view.d2
+      - ./manual/self/seq_tagging.d2
+  chess subdomain:
+    details:
+      repository: https://github.com/brantmerrell/my-chess
+      description: chess visualization app
+    connector/:
+      main.py:
+        - ./manual/my-chess/seq_connector.d2
+    ascii-chess-ts/:
+      src/:
+        index.tsx:
+          - ./manual/my-chess/seq_ascii_chess_ts.d2
+      public/:
+        index.html:
+          - ./manual/jbm-eco/analytics.d2
+    prototype-shiny/:
+      app.R:
+        - ./manual/my-chess/seq_prototype_shiny.d2
+    blender-renderer/:
+      __init__.py:
+        - ./manual/my-chess/seq_blender_renderer.d2
+  hi/:
+    frontend/:
+      index.html:
+        - ./manual/jbm-eco/analytics.d2
+      src/:
+        main.tsx:
           - ./manual/hi/seq_frontend.d2
-      pages/:
-        Auth.tsx:
-          - ./manual/hi/seq_frontend.d2
-  backend/:
-    alembic/:
-      env.py:
-        - ./manual/hi/seq_alembic.d2
-      script.py.mako:
-        - ./manual/hi/seq_alembic.d2
-    app/:
-      models.py:
-        - ./manual/hi/seq_alembic.d2
-  data/:
-    audio/:
-    raw/:
-  pipeline/:
-    enrich_glosses.py:
-      - ./manual/hi/seq_enrich_glosses.d2
-    fetch_text.py:
-      - ./manual/hi/seq_fetch_text.d2
-    generate_audio.py:
-      - ./manual/hi/seq_generate_audio.d2
-    process_sentences.py:
-      - ./manual/hi/seq_process_sentences.d2
-my-chess/:
-  details:
-    repository: https://github.com/brantmerrell/my-chess
-    description: chess visualization app
-  connector/:
-    main.py:
-      - ./manual/my-chess/seq_connector.d2
-  ascii-chess-ts/:
-    src/:
-      index.tsx:
-        - ./manual/my-chess/seq_ascii_chess_ts.d2
-  prototype-shiny/:
-    app.R:
-      - ./manual/my-chess/seq_prototype_shiny.d2
-  blender-renderer/:
-    __init__.py:
-      - ./manual/my-chess/seq_blender_renderer.d2
+        context/:
+          AuthContext.tsx:
+            - ./manual/hi/seq_frontend.d2
+        pages/:
+          Auth.tsx:
+            - ./manual/hi/seq_frontend.d2
+    backend/:
+      alembic/:
+        env.py:
+          - ./manual/hi/seq_alembic.d2
+        script.py.mako:
+          - ./manual/hi/seq_alembic.d2
+      app/:
+        models.py:
+          - ./manual/hi/seq_alembic.d2
+    data/:
+      audio/:
+      raw/:
+    pipeline/:
+      enrich_glosses.py:
+        - ./manual/hi/seq_enrich_glosses.d2
+      fetch_text.py:
+        - ./manual/hi/seq_fetch_text.d2
+      generate_audio.py:
+        - ./manual/hi/seq_generate_audio.d2
+      process_sentences.py:
+        - ./manual/hi/seq_process_sentences.d2
 sd-notes/:
   designs/:
     mint/:
@@ -96,13 +111,15 @@ sd-notes/:
     - ./manual/sd-notes/tools/rdbms_tuning.d2
     - ./manual/sd-notes/tools/reverse_proxy.d2
     - ./manual/sd-notes/tools/vector_database.d2
-classes/:
-  - ./manual/classes/function.d2
-  - ./manual/classes/L4.d2
-  - ./manual/classes/plan.d2
-  - ./manual/classes/process.d2
-  - ./manual/classes/sequence.d2
-hackerrank/:
+hackerrank/: 
+  TODO:
+    - link each to hackerrank problem
+    - add integer_ prefixes to layer names
+    - create pattern-specific diagrams linking to hackerrank problems
+    - add python snippets for syntactic review of indexing and splicing (see miniMaxSum)
+    - include function signatures in labels and remove external depictions of params/inputs
+    - add diagrams for "mod" roles
+    - develop depiction of init vs modification for given variable
   1-week/:
     day-1/:
       1_plus-minus/:
@@ -169,7 +186,7 @@ hackerrank/:
       7_pangrams/:
         - ./manual/hackerrank/3-month/week-2/pangrams.d2
       8_mars-exploration/:
-        - ./manual/hackerrank/3-month/week-2/marsExploration.d2
+        - ./manual/hackerrank/3-month/week-2/marsExploration.d2 # TODO: finish diagram
       challenge/:
         - ./manual/hackerrank/3-month/week-2/flippingMatrix.d2
     week-3/:

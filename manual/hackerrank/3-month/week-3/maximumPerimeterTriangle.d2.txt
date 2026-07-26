@@ -16,13 +16,15 @@ maximumPerimeterTriangle {
   iter: i in range(len(sticks)-2)
     cond: isTriangle\nC < B + A {
       shape: diamond
-      y: sorted\nedges {
+      y: {
+        label: sorted\nedges
         shape: circle
         style: {
           stroke: darkgreen
         }
       }
-      n: \[-1\] {
+      n: {
+        label: "[-1]"
         shape: circle
         style: {
           stroke: crimson

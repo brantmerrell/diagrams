@@ -18,7 +18,7 @@ miniMaxSum: {
     class: op
   }
   left_splice: {
-    label: left splice\narr\[:4\]
+    label: left splice\narr\[:4\] # TODO: example integer or hardcoded?
     class: op
   }
   left_sum: {

@@ -5,60 +5,63 @@ vars: {
 }
 classes: @"../classes/sequence"
 classes: @"../classes/tags"
+
 layers: {
   auth: {
-    _quality: {class: styled}
+    _quality: {class: compiles}
 
-    seq: {
-      shape: sequence_diagram
-      browser: {shape: c4-person}
-      AuthProvider: {label: "context\nAuthContext\nAuthProvider"}
-      Reader: {label: "Reader.tsx\n/"}
-      Auth: {label: "Auth.tsx\n/auth"}
-      api: FastAPI
-      browser -> Reader: click "Sign in"
-      Auth.note1: |md
-        render email form
-      |
-      browser -> Auth: submit email address
-      Auth -> api: "POST /api/auth/request\n{email}"
-      api.note1: |md
-        sends magic-link email
-      |
-      browser -> Auth: "/auth?token=…"
-      Auth -> api: "GET /api/auth/verify?token=…\n(credentials: include)"
-      Auth -> api: "GET /api/auth/me\n(credentials: include)"
-      Auth -> AuthProvider: setUser(user)
-      Auth -> browser: navigate /
-      Reader -> api: "POST /api/auth/logout\n(credentials: include)"
-      Reader -> AuthProvider: setUser(null)
+    shape: sequence_diagram
+    browser: {class: user}
+    AuthProvider: {label: "context\nAuthContext\nAuthProvider"; class: frontend}
+    Reader: {label: "Reader.tsx\n/"; class: frontend}
+    Auth: {label: "Auth.tsx\n/auth"; class: frontend}
+    api: {label: FastAPI; class: api}
+    browser -> Reader: click "Sign in" {class: user}
+    Auth.note1: |md
+      render email form
+    | {
+      class: frontend
     }
+    browser -> Auth: submit email address {class: user}
+    Auth -> api: "POST /api/auth/request\n{email}" {class: frontend}
+    api.note1: |md
+      sends magic-link email
+    | {
+      class: api
+    }
+    browser -> Auth: "/auth?token=…" {class: user}
+    Auth -> api: "GET /api/auth/verify?token=…\n(credentials: include)" {class: frontend}
+    Auth -> api: "GET /api/auth/me\n(credentials: include)" {class: frontend}
+    Auth -> AuthProvider: setUser(user) {class: frontend}
+    Auth -> browser: navigate / {class: frontend}
+    Reader -> api: "POST /api/auth/logout\n(credentials: include)" {class: frontend}
+    Reader -> AuthProvider: setUser(null) {class: frontend}
   }
   load: {
-    _quality: {class: styled}
+    _quality: {class: compiles}
 
-    seq: {
-      shape: sequence_diagram
-      browser: {shape: c4-person}
-      main_tsx: {label: main.tsx}
-      App: {label: App.tsx}
-      AuthProvider: {label: "context\nAuthContext\nAuthProvider"}
-      Reader: {label: "Reader.tsx\n/"}
-      api: FastAPI
-      browser -> main_tsx: load page
-      main_tsx -> App
-      App -> AuthProvider: mount
-      AuthProvider -> api: "GET /api/auth/me\n(credentials: include)"
-      App -> Reader: "route /"
-      Reader -> api: GET /api/stories
-      Reader -> api: "GET /api/stories/{id}/sentences?limit=500"
-      Reader.note1: |md
-        render:
-        * SentenceView
-        * WordGloss
-        * AudioPlayer
-        * Navigation
-      |
+    shape: sequence_diagram
+    browser: {class: user}
+    main_tsx: {label: main.tsx; class: frontend}
+    App: {label: App.tsx; class: frontend}
+    AuthProvider: {label: "context\nAuthContext\nAuthProvider"; class: frontend}
+    Reader: {label: "Reader.tsx\n/"; class: frontend}
+    api: {label: FastAPI; class: api}
+    browser -> main_tsx: load page {class: user}
+    main_tsx -> App {class: frontend}
+    App -> AuthProvider: mount {class: frontend}
+    AuthProvider -> api: "GET /api/auth/me\n(credentials: include)" {class: frontend}
+    App -> Reader: "route /" {class: frontend}
+    Reader -> api: GET /api/stories {class: frontend}
+    Reader -> api: "GET /api/stories/{id}/sentences?limit=500" {class: frontend}
+    Reader.note1: |md
+      render:
+      * SentenceView
+      * WordGloss
+      * AudioPlayer
+      * Navigation
+    | {
+      class: frontend
     }
   }
 }

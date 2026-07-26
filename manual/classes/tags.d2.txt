@@ -1,10 +1,10 @@
 compiles: {
-  label: DIAGRAM QUALITY:\n pending style review
+  label: LAYER QUALITY:\n pending style review
   near: top-left
   style: {
     fill: Black
     font-color: Red
-    font-size: 20
+    font-size: 32
     stroke-dash: 4
     stroke-width: 3
     stroke: Red
@@ -12,7 +12,7 @@ compiles: {
 }
 styled: {
   near: top-right
-  label: DIAGRAM QUALITY:\n pending tech review
+  label: LAYER QUALITY:\n pending tech review
   style: {
     fill: Black
     font-color: Yellow
@@ -22,7 +22,7 @@ styled: {
   }
 }
 coherent: {
-  label: DIAGRAM QUALITY: \n coherent
+  label: LAYER QUALITY: \n coherent
   near: bottom-right
   style: {
     fill: Black

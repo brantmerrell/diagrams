@@ -5,10 +5,18 @@
     "coherent"
   ],
   "tags": {
+    "/manual/classes/class_legend.d2": [
+      "styled",
+      "coherent"
+    ],
     "/manual/clipboard.d2": [
       "compiles"
     ],
+    "/manual/dev/docker-recreate-bug.d2": [
+      "compiles"
+    ],
     "/manual/dev/make.d2": [
+      "styled",
       "compiles"
     ],
     "/manual/dev/ports.d2": [
@@ -228,6 +236,7 @@
       "compiles"
     ],
     "/manual/hi/seq_alembic.d2": [
+      "compiles",
       "styled"
     ],
     "/manual/hi/seq_auth.d2": [
@@ -240,34 +249,34 @@
       "styled"
     ],
     "/manual/hi/seq_enrich_glosses.d2": [
-      "styled"
+      "compiles"
     ],
     "/manual/hi/seq_fetch_text.d2": [
-      "styled"
+      "compiles"
     ],
     "/manual/hi/seq_frontend.d2": [
-      "styled"
+      "compiles"
     ],
     "/manual/hi/seq_generate_audio.d2": [
-      "styled"
+      "compiles"
     ],
     "/manual/hi/seq_migration.d2": [
       "styled"
     ],
     "/manual/hi/seq_process_sentences.d2": [
-      "styled"
+      "compiles"
     ],
     "/manual/my-chess/seq_ascii_chess_ts.d2": [
-      "styled"
+      "compiles"
     ],
     "/manual/my-chess/seq_blender_renderer.d2": [
-      "styled"
+      "compiles"
     ],
     "/manual/my-chess/seq_connector.d2": [
-      "styled"
+      "compiles"
     ],
     "/manual/my-chess/seq_prototype_shiny.d2": [
-      "styled"
+      "compiles"
     ],
     "/manual/sd-notes/GeneralMotors/sd.d2": [
       "compiles"
@@ -333,7 +342,7 @@
       "compiles"
     ],
     "/manual/self/seq_tagging.d2": [
-      "styled"
+      "compiles"
     ],
     "/manual/self/seq_view.d2": [
       "compiles"

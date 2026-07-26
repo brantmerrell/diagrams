@@ -1,12 +1,12 @@
 {
   "scenarios": [
     {
-      "name": "migration",
-      "path": "/manual/hi/seq_alembic/migration.svg"
+      "name": "1_migration",
+      "path": "/manual/hi/seq_alembic/1_migration.svg"
     },
     {
-      "name": "schema",
-      "path": "/manual/hi/seq_alembic/schema.svg"
+      "name": "2_schema",
+      "path": "/manual/hi/seq_alembic/2_schema.svg"
     }
   ]
 }

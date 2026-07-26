@@ -10,10 +10,11 @@ classes: @"../../classes/tags"
 _quality: {class: compiles}
 
 
+# TODO: replace styles and shapes with classes 
 # Transaction System
 transaction: {
   label: Database Transaction
-  shape: hexagon
+  shape: hexagon 
   style.fill: lightblue
 }
 

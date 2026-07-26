@@ -6,7 +6,7 @@ vars: {
 classes: @"../classes/L7"
 classes: @"../classes/tags"
 
-_quality: {class: styled}
+_quality: {class: compiles}
 
 seq_prototype_shiny: {
   shape: sequence_diagram
@@ -20,6 +20,9 @@ seq_prototype_shiny: {
   user -> server: {class: edge_request; label: "select preset FEN or submit FEN"}
   server -> chess_py: {class: edge_write; label: "board.set_fen(fen)"}
   server -> connector: {class: edge_request; label: "GET /links?fen_string=<FEN>"}
+  """
+  TODO: GET is a verb and it goes on an edge. /links is a URI/URL and it gets its own node. 
+  """
   user -> server: {class: edge_request; label: "submit move"}
   server -> chess_py: {class: edge_write; label: "board.push_san(move)"}
   server -> connector: {class: edge_request; label: "GET /links?fen_string=<updated FEN>"}

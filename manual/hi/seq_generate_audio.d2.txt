@@ -7,7 +7,7 @@ vars: {
 classes: @"../classes/sequence"
 classes: @"../classes/tags"
 
-_quality: {class: styled}
+_quality: {class: compiles}
 
 seq_generate_audio: {
   shape: sequence_diagram
@@ -42,7 +42,13 @@ seq_generate_audio: {
     Pass 1: Sentence audio
   | {class: pipeline}
   script -> db: "SELECT id, story_id, sequence_num, devanagari\nFROM sentences WHERE audio_path IS NULL" {class: pipeline}
-  script -> tts: "POST /v1/text:synthesize (devanagari, hi-IN-Wavenet-D)" {class: pipeline}
+  script -> tts: {
+    label: "POST /v1/text:synthesize (devanagari, hi-IN-Wavenet-D)"
+    """
+    TODO: verbs are edges; URI/URL is node.
+    """
+    class: pipeline
+  }
   script -> fs: "write data/audio/<story_id>/<seq>.mp3" {class: pipeline}
   script -> db: "UPDATE sentences SET audio_path WHERE id = ?" {class: pipeline}
   script -> db: COMMIT {class: pipeline}

@@ -1,4 +1,3 @@
-grid-rows: 4
 to_add: {
   style: {
     stroke: DarkGreen

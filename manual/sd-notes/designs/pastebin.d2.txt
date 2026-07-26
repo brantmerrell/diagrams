@@ -1,3 +1,6 @@
+"""
+TODO: disperse "notes" into diagram
+"""
 direction: down
 vars: {
   d2-config: {
@@ -45,7 +48,7 @@ ObjectStore: {
   label: Object\n Store
   class: obj_db
   notes: |md
-  * Object Store vs File Server vs NoSQL
+    * Object Store vs File Server vs NoSQL
   |
   wiki: {
     link: https://en.wikipedia.org/wiki/Object_storage
@@ -82,49 +85,49 @@ notes: {
   class: note
   label: notes
   scope: |md
-  ## In-Scope
-  * User enters block of text, receives link
-    + expiration configurable, default none
-  * User enters \"a paste\'s url\" and \"views the contents\"
-  * User is anonymous
-    + Can be or always is?
-  * Service provides page analytics (ie. monthly visits)
-  * Service deletes expired pastes
-  * Service has high availability
-    + what tradeoff?
+    ## In-Scope
+    * User enters block of text, receives link
+      + expiration configurable, default none
+    * User enters \"a paste\'s url\" and \"views the contents\"
+    * User is anonymous
+      + Can be or always is?
+    * Service provides page analytics (ie. monthly visits)
+    * Service deletes expired pastes
+    * Service has high availability
+      + what tradeoff?
   |
   out_scope: |md
-  ## Out-of-Scope
-  * User registers for account
-    + User verifies email
-  * User logs into a registered account
-    + User edits the document
-  * User configures visibility
-  * User configures the shortlink
+    ## Out-of-Scope
+    * User registers for account
+      + User verifies email
+    * User logs into a registered account
+      + User edits the document
+    * User configures visibility
+    * User configures the shortlink
   |
   constraints: |md
-  ## Constraints
-  * Pastes are text-only
-  * Traffic not evenly distributed
-  * Following a short link should be fast
-  * 10 million users
-  * 10 million paste writes per month
-  * 100 million paste reads per month
+    ## Constraints
+    * Pastes are text-only
+    * Traffic not evenly distributed
+    * Following a short link should be fast
+    * 10 million users
+    * 10 million paste writes per month
+    * 100 million paste reads per month
   |
   questions: |md
-  ## Questions
-  * MD5 vs Base 62 vs Base 64
-  * What is being encoded? 
-  * Where is encoding stored?
-  * What is that base_encode supposed to do?
-  * "Use a public REST API" - meaning create one?
+    ## Questions
+    * MD5 vs Base 62 vs Base 64
+    * What is being encoded? 
+    * Where is encoding stored?
+    * What is that base_encode supposed to do?
+    * "Use a public REST API" - meaning create one?
   |
 }
 ReadAPI: {
   class: objs_service
   label: Read\n API
   description: |md
-  * Queries for uniqueness
+    * Queries for uniqueness
   |
 }
 SQLAnalytics: {
@@ -158,15 +161,15 @@ SQLWriteMasterSlave: {
   class: objs_db
   pastes: {
     shape: sql_table
-    shortlink: char(7) NOT NULL { constraint: primary_key }
+    shortlink: char(7) NOT NULL {constraint: primary_key}
     expiration_length_in_minutes: int NOT NULL
-    created_at: datetime NOT NULL { constraint: index }
+    created_at: datetime NOT NULL {constraint: index}
     paste_path: varchar(255) NOT NULL
   }
   notes: |md
-  * 1 MB seq ~ 250 microseconds
-  * SSD 4x
-  * disk 80x
+    * 1 MB seq ~ 250 microseconds
+    * SSD 4x
+    * disk 80x
   |
   wiki: {
     link: https://en.wikipedia.org/wiki/Replication_(computing)
@@ -181,9 +184,9 @@ WebServer: {
   label: Web\n Server
   class: objs_server
   descipription: |md
-  * Page view analytics do not need to be realtime
-  * 10:1 read to write ratio
-  | { class: objs_server }
+    * Page view analytics do not need to be realtime
+    * 10:1 read to write ratio
+  | {class: objs_server}
   wiki: {
     link: https://en.wikipedia.org/wiki/Reverse_proxy
     class: _link
@@ -197,28 +200,28 @@ WriteAPI: {
   label: Write\n API
   class: objs_service
   description: |md
-  * If no user-supplied URL, generate new
-  * Saves to SQL DB `pastes` table
-  * Saves paste data to the Object Store
-  | { class: objs_service }
+    * If no user-supplied URL, generate new
+    * Saves to SQL DB `pastes` table
+    * Saves paste data to the Object Store
+  | {class: objs_service}
 }
-Analytics -> ObjectStore: { class: edge_query}
-Analytics -> SQLAnalytics: { class: edge_write }
-LoadBalancer -> WebServer: { class: edge_request }
-CDN -> ObjectStore: { class: edge_write }
-Client -> CDN: { 
-  class: edge_request 
+Analytics -> ObjectStore: {class: edge_query}
+Analytics -> SQLAnalytics: {class: edge_write}
+LoadBalancer -> WebServer: {class: edge_request}
+CDN -> ObjectStore: {class: edge_write}
+Client -> CDN: {
+  class: edge_request
   # label: POST -- is this correct?
 }
-Client -> DNS: { 
-  class: edge_request 
+Client -> DNS: {
+  class: edge_request
 }
-Client -> LoadBalancer: { class: edge_request }
-notes -- WebServer: { class: edge_invis }
-ReadAPI -> SQLReadReplicas: { class: edge_query }
-ReadAPI -> MemoryCache: { class: edge_query }
-ReadAPI -> ObjectStore: { class: edge_query }
-WebServer -> ReadAPI: { class: edge_query }
-WebServer -> WriteAPI: { class: edge_write }
-WriteAPI -> SQLWriteMasterSlave: { class: edge_query }
-WriteAPI -> SQLWriteMasterSlave: { class: edge_write }
+Client -> LoadBalancer: {class: edge_request}
+notes -- WebServer: {class: edge_invis}
+ReadAPI -> SQLReadReplicas: {class: edge_query}
+ReadAPI -> MemoryCache: {class: edge_query}
+ReadAPI -> ObjectStore: {class: edge_query}
+WebServer -> ReadAPI: {class: edge_query}
+WebServer -> WriteAPI: {class: edge_write}
+WriteAPI -> SQLWriteMasterSlave: {class: edge_query}
+WriteAPI -> SQLWriteMasterSlave: {class: edge_write}

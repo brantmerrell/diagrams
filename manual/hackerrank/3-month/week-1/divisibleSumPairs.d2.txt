@@ -45,16 +45,6 @@ classes: {
       font-size: 22
     }
   }
-  end: {
-    shape: circle
-    style: {
-      fill: black
-      font-color: white
-    }
-  }
-}
-_start: start {
-  class: end
 }
 _input: input {
   n
@@ -86,19 +76,6 @@ _def: def divisibleSumPairs {
   _iter_j -> _condition
   _condition -> _res: increment
 }
-_end: {
-  label: ""
-  shape: circle
-  style: {
-    fill: white
-    stroke: black
-  }
-  end: {
-    class: end
-  }
-}
-_start -> _input
-_def._res -> _end
 _input.n -> _def._iter_i: { class: length }
 _def._iter_i -> _def._iter_j: n { class: length }
 _input.ar -> _def._condition: { class: data }

@@ -1,12 +1,12 @@
 {
   "scenarios": [
     {
-      "name": "0_architecture",
-      "path": "/manual/sd-notes/tools/RAG/0_architecture.svg"
-    },
-    {
       "name": "0_overview",
       "path": "/manual/sd-notes/tools/RAG/0_overview.svg"
+    },
+    {
+      "name": "1_architecture",
+      "path": "/manual/sd-notes/tools/RAG/1_architecture.svg"
     },
     {
       "name": "2_self_rag_pattern",

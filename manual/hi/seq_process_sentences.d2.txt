@@ -7,7 +7,7 @@ vars: {
 classes: @"../classes/sequence"
 classes: @"../classes/tags"
 
-_quality: {class: styled}
+_quality: {class: compiles}
 
 seq_process_sentences: {
   shape: sequence_diagram

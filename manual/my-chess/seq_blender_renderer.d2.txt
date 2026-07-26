@@ -6,7 +6,7 @@ vars: {
 classes: @"../classes/L7"
 classes: @"../classes/tags"
 
-_quality: {class: styled}
+_quality: {class: compiles}
 
 seq_blender_renderer: {
   shape: sequence_diagram
@@ -18,6 +18,9 @@ seq_blender_renderer: {
   blender -> init_py: {class: edge_request; label: "load addon"}
   blender -> operator: {class: edge_request; label: "click render button"}
   operator -> connector_svc: {class: edge_request; label: "fetch_<connection_type>(fen_string)"}
+  """
+  TODO: verbs are edges; URI/URL are nodes
+  """
   connector_svc -> connector: {class: edge_request; label: "GET /<endpoint>?fen_string=<FEN>"}
   blender.note: 3D scene updated
   blender -> operator: {class: edge_request; label: "submit move / undo"}

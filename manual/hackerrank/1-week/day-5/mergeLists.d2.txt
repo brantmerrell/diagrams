@@ -1,7 +1,7 @@
 vars: {
   d2-config: {
     layout-engine: elk
-    theme-id: 201
+    theme-id: 200
   }
 }
 classes: @"../../../classes/function"
