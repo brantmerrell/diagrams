@@ -8,10 +8,12 @@ vars: {
 
 classes: @"../../../classes/tags"
 
+# TODO: replace styles with classes
+
 _quality: {class: compiles}
 
-sticks
 maximumPerimeterTriangle {
+  label: maximumPerimeterTriangle(sticks)
   sort: sort\ndescending
   iter: i in range(len(sticks)-2)
     cond: isTriangle\nC < B + A {
@@ -45,4 +47,3 @@ maximumPerimeterTriangle {
     }
   }
 }
-sticks -> maximumPerimeterTriangle.sort

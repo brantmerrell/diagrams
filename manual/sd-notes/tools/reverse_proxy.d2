@@ -23,6 +23,7 @@ reverse_proxy: {
   ssl_termination: { # what is SSL termination?
     label: SSL Termination
     shape: hexagon
+    # TODO class
   }
   
   load_balancer: {
@@ -38,11 +39,13 @@ reverse_proxy: {
   request_router: {
     label: Request Router # what resource handles this? Does the developer configur it?
     shape: diamond # why diamond? Is it a condition?
+    # TODO class
   }
   
   rate_limiter: {
     label: Rate Limiting # what performs the rate limiting?
     shape: hexagon
+    # TODO class
   }
 }
 

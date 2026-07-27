@@ -9,9 +9,8 @@ classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-k -> caesarCipher.mod
-s -> caesarCipher.iteration_2
 caesarCipher: {
+  label: caesarCipher(s, k)
   result: {
     label: result\ninit \'\'
   }
@@ -24,6 +23,14 @@ caesarCipher: {
   }
   rotated: {
     label: rotated letters\nletters\[k:\]\nletters\[:k\]
+    example: |md
+    ```python
+    letters = "abcdefghijklmnopqrstuvwxyz"
+    k = 3
+    letters[k:] + letters[:k]
+    # "defghijklmnopqrstuvwxyzabc"
+    ```
+    |
   }
   cipher: {
     label: cipher\ninit \{\}

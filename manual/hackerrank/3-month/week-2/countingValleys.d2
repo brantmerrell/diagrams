@@ -10,9 +10,9 @@ classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-_steps: steps
-_path: path
-_countingValleys: countingValleys {
+# TODO: add classes
+
+_countingValleys: countingValleys(steps, path) {
   elevation: elevation\ninit 0
   valleys: valleys\ninit 0
   _iter: step in range(steps)
@@ -27,8 +27,7 @@ _countingValleys: countingValleys {
   _cond -> elevation: increment
   _cond -> elevation: decrement {
     style.stroke: crimson
+    # TODO: use class
   }
 }
-_steps -> _countingValleys._iter
-_path -> _countingValleys._cond._cond
 _countingValleys.valleys -> output

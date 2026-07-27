@@ -19,13 +19,9 @@ classes {
   }
 }
 
-s: s {
-  shape: circle
-}
-
 timeConversion: timeConversion {
   split: {
-    label:.split(\':\') 
+    label:s.split(\':\') 
     shape: circle
   }
   HH: { 
@@ -55,4 +51,3 @@ timeConversion: timeConversion {
   MM -> join
   SS -> join
 }
-s -> timeConversion.split

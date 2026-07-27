@@ -10,8 +10,8 @@ classes: @"../../../classes/tags"
 _quality: {class: compiles}
 
 
-num
 is_smart_number: {
+  label: is_smart_number(num)
   class: op
   sqrt: {
     label: math.sqrt()
@@ -33,6 +33,4 @@ is_smart_number: {
   condition -> result.True: print { class: positive }
   condition -> result.False: print { class: negative }
 }
-num -> is_smart_number.sqrt
-num -> is_smart_number.condition
 

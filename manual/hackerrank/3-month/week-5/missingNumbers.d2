@@ -10,9 +10,8 @@ classes: @"../../../classes/tags"
 _quality: {class: compiles}
 
 
-arr
-brr
 missingNumbers {
+  label: missingNumbers(arr, brr)
   class: op
   diff: {
     label: diff\ninit \{\}
@@ -48,5 +47,3 @@ missingNumbers {
   loop1 -> end_loop
   end_loop -> loop2
 }
-arr -> missingNumbers.loop2
-brr -> missingNumbers.loop1

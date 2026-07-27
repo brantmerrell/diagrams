@@ -11,11 +11,8 @@ classes: @"../../../classes/tags"
 _quality: {class: compiles}
 
 
-x1
-v1
-x2
-v2
 kangaroo: {
+  label: kangaroo(x1, v1, x2, v2)
   conditions: "" {
     class: cond
     description: |md
@@ -35,10 +32,6 @@ kangaroo: {
     style.stroke: darkgreen
   }
 }
-x1 -> kangaroo.conditions
-v1 -> kangaroo.conditions
-x2 -> kangaroo.conditions
-v2 -> kangaroo.conditions
 classes: {
   cond: {
     shape: diamond

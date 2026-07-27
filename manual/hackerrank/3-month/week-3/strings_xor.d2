@@ -15,9 +15,8 @@ classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-s
-t
 strings_xor: {
+  label: strings_xor(s, t)
   iter: i in range(len(s))
   cond: identical {
     shape: diamond
@@ -35,5 +34,3 @@ strings_xor: {
     }
   }
 }
-s -> strings_xor.iter
-t -> strings_xor.cond

@@ -37,6 +37,7 @@ strategies: { # are these really strategies or are they mechanisms?
   # it's possible the designer chooses between them because only one is needed, but it's possible multiple are needed
   # unless there's a strategy called the "rate limiter" strategy, the "circuit breaker" strategy, etc
   # in which case these objects should have nodes and edges inside of them
+  # TODO: do these deserve their own layers?
   rate_limiter: {
     label: Rate Limiter
     shape: hexagon

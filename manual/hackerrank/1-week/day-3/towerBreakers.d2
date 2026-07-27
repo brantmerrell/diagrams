@@ -9,9 +9,8 @@ classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-n
-m
 towerBreakers {
+  label: towerBreakers(n, m)
   AND: {
     # TODO: create AND/OR classes
     label: AND
@@ -28,11 +27,11 @@ towerBreakers {
   AND -> result: {
     label: player 1 wins
     class: negative
+    # TODO: overlapping text 
   }
   AND -> result: {
     label: player 2 wins
     class: positive
+    # TODO: overlapping text 
   }
 }
-n -> towerBreakers.AND.condition_1
-m -> towerBreakers.AND.condition_0

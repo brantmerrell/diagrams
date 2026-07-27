@@ -27,7 +27,7 @@ layers: {
     developer -> alembic: alembic upgrade head {class: user}
     alembic -> env_py: load {class: api}
     env_py.note1: |md
-      DATABASE_URL overrides sqlalchemy.url
+      DATABASE_URL overrides sqlalchemy.url\
       (postgres:// → postgresql+asyncpg://)
     | {
       class: api

@@ -8,7 +8,7 @@ classes: @"../classes/process"
 classes: @"../classes/tags"
 
 layers: {
-  base: {
+  0_base: {
     classes: @"../classes/basic"
     direction: right
 
@@ -67,7 +67,7 @@ layers: {
       }
     }
   }
-  tmux_focus: {
+  1_tmux_focus: {
     label: "1. Why Ctrl+C never reached the backend"
     direction: right
 
@@ -98,10 +98,10 @@ layers: {
       of the failed Ctrl+C, or inferred after the  
       fact because this Claude session's own pane  
       is always active while being asked about it?  
-    |
+    | # See README lines 112-132
   }
 
-  process_group: {
+  2_process_group: {
     label: "2. No isolation even if it had arrived"
     direction: down
 
@@ -129,10 +129,10 @@ layers: {
     note: {
       shape: text
       label: "Job control is what normally puts a backgrounded job in its\nown process group, so Ctrl+C (sent to the foreground group\nonly) skips it. Dash never does this for a non-interactive\nrecipe shell, so background and foreground share one group.\nA signal that actually reached pgid 243370 would have killed\neverything together, uvicorn and its worker included."
-    }
+    } # See README lines 112-132
   }
 
-  dash_jobspec_bug: {
+  3_dash_jobspec_bug: {
     label: "3. The Makefile's own cleanup line is dead code"
     direction: down
 
@@ -145,10 +145,10 @@ layers: {
     result: {
       shape: text
       label: "kill %1        -> \"No such process\" (exit 1)\nkill <real pid> -> succeeds (exit 0)\n\ndash has no %-jobspec table outside interactive monitor\nmode. `kill %1` in the Makefile never killed the\nbackgrounded uvicorn, on any run, regardless of pane focus."
-    }
+    } # See README lines 112-132
   }
 
-  fix: {
+  4_fix: {
     classes: @"../classes/plan"
     direction: down
 
@@ -167,7 +167,7 @@ layers: {
 
     note: {
       shape: text
-      label: "trap 'kill 0' EXIT fires on normal exit and on the shell's\ndefault termination from an unhandled INT/TERM, sending the\nsignal to pgid 0 (the caller's own group) - which already\ncontains every process here, since dash never splits them\nout. Replaces the dead `kill %1` line.\n\nThis only helps once the signal is actually delivered - it\ndoes not fix the tmux pane-focus miss, which is a separate,\nunrelated failure mode (see tmux_focus layer)."
+      label: "trap 'kill 0' EXIT fires on normal exit and on the shell's\ndefault termination from an unhandled INT/TERM, sending the\nsignal to pgid 0 (the caller's own group) - which already\ncontains every process here, since dash never splits them\nout. Replaces the dead `kill %1` line.\n\nThis only helps once the signal is actually delivered - it\ndoes not fix the tmux pane-focus miss, which is a separate,\nunrelated failure mode (see 1_tmux_focus layer)."
     }
   }
 }

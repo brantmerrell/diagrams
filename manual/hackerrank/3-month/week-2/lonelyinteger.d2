@@ -10,7 +10,6 @@ classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-_a: a
 _def: def lonelyinteger(a) {
   _lookup: lookup
   _iter: enumerate(a)\nndx,elem {
@@ -34,7 +33,7 @@ _def: def lonelyinteger(a) {
     style: {
       stroke: mediumseagreen
       font-color: mediumseagreen
-    }
+    } # TODO: classes
   }
   _cond.n -> _lookup: delete key {
     style: {
@@ -44,5 +43,4 @@ _def: def lonelyinteger(a) {
   }
   _iter -> _cond
 }
-_a -> _def._iter
 # TODO: return?

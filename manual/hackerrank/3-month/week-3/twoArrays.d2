@@ -9,10 +9,8 @@ classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-k
-A
-B
 twoArrays: {
+  label: twoArrays(k, A, B)
   sort
   iter: i in range(len(A))
   cond: A\[i\] + B\[i\] < k {
@@ -23,7 +21,3 @@ twoArrays: {
   sort_rev -> cond: B
   cond -> output
 }
-k -> twoArrays.cond
-A -> twoArrays.sort
-A -> twoArrays.iter
-B -> twoArrays.sort_rev

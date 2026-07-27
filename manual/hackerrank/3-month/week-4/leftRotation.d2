@@ -9,23 +9,28 @@ classes: @"../../../classes/tags"
 _quality: {class: compiles}
 
 
-d
-arr
 rotateLeft {
+  label: rotateLeft(arr, d)
   left_splice: |md
   # Left to Right
-  * left to d exclusive (arr\[\:d\])
+  * left to d exclusive `arr\[\:d\]`
   |
   right_splice: |md
   # Right to Left
-  * d to right inclusive (arr\[d\:\])
+  * d to right inclusive `arr\[d\:\]`
   |
   result: |md
   # Result
   * arr\[d\:\] + arr\[\:d\]
   |
+  example: |md
+  ```python
+  arr = [1, 2, 3, 4, 5]
+  d = 2
+  arr[d:] + arr[:d]
+  # [3, 4, 5, 1, 2]
+  ```
+  |
   left_splice -> result
   right_splice -> result
 }
-d -> rotateLeft
-arr -> rotateLeft

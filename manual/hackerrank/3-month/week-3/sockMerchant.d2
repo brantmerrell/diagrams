@@ -10,9 +10,8 @@ classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-n
-ar
 sockMerchant {
+  label: sockMerchant(n, ar)
   result: result\ninit 0
   iter: i in range(n)
   cond: elem in hash {
@@ -31,5 +30,3 @@ sockMerchant {
   }
   # TODO: what's actually returned? 
 }
-n -> sockMerchant.iter
-ar -> sockMerchant

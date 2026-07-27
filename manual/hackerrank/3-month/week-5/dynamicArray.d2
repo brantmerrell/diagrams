@@ -10,9 +10,8 @@ classes: @"../../../classes/tags"
 _quality: {class: compiles}
 
 
-n
-queries
 dynamicArray: {
+  label: dynamicArray(n, queries)
   class: op
   answers
   arr: {
@@ -52,5 +51,3 @@ dynamicArray: {
   is_type_2 -> op_2: { class: positive }
   lastAnswer -> append2
 }
-n -> dynamicArray.arr
-queries -> dynamicArray.iterate_queries

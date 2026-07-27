@@ -10,8 +10,8 @@ classes: @"../../../classes/function"
 
 _quality: {class: compiles}
 
-s
 pangrams {
+  label: pangrams(s)
   _letters: letters\ninit \{\}
   _iter: letter in s.lower()
   _cond_1: letter not in letters.keys()\n& letter != ' '
@@ -25,6 +25,6 @@ pangrams {
   _cond_3 -> "pangram"
   _cond_3 -> "not pangram" {
     style.stroke: crimson
+    # TODO: use class
   }
 }
-s -> pangrams

@@ -7,7 +7,7 @@ classes: @"../classes/sequence"
 classes: @"../classes/tags"
 
 layers: {
-  auth: {
+  0_auth: {
     _quality: {class: compiles}
 
     shape: sequence_diagram
@@ -30,14 +30,14 @@ layers: {
       class: api
     }
     browser -> Auth: "/auth?token=…" {class: user}
-    Auth -> api: "GET /api/auth/verify?token=…\n(credentials: include)" {class: frontend}
-    Auth -> api: "GET /api/auth/me\n(credentials: include)" {class: frontend}
+    Auth -> api: "GET /api/auth/verify?token=…\n(credentials: include)" {class: frontend} # TODO: verbs are edges, endpoints are nodes
+    Auth -> api: "GET /api/auth/me\n(credentials: include)" {class: frontend} # TODO: verbs are edges, endpoints are nodes
     Auth -> AuthProvider: setUser(user) {class: frontend}
     Auth -> browser: navigate / {class: frontend}
-    Reader -> api: "POST /api/auth/logout\n(credentials: include)" {class: frontend}
+    Reader -> api: "POST /api/auth/logout\n(credentials: include)" {class: frontend} # TODO: verbs are edges, endpoints are nodes
     Reader -> AuthProvider: setUser(null) {class: frontend}
   }
-  load: {
+  1_load: {
     _quality: {class: compiles}
 
     shape: sequence_diagram
@@ -50,10 +50,10 @@ layers: {
     browser -> main_tsx: load page {class: user}
     main_tsx -> App {class: frontend}
     App -> AuthProvider: mount {class: frontend}
-    AuthProvider -> api: "GET /api/auth/me\n(credentials: include)" {class: frontend}
+    AuthProvider -> api: "GET /api/auth/me\n(credentials: include)" {class: frontend} # TODO: verbs are edges, endpoints are nodes
     App -> Reader: "route /" {class: frontend}
-    Reader -> api: GET /api/stories {class: frontend}
-    Reader -> api: "GET /api/stories/{id}/sentences?limit=500" {class: frontend}
+    Reader -> api: GET /api/stories {class: frontend} # TODO: verbs are edges, endpoints are nodes
+    Reader -> api: "GET /api/stories/{id}/sentences?limit=500" {class: frontend} # TODO: verbs are edges, endpoints are nodes
     Reader.note1: |md
       render:
       * SentenceView

@@ -10,10 +10,10 @@ classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
+# TODO: classes for boolean gates
 
-a
-b
 getTotalX: {
+  label: getTotalX(a, b)
   iter: max(a) to min(b) inclusive {
     class: iter
   }
@@ -42,10 +42,6 @@ getTotalX: {
   AND -> eligibility
   eligibility -> result: increment
 }
-a -> getTotalX.iter
-b -> getTotalX.iter
-a -> getTotalX.iter_a
-b -> getTotalX.iter_b
 classes: {
   iter: {
     width: 500

@@ -7,7 +7,8 @@ vars: {
 classes: @"../../classes/L7"
 classes: @"../../classes/tags"
 layers: {
-  http: {
+  0_http: {
+    # TODO: zig-zag
     _quality: {class: compiles}
 
     client: {
@@ -38,8 +39,8 @@ layers: {
     client -> server: {class: edge_request}
     client -- request_flow
   }
-  websocket: {
-    _quality: {class: compiles}
+  1_websocket: {
+    _quality: {class: styled}
 
     client: {
       class: obj_client
@@ -63,8 +64,8 @@ layers: {
     client <-> server: {class: edge_request; label: bidirectional}
     client -- connection_upgrade
   }
-  grpc: {
-    _quality: {class: compiles}
+  2_grpc: {
+    _quality: {class: styled}
 
     client_service: {
       class: obj_server

@@ -9,9 +9,7 @@ classes: @"../../../classes/tags"
 _quality: {class: compiles}
 
 
-grades
-
-def: gradingStudents() {
+def: gradingStudents(grades) {
   _iter: enumerate()\ni, grade
   _cond: grade >= 38 {
     shape: diamond
@@ -25,4 +23,3 @@ def: gradingStudents() {
   _iter -> _cond
   _cond._cond -> _res: \@\[i\] += 5 - mod
 }
-grades -> def._iter

@@ -8,7 +8,7 @@ classes: @"../classes/process"
 classes: @"../classes/tags"
 
 layers: {
-  base: {
+  0_base: {
     classes: @"../classes/basic"
     direction: right
 
@@ -32,7 +32,7 @@ layers: {
     }
   }
 
-  recreate_attempt: {
+  1_recreate_attempt: {
     label: "1. What make dev -> docker-compose up -d actually hit"
     direction: down
 
@@ -58,10 +58,10 @@ layers: {
     note: {
       shape: text
       label: "get_container_data_volumes unconditionally reads\ncontainer.image_config['ContainerConfig'] to find the\nold container's declared volumes before merging them\ninto the new one. Both hi-db-1 and its child db\ncontainer failed here with the identical KeyError."
-    }
+    } # See README lines 112-132
   }
 
-  root_cause: {
+  2_root_cause: {
     label: "2. Why 'ContainerConfig' wasn't there"
     direction: right
 
@@ -77,10 +77,10 @@ layers: {
     note: {
       shape: text
       label: "This is a known docker-compose v1.29.2 incompatibility:\nit was last updated for an image metadata shape that\nnewer Docker Engine versions no longer produce, and v1 has\nno further releases to fix it. It only surfaces on\n*recreate* (an existing container already present) - never\non a first-time up with no prior container."
-    }
+    }  # See README lines 112-132
   }
 
-  fix: {
+  3_fix: {
     classes: @"../classes/plan"
     direction: down
 
@@ -96,6 +96,6 @@ layers: {
     note: {
       shape: text
       label: "The fix isn't a docker-compose upgrade (v1 is dead) - it's\nsidestepping the recreate code path entirely. Deleting the\nstale container (not its volumes) makes the next up a plain\ncreate, which never touches get_container_data_volumes. Safe\nto repeat any time this specific error resurfaces."
-    }
+    } # See README lines 112-132
   }
 }

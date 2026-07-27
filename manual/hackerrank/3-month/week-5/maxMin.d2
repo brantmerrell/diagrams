@@ -9,10 +9,8 @@ classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-k
-arr
 maxMin: {
-  label: maxMin()
+  label: maxMin(k, arr)
   len: {
     label: len()
     class: op
@@ -39,6 +37,3 @@ maxMin: {
   diff -> min
   min -> result
 }
-k -> maxMin.iterate
-arr -> maxMin.len
-arr -> maxMin.iterate

@@ -10,7 +10,6 @@ classes: @"../../../classes/tags"
 _quality: {class: compiles}
 
 
-s
 timeConversion: {
   label: timeConversion(s)
   split_colon: {
@@ -31,6 +30,13 @@ timeConversion: {
   }
   splice_2: {
     label: splice @2\n\[:2\]\[2:\]
+    example: |md
+    ```python
+    s = "07:05:45PM"
+    s[:-2]   # "07:05:45"  (time)
+    s[-2:]   # "PM"        (AM/PM marker)
+    ```
+    |
   }
   join_colon: {
     label: \":\".join()
@@ -59,4 +65,3 @@ timeConversion: {
   SS -> join_colon
   join_colon -> result
 }
-s -> timeConversion.split_colon

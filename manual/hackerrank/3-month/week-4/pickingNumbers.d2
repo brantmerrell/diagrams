@@ -11,6 +11,7 @@ classes: @"../../../classes/tags"
 _quality: {class: compiles}
 
 pickingNumbers {
+  label: pickingNumbers(a)
   condition_1: {
     label: max(a) == min(a)
     class: cond
@@ -51,7 +52,6 @@ pickingNumbers {
   right -> update
   update -> result
 }
-a -> pickingNumbers.condition_1
 classes: {
   cond: {
     shape: diamond

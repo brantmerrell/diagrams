@@ -10,10 +10,10 @@ classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-arr: birds
 migratoryBirds {
+  label: migratoryBirds(arr)
   type_freq: types\ninit\[0\] * 6
-  iter: bird in birds
+  iter: bird in birds # TODO: how is bird actually used?
   iter_freq: type,freq in types
   cond: freq == max(type_freq)
   iter -> type_freq: load
@@ -21,5 +21,4 @@ migratoryBirds {
   iter_freq -> cond
 }
 result
-arr -> migratoryBirds.iter
 migratoryBirds.cond -> result

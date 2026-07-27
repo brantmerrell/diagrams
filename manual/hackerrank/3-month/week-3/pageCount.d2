@@ -11,6 +11,7 @@ classes: @"../../../classes/tags"
 _quality: {class: compiles}
 
 pageCount {
+  label: pageCount(n, p)
   from_left: from left\np <= n / 2 {
     shape: diamond
     return: floor(left_dist / 2) {
@@ -44,8 +45,6 @@ pageCount {
     }
   }
 }
-n -> pageCount.from_left
-p -> pageCount.from_left.return
 pageCount.from_right.even.return -> return
 pageCount.from_right.odd.return -> return
 pageCount.from_left.return -> return: {
