@@ -1,16 +1,10 @@
 direction: down
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
+classes: @"../../../classes/function"
 
 _quality: {class: compiles}
-
-# TODO: classes for boolean gates
 
 getTotalX: {
   label: getTotalX(a, b)
@@ -31,23 +25,17 @@ getTotalX: {
   cond_b: elem %>% candidate == 0 {
     class: cond
   }
+  AND: {
+    class: gate_and
+  }
   eligibility
   result
   iter -> iter_a
   iter -> iter_b
   iter_a -> cond_a
   iter_b -> cond_b
-  cond_a -> AND 
+  cond_a -> AND
   cond_b -> AND
   AND -> eligibility
   eligibility -> result: increment
-}
-classes: {
-  iter: {
-    width: 500
-    height: 70
-  }
-  cond: {
-    shape: diamond
-  }
 }

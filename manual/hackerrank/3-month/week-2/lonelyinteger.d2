@@ -1,12 +1,8 @@
 direction: down
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
+classes: @"../../../classes/function"
 
 _quality: {class: compiles}
 
@@ -30,16 +26,10 @@ _def: def lonelyinteger(a) {
     }
   }
   _cond.y -> _lookup: create key\]placholder\] {
-    style: {
-      stroke: mediumseagreen
-      font-color: mediumseagreen
-    } # TODO: classes
+    class: positive
   }
   _cond.n -> _lookup: delete key {
-    style: {
-      stroke: crimson
-      font-color: crimson
-    }
+    class: negative
   }
   _iter -> _cond
 }

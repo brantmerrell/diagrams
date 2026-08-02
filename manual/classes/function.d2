@@ -1,7 +1,19 @@
 direction: right
+**.style.text-transform: none
 TODO: give classes font-size above 25
 cond: {
   shape: diamond
+}
+highlight: { # debug class - only for temporary use
+  style: {
+    stroke-width: 5
+    font-size: 24
+  }
+}
+invis: {
+  style: {
+    stroke-width: 0
+  }
 }
 ndx: { # TODO: reconsider shape
   shape: step
@@ -14,22 +26,71 @@ edge_down: {
 }
 positive: {
   shape: oval
-  style: {
-    font-color: Chartreuse
-    stroke: Chartreuse
-  }
 }
 negative: {
   shape: oval
-  style: {
-    stroke: crimson
-    font-color: crimson
-  }
 }
 iter: {
-  width: 700
+  width: 800
   height: 50
 }
 op: {
   shape: parallelogram
+}
+scalar: {
+  style: {
+    stroke-dash: 4
+    stroke-width: 3
+  }
+}
+data: {
+  style: {
+    stroke-dash: 3
+    stroke-width: 3
+  }
+}
+iter_step: {
+  shape: circle
+  style: {
+    opacity: 1
+    font-size: 22
+  }
+}
+generic_node: { # not a well-named class; a placeholder for plain value/state nodes with no other class
+  style: {
+    font-size: 26
+  }
+}
+generic_edge: { # not a well-named class; a placeholder for plain sequencing edges with no other class
+  style: {
+    font-size: 26
+  }
+}
+gate_and: {
+  shape: image
+  icon: ../../icons/gate_and.svg
+}
+gate_or: {
+  shape: image
+  icon: ../../icons/gate_or.svg
+}
+gate_nand: {
+  shape: image
+  icon: ../../icons/gate_nand.svg
+}
+gate_nor: {
+  shape: image
+  icon: ../../icons/gate_nor.svg
+}
+gate_xor: {
+  shape: image
+  icon: ../../icons/gate_xor.svg
+}
+gate_xnor: {
+  shape: image
+  icon: ../../icons/gate_xnor.svg
+}
+gate_not: {
+  shape: image
+  icon: ../../icons/gate_not.svg
 }

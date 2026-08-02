@@ -1,10 +1,5 @@
-vars: {
-  d2-config: {
-    theme-id: 201
-    layout-engine: elk
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
 classes: @"../../../classes/function"
 
@@ -22,9 +17,10 @@ pangrams {
   _iter -> _cond_1
   _cond_1 -> _letters: add to keys
   _letters -> _cond_3
-  _cond_3 -> "pangram"
-  _cond_3 -> "not pangram" {
-    style.stroke: crimson
-    # TODO: use class
+  _cond_3 -> "pangram": {
+    class: positive
+  }
+  _cond_3 -> "not pangram": {
+    class: negative
   }
 }

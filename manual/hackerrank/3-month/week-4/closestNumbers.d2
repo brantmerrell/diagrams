@@ -1,11 +1,7 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
+classes: @"../../../classes/function"
 
 _quality: {class: compiles}
 
@@ -66,30 +62,4 @@ closestNumbers {
   result <- append <- condition_2
 }
 closestNumbers -> closestNumbers.smallest_diff: init
-classes: {
-  cond: {
-    shape: diamond
-  }
-  positive: {
-    shape: oval
-    style: {
-      font-color: darkgreen
-      stroke: darkgreen
-    }
-  }
-  negative: {
-    shape: oval
-    style: {
-      stroke: crimson
-      font-color: crimson
-    }
-  }
-  iter: {
-    width: 500
-    height: 50
-  }
-  op: {
-    shape: parallelogram
-  }
-}
 

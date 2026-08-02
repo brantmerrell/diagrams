@@ -4,6 +4,7 @@ import Toast from './Toast'
 import CodeView from './CodeView'
 import { useManualDiagramWatch } from '../hooks/useManualDiagramWatch'
 import { useDiagramViewport } from '../hooks/useDiagramViewport'
+import { useDiagramTheme } from '../hooks/useDiagramTheme'
 import { svgToPngBlob } from '../lib/svgToPng'
 import { normalizeToCanonical } from '../lib/yamlExtract'
 
@@ -25,6 +26,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
 
   const [sourceCode, setSourceCode] = useState<string | null>(null)
   const [copyLabel, setCopyLabel] = useState('⎘')
+  const { theme, toggleTheme } = useDiagramTheme()
 
   const canonicalPath = diagramPath ? normalizeToCanonical(diagramPath) : ''
   const d2ServerPath = canonicalPath.startsWith('/') ? canonicalPath.slice(1) : canonicalPath
@@ -75,13 +77,14 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
         setCopyLabel('…')
         let blob: Blob
         try {
+          // Render the displayed SVG in-browser first — it's the only path that can
+          // reflect the current light/dark diagram theme (see svgToPng.ts embedTheme).
+          if (!svgContent) throw new Error('No diagram loaded to copy')
+          blob = await svgToPngBlob(svgContent, theme)
+        } catch {
           const response = await fetch(`/api/manual/png/${d2ServerPath}`)
           if (!response.ok) throw new Error(`PNG render failed: ${response.status}`)
           blob = await response.blob()
-        } catch {
-          // Static deployment (no backend): render the displayed SVG in-browser
-          if (!svgContent) throw new Error('No diagram loaded to copy')
-          blob = await svgToPngBlob(svgContent)
         }
         await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
       }
@@ -92,7 +95,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
       setCopyLabel('✗')
       setTimeout(() => setCopyLabel('⎘'), 2000)
     }
-  }, [showCode, sourceCode, d2ServerPath, svgContent])
+  }, [showCode, sourceCode, d2ServerPath, svgContent, theme])
 
   const handleGoToScenario = useCallback((index: number) => {
     goToScenario(index)
@@ -142,6 +145,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
       <div
         ref={wheelRef}
         className="diagram-panel"
+        data-diagram-theme={theme}
         {...(!showCode && {
           onMouseDown, onMouseMove, onMouseUp, onMouseLeave: onMouseUp,
           onDoubleClick, onTouchStart, onTouchMove, onTouchEnd,
@@ -190,6 +194,13 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
           {!showCode && <button className="zoom-button zoom-button--step" onClick={e => { e.stopPropagation(); zoomIn() }} title="Zoom In">+</button>}
           {!showCode && <button className="zoom-button zoom-button--step" onClick={e => { e.stopPropagation(); zoomOut() }} title="Zoom Out">−</button>}
           {!showCode && <button className="zoom-button" onClick={e => { e.stopPropagation(); reset() }} title="Reset Zoom">⟲</button>}
+          {!showCode && (
+            <button
+              className="zoom-button"
+              onClick={e => { e.stopPropagation(); toggleTheme() }}
+              title={theme === 'dark' ? 'Switch diagram to light theme' : 'Switch diagram to dark theme'}
+            >{theme === 'dark' ? '☾' : '☀'}</button>
+          )}
           <button
             className={`zoom-button${showCode ? ' zoom-button--active' : ''}`}
             onClick={handleToggleCode}

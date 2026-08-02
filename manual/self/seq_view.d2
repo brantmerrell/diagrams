@@ -1,8 +1,4 @@
-vars: {
-  d2-config: {
-    theme-id: 201
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"../classes/sequence"
 classes: @"../classes/tags"
 
@@ -24,7 +20,9 @@ seq_view: {
   navigator.note1: |md
     tree from pointers.yaml;
     missing files struck through
-  | # TODO: add class
+  | {
+    class: frontend
+  }
 
   user -> navigator: "tap diagram (or j/k, gg/G, /search)"
   navigator -> panel: "navigate /manual/<path>.d2"
@@ -37,7 +35,9 @@ seq_view: {
   panel.note1: |md
     .mmd diagrams skip the server:
     MermaidPanel renders client-side
-  | # TODO: add class
+  | {
+    class: frontend
+  }
 
   user -> panel: "drag / pinch / wheel — pan & zoom"
   user -> panel: "h / l — previous / next layer"

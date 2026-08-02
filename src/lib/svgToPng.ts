@@ -15,7 +15,23 @@
  *     browser has already parsed the HTML inside them correctly.
  */
 
+import themeCss from '../diagramSemanticThemes.css?raw'
+
 const SVG_NS = 'http://www.w3.org/2000/svg'
+
+/**
+ * A PNG/canvas export renders the SVG in total isolation (via a blob-URL <img>),
+ * so it never sees the page's external stylesheets and never sees the
+ * data-diagram-theme attribute the live view sets on an ancestor <div> — see
+ * useDiagramTheme.ts and diagramSemanticThemes.css. Bake both directly onto
+ * the SVG root so the exported PNG matches whatever the browser is showing.
+ */
+function embedTheme(svgEl: SVGSVGElement, theme: 'light' | 'dark'): void {
+  svgEl.setAttribute('data-diagram-theme', theme)
+  const style = document.createElementNS(SVG_NS, 'style')
+  style.textContent = themeCss
+  svgEl.insertBefore(style, svgEl.firstChild)
+}
 
 function detaintSvgString(svgStr: string): string {
   return svgStr
@@ -130,9 +146,10 @@ function replaceForeignObjects(clone: SVGSVGElement): void {
   }
 }
 
-function svgElToPngBlob(svgEl: SVGSVGElement): Promise<Blob> {
+function svgElToPngBlob(svgEl: SVGSVGElement, theme?: 'light' | 'dark'): Promise<Blob> {
   const clone = svgEl.cloneNode(true) as SVGSVGElement
 
+  if (theme) embedTheme(clone, theme)
   replaceForeignObjects(clone)
 
   const widthAttr = clone.getAttribute('width') ?? ''
@@ -188,14 +205,14 @@ function svgElToPngBlob(svgEl: SVGSVGElement): Promise<Blob> {
  * For D2 diagrams: replace <foreignObject> blocks at string level (before DOMParser)
  * so the HTML inside them can be parsed correctly by a separate text/html DOMParser.
  */
-export function svgToPngBlob(svgContent: string): Promise<Blob> {
+export function svgToPngBlob(svgContent: string, theme?: 'light' | 'dark'): Promise<Blob> {
   const cleaned = replaceForeignObjectsInString(detaintSvgString(svgContent))
   return new Promise((resolve, reject) => {
     const parser = new DOMParser()
     const doc = parser.parseFromString(cleaned, 'image/svg+xml')
     const svgEl = doc.querySelector('svg')
     if (!svgEl) return reject(new Error('No SVG element found'))
-    svgElToPngBlob(svgEl as SVGSVGElement).then(resolve, reject)
+    svgElToPngBlob(svgEl as SVGSVGElement, theme).then(resolve, reject)
   })
 }
 

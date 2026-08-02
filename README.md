@@ -131,7 +131,6 @@ D2 `layers: {}` are the primary tool for keeping multiple diagram views in one f
   }
   this_pr.clone_flow -> plan.destructive: "4 is here — automation forbidden" {class: removed}
   ```
-  A quick test: *"• image-service runs in CGI VNet (snet-workers) • Authenticates against CGI Azure AD"* is not a note — it implies `image_svc`, `cgi_azure_ad`, and an auth edge between them. Draw them.
 
 - *`label:` does not render markdown — use a named child node instead.* Assigning an `|md ...|` block to the `label` property strips all formatting and collapses everything to a single unstyled line. To get rendered markdown inside a container node, give it a named child (e.g. `note`) and assign the `|md` block there:
   ```d2
@@ -313,50 +312,3 @@ D2 `layers: {}` are the primary tool for keeping multiple diagram views in one f
   ```
   This convention helps debugging because if you see an underscore-prefixed ID in the rendered diagram, it indicates an incorrect path reference. Correct paths resolve to the node's label.
 
-This app will be going through a number of phases.
-
-## Phases
-
-### Manual Phase (Current)
-
-The current "manual d2" phase of this app is meant to set a useful standard of quality for future phases.  
-
-For example, **inter-service** diagrams that describe how platform-api, redis, temporal, and the auto services interact provide contexts that IDEs, coding agents, and other tools do not. The inter-service layer is:  
-
-* high level - meaning relevant to architecture, system design, or management-level task allocation, etc...
-* medium level - meaning teams need to match each other's efforts in mapping data models across services
-* low volume - meaning there are relatively few inter-service interactions to document
-* unique in purpose - meaning IDEs, coding assistants, confluence pages, and Jira tasks often lack these details
-
-Because of their level and uniqueness, aesthetic is important. Because of their low volume, good aesthetic is achievable. It's important that a standard for readable aesthetic be established in the Manual d2 phase of the diagrams project so it isn't lost in chaos when the dynamic phase opens the visuals up to the chaos of code-reporting tools.  
-
-Some services are highly intertwined. Diagrams describing their relationship are  
-
-* medium level - meaning they serve to determine in theory whether an idea can be implemented
-* low level - meaning they map specific classes and methods to each other
-* high volume - meaning there are many operations to map across services
-* unique in purpose - meaning not redundant to IDE plugins or coding agents.
-
-The Manual d2 phase will struggle to comprehensively cover these relationships in the main branch, and will have little or no hope of keeping up with hypothetically considered changes. This phase must determine how to depict these not with detail, but via pattern, after which the dynamic phase will be able to keep up both with the main branch, branches in development, concrete plans, and hypothetical designs.  
-
-A relatively pure **intra-service** example is the relationship between the contents of the `controllers/` and `external-services/` folders within `hi/backend/platform-api/src`. Diagrams at this level are: 
-
-* too low-level for architectural planning, system design, management-level planning
-* too high-volume for comprehensive manual diagramming
-* redundant to IDEs, coding agents, and coding skillsets during feature development
-
-However, they are still relevant to identifying and resolving technical debt. For example, VSCode, Sonar, and Copilot do not prevent duplicate helper functions across files, nor of unmaintainable class inheritence, nor of over-engineering in general, and in fact these are signatures of coding agents.  
-
-Although they're too low-level for comprehensive manual diagramming, intra-service examples must be manually defined before dynamically constructing them, as the noise of dynamic code-reading tools would undermine the purpose of the diagrams.  
-
-### MCP Phase
-
-The MCP (Model Context Protocol) phase will allow AI coding assistants to query for relevant links between services. By providing clean, precise, up-to-date context, it will reduce the redundancies, circularities, and inefficiencies that plague current AI assistance.
-
-AI faces the same reasoning tradeoffs as humans - using semantic pattern matching rather than formal logic, with working memory limits and training data biases. MCP gives AI the same advantage that good documentation gives human developers.
-
-Since pointers.yaml links multiple portions of source code to single diagrams (and vice versa), it serves as an easily-parsable map across services. The MCP's initial design is simple: receive a query about a code location, return linked locations and their relationships.
-
-**For a detailed example** of why this matters and how it works, see [docs/mcp-reasoning-example.md](docs/mcp-reasoning-example.md).
-
-### Agentic Phase

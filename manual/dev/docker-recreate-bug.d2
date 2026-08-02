@@ -1,9 +1,4 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"../classes/process"
 classes: @"../classes/tags"
 
@@ -12,7 +7,7 @@ layers: {
     classes: @"../classes/basic"
     direction: right
 
-    _quality: {class: compiles}
+    _quality: {class: styled}
 
     glossary: {
       label: "Docker Docs links"
@@ -33,6 +28,7 @@ layers: {
   }
 
   1_recreate_attempt: {
+    # TODO: zig-zag pattern
     label: "1. What make dev -> docker-compose up -d actually hit"
     direction: down
 
@@ -42,6 +38,7 @@ layers: {
     compose_up: {class: obj_proc; label: "docker-compose up -d\nv1.29.2"}
     project_up: {class: obj_proc; label: "project.up()\ncompose/project.py:697"}
     convergence: {class: obj_proc; label: "execute_convergence_plan\nservice.py:579"}
+    # TODO: What's the recreate?
     recreate: {class: obj_proc; label: "_execute_convergence_recreate\nservice.py:499"}
     create_container: {class: obj_proc; label: "create_container\nservice.py:330"}
     volume_merge: {class: obj_proc; label: "_build_container_volume_options\nservice.py:960"}

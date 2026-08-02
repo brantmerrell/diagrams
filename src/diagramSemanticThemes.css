@@ -1,0 +1,279 @@
+/*
+ * Color for every classes/*.d2 class that used to carry an explicit color
+ * lives here now, not in the .d2 source — d2 has no per-theme conditional
+ * class syntax, so a class can only ever bake in one literal color. This
+ * file is the single source of truth for both the light and dark variant of
+ * each. Keyed off the data-diagram-theme attribute D2Panel toggles.
+ *
+ * Selectors target the actual markup d2 emits: `.shape` for a node's own
+ * outline, `path.connection` / `polygon.connection` for an edge's line and
+ * arrowhead, and `text` for any label.
+ */
+
+/* positive */
+[data-diagram-theme="light"] .positive .shape,
+[data-diagram-theme="light"] .positive path.connection {
+  stroke: ForestGreen;
+}
+[data-diagram-theme="light"] .positive polygon.connection {
+  fill: ForestGreen;
+}
+[data-diagram-theme="light"] .positive text {
+  fill: ForestGreen;
+}
+[data-diagram-theme="dark"] .positive .shape,
+[data-diagram-theme="dark"] .positive path.connection {
+  stroke: Chartreuse;
+}
+[data-diagram-theme="dark"] .positive polygon.connection {
+  fill: Chartreuse;
+}
+[data-diagram-theme="dark"] .positive text {
+  fill: Chartreuse;
+}
+
+/* negative */
+[data-diagram-theme="light"] .negative .shape,
+[data-diagram-theme="light"] .negative path.connection {
+  stroke: FireBrick;
+}
+[data-diagram-theme="light"] .negative polygon.connection {
+  fill: FireBrick;
+}
+[data-diagram-theme="light"] .negative text {
+  fill: FireBrick;
+}
+[data-diagram-theme="dark"] .negative .shape,
+[data-diagram-theme="dark"] .negative path.connection {
+  stroke: crimson;
+}
+[data-diagram-theme="dark"] .negative polygon.connection {
+  fill: crimson;
+}
+[data-diagram-theme="dark"] .negative text {
+  fill: crimson;
+}
+
+/* gate_and (icon itself is unaffected — only the label text is colored) */
+[data-diagram-theme="light"] .gate_and text {
+  fill: OrangeRed;
+}
+[data-diagram-theme="dark"] .gate_and text {
+  fill: Orange;
+}
+
+/* iter_step */
+[data-diagram-theme="light"] .iter_step .shape {
+  stroke: Teal;
+}
+[data-diagram-theme="dark"] .iter_step .shape {
+  stroke: mediumspringgreen;
+}
+
+/*
+ * highlight (function.d2, sequence.d2) — debug-only class, but debug-only
+ * doesn't exempt it from this pattern: Crimson already reads fine on both a
+ * white and a dark canvas (~5:1 contrast on white) — same value both themes.
+ */
+[data-diagram-theme="light"] .highlight .shape,
+[data-diagram-theme="light"] .highlight path.connection,
+[data-diagram-theme="dark"] .highlight .shape,
+[data-diagram-theme="dark"] .highlight path.connection {
+  stroke: Crimson;
+}
+[data-diagram-theme="light"] .highlight polygon.connection,
+[data-diagram-theme="dark"] .highlight polygon.connection {
+  fill: Crimson;
+}
+[data-diagram-theme="light"] .highlight text,
+[data-diagram-theme="dark"] .highlight text {
+  fill: Crimson;
+}
+
+/*
+ * ---- classes/basic.d2 ----
+ * _link's fill/font-color read fine on both a white and a dark canvas as-is
+ * (a bounded box, not a thin stroke or unbounded text) — same value both themes.
+ */
+[data-diagram-theme="light"] ._link .shape,
+[data-diagram-theme="dark"] ._link .shape {
+  fill: LightBlue;
+}
+[data-diagram-theme="light"] ._link text,
+[data-diagram-theme="dark"] ._link text {
+  fill: Black;
+}
+
+/* ---- classes/L4.d2 ---- */
+[data-diagram-theme="light"] .edge_own path.connection {
+  stroke: OrangeRed;
+}
+[data-diagram-theme="light"] .edge_own polygon.connection {
+  fill: OrangeRed;
+}
+[data-diagram-theme="dark"] .edge_own path.connection {
+  stroke: Orange;
+}
+[data-diagram-theme="dark"] .edge_own polygon.connection {
+  fill: Orange;
+}
+
+[data-diagram-theme="light"] .edge_call path.connection {
+  stroke: RebeccaPurple;
+}
+[data-diagram-theme="light"] .edge_call polygon.connection {
+  fill: RebeccaPurple;
+}
+[data-diagram-theme="dark"] .edge_call path.connection {
+  stroke: Violet;
+}
+[data-diagram-theme="dark"] .edge_call polygon.connection {
+  fill: Violet;
+}
+
+/*
+ * ---- classes/plan.d2 ---- and ---- classes/process.d2 ----
+ * DarkGreen/DarkRed/Gray are already dark/muted enough to read on both a
+ * white and a dark canvas — same value both themes.
+ */
+[data-diagram-theme="light"] .to_add .shape,
+[data-diagram-theme="dark"] .to_add .shape {
+  stroke: DarkGreen;
+}
+[data-diagram-theme="light"] .to_remove .shape,
+[data-diagram-theme="dark"] .to_remove .shape {
+  stroke: DarkRed;
+}
+[data-diagram-theme="light"] .unchanged .shape,
+[data-diagram-theme="dark"] .unchanged .shape {
+  stroke: Gray;
+}
+[data-diagram-theme="light"] .edge_signal path.connection,
+[data-diagram-theme="dark"] .edge_signal path.connection {
+  stroke: DarkGreen;
+}
+[data-diagram-theme="light"] .edge_no_signal path.connection,
+[data-diagram-theme="dark"] .edge_no_signal path.connection {
+  stroke: Gray;
+}
+
+/* ---- classes/sequence.d2 ---- */
+[data-diagram-theme="light"] .frontend .shape,
+[data-diagram-theme="dark"] .frontend .shape {
+  stroke: SteelBlue;
+}
+[data-diagram-theme="light"] .pipeline .shape,
+[data-diagram-theme="dark"] .pipeline .shape {
+  stroke: SteelBlue;
+}
+[data-diagram-theme="light"] .api .shape,
+[data-diagram-theme="dark"] .api .shape {
+  stroke: DarkSlateGray;
+}
+[data-diagram-theme="light"] .database .shape,
+[data-diagram-theme="dark"] .database .shape {
+  stroke: SeaGreen;
+}
+[data-diagram-theme="light"] .aws .shape {
+  stroke: Olive;
+}
+[data-diagram-theme="dark"] .aws .shape {
+  stroke: Goldenrod;
+}
+[data-diagram-theme="light"] .gcp .shape {
+  stroke: Olive;
+}
+[data-diagram-theme="dark"] .gcp .shape {
+  stroke: Goldenrod;
+}
+[data-diagram-theme="light"] .azure .shape {
+  stroke: Olive;
+  fill: PaleTurquoise;
+}
+[data-diagram-theme="dark"] .azure .shape {
+  stroke: Gold;
+  fill: Azure;
+}
+
+/* ---- classes/L7.d2 ---- */
+[data-diagram-theme="light"] .debug .shape,
+[data-diagram-theme="dark"] .debug .shape {
+  stroke: Crimson;
+}
+[data-diagram-theme="light"] .edge_request path.connection {
+  stroke: Navy;
+}
+[data-diagram-theme="light"] .edge_request polygon.connection {
+  fill: OrangeRed;
+}
+[data-diagram-theme="dark"] .edge_request path.connection {
+  stroke: LightBlue;
+}
+[data-diagram-theme="dark"] .edge_request polygon.connection {
+  fill: Orange;
+}
+[data-diagram-theme="light"] .edge_query path.connection {
+  stroke: Olive;
+}
+[data-diagram-theme="light"] .edge_query polygon.connection {
+  fill: Olive;
+}
+[data-diagram-theme="dark"] .edge_query path.connection {
+  stroke: Yellow;
+}
+[data-diagram-theme="dark"] .edge_query polygon.connection {
+  fill: Yellow;
+}
+[data-diagram-theme="light"] .ai_assistant .shape,
+[data-diagram-theme="dark"] .ai_assistant .shape {
+  stroke: blue;
+}
+[data-diagram-theme="light"] .mcp_server .shape,
+[data-diagram-theme="dark"] .mcp_server .shape {
+  stroke: green;
+}
+[data-diagram-theme="light"] .data_source .shape {
+  stroke: OrangeRed;
+}
+[data-diagram-theme="dark"] .data_source .shape {
+  stroke: orange;
+}
+[data-diagram-theme="light"] .security_layer .shape {
+  stroke: Navy;
+}
+[data-diagram-theme="dark"] .security_layer .shape {
+  stroke: Navy;
+}
+
+/*
+ * ---- classes/tags.d2 ----
+ * Quality badges are a deliberately theme-invariant black box regardless of
+ * canvas — same value both themes (like _link, above).
+ */
+[data-diagram-theme="light"] .compiles .shape,
+[data-diagram-theme="dark"] .compiles .shape {
+  fill: Black;
+  stroke: Red;
+}
+[data-diagram-theme="light"] .compiles text,
+[data-diagram-theme="dark"] .compiles text {
+  fill: Red;
+}
+[data-diagram-theme="light"] .styled .shape,
+[data-diagram-theme="dark"] .styled .shape {
+  fill: Black;
+  stroke: Yellow;
+}
+[data-diagram-theme="light"] .styled text,
+[data-diagram-theme="dark"] .styled text {
+  fill: Yellow;
+}
+[data-diagram-theme="light"] .coherent .shape,
+[data-diagram-theme="dark"] .coherent .shape {
+  fill: Black;
+  stroke: DarkGreen;
+}
+[data-diagram-theme="light"] .coherent text,
+[data-diagram-theme="dark"] .coherent text {
+  fill: DarkGreen;
+}

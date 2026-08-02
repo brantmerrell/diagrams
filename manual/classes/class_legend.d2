@@ -1,8 +1,4 @@
-vars: {
-  d2-config: {
-    theme-id: 200
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"basic"
 classes: @"function"
 classes: @"L4"
@@ -25,7 +21,24 @@ layers: {
     positive: {class: positive; label: "positive"}
     negative: {class: negative; label: "negative"}
     iter: {class: iter; label: "iter"}
+    iter_step: {class: iter_step; label: "iter_step"}
     op: {class: op; label: "op"}
+    scalar: {class: scalar; label: "scalar"}
+    data: {class: data; label: "data"}
+    generic_node: {class: generic_node; label: "generic_node"}
+    generic_edge_demo: {
+      label: "generic_edge"
+      A: {label: "A"}
+      B: {label: "B"}
+      A -> B: {class: generic_edge}
+    }
+    gate_and: {class: gate_and; label: "gate_and"}
+    gate_or: {class: gate_or; label: "gate_or"}
+    gate_nand: {class: gate_nand; label: "gate_nand"}
+    gate_nor: {class: gate_nor; label: "gate_nor"}
+    gate_xor: {class: gate_xor; label: "gate_xor"}
+    gate_xnor: {class: gate_xnor; label: "gate_xnor"}
+    gate_not: {class: gate_not; label: "gate_not"}
   }
   2_L4: {
     grid-columns: 2
@@ -136,7 +149,6 @@ layers: {
     grid-columns: 3
 
     user: {class: user; label: "user"}
-    highlight: {class: highlight; label: "highlight"}
     frontend: {class: frontend; label: "frontend"}
     pipeline: {class: pipeline; label: "pipeline"}
     api: {class: api; label: "api"}

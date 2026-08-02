@@ -1,13 +1,6 @@
 ---
-review:  # 1m: 40; 10m: 1;
-  - ./manual/dev/docker-recreate-bug.d2
-  - ./manual/dev/make.d2
-  - ./manual/dev/ports.d2
-  - ./manual/dev/zombie-processes.d2
-  - ./manual/hackerrank/1-week/day-1/timeConversion.d2
-  - ./manual/hackerrank/3-month/week-1/timeConversion.d2
-  - ./manual/hackerrank/1-week/day-3/findZigZagSequence.d2
-  - ./manual/hackerrank/3-month/week-3/pageCount.d2
+jacob:
+  - ./manual/examples/jacob.d2
 jbm.eco:
   diagrams.jbm.eco:
     details:
@@ -213,7 +206,6 @@ hackerrank/:
       3_number-line-jumps/:
         - ./manual/hackerrank/3-month/week-4/kangaroo.d2
       4_separate-numbers/:
-        - ./manual/hackerrank/3-month/week-4/separateNumbers.d2
       5_closest-numbers/:
         - ./manual/hackerrank/3-month/week-4/closestNumbers.d2
       6_tower-breakers/:

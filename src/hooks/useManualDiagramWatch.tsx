@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { normalizeToCanonical, canonicalToSvgPath } from '../lib/yamlExtract'
 import { openLinkAnchorsInNewTab } from '../lib/svgLinks'
+import { makeThemeToggleable } from '../lib/svgTheme'
 
 export interface Scenario {
   name: string
@@ -51,7 +52,7 @@ export function useManualDiagramWatch(
         // in that window gets an empty or truncated body. Keep the last good
         // render instead of blanking — the write's own SSE event refetches soon.
         if (!text.includes('<svg')) return
-        const withLinkTargets = openLinkAnchorsInNewTab(text)
+        const withLinkTargets = makeThemeToggleable(openLinkAnchorsInNewTab(text))
         // Skip the re-render when a sibling layer's compile fired this reload but
         // the active layer's own SVG didn't actually change — avoids a visible flash.
         setSvgContent(prev => withLinkTargets === prev ? prev : withLinkTargets)
@@ -80,7 +81,7 @@ export function useManualDiagramWatch(
       }
       if (response.ok) {
         const data = await response.json()
-        if (data.scenarios && data.scenarios.length > 1) {
+        if (data.scenarios && data.scenarios.length > 0) {
           if (!scenariosEqual(scenariosRef.current, data.scenarios)) {
             scenariosRef.current = data.scenarios
             setScenarios(data.scenarios)
