@@ -1,9 +1,4 @@
-vars: {
-  d2-config: {
-    theme-id: 200
-    layout-engine: elk
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"../classes/sequence"
 classes: @"../classes/tags"
 
@@ -27,7 +22,7 @@ layers: {
     developer -> alembic: alembic upgrade head {class: user}
     alembic -> env_py: load {class: api}
     env_py.note1: |md
-      DATABASE_URL overrides sqlalchemy.url
+      DATABASE_URL overrides sqlalchemy.url\
       (postgres:// → postgresql+asyncpg://)
     | {
       class: api

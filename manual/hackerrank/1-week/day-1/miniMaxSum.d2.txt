@@ -1,16 +1,11 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/function"
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
 
-arr
 miniMaxSum: {
   label: miniMaxSum(arr)
   sort: {
@@ -18,8 +13,15 @@ miniMaxSum: {
     class: op
   }
   left_splice: {
-    label: left splice\narr\[:4\] # TODO: example integer or hardcoded?
+    label: left splice\narr\[:4\]
     class: op
+    example: |md
+    ```python
+    arr = [1, 3, 5, 7, 9]
+    arr[:4]
+    # [1, 3, 5, 7]  (drops last elem)
+    ```
+    |
   }
   left_sum: {
     label: left_sum\nsum()
@@ -32,6 +34,13 @@ miniMaxSum: {
   right_splice: {
     label: right splice\narr\[len(arr)-4:\]
     class: op
+    example: |md
+    ```python
+    arr = [1, 3, 5, 7, 9]
+    arr[len(arr)-4:]
+    # [3, 5, 7, 9]  (drops first elem)
+    ```
+    |
   }
   right_sum: {
     label: right_sum\nsum()
@@ -53,4 +62,3 @@ miniMaxSum: {
   left_append -> result
   right_append -> result
 }
-arr -> miniMaxSum.sort

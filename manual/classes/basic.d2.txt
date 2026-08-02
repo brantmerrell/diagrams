@@ -1,7 +1,4 @@
+**.style.text-transform: none
 _link: {
   height: 30
-  style: {
-    fill: LightBlue
-    font-color: Black
-  }
 }

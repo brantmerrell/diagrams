@@ -1,22 +1,26 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
+classes: @"../../../classes/function"
 
 _quality: {class: compiles}
 
-arr
 closestNumbers {
+  label: closestNumbers(arr)
   sort {
     label: sort()
   }
   sort -> iterate
   result {
     label: result\ninit \[arr\[:2\]\]
+    example: |md
+    ```python
+    arr = sorted([4, 2, 1, 3, 5])
+    # [1, 2, 3, 4, 5]
+    arr[:2]
+    # [1, 2]  (first pair, before scanning for closer pairs)
+    ```
+    |
   }
   smallest_diff: {
     label: smallest_diff\ninit arr\[1\]-arr\[0\]
@@ -57,32 +61,5 @@ closestNumbers {
   }
   result <- append <- condition_2
 }
-arr -> closestNumbers.sort
 closestNumbers -> closestNumbers.smallest_diff: init
-classes: {
-  cond: {
-    shape: diamond
-  }
-  positive: {
-    shape: oval
-    style: {
-      font-color: darkgreen
-      stroke: darkgreen
-    }
-  }
-  negative: {
-    shape: oval
-    style: {
-      stroke: crimson
-      font-color: crimson
-    }
-  }
-  iter: {
-    width: 500
-    height: 50
-  }
-  op: {
-    shape: parallelogram
-  }
-}
 

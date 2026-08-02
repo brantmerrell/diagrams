@@ -1,0 +1,8 @@
+{
+  "scenarios": [
+    {
+      "name": "seq_connector",
+      "path": "/manual/my-chess/seq_connector/seq_connector.svg"
+    }
+  ]
+}

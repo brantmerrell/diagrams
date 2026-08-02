@@ -1,17 +1,14 @@
-vars: {
-  d2-config: {
-    theme-id: 201
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
+# TODO: this should be a description of why
 
 direction: right
 n
 flippingBits {
   const: const 4294967295 # TODO: keyword const or just conceptual const?
 }
-n -> flippingBits.const: subtract\nfrom
+n -> flippingBits.const: subtract\nfrom # TODO: this should be in the function

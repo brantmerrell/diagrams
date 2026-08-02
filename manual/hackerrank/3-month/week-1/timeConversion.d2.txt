@@ -1,11 +1,6 @@
 direction: right
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
@@ -19,13 +14,9 @@ classes {
   }
 }
 
-s: s {
-  shape: circle
-}
-
 timeConversion: timeConversion {
   split: {
-    label:.split(\':\') 
+    label:s.split(\':\') 
     shape: circle
   }
   HH: { 
@@ -55,4 +46,3 @@ timeConversion: timeConversion {
   MM -> join
   SS -> join
 }
-s -> timeConversion.split

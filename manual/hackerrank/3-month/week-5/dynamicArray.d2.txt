@@ -1,18 +1,13 @@
-vars: {
-  d2-config: {
-    layout-engine: dagre
-    theme-id: 201
-  }
-}
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/function"
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
 
-n
-queries
 dynamicArray: {
+  label: dynamicArray(n, queries)
   class: op
   answers
   arr: {
@@ -52,5 +47,3 @@ dynamicArray: {
   is_type_2 -> op_2: { class: positive }
   lastAnswer -> append2
 }
-n -> dynamicArray.arr
-queries -> dynamicArray.iterate_queries

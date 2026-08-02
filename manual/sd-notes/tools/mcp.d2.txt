@@ -1,14 +1,9 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
-
+vars: @"../../vars/system-design.d2"
 classes: @"../../classes/tags"
 
 _quality: {class: compiles}
 
+# TODO: links, layers
 
 EnterpriseUser: Enterprise User {
   shape: class
@@ -155,6 +150,7 @@ DatabaseServer -> MCPServer: {
 }
 
 # Implementation Details
+# TODO: too big a block of text for a diagram
 implementation_notes: |md
 ## MCP Implementation Details
 

@@ -1,17 +1,13 @@
-vars: {
-  d2-config: {
-    theme-id: 201
-    layout-engine: elk
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
+
+# TODO: use d2 grid capabilities to illustrate in separate layer
 
 _quality: {class: compiles}
 
-arr
-n
 diagonalDifference {
+  label: diagonalDifference(arr, n)
   _iter: ndx in range(n) { }
   _diff: abs( diff(_,_) )
   _iter -> descending_sum: increment\narr\[ndx\]\[ndx\]
@@ -19,5 +15,3 @@ diagonalDifference {
   descending_sum -> _diff
   ascending_sum -> _diff
 }
-arr -> diagonalDifference
-n -> diagonalDifference

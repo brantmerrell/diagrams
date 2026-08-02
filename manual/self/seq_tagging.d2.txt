@@ -1,8 +1,4 @@
-vars: {
-  d2-config: {
-    theme-id: 201
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"../classes/sequence"
 classes: @"../classes/tags"
 
@@ -42,7 +38,9 @@ layers: {
       static stand-in for the API on\
       GitHub Pages — useDiagramTags\
       falls back to /manual/tags.json
-    |
+    | {
+      class: database
+    }
   }
 
   1_filter: {

@@ -1,18 +1,12 @@
 direction: down
-vars: {
-  d2-config: {
-    theme-id: 201
-    layout-engine: elk
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
+classes: @"../../../classes/function"
 
 _quality: {class: compiles}
 
-_steps: steps
-_path: path
-_countingValleys: countingValleys {
+_countingValleys: countingValleys(steps, path) {
   elevation: elevation\ninit 0
   valleys: valleys\ninit 0
   _iter: step in range(steps)
@@ -24,11 +18,11 @@ _countingValleys: countingValleys {
   }
   _iter -> _cond
   _cond._cond -> valleys: increment
-  _cond -> elevation: increment
+  _cond -> elevation: increment {
+    class: positive
+  }
   _cond -> elevation: decrement {
-    style.stroke: crimson
+    class: negative
   }
 }
-_steps -> _countingValleys._iter
-_path -> _countingValleys._cond._cond
 _countingValleys.valleys -> output

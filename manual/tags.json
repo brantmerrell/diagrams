@@ -13,6 +13,7 @@
       "compiles"
     ],
     "/manual/dev/docker-recreate-bug.d2": [
+      "styled",
       "compiles"
     ],
     "/manual/dev/make.d2": [
@@ -110,7 +111,7 @@
       "compiles"
     ],
     "/manual/hackerrank/1-week/day-4/superDigit.d2": [
-      "compiles"
+      "styled"
     ],
     "/manual/hackerrank/1-week/day-5/isBalanced.d2": [
       "compiles"
@@ -211,9 +212,6 @@
     "/manual/hackerrank/3-month/week-4/pickingNumbers.d2": [
       "compiles"
     ],
-    "/manual/hackerrank/3-month/week-4/separateNumbers.d2": [
-      "compiles"
-    ],
     "/manual/hackerrank/3-month/week-4/towerBreakers.d2": [
       "compiles"
     ],
@@ -309,7 +307,8 @@
       "compiles"
     ],
     "/manual/sd-notes/tools/communication.d2": [
-      "compiles"
+      "compiles",
+      "styled"
     ],
     "/manual/sd-notes/tools/connectors.d2": [
       "compiles"

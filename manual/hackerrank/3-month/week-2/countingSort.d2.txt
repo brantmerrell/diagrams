@@ -1,20 +1,14 @@
 direction: down
 
-vars: {
-  d2-config: {
-    theme-id: 201
-    layout-engine: elk
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-arr
 countingSort {
+  label: countingSort(arr)
   _freq: freq\n\[0\] * 100
   _iter: elem in arr
   _iter -> _freq: += @ i # TODO: where does i come from?
 }
-arr -> countingSort

@@ -1,17 +1,12 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/function"
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-n
-m
 towerBreakers {
+  label: towerBreakers(n, m)
   AND: {
     label: AND
     class: cond
@@ -33,5 +28,3 @@ towerBreakers {
     class: positive
   }
 }
-n -> towerBreakers.AND.condition_1
-m -> towerBreakers.AND.condition_0

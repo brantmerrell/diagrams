@@ -1,18 +1,12 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/function"
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-k
-arr
 maxMin: {
-  label: maxMin()
+  label: maxMin(k, arr)
   len: {
     label: len()
     class: op
@@ -39,6 +33,3 @@ maxMin: {
   diff -> min
   min -> result
 }
-k -> maxMin.iterate
-arr -> maxMin.len
-arr -> maxMin.iterate

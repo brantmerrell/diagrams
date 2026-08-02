@@ -1,38 +1,36 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/function"
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-n
-m
 towerBreakers {
-  AND: {
-    # TODO: create AND/OR classes
-    label: AND
+  label: towerBreakers(n, m)
+  condition_0: {
+    label: isOne
     class: cond
-    condition_0: {
-      label: isOne
-      class: cond
-    }
-    condition_1: {
-      label: isEven
-      class: cond
-    }
   }
+  condition_1: {
+    label: isEven
+    class: cond
+  }
+  AND: {
+    label: AND
+    class: gate_and
+  }
+  condition_0 -> AND
+  condition_1 -> AND
   AND -> result: {
-    label: player 1 wins
+    label: player\n1 wins
     class: negative
   }
+  AND -- result: {
+    label: ""
+    class: invis
+  }
   AND -> result: {
-    label: player 2 wins
+    label: player\n2 wins
     class: positive
   }
 }
-n -> towerBreakers.AND.condition_1
-m -> towerBreakers.AND.condition_0

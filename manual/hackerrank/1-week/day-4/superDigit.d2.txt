@@ -1,16 +1,11 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
+# (** -> **)[*].style.text-transform: none
 classes: @"../../../classes/function"
 classes: @"../../../classes/tags"
 
-_quality: {class: compiles}
+_quality: {class: styled}
 
-n
-k
 superDigit: {
   label: superDigit(n, k)
   super_digit: { # TODO: font makes i look like l
@@ -31,11 +26,8 @@ superDigit: {
   sum_digits -> super_digit
   while -- is_not_len_1
   is_not_len_1 -> sum_digits: { class: positive }
-  is_not_len_1 -> result: { 
+  is_not_len_1 -> result: {
     class: negative
     label: super_digit
-
   }
 }
-n -> superDigit.sum_digits
-k -> superDigit

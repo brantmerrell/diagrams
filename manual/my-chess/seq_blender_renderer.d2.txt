@@ -1,12 +1,10 @@
-vars: {
-  d2-config: {
-    theme-id: 201
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"../classes/L7"
 classes: @"../classes/tags"
 
 _quality: {class: compiles}
+
+# TODO: wrap in layers; rename without seq_ prefix
 
 seq_blender_renderer: {
   shape: sequence_diagram

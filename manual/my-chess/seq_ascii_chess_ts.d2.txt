@@ -1,13 +1,9 @@
-vars: {
-  d2-config: {
-    theme-id: 201
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"../classes/L7"
 classes: @"../classes/tags"
 
 layers: {
-  main: {
+  0_main: {
     _quality: {class: compiles}
 
     shape: sequence_diagram
@@ -35,7 +31,7 @@ layers: {
     browser -> App: {class: edge_request; label: "load daily puzzle"}
     App -> chesscom: {class: edge_request; label: "GET /pub/puzzle"}
   }
-  login: {
+  1_login: {
     _quality: {class: compiles}
 
     shape: sequence_diagram

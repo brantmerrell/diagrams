@@ -1,20 +1,20 @@
 {
   "scenarios": [
     {
-      "name": "ctrlc",
-      "path": "/manual/dev/zombie-processes/ctrlc.svg"
+      "name": "0_spawn",
+      "path": "/manual/dev/zombie-processes/0_spawn.svg"
     },
     {
-      "name": "fix",
-      "path": "/manual/dev/zombie-processes/fix.svg"
+      "name": "1_ctrlc",
+      "path": "/manual/dev/zombie-processes/1_ctrlc.svg"
     },
     {
-      "name": "spawn",
-      "path": "/manual/dev/zombie-processes/spawn.svg"
+      "name": "2_wrong_pane",
+      "path": "/manual/dev/zombie-processes/2_wrong_pane.svg"
     },
     {
-      "name": "wrong_pane",
-      "path": "/manual/dev/zombie-processes/wrong_pane.svg"
+      "name": "3_fix",
+      "path": "/manual/dev/zombie-processes/3_fix.svg"
     }
   ]
 }

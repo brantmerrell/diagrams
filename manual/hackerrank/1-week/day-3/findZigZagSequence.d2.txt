@@ -1,17 +1,11 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/function"
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
 
-a
-n
 findZigZagSequence: {
   label: findZigZagSequence(a, n)
   sort: {
@@ -70,5 +64,3 @@ findZigZagSequence: {
   indexAtEnd -> print: { class: positive }
   indexAtEnd -> print: end = \' \' { class: negative }
 }
-a -> findZigZagSequence.sort
-n -> findZigZagSequence.mid

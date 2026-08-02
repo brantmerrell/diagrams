@@ -1,9 +1,4 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../vars/system-design.d2"
 classes: @"../../classes/L7"
 classes: @"../../classes/basic"
 classes: @"../../classes/function"
@@ -13,7 +8,7 @@ layers: {
     _quality: {class: compiles}
 
     user: {
-      shape: person
+      class: obj_client
       label: User
     }
     chat_interface: {
@@ -69,7 +64,9 @@ layers: {
       label: Security & Monitoring
     }
     user -> chat_interface: query/prompt
-    chat_interface -> orchestration: {class: edge_request}
+    chat_interface -> orchestration: {
+      class: edge_request
+    }
     orchestration -> retrieval: retrieve context
     retrieval -> vector_store: {class: edge_query; label: vector search}
     data_sources -> ingestion: extract & chunk
@@ -151,10 +148,6 @@ layers: {
       vector_store: {
         class: obj_db
         label: Vector Database\n(Pinecone, Chroma,\nWeaviate, FAISS)
-        style: {
-          fill: lightgreen
-          font-color: black
-        }
       }
       retrieval_engine: {
         class: obj_service
@@ -329,9 +322,6 @@ layers: {
     unified_vector_store: {
       class: obj_db
       label: Unified\nVector Store
-      style: {
-        fill: lightcoral
-      }
     }
     multimodal_llm: {
       class: ai_assistant

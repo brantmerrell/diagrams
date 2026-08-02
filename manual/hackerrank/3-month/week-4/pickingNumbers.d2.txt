@@ -1,16 +1,13 @@
 direction: down
-vars: {
-  d2-config: {
-    theme-id: 201
-    layout-engine: elk
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
+classes: @"../../../classes/function"
 
 _quality: {class: compiles}
 
 pickingNumbers {
+  label: pickingNumbers(a)
   condition_1: {
     label: max(a) == min(a)
     class: cond
@@ -50,28 +47,4 @@ pickingNumbers {
   iter_2 -> right: increment
   right -> update
   update -> result
-}
-a -> pickingNumbers.condition_1
-classes: {
-  cond: {
-    shape: diamond
-  }
-  positive: {
-    shape: oval
-    style: {
-      font-color: darkgreen
-      stroke: darkgreen
-    }
-  }
-  negative: {
-    shape: oval
-    style: {
-      stroke: crimson
-      font-color: crimson
-    }
-  }
-  iter: {
-    width: 500
-    height: 50
-  }
 }

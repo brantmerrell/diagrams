@@ -1,9 +1,4 @@
-vars: {
-  d2-config: {
-    # layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"../classes/sequence"
 classes: @"../classes/tags"
 
@@ -22,6 +17,7 @@ seq_process_sentences: {
   }
   aksharamukha: {
     label: Aksharamukha\n python library
+    # TODO: label font is too small
     icon: ../../icons/python.svg
     shape: image
   }

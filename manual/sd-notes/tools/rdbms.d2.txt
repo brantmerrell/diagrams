@@ -1,9 +1,5 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../vars/system-design.d2"
+**.style.text-transform: none
 classes: @"../../classes/L7"
 classes: @"../../classes/tags"
 
@@ -23,21 +19,21 @@ acid_properties: {
   label: ACID Guarantees
   
   atomicity: {
-    label: ATOMICITY
+    label: Atomicity
     all_ops: All Operations
     none_ops: No Operations
     all_ops -- none_ops: OR
   }
   
   consistency: {
-    label: CONSISTENCY
+    label: Consistency
     valid_state1: Valid State A
     valid_state2: Valid State B
     valid_state1 -> valid_state2: maintains integrity
   }
   
   isolation: {
-    label: ISOLATION
+    label: Isolation
     concurrent_tx: {
       tx1: Transaction 1
       tx2: Transaction 2
@@ -49,7 +45,7 @@ acid_properties: {
   }
   
   durability: {
-    label: DURABILITY
+    label: Durability
     committed_tx: Committed Transaction
     persistent_storage: Persistent Storage
     system_failure: System Failure

@@ -1,36 +1,35 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/function"
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
-# TODO: add classes
 
 grid: {
   label: grid
   notes: |md
   * instructions say square
   * test cases include rectangle
-  |
+  | {
+    class: highlight
+  }
 }
 gridChallenge: {
   label: def gridChallenge(grid):
   class: op
   n: {
     label: n\ncolumns
+    class: generic_node
   }
   m: {
     label: m\ncolumns
+    class: generic_node
   }
-  len_n: { 
+  len_n: {
     class: op
     label: len(grid)
   }
-  len_m: { 
+  len_m: {
     class: op
     label: len(grid\[0\])
   }
@@ -56,6 +55,7 @@ gridChallenge: {
   }
   column: {
     label: column\n init \[\]
+    class: generic_node
   }
   iterate_rows: {
     label: "for [row, row, row...] in range(n):"
@@ -69,18 +69,42 @@ gridChallenge: {
     label: is sorted
     class: cond
   }
-  len_n -> n
-  len_m -> m
-  n -> iterate_sort
-  m -> iterate_cols
-  iterate_sort -> sort_row
-  iterate_sort -> then
-  then -> iterate_cols
-  iterate_cols -> column
-  iterate_cols -> iterate_rows
-  iterate_rows -> append
-  append -> column
-  column -> is_sorted
+  len_n -> n: {
+    class: scalar
+  }
+  len_m -> m: {
+    class: scalar
+  }
+  n -> iterate_sort: {
+    class: scalar
+  }
+  m -> iterate_cols: {
+    class: scalar
+  }
+  iterate_sort -> sort_row: {
+    class: generic_edge
+  }
+  iterate_sort -> then: {
+    class: generic_edge
+  }
+  then -> iterate_cols: {
+    class: generic_edge
+  }
+  iterate_cols -> column: {
+    class: generic_edge
+  }
+  iterate_cols -> iterate_rows: {
+    class: generic_edge
+  }
+  iterate_rows -> append: {
+    class: generic_edge
+  }
+  append -> column: {
+    class: data
+  }
+  column -> is_sorted: {
+    class: data
+  }
   is_sorted -> result: YES {
     class: positive
   }
@@ -88,5 +112,9 @@ gridChallenge: {
     class: negative
   }
 }
-grid -> gridChallenge.len_n
-grid -> gridChallenge.len_m
+grid -> gridChallenge.len_n: {
+  class: data
+}
+grid -> gridChallenge.len_m: {
+  class: data
+}

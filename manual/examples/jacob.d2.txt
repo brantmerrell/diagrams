@@ -1,0 +1,37 @@
+vars: {
+  d2-config: {
+    layout-engine: dagre
+    theme-id: 104
+    dark-theme-id: 201
+  }
+}
+container: {
+  jacob -- dylan
+  jacob: {
+    shape: image
+    label: Jacob
+    icon: https://icons.terrastruct.com/essentials%2F112-server.svg
+  }
+  dylan: {
+    shape: image
+    height: 90
+    width: 90
+    label: Dylan
+    icon: https://icons.terrastruct.com/essentials%2F102-infinity.svg
+  }
+  crazy -- dylan
+  crazy: {
+    shape: image
+    icon: ../../icons/explosion.png
+  }
+  dylan -- josh
+  josh: {
+    icon: ../../icons/train.svg
+    shape: image
+  }
+  dylan -- emy
+  emy: {
+    icon: https://icons.terrastruct.com/essentials%2F197-diamond.svg
+    shape: image
+  }
+}

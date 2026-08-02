@@ -1,8 +1,8 @@
 {
   "scenarios": [
     {
-      "name": "fetch_text",
-      "path": "/manual/hi/seq_fetch_text/fetch_text.svg"
+      "name": "0_fetch_text",
+      "path": "/manual/hi/seq_fetch_text/0_fetch_text.svg"
     }
   ]
 }

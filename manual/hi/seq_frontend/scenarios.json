@@ -1,12 +1,12 @@
 {
   "scenarios": [
     {
-      "name": "auth",
-      "path": "/manual/hi/seq_frontend/auth.svg"
+      "name": "0_auth",
+      "path": "/manual/hi/seq_frontend/0_auth.svg"
     },
     {
-      "name": "load",
-      "path": "/manual/hi/seq_frontend/load.svg"
+      "name": "1_load",
+      "path": "/manual/hi/seq_frontend/1_load.svg"
     }
   ]
 }

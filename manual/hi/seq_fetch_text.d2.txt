@@ -1,14 +1,9 @@
-vars: {
-  d2-config: {
-    # layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"../classes/sequence"
 classes: @"../classes/tags"
 
 layers: {
-  fetch_text: {
+  0_fetch_text: {
     _quality: {class: compiles}
     shape: sequence_diagram
     developer: {shape: c4-person; class: pipeline}

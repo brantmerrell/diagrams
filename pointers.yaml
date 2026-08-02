@@ -1,15 +1,8 @@
 ---
-review:  # 1m: 40; 10m: 1;
-  - ./manual/dev/docker-recreate-bug.d2
-  - ./manual/dev/make.d2
-  - ./manual/dev/ports.d2
-  - ./manual/dev/zombie-processes.d2
-  - ./manual/hackerrank/1-week/day-1/timeConversion.d2
-  - ./manual/hackerrank/3-month/week-1/timeConversion.d2
-  - ./manual/hackerrank/1-week/day-3/findZigZagSequence.d2
-  - ./manual/hackerrank/3-month/week-3/pageCount.d2
-jbm-eco domain:
-  diagrams subdomain:
+jacob:
+  - ./manual/examples/jacob.d2
+jbm.eco:
+  diagrams.jbm.eco:
     details:
       repository: https://github.com/brantmerrell/diagrams
       description: this viewer, described by itself
@@ -18,7 +11,6 @@ jbm-eco domain:
     setup:
       - ./manual/self/setup.d2
     index.html:
-      - ./manual/jbm-eco/analytics.d2
     src/:
       components/:
         D2Panel.tsx:
@@ -33,7 +25,7 @@ jbm-eco domain:
     server.js:
       - ./manual/self/seq_view.d2
       - ./manual/self/seq_tagging.d2
-  chess subdomain:
+  chess.jbm.eco:
     details:
       repository: https://github.com/brantmerrell/my-chess
       description: chess visualization app
@@ -46,17 +38,15 @@ jbm-eco domain:
           - ./manual/my-chess/seq_ascii_chess_ts.d2
       public/:
         index.html:
-          - ./manual/jbm-eco/analytics.d2
     prototype-shiny/:
       app.R:
         - ./manual/my-chess/seq_prototype_shiny.d2
     blender-renderer/:
       __init__.py:
         - ./manual/my-chess/seq_blender_renderer.d2
-  hi/:
+  hi.jbm.eco:
     frontend/:
       index.html:
-        - ./manual/jbm-eco/analytics.d2
       src/:
         main.tsx:
           - ./manual/hi/seq_frontend.d2
@@ -114,7 +104,7 @@ sd-notes/:
 hackerrank/: 
   TODO:
     - link each to hackerrank problem
-    - add integer_ prefixes to layer names
+    - add prefixes to layer names
     - create pattern-specific diagrams linking to hackerrank problems
     - add python snippets for syntactic review of indexing and splicing (see miniMaxSum)
     - include function signatures in labels and remove external depictions of params/inputs
@@ -216,7 +206,6 @@ hackerrank/:
       3_number-line-jumps/:
         - ./manual/hackerrank/3-month/week-4/kangaroo.d2
       4_separate-numbers/:
-        - ./manual/hackerrank/3-month/week-4/separateNumbers.d2
       5_closest-numbers/:
         - ./manual/hackerrank/3-month/week-4/closestNumbers.d2
       6_tower-breakers/:

@@ -1,9 +1,4 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../vars/system-design.d2"
 classes: @"../../classes/L7"
 classes: @"../../classes/tags"
 
@@ -11,6 +6,9 @@ _quality: {class: compiles}
 
 """
 TODO: split into layers
+* Asynchonism and Scaling Patterns can each be their own diagram
+* Link to the diagrams for asynchronism and scaling patterns
+* Microservices and Monolithic can be their own layers
 """
 
 # Monolithic vs Microservices Architecture

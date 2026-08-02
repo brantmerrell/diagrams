@@ -1,26 +1,17 @@
 direction: down
-vars: {
-  d2-config: {
-    theme-id: 201
-    layout-engine: elk
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-s
-d
-m
 birthday: {
+  label: birthday(s, d, m)
   iter: iter\; leave space for segment
+  # TODO: illustrate "leave space for segment"
   cond: check if segment sums to d
   result
   iter -> cond
   cond -> result: increment
 }
-s -> birthday.iter
-m -> birthday.iter
-d -> birthday.cond
 

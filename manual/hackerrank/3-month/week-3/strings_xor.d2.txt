@@ -1,12 +1,6 @@
 direction: right
-vars: {
-  d2-config: {
-    theme-id: 201
-    layout-engine: elk
-  }
-}
-
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 """
 TODO: this probably introduces new syntax; deserves depiction of syntax
 """
@@ -15,9 +9,8 @@ classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
-s
-t
 strings_xor: {
+  label: strings_xor(s, t)
   iter: i in range(len(s))
   cond: identical {
     shape: diamond
@@ -35,5 +28,3 @@ strings_xor: {
     }
   }
 }
-s -> strings_xor.iter
-t -> strings_xor.cond

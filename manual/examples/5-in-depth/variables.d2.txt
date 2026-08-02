@@ -1,7 +1,5 @@
+vars: @"../../vars/jbm.d2"
 vars: {
-  d2-config: {
-    theme-id: 201
-  }
   primaryColors: {
     button: {
       active: "#4baae5"
@@ -34,7 +32,7 @@ button: {
 lb: ${region} load balancer
 
 zone1: {
-  vars: {
+  _vars: {
     region: us-east-1
   }
   server: ${region} API

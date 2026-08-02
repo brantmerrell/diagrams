@@ -1,8 +1,8 @@
 {
   "scenarios": [
     {
-      "name": "enrich_glosses",
-      "path": "/manual/hi/seq_enrich_glosses/enrich_glosses.svg"
+      "name": "0_enrich_glosses",
+      "path": "/manual/hi/seq_enrich_glosses/0_enrich_glosses.svg"
     }
   ]
 }

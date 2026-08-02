@@ -1,15 +1,15 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../vars/system-design.d2"
 classes: @"../../classes/L7"
 classes: @"../../classes/function"
 classes: @"../../classes/tags"
 
 _quality: {class: compiles}
 
+"""
+TODO: 
+* wiki links
+* layers
+"""
 
 # Global CDN System
 user_regions: {

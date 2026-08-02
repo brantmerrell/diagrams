@@ -1,18 +1,13 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"../classes/process"
 classes: @"../classes/tags"
 
 layers: {
-  base: {
+  0_base: {
     classes: @"../classes/basic"
     direction: right
 
-    _quality: {class: compiles}
+    _quality: {class: styled}
 
     glossary: {
       label: "Docker Docs links"
@@ -32,7 +27,8 @@ layers: {
     }
   }
 
-  recreate_attempt: {
+  1_recreate_attempt: {
+    # TODO: zig-zag pattern
     label: "1. What make dev -> docker-compose up -d actually hit"
     direction: down
 
@@ -42,6 +38,7 @@ layers: {
     compose_up: {class: obj_proc; label: "docker-compose up -d\nv1.29.2"}
     project_up: {class: obj_proc; label: "project.up()\ncompose/project.py:697"}
     convergence: {class: obj_proc; label: "execute_convergence_plan\nservice.py:579"}
+    # TODO: What's the recreate?
     recreate: {class: obj_proc; label: "_execute_convergence_recreate\nservice.py:499"}
     create_container: {class: obj_proc; label: "create_container\nservice.py:330"}
     volume_merge: {class: obj_proc; label: "_build_container_volume_options\nservice.py:960"}
@@ -58,10 +55,10 @@ layers: {
     note: {
       shape: text
       label: "get_container_data_volumes unconditionally reads\ncontainer.image_config['ContainerConfig'] to find the\nold container's declared volumes before merging them\ninto the new one. Both hi-db-1 and its child db\ncontainer failed here with the identical KeyError."
-    }
+    } # See README lines 112-132
   }
 
-  root_cause: {
+  2_root_cause: {
     label: "2. Why 'ContainerConfig' wasn't there"
     direction: right
 
@@ -77,10 +74,10 @@ layers: {
     note: {
       shape: text
       label: "This is a known docker-compose v1.29.2 incompatibility:\nit was last updated for an image metadata shape that\nnewer Docker Engine versions no longer produce, and v1 has\nno further releases to fix it. It only surfaces on\n*recreate* (an existing container already present) - never\non a first-time up with no prior container."
-    }
+    }  # See README lines 112-132
   }
 
-  fix: {
+  3_fix: {
     classes: @"../classes/plan"
     direction: down
 
@@ -96,6 +93,6 @@ layers: {
     note: {
       shape: text
       label: "The fix isn't a docker-compose upgrade (v1 is dead) - it's\nsidestepping the recreate code path entirely. Deleting the\nstale container (not its volumes) makes the next up a plain\ncreate, which never touches get_container_data_volumes. Safe\nto repeat any time this specific error resurfaces."
-    }
+    } # See README lines 112-132
   }
 }

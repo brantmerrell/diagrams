@@ -1,35 +1,30 @@
 direction: down
-vars: {
-  d2-config: {
-    theme-id: 201
-    layout-engine: elk
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
+classes: @"../../../classes/function"
 
 _quality: {class: compiles}
 
-n
-ar
 sockMerchant {
-  result: result\ninit 0
-  iter: i in range(n)
-  cond: elem in hash {
-    shape: diamond
+  label: sockMerchant(n, ar)
+  result: result\ninit 0 {
+    class: generic_node
   }
-  iter -> cond
+  iter: i in range(n) {
+    class: iter
+  }
+  cond: elem in hash {
+    class: cond
+  }
+  iter -> cond: {
+    class: generic_edge
+  }
   cond -> result: yes {
-    style: {
-      stroke: darkgreen # TODO: use classes, not styles
-    }
+    class: positive
   }
   cond -> result: no {
-    style: {
-      stroke: crimson
-    }
+    class: negative
   }
-  # TODO: what's actually returned? 
+  # TODO: what's actually returned?
 }
-n -> sockMerchant.iter
-ar -> sockMerchant

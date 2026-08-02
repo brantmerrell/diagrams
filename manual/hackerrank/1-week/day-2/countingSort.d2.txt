@@ -1,16 +1,11 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/function"
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
 
 
-arr
 countingSort: {
   label: countingSort(arr)
   result: {
@@ -26,4 +21,3 @@ countingSort: {
   }
   iterate -> increment -> result
 }
-arr -> countingSort.iterate

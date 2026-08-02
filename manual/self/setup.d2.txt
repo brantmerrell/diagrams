@@ -1,9 +1,4 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"../classes/L7"
 classes: @"../classes/tags"
 

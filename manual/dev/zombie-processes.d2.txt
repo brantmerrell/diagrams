@@ -1,14 +1,9 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../vars/jbm.d2"
 classes: @"../classes/process"
 classes: @"../classes/tags"
 
 layers: {
-  spawn: {
+  0_spawn: {
     label: "1. How bun run start spins these up"
     direction: down
 
@@ -49,10 +44,10 @@ layers: {
     note: {
       shape: text
       label: "Confirmed on a live session: node server.js, every d2 -w child,\nvite and esbuild all share ONE process group (pgid = bun run\nstart's own pid). Before the fix, nothing ever told a watcher to\nstop when the frontend navigated to a different diagram, so each\nview leaked one process for the life of the server, and a fast\nrevisit could orphan the previous process from the tracking Map\nbefore it had actually exited (see stopWatcher in server.js)."
-    }
+    } # See README lines 112-132
   }
 
-  ctrlc: {
+  1_ctrlc: {
     label: "2. What Ctrl+C actually does to this tree"
     direction: down
 
@@ -77,7 +72,7 @@ layers: {
     }
   }
 
-  wrong_pane: {
+  2_wrong_pane: {
     label: "3. The likelier real-world miss: wrong tmux pane"
     direction: right
 
@@ -108,7 +103,7 @@ layers: {
     }
   }
 
-  fix: {
+  3_fix: {
     classes: @"../classes/plan"
     direction: down
 

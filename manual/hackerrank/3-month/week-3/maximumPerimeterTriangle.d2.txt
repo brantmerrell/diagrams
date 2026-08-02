@@ -1,17 +1,13 @@
 direction: down
-vars: {
-  d2-config: {
-    theme-id: 201
-    layout-engine: elk
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
+classes: @"../../../classes/function"
 
 _quality: {class: compiles}
 
-sticks
 maximumPerimeterTriangle {
+  label: maximumPerimeterTriangle(sticks)
   sort: sort\ndescending
   iter: i in range(len(sticks)-2)
     cond: isTriangle\nC < B + A {
@@ -19,30 +15,21 @@ maximumPerimeterTriangle {
       y: {
         label: sorted\nedges
         shape: circle
-        style: {
-          stroke: darkgreen
-        }
+        class: positive
       }
       n: {
         label: "[-1]"
         shape: circle
-        style: {
-          stroke: crimson
-        }
+        class: negative
       }
     }
   result
   sort -> iter
   iter -> cond
   cond.y -> result: {
-    style: {
-      stroke: darkgreen
-    }
+    class: positive
   }
   cond.n -> result: {
-    style: {
-      stroke: crimson
-    }
+    class: negative
   }
 }
-sticks -> maximumPerimeterTriangle.sort

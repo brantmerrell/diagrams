@@ -1,24 +1,24 @@
 {
   "scenarios": [
     {
-      "name": "base",
-      "path": "/manual/dev/make/base.svg"
+      "name": "0_base",
+      "path": "/manual/dev/make/0_base.svg"
     },
     {
-      "name": "dash_jobspec_bug",
-      "path": "/manual/dev/make/dash_jobspec_bug.svg"
+      "name": "1_tmux_focus",
+      "path": "/manual/dev/make/1_tmux_focus.svg"
     },
     {
-      "name": "fix",
-      "path": "/manual/dev/make/fix.svg"
+      "name": "2_process_group",
+      "path": "/manual/dev/make/2_process_group.svg"
     },
     {
-      "name": "process_group",
-      "path": "/manual/dev/make/process_group.svg"
+      "name": "3_dash_jobspec_bug",
+      "path": "/manual/dev/make/3_dash_jobspec_bug.svg"
     },
     {
-      "name": "tmux_focus",
-      "path": "/manual/dev/make/tmux_focus.svg"
+      "name": "4_fix",
+      "path": "/manual/dev/make/4_fix.svg"
     }
   ]
 }

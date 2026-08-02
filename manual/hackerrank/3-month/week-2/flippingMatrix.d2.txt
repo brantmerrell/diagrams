@@ -1,10 +1,5 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
-
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
 classes: @"../../../classes/tags"
 
 _quality: {class: compiles}
@@ -36,6 +31,7 @@ matrix {
     j2: {
       label: j_2N
       class: elem
+      # TODO: formatting
     }
   }
   i1: {

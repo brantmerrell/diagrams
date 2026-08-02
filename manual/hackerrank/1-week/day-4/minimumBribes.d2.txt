@@ -1,9 +1,6 @@
-vars: {
-  d2-config: {
-    layout-engine: elk
-    theme-id: 201
-  }
-}
+vars: @"../../../vars/hackerrank.d2"
+**.style.text-transform: none
+
 classes: @"../../../classes/function"
 classes: @"../../../classes/tags"
 
@@ -11,12 +8,16 @@ _quality: {class: compiles}
 
 q: {
   label: q\n\[...\]
+  class: generic_node
 }
 minimumBribes: {
   label: minimumBribes(q)
-  n
+  n: {
+    class: generic_node
+  }
   sorted_q: {
     label: sorted_q
+    class: generic_node
   }
   iterate: {
     label: "for [i, i, i...] in range(n)"
@@ -46,10 +47,18 @@ minimumBribes: {
     label: print(\"Too chaotic\")\nreturn
     class: op
   }
-  total
-  sorted_q -> iterate
-  n -> iterate
-  iterate -> same
+  total: {
+    class: generic_node
+  }
+  sorted_q -> iterate: {
+    class: data
+  }
+  n -> iterate: {
+    class: scalar
+  }
+  iterate -> same: {
+    class: generic_edge
+  }
   iterate <- same: continue { class: positive }
   same -> bribe_one: { class: negative }
   bribe_one -> bribe_two: { class: negative }
@@ -60,6 +69,12 @@ minimumBribes: {
   bribe_two -> print_return: { class: negative }
   bribe_two -> total: increment 2: { class: positive }
 }
-q -> minimumBribes.n: len
-q -> minimumBribes.sorted_q: sort
-q -> minimumBribes.iterate
+q -> minimumBribes.n: len {
+  class: scalar
+}
+q -> minimumBribes.sorted_q: sort {
+  class: data
+}
+q -> minimumBribes.iterate: {
+  class: data
+}
