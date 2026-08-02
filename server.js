@@ -294,7 +294,21 @@ app.get('/api/manual/scenarios/:diagramPath(*)', (req, res) => {
   })
 })
 
-// Render a .d2 file to PNG via d2 CLI and return the image bytes
+// Every manual/vars/*.d2 currently shares these two theme IDs (see
+// manual/vars/hackerrank.d2, jbm.d2, system-design.d2). There's no per-file
+// dark-theme-id to read without resolving each file's own vars import chain,
+// so this is a pragmatic hardcode rather than something derived from the
+// file — update it here if the shared vars files' theme pair ever changes.
+const LIGHT_THEME_ID = '301'
+const DARK_THEME_ID = '201'
+
+// Render a .d2 file to PNG via d2 CLI and return the image bytes.
+// This is the CLI's own renderer — full markdown/foreignObject fidelity,
+// unlike the client-side canvas fallback used when this endpoint is
+// unavailable (see svgToPng.ts). It can't reflect the custom CSS classes'
+// semantic colors (positive/negative/etc. no longer carry any color at the
+// .d2 level at all, see diagramSemanticThemes.css), only the light/dark
+// theme's automatic shape coloring, via the theme query param below.
 app.get('/api/manual/png/:d2Path(*)', (req, res) => {
   const d2RelPath = req.params.d2Path  // already includes 'manual/' prefix
   const fullPath = path.join(__dirname, d2RelPath)
@@ -309,8 +323,11 @@ app.get('/api/manual/png/:d2Path(*)', (req, res) => {
     return res.status(404).json({ error: 'D2 file not found' })
   }
 
+  const themeId = req.query.theme === 'dark' ? DARK_THEME_ID : req.query.theme === 'light' ? LIGHT_THEME_ID : null
+  const themeArgs = themeId ? ['--theme', themeId] : []
+
   const tmpPng = path.join('/tmp', `d2-${Date.now()}-${Math.random().toString(36).slice(2)}.png`)
-  const d2Process = spawn('d2', [d2File, tmpPng], { cwd: __dirname })
+  const d2Process = spawn('d2', [...themeArgs, d2File, tmpPng], { cwd: __dirname })
 
   let stderr = ''
   d2Process.stderr.on('data', d => { stderr += d.toString() })

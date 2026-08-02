@@ -77,14 +77,16 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
         setCopyLabel('…')
         let blob: Blob
         try {
-          // Render the displayed SVG in-browser first — it's the only path that can
-          // reflect the current light/dark diagram theme (see svgToPng.ts embedTheme).
-          if (!svgContent) throw new Error('No diagram loaded to copy')
-          blob = await svgToPngBlob(svgContent, theme)
-        } catch {
-          const response = await fetch(`/api/manual/png/${d2ServerPath}`)
+          // The d2 CLI's own PNG renderer — full markdown/foreignObject fidelity,
+          // unlike the client-side canvas fallback below. --theme keeps it roughly
+          // in sync with the current light/dark toggle (see server.js).
+          const response = await fetch(`/api/manual/png/${d2ServerPath}?theme=${theme}`)
           if (!response.ok) throw new Error(`PNG render failed: ${response.status}`)
           blob = await response.blob()
+        } catch {
+          // Static deployment (no backend): render the displayed SVG in-browser
+          if (!svgContent) throw new Error('No diagram loaded to copy')
+          blob = await svgToPngBlob(svgContent, theme)
         }
         await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
       }
