@@ -154,6 +154,36 @@ export function collectAllDiagramPaths(obj: unknown, seen = new Set<string>(), o
   return out
 }
 
+export interface DiagramEntry {
+  path: string
+  /** Nearest named-key ancestor (e.g. "foo" or "bar.baz") — same value YamlNavigator
+   *  passes as sectionPath / handleDiagramClick's parentPath / the diagramParent param. */
+  parent?: string
+}
+
+/**
+ * Collect every diagram path in a parsed pointers.yaml tree, in document order,
+ * tagged with its nearest named-key ancestor. Unlike collectAllDiagramPaths, this
+ * does NOT dedupe by path: the same diagram referenced from two different YAML
+ * locations produces two entries, one per location, so keyboard nav (which
+ * disambiguates "current" by path *and* parent) can visit both instead of the
+ * second occurrence being silently absorbed into the first.
+ */
+export function collectAllDiagramEntries(obj: unknown, sectionPath = '', out: DiagramEntry[] = []): DiagramEntry[] {
+  if (!obj) return out
+  if (typeof obj === 'string') {
+    if (isDiagramPath(obj)) out.push({ path: obj, parent: sectionPath })
+    return out
+  }
+  if (Array.isArray(obj)) { obj.forEach(item => collectAllDiagramEntries(item, sectionPath, out)); return out }
+  if (typeof obj === 'object') {
+    Object.entries(obj as Record<string, unknown>).forEach(([key, v]) => {
+      collectAllDiagramEntries(v, sectionPath ? `${sectionPath}.${key}` : key, out)
+    })
+  }
+  return out
+}
+
 /**
  * Convert a diagram path as stored in pointers.yaml (`./manual/...` or `/manual/...`)
  * to the viewer URL path suffix (no leading slash), e.g. `publishing/PRs/367.d2`.

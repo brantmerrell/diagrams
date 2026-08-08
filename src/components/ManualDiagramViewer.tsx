@@ -15,7 +15,7 @@ import {
   isMermaidPath,
   isDiagramPath,
   isDiagramCurrentPath,
-  collectAllDiagramPaths,
+  collectAllDiagramEntries,
 } from '../lib/yamlExtract'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
@@ -83,11 +83,13 @@ const ManualDiagramViewer: React.FC = () => {
   const { tags } = useDiagramTags()
   const tagFilter = searchParams.get('tag') || ''
 
+  // Entries (not just paths) so a diagram referenced from two different pointers.yaml
+  // locations is two distinct stops rather than one, matching the ManualNavigator fix.
   const navigable = useMemo(() => {
-    return collectAllDiagramPaths(navYamlData).filter(p => {
-      if (diagramStatus.get(p) === false) return false
+    return collectAllDiagramEntries(navYamlData).filter(e => {
+      if (diagramStatus.get(e.path) === false) return false
       if (!tagFilter) return true
-      return tags.get(normalizeToCanonical(p))?.includes(tagFilter) ?? false
+      return tags.get(normalizeToCanonical(e.path))?.includes(tagFilter) ?? false
     })
   }, [navYamlData, diagramStatus, tags, tagFilter])
 
@@ -96,14 +98,24 @@ const ManualDiagramViewer: React.FC = () => {
     const urlPath = location.pathname.startsWith('/manual/')
       ? location.pathname.substring('/manual/'.length)
       : ''
-    const currentIndex = navigable.findIndex(p => isDiagramCurrentPath(p, urlPath))
+    // Disambiguate "current" by (path, parent) first — see ManualNavigator's keyboard
+    // handler for why path alone isn't enough when a diagram has more than one pointer.
+    const currentDiagramParent = searchParams.get('diagramParent') || undefined
+    let currentIndex = navigable.findIndex(
+      e => isDiagramCurrentPath(e.path, urlPath) && e.parent === currentDiagramParent,
+    )
+    if (currentIndex === -1) {
+      currentIndex = navigable.findIndex(e => isDiagramCurrentPath(e.path, urlPath))
+    }
     const nextIndex = (currentIndex + direction + navigable.length) % navigable.length
+    const next = navigable[nextIndex]
     // Drop params specific to the diagram being left (mirrors ManualNavigator)
     const params = new URLSearchParams(searchParams)
-    params.delete('diagramParent')
+    if (next.parent) params.set('diagramParent', next.parent)
+    else params.delete('diagramParent')
     params.delete('layer')
     navigate({
-      pathname: `/manual/${yamlPathToUrlSegment(navigable[nextIndex])}`,
+      pathname: `/manual/${yamlPathToUrlSegment(next.path)}`,
       search: params.toString(),
     })
   }, [navigable, location.pathname, searchParams, navigate])

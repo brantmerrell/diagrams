@@ -15,6 +15,8 @@ import {
   isDiagramPath,
   normalizeToCanonical,
   collectAllDiagramPaths,
+  collectAllDiagramEntries,
+  DiagramEntry,
 } from '../lib/yamlExtract'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
@@ -116,6 +118,14 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
     [yamlData, matchesTag],
   )
 
+  // Entry (not just path) form for keyboard nav: keeps the same diagram referenced from
+  // two different pointers.yaml locations as two distinct stops instead of collapsing
+  // the second one away, while still letting "current" be found unambiguously via parent.
+  const allDiagramEntries = useMemo(
+    () => collectAllDiagramEntries(yamlData).filter(e => matchesTag(e.path)),
+    [yamlData, matchesTag],
+  )
+
   const searchResults = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
     if (!q) return null
@@ -200,8 +210,12 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
         return
       }
 
-      const navigable = (searchResults !== null ? searchResults : allDiagramPaths)
-        .filter(p => diagramStatus.get(p) !== false)
+      // Search results are plain paths (no parent tracking); give them undefined
+      // parent so they fall back to the old path-only "current" match below.
+      const navigable: DiagramEntry[] = (searchResults !== null
+        ? searchResults.map(path => ({ path }))
+        : allDiagramEntries
+      ).filter(e => diagramStatus.get(e.path) !== false)
       if (navigable.length === 0) return
 
       if (e.key === 'g') {
@@ -209,7 +223,7 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
         if (lastKeyRef.current?.key === 'g' && now - lastKeyRef.current.time < 500) {
           lastKeyRef.current = null
           e.preventDefault()
-          handleDiagramClick(navigable[0])
+          handleDiagramClick(navigable[0].path, navigable[0].parent)
         } else {
           lastKeyRef.current = { key: 'g', time: now }
         }
@@ -218,21 +232,32 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
 
       if (e.key === 'G') {
         e.preventDefault()
-        handleDiagramClick(navigable[navigable.length - 1])
+        const last = navigable[navigable.length - 1]
+        handleDiagramClick(last.path, last.parent)
         return
       }
 
-      const currentIndex = navigable.findIndex(p => isDiagramCurrentPath(p, urlPath))
+      // Disambiguate "current" by (path, parent) first — two entries can share a path
+      // when the same diagram is pointed to from more than one pointers.yaml location.
+      // Fall back to a path-only match for entries with no parent (search results, or
+      // landing here without ever having clicked through the tree).
+      const currentDiagramParent = searchParams.get('diagramParent') || undefined
+      let currentIndex = navigable.findIndex(
+        e => isDiagramCurrentPath(e.path, urlPath) && e.parent === currentDiagramParent,
+      )
+      if (currentIndex === -1) {
+        currentIndex = navigable.findIndex(e => isDiagramCurrentPath(e.path, urlPath))
+      }
       const nextIndex = e.key === 'j'
         ? (currentIndex + 1) % navigable.length
         : (currentIndex - 1 + navigable.length) % navigable.length
 
       e.preventDefault()
-      handleDiagramClick(navigable[nextIndex])
+      handleDiagramClick(navigable[nextIndex].path, navigable[nextIndex].parent)
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [searchResults, allDiagramPaths, diagramStatus, urlPath, handleDiagramClick])
+  }, [searchResults, allDiagramEntries, diagramStatus, urlPath, searchParams, handleDiagramClick])
 
   // ── Tree data (view mode + tag filter applied) ────────────────────────────
 
