@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { containsDiagram, isDiagramCurrentPath } from '../lib/yamlExtract'
+import { containsDiagram, isDiagramCurrentPath, isDiagramPath } from '../lib/yamlExtract'
 
 export type ViewMode = 'full' | 'context' | 'focused'
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
@@ -16,7 +16,7 @@ export interface UseYamlExpansionResult {
 
 function containsCurrentDiagram(obj: YamlValue, urlPath: string): boolean {
   if (!obj) return false
-  if (typeof obj === 'string') return (obj.endsWith('.d2') || obj.endsWith('.mmd')) && isDiagramCurrentPath(obj, urlPath)
+  if (typeof obj === 'string') return isDiagramPath(obj) && isDiagramCurrentPath(obj, urlPath)
   if (Array.isArray(obj)) return obj.some(item => containsCurrentDiagram(item, urlPath))
   if (typeof obj === 'object') return Object.values(obj).some(val => containsCurrentDiagram(val, urlPath))
   return false

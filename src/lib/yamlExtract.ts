@@ -139,21 +139,6 @@ export function containsDiagram(obj: unknown): boolean {
   return false
 }
 
-/**
- * Collect every distinct diagram path (.d2 or .mmd) in a parsed pointers.yaml
- * tree, in document order.
- */
-export function collectAllDiagramPaths(obj: unknown, seen = new Set<string>(), out: string[] = []): string[] {
-  if (!obj) return out
-  if (typeof obj === 'string') {
-    if (isDiagramPath(obj) && !seen.has(obj)) { seen.add(obj); out.push(obj) }
-    return out
-  }
-  if (Array.isArray(obj)) { obj.forEach(item => collectAllDiagramPaths(item, seen, out)); return out }
-  if (typeof obj === 'object') { Object.values(obj).forEach(v => collectAllDiagramPaths(v, seen, out)); return out }
-  return out
-}
-
 export interface DiagramEntry {
   path: string
   /** Nearest named-key ancestor (e.g. "foo" or "bar.baz") — same value YamlNavigator
@@ -182,6 +167,15 @@ export function collectAllDiagramEntries(obj: unknown, sectionPath = '', out: Di
     })
   }
   return out
+}
+
+/**
+ * Collect every distinct diagram path (.d2 or .mmd) in a parsed pointers.yaml
+ * tree, in document order. Diagrams referenced from more than one location
+ * (see collectAllDiagramEntries) are still listed once here.
+ */
+export function collectAllDiagramPaths(obj: unknown): string[] {
+  return Array.from(new Set(collectAllDiagramEntries(obj).map(e => e.path)))
 }
 
 /**

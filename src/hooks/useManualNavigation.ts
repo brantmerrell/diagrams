@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import yaml from 'js-yaml'
+import { collectAllDiagramPaths } from '../lib/yamlExtract'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
 
@@ -7,17 +8,6 @@ export interface UseManualNavigationResult {
   yamlData: YamlValue
   rawYaml: string
   diagramStatus: Map<string, boolean>
-}
-
-function collectDiagramPaths(obj: YamlValue, paths: Set<string>): void {
-  if (!obj) return
-  if (typeof obj === 'string' && (obj.endsWith('.d2') || obj.endsWith('.mmd'))) {
-    paths.add(obj)
-  } else if (Array.isArray(obj)) {
-    obj.forEach(item => collectDiagramPaths(item, paths))
-  } else if (typeof obj === 'object') {
-    Object.values(obj).forEach(val => collectDiagramPaths(val, paths))
-  }
 }
 
 async function batchCheckExistence(paths: string[], signal: AbortSignal): Promise<Map<string, boolean>> {
@@ -76,9 +66,7 @@ export function useManualNavigation(enabled = true): UseManualNavigationResult {
         setYamlData(data)
         setRawYaml(text)
 
-        const paths = new Set<string>()
-        collectDiagramPaths(data, paths)
-        const status = await batchCheckExistence(Array.from(paths), ac.signal)
+        const status = await batchCheckExistence(collectAllDiagramPaths(data), ac.signal)
         if (!cancelled) setDiagramStatus(status)
       } catch (err) {
         if (err instanceof Error && err.name !== 'AbortError' && !pollErrorLogged) {
