@@ -4,7 +4,7 @@ import { collectAllDiagramPaths } from '../lib/yamlExtract'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
 
-export interface UseManualNavigationResult {
+export interface UsePointersYamlResult {
   yamlData: YamlValue
   rawYaml: string
   diagramStatus: Map<string, boolean>
@@ -13,7 +13,7 @@ export interface UseManualNavigationResult {
 async function batchCheckExistence(paths: string[], signal: AbortSignal): Promise<Map<string, boolean>> {
   const statusMap = new Map<string, boolean>()
   try {
-    const response = await fetch('/api/manual/exists', {
+    const response = await fetch('/api/tech/exists', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ paths }),
@@ -38,7 +38,7 @@ async function batchCheckExistence(paths: string[], signal: AbortSignal): Promis
  * Pass `enabled: false` to skip polling entirely (e.g. desktop layout where another
  * mounted instance already polls).
  */
-export function useManualNavigation(enabled = true): UseManualNavigationResult {
+export function usePointersYaml(enabled = true): UsePointersYamlResult {
   const [yamlData, setYamlData] = useState<YamlValue>(null)
   const [rawYaml, setRawYaml] = useState('')
   const [diagramStatus, setDiagramStatus] = useState<Map<string, boolean>>(new Map())

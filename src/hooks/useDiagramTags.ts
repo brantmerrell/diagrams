@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 export interface DiagramTagsResult {
   /** Tag names in the order defined by the quality-classes d2 file. */
   vocabulary: string[]
-  /** Canonical diagram path (`/manual/foo.d2`) → tags applied in that file. */
+  /** Canonical diagram path (`/tech/foo.d2`) → tags applied in that file. */
   tags: Map<string, string[]>
 }
 
@@ -15,8 +15,8 @@ interface TagsPayload {
 const EMPTY: DiagramTagsResult = { vocabulary: [], tags: new Map() }
 
 /**
- * Quality-tag index for all diagrams. Fetches /api/manual/tags, falling back
- * to the static /manual/tags.json manifest on GitHub Pages (no backend).
+ * Quality-tag index for all diagrams. Fetches /api/tech/tags, falling back
+ * to the static /tech/tags.json manifest on GitHub Pages (no backend).
  */
 export function useDiagramTags(): DiagramTagsResult {
   const [result, setResult] = useState<DiagramTagsResult>(EMPTY)
@@ -25,9 +25,9 @@ export function useDiagramTags(): DiagramTagsResult {
     const ac = new AbortController()
     const load = async () => {
       try {
-        let res = await fetch('/api/manual/tags', { signal: ac.signal })
+        let res = await fetch('/api/tech/tags', { signal: ac.signal })
         if (!res.ok) {
-          res = await fetch('/manual/tags.json', { signal: ac.signal })
+          res = await fetch('/tech/tags.json', { signal: ac.signal })
         }
         if (!res.ok) return
         const data = (await res.json()) as TagsPayload

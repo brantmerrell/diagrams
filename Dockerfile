@@ -9,7 +9,7 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 COPY server.js ./
-COPY manual/ ./manual/
+COPY tech/ ./tech/
 COPY pointers.yaml ./
 
 CMD node server.js

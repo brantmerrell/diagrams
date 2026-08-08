@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import ManualDiagramViewer from './components/ManualDiagramViewer'
+import DiagramViewer from './components/DiagramViewer'
 import './App.css'
 
 function App() {
@@ -8,10 +8,10 @@ function App() {
       <div className="app">
         <div className="app-content">
           <Routes>
-            <Route path="/manual" element={<ManualDiagramViewer />} />
-            <Route path="/manual/*.d2" element={<ManualDiagramViewer />} />
-            <Route path="/manual/*" element={<ManualDiagramViewer />} />
-            <Route path="/" element={<Navigate to="/manual" replace />} />
+            <Route path="/tech" element={<DiagramViewer />} />
+            <Route path="/tech/*.d2" element={<DiagramViewer />} />
+            <Route path="/tech/*" element={<DiagramViewer />} />
+            <Route path="/" element={<Navigate to="/tech" replace />} />
           </Routes>
         </div>
       </div>

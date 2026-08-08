@@ -20,7 +20,7 @@ layers: {
     esbuild: {class: obj_proc; label: "esbuild --service"}
 
     d2_watchers: {
-      label: "one d2 -w per diagram POSTed to\n/api/manual/watch - never capped"
+      label: "one d2 -w per diagram POSTed to\n/api/tech/watch - never capped"
       style.stroke-dash: 3
 
       w1: {class: obj_proc; label: "d2 -w mint.d2"}
@@ -37,7 +37,7 @@ layers: {
     sh_dev -> bun_dev: {class: edge_spawn}
     bun_dev -> vite: {class: edge_spawn}
     vite -> esbuild: {class: edge_spawn}
-    node_server -> d2_watchers.w1: {class: edge_spawn; label: "POST /api/manual/watch"}
+    node_server -> d2_watchers.w1: {class: edge_spawn; label: "POST /api/tech/watch"}
     node_server -> d2_watchers.w2: {class: edge_spawn; label: "revisit"}
     node_server -> d2_watchers.w3: {class: edge_spawn}
 
@@ -131,7 +131,7 @@ layers: {
       class: to_add
       label: |js
         // hook cleanup, on navigate-away or unmount
-        fetch('/api/manual/unwatch', {
+        fetch('/api/tech/unwatch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ diagramPath: dp }),

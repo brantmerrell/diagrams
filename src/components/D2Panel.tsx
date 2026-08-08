@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Toast from './Toast'
 import CodeView from './CodeView'
-import { useManualDiagramWatch } from '../hooks/useManualDiagramWatch'
+import { useDiagramWatch } from '../hooks/useDiagramWatch'
 import { useDiagramViewport } from '../hooks/useDiagramViewport'
 import { useDiagramTheme } from '../hooks/useDiagramTheme'
 import { svgToPngBlob } from '../lib/svgToPng'
@@ -19,7 +19,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
   const {
     svgContent, error, toastMessage, clearToast,
     scenarios, activeScenarioIndex, goToScenario,
-  } = useManualDiagramWatch(diagramPath, initialLayerName)
+  } = useDiagramWatch(diagramPath, initialLayerName)
 
   const [searchParams, setSearchParams] = useSearchParams()
   const showCode = searchParams.get('view') === 'code'
@@ -80,7 +80,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
           // The d2 CLI's own PNG renderer — full markdown/foreignObject fidelity,
           // unlike the client-side canvas fallback below. --theme keeps it roughly
           // in sync with the current light/dark toggle (see server.js).
-          const response = await fetch(`/api/manual/png/${d2ServerPath}?theme=${theme}`)
+          const response = await fetch(`/api/tech/png/${d2ServerPath}?theme=${theme}`)
           if (!response.ok) throw new Error(`PNG render failed: ${response.status}`)
           blob = await response.blob()
         } catch {

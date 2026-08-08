@@ -32,18 +32,18 @@ jobs:
 
       - name: Compile d2 files to SVG
         run: |
-          find manual -name "*.d2" | while read f; do
+          find tech -name "*.d2" | while read f; do
             d2 "$f" "${f%.d2}.svg" 2>/dev/null || true
           done
 
       - name: Generate scenario manifests
-        # Static stand-in for /api/manual/scenarios — the frontend falls back to
+        # Static stand-in for /api/tech/scenarios — the frontend falls back to
         # these scenarios.json files when the API is absent (GitHub Pages).
         run: node scripts/build-scenario-manifests.mjs
 
       - name: Generate tags manifest
-        # Static stand-in for /api/manual/tags — the frontend's quality-tag
-        # filter falls back to /manual/tags.json when the API is absent.
+        # Static stand-in for /api/tech/tags — the frontend's quality-tag
+        # filter falls back to /tech/tags.json when the API is absent.
         run: node scripts/build-tags-manifest.mjs
 
       - name: Build frontend
@@ -51,19 +51,19 @@ jobs:
         env:
           CI: false
 
-      - name: Copy manual and pointers.yaml into dist
+      - name: Copy tech and pointers.yaml into dist
         run: |
           # Exclude .d2/.mmd sources from the static Pages copy only. If a real
-          # file exists at e.g. /manual/hi/seq_frontend.d2, GitHub Pages serves
+          # file exists at e.g. /tech/hi/seq_frontend.d2, GitHub Pages serves
           # it as a download instead of falling back to 404.html, breaking the
           # SPA route of the same name on hard refresh. The Heroku container is
-          # unaffected: its Dockerfile COPYs manual/ (sources included) from the
+          # unaffected: its Dockerfile COPYs tech/ (sources included) from the
           # repo, not from dist/.
-          rsync -a --exclude='*.d2' --exclude='*.mmd' manual/ dist/manual/
+          rsync -a --exclude='*.d2' --exclude='*.mmd' tech/ dist/tech/
           # Publish sources under a .txt suffix instead — no SPA route ends in
           # .txt, so these can't shadow a route. The frontend's code view falls
           # back to them when /api/*/source is absent (GitHub Pages).
-          find manual \( -name '*.d2' -o -name '*.mmd' \) | while read -r f; do
+          find tech \( -name '*.d2' -o -name '*.mmd' \) | while read -r f; do
             cp "$f" "dist/$f.txt"
           done
           cp pointers.yaml dist/

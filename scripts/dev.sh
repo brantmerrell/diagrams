@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Coordinator for diagrams' dev servers: allocates ephemeral ports for the
-# express backend (server.js) and vite frontend. See manual/dev/ports.d2 (layer 2).
+# express backend (server.js) and vite frontend. See tech/dev/ports.d2 (layer 2).
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

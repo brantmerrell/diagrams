@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import yaml from 'js-yaml'
 import Toast from './Toast'
 import YamlNavigator from './YamlNavigator'
-import { useManualNavigation } from '../hooks/useManualNavigation'
+import { usePointersYaml } from '../hooks/usePointersYaml'
 import { useYamlExpansion, ViewMode } from '../hooks/useYamlExpansion'
 import { useDiagramTags } from '../hooks/useDiagramTags'
 import {
@@ -21,7 +21,7 @@ import {
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
 
-interface ManualNavigatorProps {
+interface NavigatorProps {
   onCollapseChange?: (collapsed: boolean) => void
   // Drawer mode (mobile): the ◀ button and diagram selection call this instead
   // of collapsing internally, letting the parent unmount the drawer.
@@ -41,8 +41,8 @@ function pruneByTag(obj: YamlValue, matches: (p: string) => boolean): YamlValue 
   return obj
 }
 
-const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onRequestClose }) => {
-  const { yamlData, rawYaml, diagramStatus } = useManualNavigation()
+const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose }) => {
+  const { yamlData, rawYaml, diagramStatus } = usePointersYaml()
   const [toastMessage, setToastMessage] = useState<string | null>(null)
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(false)
   const [filteredYamlData, setFilteredYamlData] = useState<YamlValue>(null)
@@ -85,10 +85,10 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
 
   // ── Expansion / scroll ────────────────────────────────────────────────────
 
-  // Strip /manual/ prefix from pathname for YAML matching
-  const urlPath = location.pathname.startsWith('/manual/')
-    ? location.pathname.substring('/manual/'.length)
-    : location.pathname === '/manual' || location.pathname === '/'
+  // Strip /tech/ prefix from pathname for YAML matching
+  const urlPath = location.pathname.startsWith('/tech/')
+    ? location.pathname.substring('/tech/'.length)
+    : location.pathname === '/tech' || location.pathname === '/'
     ? ''
     : location.pathname.substring(1)
   const diagramParent = searchParams.get('diagramParent') || undefined
@@ -142,7 +142,7 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
   const handleDiagramClick = useCallback((diagramPath: string, parentPath?: string) => {
     setToastMessage(null)
 
-    const targetPath = `/manual/${yamlPathToUrlSegment(diagramPath)}`
+    const targetPath = `/tech/${yamlPathToUrlSegment(diagramPath)}`
     if (location.pathname === targetPath) {
       // In drawer mode, tapping the current diagram just closes the drawer to show it
       if (onRequestClose) onRequestClose()
@@ -430,4 +430,4 @@ const ManualNavigator: React.FC<ManualNavigatorProps> = ({ onCollapseChange, onR
   )
 }
 
-export default ManualNavigator
+export default Navigator

@@ -9,14 +9,14 @@ seq_view: {
   user: {
     class: user
   }
-  navigator: {label: "ManualNavigator.tsx\nPointers panel"; class: frontend}
+  navigator: {label: "Navigator.tsx\nPointers panel"; class: frontend}
   panel: {label: "D2Panel.tsx"; class: frontend}
   api: {label: "server.js\n:3002"; class: api}
   d2: {label: "d2 CLI"; class: pipeline}
-  fs: {label: "manual/"; class: database}
+  fs: {label: "tech/"; class: database}
 
   navigator -> api: "GET /pointers.yaml (poll 2 s)" {class: api} # what?
-  navigator -> api: "POST /api/manual/exists" {class: api}
+  navigator -> api: "POST /api/tech/exists" {class: api}
   navigator.note1: |md
     tree from pointers.yaml;
     missing files struck through
@@ -25,13 +25,13 @@ seq_view: {
   }
 
   user -> navigator: "tap diagram (or j/k, gg/G, /search)"
-  navigator -> panel: "navigate /manual/<path>.d2"
-  panel -> api: "POST /api/manual/watch" {class: api}
+  navigator -> panel: "navigate /tech/<path>.d2"
+  panel -> api: "POST /api/tech/watch" {class: api}
   api -> d2: "spawn d2 --watch <path>.d2"
   d2 -> fs: "write <path>.svg"
-  panel -> api: "GET /api/manual/events (SSE)" {class: api}
+  panel -> api: "GET /api/tech/events (SSE)" {class: api}
   api -> panel: "event: svg updated" {class: api}
-  panel -> fs: "GET /manual/<path>.svg"
+  panel -> fs: "GET /tech/<path>.svg"
   panel.note1: |md
     .mmd diagrams skip the server:
     MermaidPanel renders client-side

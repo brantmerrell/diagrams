@@ -8,17 +8,17 @@ layers: {
 
     label: ""
     shape: sequence_diagram
-    server: {label: "server.js\nGET /api/manual/tags"; class: api}
+    server: {label: "server.js\nGET /api/tech/tags"; class: api}
     manifest: {label: "scripts/\nbuild-tags-manifest.mjs"; class: pipeline}
     lib: {label: "scripts/lib/tags.mjs"; class: pipeline}
-    vocab: {label: "manual/classes/tags.d2"; class: database}
-    sources: {label: "manual/**/*.d2"; class: database}
-    tagsjson: {label: "manual/tags.json"; class: database}
+    vocab: {label: "tech/classes/tags.d2"; class: database}
+    sources: {label: "tech/**/*.d2"; class: database}
+    tagsjson: {label: "tech/tags.json"; class: database}
 
     server -> lib: "buildTagsIndex() per request\n(dev + Heroku; tag edits show up live)" {class: api}
 
     manifest.note1: |md
-      run by deploy.yml before manual/\
+      run by deploy.yml before tech/\
       is copied into dist/, or by hand:\
       `node scripts/build-tags-manifest.mjs`
     | {
@@ -37,7 +37,7 @@ layers: {
     tagsjson.note1: |md
       static stand-in for the API on\
       GitHub Pages — useDiagramTags\
-      falls back to /manual/tags.json
+      falls back to /tech/tags.json
     | {
       class: database
     }
@@ -48,10 +48,10 @@ layers: {
 
     shape: sequence_diagram
     user: {shape: c4-person}
-    navigator: {label: "ManualNavigator.tsx\ntag select"; class: frontend}
+    navigator: {label: "Navigator.tsx\ntag select"; class: frontend}
     hook: {label: "useDiagramTags"; class: frontend}
-    api: {label: "/api/manual/tags"; class: api}
-    static: {label: "/manual/tags.json"; class: database}
+    api: {label: "/api/tech/tags"; class: api}
+    static: {label: "/tech/tags.json"; class: database}
 
     navigator -> hook: "mount"
     hook -> api: "GET" {class: api}

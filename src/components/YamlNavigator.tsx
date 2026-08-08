@@ -14,7 +14,7 @@ interface YamlNavigatorProps {
 
 /**
  * Stateless recursive renderer for the pointers.yaml navigation tree.
- * All interaction state lives in the parent (ManualNavigator) via the hook layer.
+ * All interaction state lives in the parent (Navigator) via the hook layer.
  */
 const YamlNavigator: React.FC<YamlNavigatorProps> = ({
   data,

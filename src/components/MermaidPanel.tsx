@@ -53,10 +53,10 @@ const MermaidPanel: React.FC<MermaidPanelProps> = ({ diagramPath }) => {
     }
   }, [showCode, mmdSource])
 
-  const canonicalPath = normalizeToCanonical(diagramPath) // e.g. /manual/SDPVEDO-7489.mmd
-  // Strip /manual/ prefix for server endpoint
-  const serverPath = canonicalPath.startsWith('/manual/')
-    ? canonicalPath.slice('/manual/'.length)
+  const canonicalPath = normalizeToCanonical(diagramPath) // e.g. /tech/SDPVEDO-7489.mmd
+  // Strip /tech/ prefix for server endpoint
+  const serverPath = canonicalPath.startsWith('/tech/')
+    ? canonicalPath.slice('/tech/'.length)
     : canonicalPath.startsWith('/')
       ? canonicalPath.slice(1)
       : canonicalPath
@@ -160,7 +160,7 @@ const MermaidPanel: React.FC<MermaidPanelProps> = ({ diagramPath }) => {
 
     // SSE for dynamic views.yaml changes (only for dynamic diagrams)
     let viewsEs: EventSource | null = null
-    const isDynamic = canonicalPath.startsWith('/manual/') || canonicalPath.startsWith('/dynamic/')
+    const isDynamic = canonicalPath.startsWith('/tech/') || canonicalPath.startsWith('/dynamic/')
 
     if (isDynamic) {
       viewsEs = new EventSource('/api/dynamic/events')

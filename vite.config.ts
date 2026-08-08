@@ -9,7 +9,7 @@ const blockRawD2Plugin = (): Plugin => ({
       if (req.url?.startsWith('/api')) {
         return next()
       }
-      if (req.url?.match(/\/manual\/.*\.d2(\?|$)/)) {
+      if (req.url?.match(/\/tech\/.*\.d2(\?|$)/)) {
         req.url = '/index.html'
       }
       next()
@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => {
           target: backendTarget,
           changeOrigin: true,
         },
-        '^/manual/.*\\.svg$': {
+        '^/tech/.*\\.svg$': {
           target: backendTarget,
           changeOrigin: true,
         },

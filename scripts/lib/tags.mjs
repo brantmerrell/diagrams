@@ -1,13 +1,13 @@
-// Quality-tag extraction shared by server.js (/api/manual/tags) and
+// Quality-tag extraction shared by server.js (/api/tech/tags) and
 // scripts/build-tags-manifest.mjs (static tags.json for GitHub Pages).
 //
 // The tag vocabulary is the set of top-level class names defined in
-// manual/classes/tags.d2 (compiles, styled, coherent, …). A diagram carries a
+// tech/classes/tags.d2 (compiles, styled, coherent, …). A diagram carries a
 // tag when its source applies that class somewhere, e.g. `_quality: {class: compiles}`.
 import fs from 'fs'
 import path from 'path'
 
-const CLASS_FILE = 'manual/classes/tags.d2'
+const CLASS_FILE = 'tech/classes/tags.d2'
 
 export function* walkD2Files(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -50,14 +50,14 @@ export function extractTagsFromSource(source, vocabulary) {
 
 /**
  * Build the full index: { vocabulary, tags } where tags maps canonical
- * diagram paths (`/manual/foo/bar.d2`) to their tag arrays. Untagged
+ * diagram paths (`/tech/foo/bar.d2`) to their tag arrays. Untagged
  * diagrams are omitted.
  */
 export function buildTagsIndex(root) {
   const vocabulary = readTagVocabulary(root)
   const tags = {}
   if (vocabulary.length > 0) {
-    for (const d2File of walkD2Files(path.join(root, 'manual'))) {
+    for (const d2File of walkD2Files(path.join(root, 'tech'))) {
       const source = fs.readFileSync(d2File, 'utf-8')
       const fileTags = extractTagsFromSource(source, vocabulary)
       if (fileTags.length === 0) continue

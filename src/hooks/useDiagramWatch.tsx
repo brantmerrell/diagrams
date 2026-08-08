@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { normalizeToCanonical, canonicalToSvgPath } from '../lib/yamlExtract'
 import { openLinkAnchorsInNewTab } from '../lib/svgLinks'
+import { makeThemeToggleable } from '../lib/svgTheme'
 
 export interface Scenario {
   name: string
@@ -24,7 +25,10 @@ export interface UseDiagramWatchResult {
 }
 
 
-export function useDiagramWatch(diagramPath: string | undefined): UseDiagramWatchResult {
+export function useDiagramWatch(
+  diagramPath: string | undefined,
+  initialLayerName?: string,
+): UseDiagramWatchResult {
   const [svgContent, setSvgContent] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
@@ -48,7 +52,7 @@ export function useDiagramWatch(diagramPath: string | undefined): UseDiagramWatc
         // in that window gets an empty or truncated body. Keep the last good
         // render instead of blanking — the write's own SSE event refetches soon.
         if (!text.includes('<svg')) return
-        const withLinkTargets = openLinkAnchorsInNewTab(text)
+        const withLinkTargets = makeThemeToggleable(openLinkAnchorsInNewTab(text))
         // Skip the re-render when a sibling layer's compile fired this reload but
         // the active layer's own SVG didn't actually change — avoids a visible flash.
         setSvgContent(prev => withLinkTargets === prev ? prev : withLinkTargets)
@@ -67,12 +71,17 @@ export function useDiagramWatch(diagramPath: string | undefined): UseDiagramWatc
     silent = false,
   ): Promise<Scenario[] | null> => {
     try {
-      // path is normalised to /manual/…; strip the leading / for the URL
+      // path is normalised to /tech/…; strip the leading / for the URL
       const encodedPath = path.startsWith('/') ? path.slice(1) : path
-      const response = await fetch(`/api/manual/scenarios/${encodedPath}`, { signal })
+      let response = await fetch(`/api/tech/scenarios/${encodedPath}`, { signal })
+      if (!response.ok) {
+        // Static deployments (GitHub Pages) have no API; the deploy workflow
+        // writes a scenarios.json manifest next to the compiled layer SVGs.
+        response = await fetch(`${path.replace(/\.d2$/, '')}/scenarios.json`, { signal })
+      }
       if (response.ok) {
         const data = await response.json()
-        if (data.scenarios && data.scenarios.length > 1) {
+        if (data.scenarios && data.scenarios.length > 0) {
           if (!scenariosEqual(scenariosRef.current, data.scenarios)) {
             scenariosRef.current = data.scenarios
             setScenarios(data.scenarios)
@@ -107,9 +116,9 @@ export function useDiagramWatch(diagramPath: string | undefined): UseDiagramWatc
     const ac = new AbortController()
 
     // Normalise once so all consumers (watch POST, SSE URL, scenario fetch) agree on the key
-    const dp = normalizeToCanonical(diagramPath)    // e.g. /manual/foo.d2
-    const svgPath = canonicalToSvgPath(dp)          // e.g. /manual/foo.svg
-    const eventPath = dp.slice(1)                   // e.g. manual/foo.d2 (no leading /)
+    const dp = normalizeToCanonical(diagramPath)    // e.g. /tech/foo.d2
+    const svgPath = canonicalToSvgPath(dp)          // e.g. /tech/foo.svg
+    const eventPath = dp.slice(1)                   // e.g. tech/foo.d2 (no leading /)
 
     const loadSvg = () => loadSvgFromPath(svgPath, ac.signal)
 
@@ -118,7 +127,7 @@ export function useDiagramWatch(diagramPath: string | undefined): UseDiagramWatc
     // here is expected and shouldn't surface as a user-facing error.
     const startD2Watch = async () => {
       try {
-        const response = await fetch('/api/manual/watch', {
+        const response = await fetch('/api/tech/watch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ diagramPath: dp }),
@@ -138,23 +147,30 @@ export function useDiagramWatch(diagramPath: string | undefined): UseDiagramWatc
     // Returns a cleanup function that cancels any pending reconnect and closes the stream.
     const connectToEventStream = () => {
       // Server SSE endpoint prepends '/', so this client-side path must NOT include it.
-      // With dp = '/manual/foo.d2' → eventPath = 'manual/foo.d2'
-      // Server key = '/' + 'manual/foo.d2' = '/manual/foo.d2' ✓ matches watch POST key.
+      // With dp = '/tech/foo.d2' → eventPath = 'tech/foo.d2'
+      // Server key = '/' + 'tech/foo.d2' = '/tech/foo.d2' ✓ matches watch POST key.
       let es: EventSource | null = null
       let reconnectTimer: ReturnType<typeof setTimeout> | null = null
       let delay = 1_000 // ms; doubles on each error, capped at 30 s
 
       const connect = () => {
         if (ac.signal.aborted) return
-        es = new EventSource(`/api/manual/events/${eventPath}`)
+        es = new EventSource(`/api/tech/events/${eventPath}`)
 
         // On (re)connect: catch up in case a compile event fired while we were disconnected.
         // silent=true so a missing SVG (not compiled yet) doesn't pollute the console.
+        // Reload the active layer directly from the fresh list rather than relying on
+        // the scenario-load effect below, since setScenarios (and thus that effect) no
+        // longer fires when the list's content is unchanged — see scenariosEqual.
         es.addEventListener('open', async () => {
           delay = 1_000
           const found = await checkScenarios(dp, ac.signal, false, true)
-          const idx = Math.min(activeScenarioIndexRef.current, (found?.length ?? 1) - 1)
-          await (found ? loadSvgFromPath(found[idx].path, ac.signal, true) : loadSvgFromPath(svgPath, ac.signal, true))
+          if (found) {
+            const idx = Math.min(activeScenarioIndexRef.current, found.length - 1)
+            await loadSvgFromPath(found[idx].path, ac.signal, true)
+          } else {
+            await loadSvgFromPath(svgPath, ac.signal, true)
+          }
         })
 
         es.onmessage = async (event) => {
@@ -194,32 +210,46 @@ export function useDiagramWatch(diagramPath: string | undefined): UseDiagramWatc
       }
     }
 
+    let eventStreamCleanup: (() => void) | undefined
+
     const init = async () => {
+      // Connect SSE FIRST so it's ready to receive compile notifications
+      eventStreamCleanup = connectToEventStream()
+
+      // Start d2 watch (may trigger initial compilation)
+      await startD2Watch()
+
+      // Try to load existing SVG
+      // eslint-disable-next-line react-hooks/exhaustive-deps -- initialLayerName is intentionally read once per diagramPath change
       const found = await checkScenarios(dp, ac.signal, true)
       if (found) {
-        await loadSvgFromPath(found[0].path, ac.signal)
+        let targetIdx = 0
+        if (initialLayerName) {
+          const match = found.findIndex(s => s.name === initialLayerName)
+          if (match >= 0) { targetIdx = match; setActiveScenarioIndex(match) }
+        }
+        await loadSvgFromPath(found[targetIdx].path, ac.signal, true)
       } else {
-        await loadSvg()
+        await loadSvgFromPath(svgPath, ac.signal, true)
       }
-      await startD2Watch()
     }
 
     init()
-    const cleanupEventStream = connectToEventStream()
 
     return () => {
       ac.abort()
       // Closing the SSE stream is the unwatch signal: the server stops this
       // diagram's d2 -w process once its last SSE client has been gone for a
       // grace period, so a refresh's quick reconnect keeps the warm watcher.
-      cleanupEventStream()
+      eventStreamCleanup?.()
     }
   }, [diagramPath, loadSvgFromPath, checkScenarios])
 
-  // Load the active scenario SVG when index changes
+  // Load the active scenario SVG when index changes or scenarios refresh
   useEffect(() => {
-    const scenario = scenarios?.[activeScenarioIndex]
-    if (!scenario) return
+    if (!scenarios || scenarios.length === 0) return
+    // A recompile can drop the layer we were on — clamp instead of loading nothing
+    const scenario = scenarios[Math.min(activeScenarioIndex, scenarios.length - 1)]
     const ac = new AbortController()
     loadSvgFromPath(scenario.path, ac.signal)
     return () => ac.abort()

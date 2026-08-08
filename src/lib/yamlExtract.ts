@@ -179,7 +179,7 @@ export function collectAllDiagramPaths(obj: unknown): string[] {
 }
 
 /**
- * Convert a diagram path as stored in pointers.yaml (`./manual/...` or `/manual/...`)
+ * Convert a diagram path as stored in pointers.yaml (`./tech/...` or `/tech/...`)
  * to the viewer URL path suffix (no leading slash), e.g. `publishing/PRs/367.d2`.
  * Returns null for paths that don't match either prefix (use `yamlPathToUrlSegment`
  * if you also need legacy `src-cd/…` support or a guaranteed non-null result).
@@ -187,43 +187,43 @@ export function collectAllDiagramPaths(obj: unknown): string[] {
  */
 export function pointersYamlDiagramToUrlPath(srcPath: string): string | null {
   if (!srcPath || !isDiagramPath(srcPath)) return null
-  if (srcPath.startsWith('./manual/')) return srcPath.slice('./manual/'.length)
-  if (srcPath.startsWith('/manual/')) return srcPath.slice('/manual/'.length)
+  if (srcPath.startsWith('./tech/')) return srcPath.slice('./tech/'.length)
+  if (srcPath.startsWith('/tech/')) return srcPath.slice('/tech/'.length)
   return null
 }
 
 // ── Canonical path utilities ─────────────────────────────────────────────────
 //
-// Canonical form is `/manual/<relative>`, e.g. `/manual/publishing/PRs/367.d2`.
+// Canonical form is `/tech/<relative>`, e.g. `/tech/publishing/PRs/367.d2`.
 // URL segment form is `<relative>`, e.g. `publishing/PRs/367.d2`.
 //
 // Representations in the wild:
-//   YAML value   ./manual/foo.d2  or  /manual/foo.d2  (legacy: src-cd/foo.d2)
+//   YAML value   ./tech/foo.d2  or  /tech/foo.d2  (legacy: src-cd/foo.d2)
 //   URL segment  publishing/PRs/foo.d2          (browser pathname minus leading /)
-//   Canonical    /manual/publishing/PRs/foo.d2      (sent to server, used as Map key)
-//   SVG URL      /manual/publishing/PRs/foo.svg     (served as static file by Vite)
+//   Canonical    /tech/publishing/PRs/foo.d2      (sent to server, used as Map key)
+//   SVG URL      /tech/publishing/PRs/foo.svg     (served as static file by Vite)
 
 /**
- * Any diagram path format → canonical `/manual/…` form.
- *   `./manual/foo.d2`  → `/manual/foo.d2`
- *    `/manual/foo.d2`  → `/manual/foo.d2`  (no-op)
- *     `manual/foo.d2`  → `/manual/foo.d2`
+ * Any diagram path format → canonical `/tech/…` form.
+ *   `./tech/foo.d2`  → `/tech/foo.d2`
+ *    `/tech/foo.d2`  → `/tech/foo.d2`  (no-op)
+ *     `tech/foo.d2`  → `/tech/foo.d2`
  */
 export function normalizeToCanonical(p: string): string {
-  if (p.startsWith('./')) return p.slice(1)    // ./manual/… → /manual/…
-  if (!p.startsWith('/')) return '/' + p       //  manual/… → /manual/…
+  if (p.startsWith('./')) return p.slice(1)    // ./tech/… → /tech/…
+  if (!p.startsWith('/')) return '/' + p       //  tech/… → /tech/…
   return p
 }
 
 /**
- * URL segment (e.g. `publishing/PRs/367.d2`) → canonical `/manual/publishing/PRs/367.d2`.
+ * URL segment (e.g. `publishing/PRs/367.d2`) → canonical `/tech/publishing/PRs/367.d2`.
  */
 export function urlSegmentToCanonical(urlSeg: string): string {
-  return `/manual/${urlSeg}`
+  return `/tech/${urlSeg}`
 }
 
 /**
- * Canonical `/manual/foo.d2` → SVG URL `/manual/foo.svg`.
+ * Canonical `/tech/foo.d2` → SVG URL `/tech/foo.svg`.
  * (Only applicable for .d2 files; .mmd files are rendered client-side.)
  */
 export function canonicalToSvgPath(canonical: string): string {
@@ -238,21 +238,21 @@ export function isMermaidPath(p: string): boolean {
 }
 
 /**
- * Any pointers.yaml diagram path value → URL segment (no leading `/`, no `manual/` prefix).
- * Handles the legacy `src-cd/…` format, current `./manual/…` and `/manual/…` formats,
- * and falls back gracefully for any other canonical `/manual/…` or bare `manual/…` paths.
+ * Any pointers.yaml diagram path value → URL segment (no leading `/`, no `tech/` prefix).
+ * Handles the legacy `src-cd/…` format, current `./tech/…` and `/tech/…` formats,
+ * and falls back gracefully for any other canonical `/tech/…` or bare `tech/…` paths.
  * Unlike `pointersYamlDiagramToUrlPath`, never returns null.
  */
 export function yamlPathToUrlSegment(diagramPath: string): string {
   // Legacy: src-cd/publishing/PRs/foo.d2 → publishing/PRs/foo.d2
   const legacyMatch = diagramPath.match(/src-cd\/(.+\.(d2|mmd))$/)
   if (legacyMatch) return legacyMatch[1]
-  // Current YAML formats: ./manual/… or /manual/…
+  // Current YAML formats: ./tech/… or /tech/…
   const converted = pointersYamlDiagramToUrlPath(diagramPath)
   if (converted) return converted
-  // Fallback: strip /manual/ or manual/ prefix from canonical/bare paths
+  // Fallback: strip /tech/ or tech/ prefix from canonical/bare paths
   const canonical = normalizeToCanonical(diagramPath)
-  if (canonical.startsWith('/manual/')) return canonical.slice('/manual/'.length)
+  if (canonical.startsWith('/tech/')) return canonical.slice('/tech/'.length)
   return diagramPath
 }
 

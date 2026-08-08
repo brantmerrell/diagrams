@@ -1,12 +1,12 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import yaml from 'js-yaml'
-import ManualNavigator from './ManualNavigator'
+import Navigator from './Navigator'
 import D2Panel from './D2Panel'
 import MermaidPanel from './MermaidPanel'
 import ResizablePanels from './ResizablePanels'
 import { useIsMobile } from '../hooks/useIsMobile'
-import { useManualNavigation } from '../hooks/useManualNavigation'
+import { usePointersYaml } from '../hooks/usePointersYaml'
 import { useDiagramTags } from '../hooks/useDiagramTags'
 import {
   yamlPathToUrlSegment,
@@ -64,7 +64,7 @@ interface DiagramContent {
   mmdPath?: string
 }
 
-const ManualDiagramViewer: React.FC = () => {
+const DiagramViewer: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -75,16 +75,16 @@ const ManualDiagramViewer: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   // ── Mobile prev/next diagram arrows (j/k equivalents) ─────────────────────
-  // The keyboard handler lives in ManualNavigator, which on mobile is only
+  // The keyboard handler lives in Navigator, which on mobile is only
   // mounted while the drawer is open — so the cycling logic is replicated
   // here, over the same tag-filtered, existing-diagram list.
 
-  const { yamlData: navYamlData, diagramStatus } = useManualNavigation(isMobile)
+  const { yamlData: navYamlData, diagramStatus } = usePointersYaml(isMobile)
   const { tags } = useDiagramTags()
   const tagFilter = searchParams.get('tag') || ''
 
   // Entries (not just paths) so a diagram referenced from two different pointers.yaml
-  // locations is two distinct stops rather than one, matching the ManualNavigator fix.
+  // locations is two distinct stops rather than one, matching the Navigator fix.
   const navigable = useMemo(() => {
     return collectAllDiagramEntries(navYamlData).filter(e => {
       if (diagramStatus.get(e.path) === false) return false
@@ -95,10 +95,10 @@ const ManualDiagramViewer: React.FC = () => {
 
   const goToAdjacentDiagram = useCallback((direction: 1 | -1) => {
     if (navigable.length === 0) return
-    const urlPath = location.pathname.startsWith('/manual/')
-      ? location.pathname.substring('/manual/'.length)
+    const urlPath = location.pathname.startsWith('/tech/')
+      ? location.pathname.substring('/tech/'.length)
       : ''
-    // Disambiguate "current" by (path, parent) first — see ManualNavigator's keyboard
+    // Disambiguate "current" by (path, parent) first — see Navigator's keyboard
     // handler for why path alone isn't enough when a diagram has more than one pointer.
     const currentDiagramParent = searchParams.get('diagramParent') || undefined
     let currentIndex = navigable.findIndex(
@@ -109,13 +109,13 @@ const ManualDiagramViewer: React.FC = () => {
     }
     const nextIndex = (currentIndex + direction + navigable.length) % navigable.length
     const next = navigable[nextIndex]
-    // Drop params specific to the diagram being left (mirrors ManualNavigator)
+    // Drop params specific to the diagram being left (mirrors Navigator)
     const params = new URLSearchParams(searchParams)
     if (next.parent) params.set('diagramParent', next.parent)
     else params.delete('diagramParent')
     params.delete('layer')
     navigate({
-      pathname: `/manual/${yamlPathToUrlSegment(next.path)}`,
+      pathname: `/tech/${yamlPathToUrlSegment(next.path)}`,
       search: params.toString(),
     })
   }, [navigable, location.pathname, searchParams, navigate])
@@ -134,15 +134,15 @@ const ManualDiagramViewer: React.FC = () => {
     const ac = new AbortController()
     const { signal } = ac
 
-    // If at bare /manual, load first diagram from pointers.yaml
-    if (location.pathname === '/manual' || location.pathname === '/manual/') {
+    // If at bare /tech, load first diagram from pointers.yaml
+    if (location.pathname === '/tech' || location.pathname === '/tech/') {
       fetch('/pointers.yaml', { signal })
         .then((r) => r.text())
         .then((text) => {
           const data = yaml.load(text) as YamlValue
           const firstPath = findFirstDiagramPath(data)
           const urlPath = firstPath ? yamlPathToUrlSegment(firstPath) : null
-          if (urlPath) navigate(`/manual/${urlPath}`, { replace: true })
+          if (urlPath) navigate(`/tech/${urlPath}`, { replace: true })
           else setLoading(false)
         })
         .catch((err) => { if (err?.name !== 'AbortError') setLoading(false) })
@@ -150,9 +150,9 @@ const ManualDiagramViewer: React.FC = () => {
     }
 
     setLoading(true)
-    // Strip /manual/ prefix from pathname to get the diagram path
-    const urlPath = location.pathname.startsWith('/manual/')
-      ? location.pathname.substring('/manual/'.length)
+    // Strip /tech/ prefix from pathname to get the diagram path
+    const urlPath = location.pathname.startsWith('/tech/')
+      ? location.pathname.substring('/tech/'.length)
       : location.pathname.substring(1)
 
     fetch('/pointers.yaml', { signal })
@@ -231,7 +231,7 @@ const ManualDiagramViewer: React.FC = () => {
         )}
         {isDrawerOpen && (
           <div className="mobile-drawer">
-            <ManualNavigator onRequestClose={() => setIsDrawerOpen(false)} />
+            <Navigator onRequestClose={() => setIsDrawerOpen(false)} />
           </div>
         )}
       </div>
@@ -240,7 +240,7 @@ const ManualDiagramViewer: React.FC = () => {
 
   return (
     <ResizablePanels
-      leftPanel={<ManualNavigator onCollapseChange={setIsYamlCollapsed} />}
+      leftPanel={<Navigator onCollapseChange={setIsYamlCollapsed} />}
       rightPanel={rightPanel}
       defaultLeftWidth={25}
       minLeftWidth={0}
@@ -250,4 +250,4 @@ const ManualDiagramViewer: React.FC = () => {
   )
 }
 
-export default ManualDiagramViewer
+export default DiagramViewer

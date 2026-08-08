@@ -12,8 +12,8 @@ const __dirname = path.dirname(__filename)
 const app = express()
 app.use(express.json())
 
-// Serve SVG files from manual/ folder
-app.use('/manual', express.static(path.join(__dirname, 'manual'), {
+// Serve SVG files from tech/ folder
+app.use('/tech', express.static(path.join(__dirname, 'tech'), {
   setHeaders: (res, filepath) => {
     if (filepath.endsWith('.svg')) {
       res.setHeader('Content-Type', 'image/svg+xml')
@@ -55,7 +55,7 @@ function stopWatcher(diagramPath) {
   proc.kill()
 }
 
-app.post('/api/manual/watch', (req, res) => {
+app.post('/api/tech/watch', (req, res) => {
   const { diagramPath } = req.body
 
   if (!diagramPath) {
@@ -117,7 +117,7 @@ app.post('/api/manual/watch', (req, res) => {
     // d2 uses stderr for both info and errors, prefixing each line with
     // "success:", "info:", "warn:", or "err:" — classify on that prefix
     // rather than searching the whole chunk, since a plain substring search
-    // for "err" also matches paths like manual/hackerrank/*.d2
+    // for "err" also matches paths like tech/hackerrank/*.d2
     stderrBuffer += output
 
     const isErrorLine = output
@@ -161,7 +161,7 @@ app.post('/api/manual/watch', (req, res) => {
 
 // SSE endpoint for diagram events — lazily starts an fs.watch on the SVG output file,
 // mirroring the mmd pattern. This is authoritative: fires when d2 writes its SVG to disk.
-app.get('/api/manual/events/:diagramPath(*)', (req, res) => {
+app.get('/api/tech/events/:diagramPath(*)', (req, res) => {
   const diagramPath = '/' + req.params.diagramPath
 
   res.setHeader('Content-Type', 'text/event-stream')
@@ -256,7 +256,7 @@ app.get('/api/manual/events/:diagramPath(*)', (req, res) => {
 })
 
 // List scenario SVGs for a given diagram path
-app.get('/api/manual/scenarios/:diagramPath(*)', (req, res) => {
+app.get('/api/tech/scenarios/:diagramPath(*)', (req, res) => {
   const diagramPath = req.params.diagramPath
   const fullPath = path.join(__dirname, diagramPath)
 
@@ -294,8 +294,8 @@ app.get('/api/manual/scenarios/:diagramPath(*)', (req, res) => {
   })
 })
 
-// Every manual/vars/*.d2 currently shares these two theme IDs (see
-// manual/vars/hackerrank.d2, jbm.d2, system-design.d2). There's no per-file
+// Every tech/vars/*.d2 currently shares these two theme IDs (see
+// tech/vars/hackerrank.d2, jbm.d2, system-design.d2). There's no per-file
 // dark-theme-id to read without resolving each file's own vars import chain,
 // so this is a pragmatic hardcode rather than something derived from the
 // file — update it here if the shared vars files' theme pair ever changes.
@@ -309,11 +309,11 @@ const DARK_THEME_ID = '201'
 // semantic colors (positive/negative/etc. no longer carry any color at the
 // .d2 level at all, see diagramSemanticThemes.css), only the light/dark
 // theme's automatic shape coloring, via the theme query param below.
-app.get('/api/manual/png/:d2Path(*)', (req, res) => {
-  const d2RelPath = req.params.d2Path  // already includes 'manual/' prefix
+app.get('/api/tech/png/:d2Path(*)', (req, res) => {
+  const d2RelPath = req.params.d2Path  // already includes 'tech/' prefix
   const fullPath = path.join(__dirname, d2RelPath)
 
-  if (!fullPath.startsWith(path.join(__dirname, 'manual') + path.sep)) {
+  if (!fullPath.startsWith(path.join(__dirname, 'tech') + path.sep)) {
     return res.status(400).json({ error: 'Invalid path' })
   }
 
@@ -389,9 +389,9 @@ app.get('/api/arch/data', (req, res) => {
 // Serve raw .d2 source text
 app.get('/api/d2/source/:d2Path(*)', (req, res) => {
   const d2Path = req.params.d2Path
-  const fullPath = path.join(__dirname, d2Path.startsWith('manual/') ? d2Path : `manual/${d2Path}`)
+  const fullPath = path.join(__dirname, d2Path.startsWith('tech/') ? d2Path : `tech/${d2Path}`)
 
-  if (!fullPath.startsWith(path.join(__dirname, 'manual'))) {
+  if (!fullPath.startsWith(path.join(__dirname, 'tech'))) {
     return res.status(400).json({ error: 'Invalid path' })
   }
 
@@ -411,9 +411,9 @@ app.get('/api/d2/source/:d2Path(*)', (req, res) => {
 // Serve raw .mmd source text
 app.get('/api/mmd/source/:mmdPath(*)', (req, res) => {
   const mmdPath = req.params.mmdPath
-  const fullPath = path.join(__dirname, mmdPath.startsWith('manual/') ? mmdPath : `manual/${mmdPath}`)
+  const fullPath = path.join(__dirname, mmdPath.startsWith('tech/') ? mmdPath : `tech/${mmdPath}`)
 
-  if (!fullPath.startsWith(path.join(__dirname, 'manual'))) {
+  if (!fullPath.startsWith(path.join(__dirname, 'tech'))) {
     return res.status(400).json({ error: 'Invalid path' })
   }
 
@@ -433,7 +433,7 @@ const mmdWatchClients = new Map()  // mmdPath → Set<res>
 const mmdWatchers = new Map()      // mmdPath → FSWatcher
 
 app.get('/api/mmd/events/:mmdPath(*)', (req, res) => {
-  const mmdPath = '/' + req.params.mmdPath  // e.g. /manual/SDPVEDO-7489.mmd
+  const mmdPath = '/' + req.params.mmdPath  // e.g. /tech/SDPVEDO-7489.mmd
 
   res.setHeader('Content-Type', 'text/event-stream')
   res.setHeader('Cache-Control', 'no-cache')
@@ -480,10 +480,10 @@ app.get('/api/mmd/events/:mmdPath(*)', (req, res) => {
 
 // ── Batch file-existence check (shared for .d2 and .mmd) ──────────────────────
 
-// Quality-tag index — { vocabulary: string[], tags: { '/manual/foo.d2': string[] } }.
+// Quality-tag index — { vocabulary: string[], tags: { '/tech/foo.d2': string[] } }.
 // Rescans on each request so tag edits show up without a server restart;
 // the scan reads ~100 small files, cheap enough to skip caching.
-app.get('/api/manual/tags', (req, res) => {
+app.get('/api/tech/tags', (req, res) => {
   try {
     res.json(buildTagsIndex(__dirname))
   } catch (err) {
@@ -492,14 +492,14 @@ app.get('/api/manual/tags', (req, res) => {
 })
 
 // Batch file-existence check — accepts { paths: string[] }, returns { [path]: boolean }
-app.post('/api/manual/exists', (req, res) => {
+app.post('/api/tech/exists', (req, res) => {
   const { paths } = req.body
   if (!Array.isArray(paths)) {
     return res.status(400).json({ error: 'paths must be an array' })
   }
   const results = {}
   for (const p of paths) {
-    // Normalise ./manual/foo.d2 → manual/foo.d2 and /manual/foo.d2 → manual/foo.d2
+    // Normalise ./tech/foo.d2 → tech/foo.d2 and /tech/foo.d2 → tech/foo.d2
     let rel = p
     if (rel.startsWith('./')) rel = rel.slice(2)
     if (rel.startsWith('/')) rel = rel.slice(1)
@@ -510,7 +510,7 @@ app.post('/api/manual/exists', (req, res) => {
       results[p] = fs.existsSync(fullPath)
     }
   }
-  // Also handle .mmd paths rooted outside of ./manual/ via the same logic above
+  // Also handle .mmd paths rooted outside of ./tech/ via the same logic above
   res.json(results)
 })
 
