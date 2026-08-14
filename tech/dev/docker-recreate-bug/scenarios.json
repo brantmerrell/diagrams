@@ -1,0 +1,20 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/dev/docker-recreate-bug/0_base.svg"
+    },
+    {
+      "name": "1_recreate_attempt",
+      "path": "/tech/dev/docker-recreate-bug/1_recreate_attempt.svg"
+    },
+    {
+      "name": "2_root_cause",
+      "path": "/tech/dev/docker-recreate-bug/2_root_cause.svg"
+    },
+    {
+      "name": "3_fix",
+      "path": "/tech/dev/docker-recreate-bug/3_fix.svg"
+    }
+  ]
+}

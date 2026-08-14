@@ -1,0 +1,85 @@
+vars: @"../vars/jbm.d2"
+classes: @"../classes/sequence"
+classes: @"../classes/tags"
+
+layers: {
+  0_index: {
+    _quality: {class: compiles}
+
+    label: ""
+    shape: sequence_diagram
+    server: {label: "server.js\nGET /api/tech/tags"; class: api}
+    manifest: {label: "scripts/\nbuild-tags-manifest.mjs"; class: pipeline}
+    lib: {label: "scripts/lib/tags.mjs"; class: pipeline}
+    vocab: {label: "tech/classes/tags.d2"; class: database}
+    sources: {label: "tech/**/*.d2"; class: database}
+    tagsjson: {label: "tech/tags.json"; class: database}
+
+    server -> lib: "buildTagsIndex() per request\n(dev + Heroku; tag edits show up live)" {class: api}
+
+    manifest.note1: |md
+      run by deploy.yml before tech/\
+      is copied into dist/, or by hand:\
+      `node scripts/build-tags-manifest.mjs`
+    | {
+      class: pipeline
+    }
+    manifest -> lib: "buildTagsIndex() at build time" {class: pipeline}
+    lib -> vocab: "read top-level keys → vocabulary\n(compiles, styled, coherent)" {class: pipeline}
+    lib -> sources: "scan class: usages ∩ vocabulary" {class: pipeline}
+    lib.note1: |md
+      matches `class: name` and\
+      `class: [a; b]` multi-class
+    | {
+      class: pipeline
+    }
+    manifest -> tagsjson: "write {vocabulary, tags}\n(tracked in git)" {class: pipeline}
+    tagsjson.note1: |md
+      static stand-in for the API on\
+      GitHub Pages — useDiagramTags\
+      falls back to /tech/tags.json
+    | {
+      class: database
+    }
+  }
+
+  1_filter: {
+    _quality: {class: compiles}
+
+    shape: sequence_diagram
+    user: {shape: c4-person}
+    navigator: {label: "Navigator.tsx\ntag select"; class: frontend}
+    hook: {label: "useDiagramTags"; class: frontend}
+    api: {label: "/api/tech/tags"; class: api}
+    static: {label: "/tech/tags.json"; class: database}
+
+    navigator -> hook: "mount"
+    hook -> api: "GET" {class: api}
+    api -> hook: "{vocabulary, tags}" {class: api}
+    hook -> static: "fallback when no backend\n(GitHub Pages)" {
+      class: frontend
+    }
+
+    user -> navigator: "select tag, e.g. styled"
+    navigator.note1: |md
+      sets ?tag=styled URL param —
+      filtered views are shareable
+    | {
+      class: frontend
+    }
+    navigator.note2: |md
+      `pruneByTag()` hides untagged branches
+    | {
+      class: frontend
+    }
+    navigator.note3: |md
+      search results, j/k/gg/G cycling,
+      and COPY all follow the filter
+    | {
+      class: frontend
+    }
+    user -> navigator: "select all tags — filter off" {
+      class: user
+    }
+  }
+}

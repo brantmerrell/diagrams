@@ -1,0 +1,44 @@
+vars: @"../vars/jbm.d2"
+classes: @"../classes/sequence"
+classes: @"../classes/tags"
+
+_quality: {class: compiles}
+
+seq_view: {
+  shape: sequence_diagram
+  user: {
+    class: user
+  }
+  navigator: {label: "Navigator.tsx\nPointers panel"; class: frontend}
+  panel: {label: "D2Panel.tsx"; class: frontend}
+  api: {label: "server.js\n:3002"; class: api}
+  d2: {label: "d2 CLI"; class: pipeline}
+  fs: {label: "tech/"; class: database}
+
+  navigator -> api: "GET /pointers.yaml (poll 2 s)" {class: api} # what?
+  navigator -> api: "POST /api/tech/exists" {class: api} # what?
+  navigator.note1: |md
+    tree from pointers.yaml;\
+    missing files struck through
+  | {
+    class: frontend
+  }
+
+  user -> navigator: "tap diagram (or j/k, gg/G, /search)" # TODO: class
+  navigator -> panel: "navigate /tech/<path>.d2" # TODO: class
+  panel -> api: "POST /api/tech/watch" {class: api}
+  api -> d2: "spawn d2 --watch <path>.d2" # TODO: class
+  d2 -> fs: "write <path>.svg" # TODO: class
+  panel -> api: "GET /api/tech/events (SSE)" {class: api}
+  api -> panel: "event: svg updated" {class: api}
+  panel -> fs: "GET /tech/<path>.svg" # TODO: class
+  panel.note1: |md
+    .mmd diagrams skip the server:\
+    MermaidPanel renders client-side
+  | {
+    class: frontend
+  }
+
+  user -> panel: "drag / pinch / wheel — pan & zoom" # TODO: class
+  user -> panel: "h / l — previous / next layer" # TODO: class
+}

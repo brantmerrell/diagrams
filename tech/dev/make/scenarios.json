@@ -1,0 +1,24 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/dev/make/0_base.svg"
+    },
+    {
+      "name": "1_tmux_focus",
+      "path": "/tech/dev/make/1_tmux_focus.svg"
+    },
+    {
+      "name": "2_process_group",
+      "path": "/tech/dev/make/2_process_group.svg"
+    },
+    {
+      "name": "3_dash_jobspec_bug",
+      "path": "/tech/dev/make/3_dash_jobspec_bug.svg"
+    },
+    {
+      "name": "4_fix",
+      "path": "/tech/dev/make/4_fix.svg"
+    }
+  ]
+}

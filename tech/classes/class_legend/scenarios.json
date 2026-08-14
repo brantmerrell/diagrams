@@ -1,0 +1,36 @@
+{
+  "scenarios": [
+    {
+      "name": "0_basic",
+      "path": "/tech/classes/class_legend/0_basic.svg"
+    },
+    {
+      "name": "1_function",
+      "path": "/tech/classes/class_legend/1_function.svg"
+    },
+    {
+      "name": "2_L4",
+      "path": "/tech/classes/class_legend/2_L4.svg"
+    },
+    {
+      "name": "3_L7",
+      "path": "/tech/classes/class_legend/3_L7.svg"
+    },
+    {
+      "name": "4_plan",
+      "path": "/tech/classes/class_legend/4_plan.svg"
+    },
+    {
+      "name": "5_process",
+      "path": "/tech/classes/class_legend/5_process.svg"
+    },
+    {
+      "name": "6_sequence",
+      "path": "/tech/classes/class_legend/6_sequence.svg"
+    },
+    {
+      "name": "7_tags",
+      "path": "/tech/classes/class_legend/7_tags.svg"
+    }
+  ]
+}

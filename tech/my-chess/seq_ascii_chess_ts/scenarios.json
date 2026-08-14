@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "0_main",
+      "path": "/tech/my-chess/seq_ascii_chess_ts/0_main.svg"
+    },
+    {
+      "name": "1_login",
+      "path": "/tech/my-chess/seq_ascii_chess_ts/1_login.svg"
+    }
+  ]
+}

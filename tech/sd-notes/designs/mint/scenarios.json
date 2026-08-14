@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "1_initial",
+      "path": "/tech/sd-notes/designs/mint/1_initial.svg"
+    },
+    {
+      "name": "2_final",
+      "path": "/tech/sd-notes/designs/mint/2_final.svg"
+    }
+  ]
+}

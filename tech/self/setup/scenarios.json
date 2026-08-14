@@ -1,0 +1,20 @@
+{
+  "scenarios": [
+    {
+      "name": "1_dev",
+      "path": "/tech/self/setup/1_dev.svg"
+    },
+    {
+      "name": "2_pages",
+      "path": "/tech/self/setup/2_pages.svg"
+    },
+    {
+      "name": "3_fallbacks",
+      "path": "/tech/self/setup/3_fallbacks.svg"
+    },
+    {
+      "name": "4_heroku",
+      "path": "/tech/self/setup/4_heroku.svg"
+    }
+  ]
+}
