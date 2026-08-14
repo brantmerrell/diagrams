@@ -5,34 +5,46 @@ classes: @"../classes/tags"
 layers: {
   1_dev: {
     direction: down
-
-    _quality: {class: compiles}
-
+    _quality: {class: styled}
     browser: {class: obj_client; label: "browser\nlocalhost:<ephemeral>"}
-    coordinator: {class: obj_service; label: "scripts/dev.sh\n(port coordinator)"}
+    coordinator: {
+      class: obj_service
+      label: "scripts/dev.sh"
+    }
     vite: {
       class: obj_server
       label: "vite dev server\n(ephemeral port)"
     }
     express: {class: obj_server; label: "express (server.js)\n(ephemeral port)"}
     d2watch: {class: obj_service; label: "d2 --watch\n(one per open diagram)"}
-    sources: {class: obj_db; label: "tech/**/*.d2\npointers.yaml"}
-
+    sources: |md
+      * tech/**/*.d2
+      * pointers.yaml
+    | {
+      class: obj_db
+    }
+    env_local: |md
+      ## .env.local
+      VITE_BACKEND_PORT=\<ephemeral\>
+    | {class: obj_db}
     coordinator -> express: {class: edge_write; label: "spawn"}
-    coordinator -> vite: {class: edge_write; label: "writes .env.local, then\nvite --port <ephemeral> --strictPort"}
-    # TODO: .env.local is a node
+    coordinator -> env_local: {class: edge_write; label: "writes port"}
+    coordinator -> vite: {class: edge_write; label: "vite --port <ephemeral>\n--strictPort"}
+    env_local -> vite: {class: edge_query; label: "loadEnv() reads\nat startup"}
     browser -> vite: {class: edge_request; label: "SPA routes + assets"}
-    vite -> express: {class: edge_request; label: "proxy /api, /tech/*.svg"} # export proxy to its own pattern; link to diagram from layer 0_base
-    express -> d2watch: "spawn on /api/tech/watch"
+    vite -> express: {class: edge_request; label: "proxy /api, /tech/*.svg"}
+    # TODO: export proxy to its own pattern; link to diagram from layer 0_base
+    # TODO: this label should actually be a note.
+    express -> d2watch: {
+      class: edge_write
+      label: "spawn on /api/tech/watch"
+    }
     d2watch -> sources: {class: edge_query; label: "compile"}
     express -> browser: {class: edge_write; label: "SSE: svg updated"}
   }
-
   2_pages: {
     direction: down
-
-    _quality: {class: compiles}
-
+    _quality: {class: styled}
     browser: {
       class: obj_client
       label: browser
@@ -42,52 +54,71 @@ layers: {
       label: GitHub Pages\nstatic dist/
     }
     actions: {
-      class: obj_service;
+      class: obj_service
       label: deploy.yml
       note: |md
-      * compile d2 → svg
-      * build manifests
-      * vite build"
-      |
+        * compile d2 to svg
+        * build manifests
+        * vite build
+      | {
+        class: obj_service
+      }
     }
     artifacts: {
-      class: obj_db;
+      class: obj_db
       label: Artifacts
       note: |md
-      * tech/*.svg
-      * scenarios.json
-      * tags.json
-      * *.d2.txt sources
-      |
+        * tech/*.svg
+        * scenarios.json
+        * tags.json
+        * *.d2.txt sources
+      | {
+        class: obj_db
+      }
     }
-
     actions -> artifacts: {class: edge_write; label: "publish"}
-    artifacts -> pages: "served as dist/tech/"
+    artifacts -> pages: {
+      class: edge_write
+      label: served as\n dist/tech/
+    }
     browser -> pages: {class: edge_request; label: "GET"}
-
-    fallbacks: |md
-      no backend: the frontend falls back from \
-      /api/tech/tags → /tech/tags.json, \
-      /api/tech/scenarios → scenarios.json, \
-      /api/d2/source → \*.d2.txt
-    | {class: note}
-    """
-    TODO: it seems like fallbacks should be its own diagram
-    """
   }
-
-  3_heroku: {
+  3_fallbacks: {
     direction: down
-
-    _quality: {class: compiles}
-
+    _quality: {class: styled}
+    browser: {class: obj_client; label: browser}
+    api: {
+      class: obj_db
+      api: |md
+        ## No backend on Github Pages
+        * /api/tech/tags
+        * /api/tech/scenarios
+        * /api/d2/source
+      | {class: obj_server}
+    }
+    browser -> api: {class: edge_request; label: "GET\n(404)"}
+    artifacts: |md
+      ## Artifacts
+      * tech/tags_json
+      * scenarios.json
+      * *d2.txt
+    | {class: obj_db}
+    browser -> artifacts: {class: edge_request; label: "fallbacks: GET"}
+  }
+  4_heroku: {
+    direction: down
+    _quality: {class: styled}
     browser: {class: obj_client; label: browser}
     heroku: {class: obj_cdn; label: "Heroku\ndyno, assigns PORT env var"}
     express: {class: obj_server; label: "express (server.js)\nserves dist/ + full API"}
-    container: {class: obj_service; label: "Dockerfile\ncopies repo incl. tech/ sources"}
-
+    container: {
+      class: obj_service
+      label: Dockerfile
+    }
     browser -> heroku: {class: edge_request; label: "SPA + /api/*"}
-    container -> heroku: "deployed as image"
+    # spacing to avoid overlap in edge names: 
+    container -- heroku: {class: edge_invis}
+    container -> heroku: {class: edge_write; label: "deployed as image"}
     heroku -> express: {class: edge_request; label: "runs container,\nbinds PORT env var"}
   }
 }
