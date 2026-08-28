@@ -30,8 +30,6 @@ jbm.eco:
     details:
       repository: https://github.com/brantmerrell/diagrams
       description: this viewer, described by itself
-    classes/:
-      - ./tech/classes/class_legend.d2
     setup:
       - ./tech/self/setup.d2
     index.html:
@@ -248,3 +246,5 @@ d2-documentation:
     - ./tech/examples/4-customization/tooltip.d2
   5-in-depth:
     - ./tech/examples/5-in-depth/variables.d2
+classes/:
+  - ./tech/classes/class_legend.d2

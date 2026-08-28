@@ -24,8 +24,15 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      # Installs from the committed bun.lock — reproducible, matches what's
+      # tested locally. Node stays for the steps below (tsc, vite build).
       - name: Install dependencies
-        run: npm install
+        run: bun install --frozen-lockfile
 
       - name: Install d2
         run: curl -fsSL https://d2lang.com/install.sh | sh -s --
@@ -47,7 +54,7 @@ jobs:
         run: node scripts/build-tags-manifest.mjs
 
       - name: Build frontend
-        run: npm run build
+        run: bun run build
         env:
           CI: false
 
