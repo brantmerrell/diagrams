@@ -136,17 +136,38 @@
  * DarkGreen/DarkRed/Gray are already dark/muted enough to read on both a
  * white and a dark canvas — same value both themes.
  */
+/*
+ * .shape is a wrapper <g> — the sketch renderer's actual outline rect(s)
+ * inside it carry their own D2-generated stroke-B*/stroke-N* class straight
+ * from the embedded per-diagram stylesheet, which sets stroke directly on
+ * that element. A directly-applied value always beats one merely inherited
+ * from .shape, regardless of this rule's specificity — so these must also
+ * target .shape's descendants, and !important is required to win against
+ * D2's own same-element class.
+ */
 [data-diagram-theme="light"] .to_add .shape,
-[data-diagram-theme="dark"] .to_add .shape {
-  stroke: DarkGreen;
+[data-diagram-theme="light"] .to_add .shape *,
+[data-diagram-theme="dark"] .to_add .shape,
+[data-diagram-theme="dark"] .to_add .shape * {
+  stroke: DarkGreen !important;
 }
 [data-diagram-theme="light"] .to_remove .shape,
-[data-diagram-theme="dark"] .to_remove .shape {
-  stroke: DarkRed;
+[data-diagram-theme="light"] .to_remove .shape *,
+[data-diagram-theme="dark"] .to_remove .shape,
+[data-diagram-theme="dark"] .to_remove .shape * {
+  stroke: DarkRed !important;
 }
 [data-diagram-theme="light"] .unchanged .shape,
-[data-diagram-theme="dark"] .unchanged .shape {
-  stroke: Gray;
+[data-diagram-theme="light"] .unchanged .shape *,
+[data-diagram-theme="dark"] .unchanged .shape,
+[data-diagram-theme="dark"] .unchanged .shape * {
+  stroke: Gray !important;
+}
+[data-diagram-theme="light"] .future .shape,
+[data-diagram-theme="light"] .future .shape *,
+[data-diagram-theme="dark"] .future .shape,
+[data-diagram-theme="dark"] .future .shape * {
+  stroke: Gray !important;
 }
 [data-diagram-theme="light"] .edge_signal path.connection,
 [data-diagram-theme="dark"] .edge_signal path.connection {

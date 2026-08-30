@@ -67,36 +67,44 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
     }, { replace: true })
   }, [showCode, setSearchParams])
 
-  const handleCopy = useCallback(async (e: React.MouseEvent) => {
+  const handleCopy = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
-    try {
-      if (showCode && sourceCode !== null) {
-        await navigator.clipboard.writeText(sourceCode)
-      } else {
-        if (!d2ServerPath) return
-        setCopyLabel('…')
-        let blob: Blob
-        try {
-          // The d2 CLI's own PNG renderer — full markdown/foreignObject fidelity,
-          // unlike the client-side canvas fallback below. --theme keeps it roughly
-          // in sync with the current light/dark toggle (see server.js).
-          const response = await fetch(`/api/tech/png/${d2ServerPath}?theme=${theme}`)
-          if (!response.ok) throw new Error(`PNG render failed: ${response.status}`)
-          blob = await response.blob()
-        } catch {
-          // Static deployment (no backend): render the displayed SVG in-browser
-          if (!svgContent) throw new Error('No diagram loaded to copy')
-          blob = await svgToPngBlob(svgContent, theme)
-        }
-        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
-      }
-      setCopyLabel('✓')
-      setTimeout(() => setCopyLabel('⎘'), 2000)
-    } catch (err) {
-      console.error('Copy failed:', err)
-      setCopyLabel('✗')
-      setTimeout(() => setCopyLabel('⎘'), 2000)
+
+    if (showCode && sourceCode !== null) {
+      navigator.clipboard.writeText(sourceCode).then(
+        () => { setCopyLabel('✓'); setTimeout(() => setCopyLabel('⎘'), 2000) },
+        err => { console.error('Copy failed:', err); setCopyLabel('✗'); setTimeout(() => setCopyLabel('⎘'), 2000) },
+      )
+      return
     }
+
+    if (!d2ServerPath) return
+    setCopyLabel('…')
+
+    // Firefox blocks navigator.clipboard.write() unless it's called within
+    // the click's user-activation window — awaiting the fetch/blob first
+    // (as this used to) puts the call too far from the click. Instead, hand
+    // ClipboardItem a Promise<Blob> and call write() synchronously right
+    // here; the promise resolves later, but the call itself is immediate.
+    const blobPromise: Promise<Blob> = (async () => {
+      try {
+        // The d2 CLI's own PNG renderer — full markdown/foreignObject fidelity,
+        // unlike the client-side canvas fallback below. --theme keeps it roughly
+        // in sync with the current light/dark toggle (see server.js).
+        const response = await fetch(`/api/tech/png/${d2ServerPath}?theme=${theme}`)
+        if (!response.ok) throw new Error(`PNG render failed: ${response.status}`)
+        return await response.blob()
+      } catch {
+        // Static deployment (no backend): render the displayed SVG in-browser
+        if (!svgContent) throw new Error('No diagram loaded to copy')
+        return await svgToPngBlob(svgContent, theme)
+      }
+    })()
+
+    navigator.clipboard.write([new ClipboardItem({ 'image/png': blobPromise })]).then(
+      () => { setCopyLabel('✓'); setTimeout(() => setCopyLabel('⎘'), 2000) },
+      err => { console.error('Copy failed:', err); setCopyLabel('✗'); setTimeout(() => setCopyLabel('⎘'), 2000) },
+    )
   }, [showCode, sourceCode, d2ServerPath, svgContent, theme])
 
   const handleGoToScenario = useCallback((index: number) => {

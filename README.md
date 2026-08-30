@@ -154,6 +154,24 @@ D2 `layers: {}` are the primary tool for keeping multiple diagram views in one f
   ```
 
 
+- *Every source line inside a `|md` block renders as its own hard line break — end a line with `\` to keep it flowing as one wrapped paragraph.* D2's markdown renderer doesn't collapse a bare newline into a soft wrap the way prose markdown normally does; each line in the source becomes its own row, regardless of container width. Trailing `\` joins it with the next line before rendering, so long paragraphs wrap naturally instead of breaking wherever the source happened to be edited:
+  ```d2
+  # Wrong — renders as five short, ragged lines matching the source wrapping
+  note: |md
+    Not currently wired into this scaffold — `app/agent.py` uses
+    `langchain_tavily.TavilySearch` directly with an API key, no CLI
+    or Agent Skills involved.
+  |
+
+  # Correct — renders as one flowing paragraph that wraps to the container
+  note: |md
+    Not currently wired into this scaffold — `app/agent.py` uses\
+    `langchain_tavily.TavilySearch` directly with an API key, no CLI\
+    or Agent Skills involved.
+  |
+  ```
+  List items and other lines meant to stay on their own row (headings, a deliberate short second line) should NOT get a trailing `\`.
+
 - *Unless otherwise specified, nodes must correspond to real things in the codebase or infrastructure — not abstract concepts or evaluation categories.* A node represents a file, service, function, class, API endpoint, database, queue, or other concrete entity. Abstract concepts like "Boundary Respect", "Resilience Improvements", or "Test Quality" are not real things and should not be nodes. 
   ```d2
   # Wrong — fake nodes for abstract concepts
