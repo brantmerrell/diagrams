@@ -13,17 +13,7 @@ challenges/:
       index.html:
         - ./tech/challenges/pressw/architecture.d2
     pantrypal-assessment/:
-      README.md:
-        - ./tech/challenges/pressw/pantrypal_plan.d2
-      brief/:
-        01_pm_email.md:
-          - ./tech/challenges/pressw/pantrypal_plan.d2
-        02_ceo_voicememo.md:
-          - ./tech/challenges/pressw/pantrypal_plan.d2
-        03_support_slack.md:
-          - ./tech/challenges/pressw/pantrypal_plan.d2
-        04_legal_email.md:
-          - ./tech/challenges/pressw/pantrypal_plan.d2
+      - ./tech/challenges/pressw/pantrypal_plan.d2
 sd-notes/:
   designs/:
     mint/:
