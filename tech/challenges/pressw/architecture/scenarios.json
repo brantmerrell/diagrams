@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/challenges/pressw/architecture/0_base.svg"
+    },
+    {
+      "name": "1_containers",
+      "path": "/tech/challenges/pressw/architecture/1_containers.svg"
+    },
+    {
+      "name": "2_chat_request",
+      "path": "/tech/challenges/pressw/architecture/2_chat_request.svg"
+    }
+  ]
+}

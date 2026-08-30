@@ -1,4 +1,53 @@
 ---
+challenges/:
+  pressw/:
+    docker-compose.yml:
+      - ./tech/challenges/pressw/architecture.d2
+    app/:
+      main.py:
+        - ./tech/challenges/pressw/architecture.d2
+      agent.py:
+        - ./tech/challenges/pressw/architecture.d2
+        - ./tech/challenges/pressw/tavily_agent_setup.d2
+    frontend/:
+      index.html:
+        - ./tech/challenges/pressw/architecture.d2
+    pantrypal-assessment/:
+      README.md:
+        - ./tech/challenges/pressw/pantrypal_plan.d2
+      brief/:
+        01_pm_email.md:
+          - ./tech/challenges/pressw/pantrypal_plan.d2
+        02_ceo_voicememo.md:
+          - ./tech/challenges/pressw/pantrypal_plan.d2
+        03_support_slack.md:
+          - ./tech/challenges/pressw/pantrypal_plan.d2
+        04_legal_email.md:
+          - ./tech/challenges/pressw/pantrypal_plan.d2
+sd-notes/:
+  designs/:
+    mint/:
+      - ./tech/sd-notes/designs/mint.d2
+    pastebin/:
+      - ./tech/sd-notes/designs/pastebin.d2
+  tools/:
+    - ./tech/sd-notes/tools/application_caching.d2
+    - ./tech/sd-notes/tools/application_layer.d2
+    - ./tech/sd-notes/tools/asynchronism.d2
+    - ./tech/sd-notes/tools/cdn.d2
+    - ./tech/sd-notes/tools/communication.d2
+    - ./tech/sd-notes/tools/connectors.d2
+    - ./tech/sd-notes/tools/dns.d2
+    - ./tech/sd-notes/tools/load_balancer.d2
+    - ./tech/sd-notes/tools/mcp.d2
+    - ./tech/sd-notes/tools/NoSQL.d2
+    - ./tech/sd-notes/tools/RAG.d2
+    - ./tech/sd-notes/tools/rdbms.d2
+    - ./tech/sd-notes/tools/rdbms_scaling.d2
+    - ./tech/sd-notes/tools/rdbms_systems.d2
+    - ./tech/sd-notes/tools/rdbms_tuning.d2
+    - ./tech/sd-notes/tools/reverse_proxy.d2
+    - ./tech/sd-notes/tools/vector_database.d2
 jacob:
   - ./tech/examples/jacob.d2
 jbm.eco:
@@ -6,8 +55,6 @@ jbm.eco:
     details:
       repository: https://github.com/brantmerrell/diagrams
       description: this viewer, described by itself
-    classes/:
-      - ./tech/classes/class_legend.d2
     setup:
       - ./tech/self/setup.d2
     index.html:
@@ -77,31 +124,7 @@ jbm.eco:
         - ./tech/hi/seq_generate_audio.d2
       process_sentences.py:
         - ./tech/hi/seq_process_sentences.d2
-sd-notes/:
-  designs/:
-    mint/:
-      - ./tech/sd-notes/designs/mint.d2
-    pastebin/:
-      - ./tech/sd-notes/designs/pastebin.d2
-  tools/:
-    - ./tech/sd-notes/tools/application_caching.d2
-    - ./tech/sd-notes/tools/application_layer.d2
-    - ./tech/sd-notes/tools/asynchronism.d2
-    - ./tech/sd-notes/tools/cdn.d2
-    - ./tech/sd-notes/tools/communication.d2
-    - ./tech/sd-notes/tools/connectors.d2
-    - ./tech/sd-notes/tools/dns.d2
-    - ./tech/sd-notes/tools/load_balancer.d2
-    - ./tech/sd-notes/tools/mcp.d2
-    - ./tech/sd-notes/tools/NoSQL.d2
-    - ./tech/sd-notes/tools/RAG.d2
-    - ./tech/sd-notes/tools/rdbms.d2
-    - ./tech/sd-notes/tools/rdbms_scaling.d2
-    - ./tech/sd-notes/tools/rdbms_systems.d2
-    - ./tech/sd-notes/tools/rdbms_tuning.d2
-    - ./tech/sd-notes/tools/reverse_proxy.d2
-    - ./tech/sd-notes/tools/vector_database.d2
-hackerrank/: 
+hackerrank/:
   TODO:
     - link each to hackerrank problem
     - add prefixes to layer names
@@ -248,3 +271,5 @@ d2-documentation:
     - ./tech/examples/4-customization/tooltip.d2
   5-in-depth:
     - ./tech/examples/5-in-depth/variables.d2
+classes/:
+  - ./tech/classes/class_legend.d2

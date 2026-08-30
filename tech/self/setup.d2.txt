@@ -1,21 +1,34 @@
 vars: @"../vars/jbm.d2"
 classes: @"../classes/L7"
 classes: @"../classes/tags"
+classes: @"../classes/process"
+classes: @"../classes/basic"
 
 layers: {
   1_dev: {
     direction: down
-    _quality: {class: styled}
-    browser: {class: obj_client; label: "browser\nlocalhost:<ephemeral>"}
+    _quality: {class: compiles}
+    browser: {class: obj_client; label: "browser\nlocalhost:_"}
+    developer: {class: obj_client; label: "developer\n\$ bun run start"}
     coordinator: {
       class: obj_service
       label: "scripts/dev.sh"
+      ports_doc: {
+        link: ../dev/ports.d2
+        class: _link
+      }
     }
     vite: {
       class: obj_server
       label: "vite dev server\n(ephemeral port)"
     }
-    express: {class: obj_server; label: "express (server.js)\n(ephemeral port)"}
+    express: {
+      class: obj_server
+      label: "express (server.js)\n(ephemeral port)"
+
+      api_proxy: {shape: text; class: data_source; label: "/api"}
+      svg_proxy: {shape: text; class: data_source; label: "/tech/*.svg"}
+    }
     d2watch: {class: obj_service; label: "d2 --watch\n(one per open diagram)"}
     sources: |md
       * tech/**/*.d2
@@ -25,20 +38,23 @@ layers: {
     }
     env_local: |md
       ## .env.local
-      VITE_BACKEND_PORT=\<ephemeral\>
+      VITE_BACKEND_PORT=_
     | {class: obj_db}
-    coordinator -> express: {class: edge_write; label: "spawn"}
-    coordinator -> env_local: {class: edge_write; label: "writes port"}
-    coordinator -> vite: {class: edge_write; label: "vite --port <ephemeral>\n--strictPort"}
-    env_local -> vite: {class: edge_query; label: "loadEnv() reads\nat startup"}
-    browser -> vite: {class: edge_request; label: "SPA routes + assets"}
-    vite -> express: {class: edge_request; label: "proxy /api, /tech/*.svg"}
-    # TODO: export proxy to its own pattern; link to diagram from layer 0_base
-    # TODO: this label should actually be a note.
-    express -> d2watch: {
+
+    developer -> coordinator: {class: edge_spawn; label: "bun run start"}
+    coordinator -> express: {class: edge_write; label: "spawn:\nPORT=_"}
+    coordinator -> env_local: {class: edge_write; label: "write\nVITE_BACKEND_PORT"}
+    coordinator -> vite: {
       class: edge_write
-      label: "spawn on /api/tech/watch"
+      label: "vite --port _\n--strictPort"
     }
+    vite -> env_local: {
+      class: edge_query; label: "loadEnv() reads\nVITE_BACKEND_PORT"
+    }
+    browser -> vite: {class: edge_request; label: "SPA routes \n+ assets"}
+    vite -> express.api_proxy: {class: edge_request; label: proxy}
+    vite -> express.svg_proxy: {class: edge_request; label: proxy}
+    express -> d2watch: {class: edge_spawn; label: "spawn on /api/tech/watch"}
     d2watch -> sources: {class: edge_query; label: "compile"}
     express -> browser: {class: edge_write; label: "SSE: svg updated"}
   }
@@ -51,37 +67,56 @@ layers: {
     }
     pages: {
       class: obj_cdn
-      label: GitHub Pages\nstatic dist/
+      label: "GitHub Pages\nstatic dist/"
+
+      svg: {shape: text; class: data_source; label: "*.svg\n(precompiled)"}
+      tags: {shape: text; class: data_source; label: "/tech/tags.json\n(no /api/tech/tags here)"}
+      scenario_files: {shape: text; class: data_source; label: "*/scenarios.json\n(no /api/tech/scenarios here)"}
+      source: {shape: text; class: data_source; label: "*.d2.txt\n(no /api/d2/source here)"}
     }
     actions: {
       class: obj_service
       label: deploy.yml
-      note: |md
-        * compile d2 to svg
+    }
+    actions_steps: {
+      shape: page
+      style: {font-size: 20}
+      label: |md
+        * compile d2 → svg
         * build manifests
         * vite build
-      | {
-        class: obj_service
-      }
+      |
     }
+    actions -- actions_steps: {class: edge_invis}
+
     artifacts: {
       class: obj_db
       label: Artifacts
-      note: |md
+    }
+    artifacts_list: {
+      shape: page
+      style: {font-size: 20}
+      label: |md
         * tech/*.svg
         * scenarios.json
         * tags.json
         * *.d2.txt sources
-      | {
-        class: obj_db
-      }
+      |
     }
-    actions -> artifacts: {class: edge_write; label: "publish"}
-    artifacts -> pages: {
+    artifacts -- artifacts_list: {class: edge_invis}
+
+    actions -> artifacts: {
       class: edge_write
-      label: served as\n dist/tech/
+      label: publish
     }
-    browser -> pages: {class: edge_request; label: "GET"}
+    artifacts -> pages: {
+      label: served as\n dist/tech/
+      class: edge_write
+    }
+    browser -> pages.svg: {class: edge_request; label: GET}
+    browser -> pages.tags: {class: edge_request; label: GET}
+    browser -> pages.scenario_files: {class: edge_request; label: GET}
+    browser -> pages.source: {class: edge_request; label: GET}
   }
   3_fallbacks: {
     direction: down
@@ -115,10 +150,10 @@ layers: {
       class: obj_service
       label: Dockerfile
     }
-    browser -> heroku: {class: edge_request; label: "SPA + /api/*"}
-    # spacing to avoid overlap in edge names: 
+    browser -> heroku: {class: edge_request; label: "SPA +\n/api/*"}
+    # spacing to avoid overlap in edge names:
     container -- heroku: {class: edge_invis}
-    container -> heroku: {class: edge_write; label: "deployed as image"}
+    container -> heroku: {class: edge_write; label: "deployed\n as image"}
     heroku -> express: {class: edge_request; label: "runs container,\nbinds PORT env var"}
   }
 }

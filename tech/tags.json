@@ -5,6 +5,15 @@
     "coherent"
   ],
   "tags": {
+    "/tech/challenges/pressw/architecture.d2": [
+      "compiles"
+    ],
+    "/tech/challenges/pressw/pantrypal_plan.d2": [
+      "compiles"
+    ],
+    "/tech/challenges/pressw/tavily_agent_setup.d2": [
+      "compiles"
+    ],
     "/tech/classes/class_legend.d2": [
       "styled",
       "coherent"
@@ -347,6 +356,7 @@
       "compiles"
     ],
     "/tech/self/setup.d2": [
+      "compiles",
       "styled"
     ]
   }

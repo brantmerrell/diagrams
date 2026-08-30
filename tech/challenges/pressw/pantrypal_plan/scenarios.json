@@ -1,0 +1,28 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/challenges/pressw/pantrypal_plan/0_base.svg"
+    },
+    {
+      "name": "1_stakeholder_inputs",
+      "path": "/tech/challenges/pressw/pantrypal_plan/1_stakeholder_inputs.svg"
+    },
+    {
+      "name": "2_contradictions",
+      "path": "/tech/challenges/pressw/pantrypal_plan/2_contradictions.svg"
+    },
+    {
+      "name": "3_architecture",
+      "path": "/tech/challenges/pressw/pantrypal_plan/3_architecture.svg"
+    },
+    {
+      "name": "4_scope_v1",
+      "path": "/tech/challenges/pressw/pantrypal_plan/4_scope_v1.svg"
+    },
+    {
+      "name": "5_timeline",
+      "path": "/tech/challenges/pressw/pantrypal_plan/5_timeline.svg"
+    }
+  ]
+}

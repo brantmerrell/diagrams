@@ -1,0 +1,467 @@
+vars: @"../../vars/jbm.d2"
+classes: @"../../classes/L7"
+classes: @"../../classes/tags"
+classes: @"../../classes/process"
+classes: @"../../classes/basic"
+classes: {
+  chip_pm: {shape: square; width: 30; height: 30; style: {fill: "#4C6EF5"}}
+  chip_ceo: {shape: square; width: 30; height: 30; style: {fill: "#F76707"}}
+  chip_cx: {shape: square; width: 30; height: 30; style: {fill: "#37B24D"}}
+  chip_legal: {shape: square; width: 30; height: 30; style: {fill: "#F03E3E"}}
+  chip_baseline: {shape: square; width: 30; height: 30; style: {fill: "#868E96"}}
+}
+
+layers: {
+  0_base: {
+    _quality: {class: compiles}
+
+    legend: {
+      label: "priority key"
+      direction: right
+      pm: {grid-columns: 2; chip: {class: chip_pm; label: ""}; who: {shape: text; label: "Priya\n(PM)"}}
+      ceo: {grid-columns: 2; chip: {class: chip_ceo; label: ""}; who: {shape: text; label: "Marcus\n(CEO)"}}
+      cx: {grid-columns: 2; chip: {class: chip_cx; label: ""}; who: {shape: text; label: "Jordan\n(CX)"}}
+      legal: {grid-columns: 2; chip: {class: chip_legal; label: ""}; who: {shape: text; label: "Diane\n(Legal)"}}
+      baseline: {grid-columns: 2; chip: {class: chip_baseline; label: ""}; who: {shape: text; label: "assessment\nbaseline"}}
+    }
+
+    description: |md
+      ## PantryPal take-home: plan of completion
+      The real assessment (`pantrypal-assessment/`): build v1 of an AI\
+      cooking assistant against four intentionally-contradictory\
+      stakeholder artifacts, in a self-timeboxed 3 hours.
+
+      This documents the brief itself (stakeholder asks + the\
+      contradictions between them) and a plan for using the time box:\
+      what's in scope, what's explicitly cut, and roughly how the\
+      3 hours get spent.
+
+      Source: `~/Documents/Professional/Challenges/PressW/pantrypal-assessment/`
+    | {
+      class: obj_service
+    }
+  }
+
+  1_stakeholder_inputs: {
+    grid-columns: 2
+    _quality: {class: compiles}
+
+    pm: {
+      class: obj_client
+      label: "Priya · Head of Product\n01_pm_email.md"
+      asks: |md
+        * cooking Q&A, recipe suggestions,\
+          "what can I make with X"
+        * strict lane: refuse non-cooking\
+          questions
+        * hard SLA: **under 2s** response time
+        * must check the recipe against what\
+          the user actually owns
+        * feel like a real product, not a demo
+        * TypeScript backend, simple frontend
+        * watch per-query cost; route cheap vs\
+          smart models
+      |
+    }
+
+    ceo: {
+      class: obj_client
+      label: "Marcus · CEO\n02_ceo_voicememo.md"
+      asks: |md
+        * thesis: "the friend who actually\
+          cooks" — personality, opinions, no\
+          hedging
+        * memory across sessions is core to the\
+          product, not a nice-to-have
+        * generous scope: food-**adjacent** is\
+          fair game, redirect only the clearly\
+          off-topic
+        * must handle health topics (keto,\
+          diabetes, allergies) — "thread the\
+          needle," not avoid it
+        * quality over the 2s SLA — a slower\
+          good answer beats a fast mediocre one
+        * keep the door open for hands-free\
+          voice later, don't architect it away
+      |
+    }
+
+    cx: {
+      class: obj_client
+      label: "Jordan · Head of CX\n03_support_slack.md"
+      asks: |md
+        * cookware mismatch is the **#1 churn\
+          driver** in beta — only ~20% of users\
+          match the assumed starter kit
+        * when something can't be made, suggest\
+          a workaround, don't just refuse
+        * memory is a real, named pain point in\
+          user interviews, not a nice-to-have
+        * favorites list requested constantly
+        * grocery-list export, PDF recipe\
+          import, hands-free — flagged, likely\
+          v2
+        * older users ask "is this safe to eat"\
+          despite being told not to
+      |
+    }
+
+    legal: {
+      class: obj_client
+      label: "Diane · Legal Counsel\n04_legal_email.md"
+      asks: |md
+        * allergen disclosure on **every**\
+          response suggesting a recipe or\
+          ingredient — non-negotiable
+        * no medical, dietary, or therapeutic\
+          advice; may acknowledge a stated\
+          condition generically only
+        * don't adapt behavior to medical\
+          conditions users mention (preferences\
+          like "vegetarian" are fine)
+        * no food-safety/spoilage verdicts —\
+          defer to authorities
+        * retention story needed for any\
+          health-adjacent data; prefers none\
+          stored at all
+        * open question: could under-13s use\
+          this? (COPPA)
+      |
+    }
+  }
+
+  2_contradictions: {
+    direction: right
+    _quality: {class: compiles}
+
+    latency: {
+      label: "response time"
+      pm_stance: {class: obj_client; label: "Priya:\nhard 2s SLA"}
+      ceo_stance: {class: obj_client; label: "Marcus:\nquality over speed"}
+      resolution: {
+        class: obj_db
+        label: "resolved: soft ~2s target,\nnot a hard cutoff"
+        note: |md
+          Optimize the common paths (Q&A, simple\
+          suggestion) for the 2s feel Priya wants.\
+          Let multi-tool calls (equipment check +\
+          web search) run longer rather than\
+          truncate quality, per Marcus. Revisit\
+          once real latencies are measured.
+        |
+      }
+      pm_stance -> resolution: {class: edge_write; label: "constrains"}
+      ceo_stance -> resolution: {class: edge_write; label: "constrains"}
+    }
+
+    lane: {
+      label: "topic scope"
+      pm_stance: {class: obj_client; label: "Priya:\nstrict cooking-only"}
+      ceo_stance: {class: obj_client; label: "Marcus:\nfood-adjacent, generous"}
+      resolution: {
+        class: obj_db
+        label: "resolved: Marcus's rule,\nas the specific policy"
+        note: |md
+          "Cooking only" is Priya's summary of the\
+          same underlying goal Marcus states\
+          precisely: engage with food-adjacent\
+          topics (pairings, gear, hosting),\
+          politely redirect the clearly unrelated.\
+          Not a real conflict once read closely.
+        |
+      }
+      pm_stance -> resolution: {class: edge_write; label: "constrains"}
+      ceo_stance -> resolution: {class: edge_write; label: "constrains"}
+    }
+
+    health: {
+      label: "health & dietary topics"
+      ceo_stance: {class: obj_client; label: "Marcus:\n\"thread the needle\"\non keto/diabetes/etc"}
+      legal_stance: {class: obj_client; label: "Diane:\nno medical/dietary\nadvice, non-negotiable"}
+      resolution: {
+        class: obj_db
+        label: "resolved: legal wins"
+        note: |md
+          Diane's email states this explicitly as\
+          non-negotiable and product-blocking.\
+          Acknowledge a stated condition generically\
+          ("noted — please confirm with a\
+          professional"), never adapt suggestions to\
+          it. Marcus's ambition here is deferred, not\
+          built, and flagged in SCOPING.md as a\
+          contradiction resolved in legal's favor.
+        |
+      }
+      ceo_stance -> resolution: {class: edge_write; label: "constrains"}
+      legal_stance -> resolution: {class: edge_write; label: "overrides"}
+    }
+  }
+
+  3_architecture: {
+    classes: @"../../classes/plan"
+    direction: down
+    # _quality: {class: compiles}
+
+    legend: {
+      label: "priority key"
+      direction: right
+      pm: {grid-columns: 2; chip: {class: chip_pm; label: ""}; who: {shape: text; label: "Priya"}}
+      ceo: {grid-columns: 2; chip: {class: chip_ceo; label: ""}; who: {shape: text; label: "Marcus"}}
+      cx: {grid-columns: 2; chip: {class: chip_cx; label: ""}; who: {shape: text; label: "Jordan"}}
+      legal: {grid-columns: 2; chip: {class: chip_legal; label: ""}; who: {shape: text; label: "Diane"}}
+      baseline: {grid-columns: 2; chip: {class: chip_baseline; label: ""}; who: {shape: text; label: "baseline"}}
+    }
+
+    client: {
+      label: "client"
+      chat_ui: {class: [obj_client; to_add]; label: "chat frontend\n(text channel)"; c1: {class: chip_baseline; label: ""}}
+      voice_ui: {
+        class: [obj_client; future]
+        label: "voice channel\n(future)"
+        grid-columns: 2
+        c1: {class: chip_ceo; label: ""}
+        c2: {class: chip_cx; label: ""}
+      }
+    }
+
+    channel_adapter: {
+      class: [obj_service; to_add]
+      label: "channel adapter"
+      note: {shape: text; label: "build now: normalizes input/output so\nvoice can plug in later without touching\nthe core. No voice implementation yet."}
+      c1: {class: chip_ceo; label: ""}
+    }
+
+    api_chat: {class: [obj_server; to_add]; label: "POST /chat\n(AI SDK route)"; c1: {class: chip_baseline; label: ""}}
+
+    core: {
+      label: "agent core"
+      agent_loop: {class: [ai_assistant; to_add]; label: "tool-calling loop\n(generateText/streamText)"; c1: {class: chip_baseline; label: ""}}
+      lane_guardrail: {class: [obj_service; to_add]; label: "system prompt:\ncooking-lane guardrail"; c1: {class: chip_ceo; label: ""}}
+      personality: {
+        class: [obj_service; future]
+        label: "system prompt:\nopinionated personality"
+        grid-columns: 2
+        c1: {class: chip_ceo; label: ""}
+        c2: {class: chip_cx; label: ""}
+      }
+      conversation_context: {class: to_add; label: "conversation context\n(in-request messages,\nno DB)"; c1: {class: chip_baseline; label: ""}}
+    }
+
+    tools: {
+      label: "tools (model-invoked)"
+      tool_search: {class: [obj_service; to_add]; label: "web search\n(Tavily)"; c1: {class: chip_baseline; label: ""}}
+      tool_equipment: {
+        class: [obj_service; to_add]
+        label: "equipment/pantry\ncheck"
+        grid-columns: 2
+        c1: {class: chip_pm; label: ""}
+        c2: {class: chip_cx; label: ""}
+      }
+      tool_router: {class: [obj_service; future]; label: "model router\n(cheap vs smart)"; c1: {class: chip_pm; label: ""}}
+    }
+
+    guardrails: {
+      label: "response pipeline"
+      allergen_mw: {
+        class: [obj_service; to_add]
+        label: "allergen disclosure\ninjector"
+        note: {shape: text; label: "v1: unconditional visible warning on\nevery recipe/ingredient response — not\nyet conditional on detected allergens"}
+        c1: {class: chip_legal; label: ""}
+      }
+      health_note: {
+        class: [obj_service; to_add]
+        label: "health-mention\ndisclaimer"
+        note: {shape: text; label: "not a route/UI redirect — phrasing the\nagent includes in its own reply: acknowledge\ngenerically, suggest a professional. No\ntoast or UI element needed."}
+        c1: {class: chip_legal; label: ""}
+      }
+    }
+
+    state: {
+      label: "state"
+      profile_store: {
+        class: [obj_db; to_add]
+        label: "durable user profile"
+        note: {shape: text; label: "schema/DB now; stores stated\npreferences only (\"vegetarian\" — legal-\nsafe). Health-condition fields stay out\nuntil Diane signs off on retention."}
+        grid-columns: 2
+        c1: {class: chip_ceo; label: ""}
+        c2: {class: chip_cx; label: ""}
+      }
+      favorites_store: {class: [obj_db; future]; label: "favorites"; c1: {class: chip_cx; label: ""}}
+      recipe_kb: {class: [obj_db; future]; label: "recipe knowledge base\n(from PDF import)"; c1: {class: chip_cx; label: ""}}
+    }
+
+    external: {
+      label: "external"
+      llm_provider: {class: [ai_assistant; to_add]; label: "LLM provider\n(via AI SDK)"; c1: {class: chip_baseline; label: ""}}
+      tavily_api: {class: [obj_service; to_add]; label: "Tavily API"; c1: {class: chip_baseline; label: ""}}
+      pdf_ingest: {class: [obj_service; future]; label: "PDF recipe\ningestion"; c1: {class: chip_cx; label: ""}}
+      grocery_export: {class: [obj_service; future]; label: "grocery-list\nexport"; c1: {class: chip_cx; label: ""}}
+    }
+
+    docker_compose: {class: [obj_service; to_add]; label: "docker-compose.yml"; c1: {class: chip_baseline; label: ""}}
+
+    client.chat_ui -> channel_adapter: {class: edge_request; label: message}
+    client.voice_ui -> channel_adapter: {class: [edge_request; future]; label: "message\n(future)"}
+    channel_adapter -> api_chat: {class: edge_request}
+    api_chat -> core.agent_loop: {class: edge_write; label: invoke}
+    core.agent_loop -> core.lane_guardrail: {class: edge_query; label: loads}
+    core.agent_loop -> core.personality: {class: [edge_query; future]; label: "loads\n(future)"}
+    core.agent_loop -> core.conversation_context: {class: edge_write; label: "reads/writes\nturn history"}
+    core.agent_loop -> external.llm_provider: {class: edge_request; label: "reason / generate"}
+    core.agent_loop -> tools.tool_search: {class: edge_query; label: "tool call\n(model-decided)"}
+    core.agent_loop -> tools.tool_equipment: {class: edge_query; label: "tool call\n(model-decided)"}
+    core.agent_loop -> tools.tool_router: {class: [edge_query; future]; label: "tool call\n(future)"}
+    tools.tool_search -> external.tavily_api: {class: edge_request}
+    core.conversation_context <- tools.tool_equipment: {class: edge_query; label: "reads stated\nequipment"}
+    core.conversation_context -> state.profile_store: {class: edge_write; label: "captures stated\npreferences (non-health)"}
+    core.agent_loop -> guardrails.allergen_mw: {class: edge_write; label: response}
+    guardrails.allergen_mw -> guardrails.health_note: {class: edge_write}
+    api_chat <- guardrails.health_note: {class: edge_write; label: "final response"}
+    api_chat -> channel_adapter: {class: edge_write}
+    client.chat_ui <- channel_adapter: {class: edge_write}
+    core.agent_loop -> state.favorites_store: {class: [edge_write; future]; label: "future: save\nliked recipe"}
+    state.profile_store -> external.grocery_export: {class: [edge_query; future]; label: "future: meal\nhistory → list"}
+    state.recipe_kb <- external.pdf_ingest: {
+      class: [edge_write; future]; label: future
+    }
+    core.agent_loop <- state.recipe_kb: {class: [edge_query; future]; label: "future: richer\nrecipe grounding"}
+    docker_compose -> api_chat: {class: edge_spawn; label: up}
+    docker_compose -> client.chat_ui: {class: edge_spawn; label: up}
+  }
+
+  4_scope_v1: {
+    classes: @"../../classes/plan"
+    direction: down
+    _quality: {class: compiles}
+
+    legend: {
+      label: "priority key"
+      direction: right
+      pm: {grid-columns: 2; chip: {class: chip_pm; label: ""}; who: {shape: text; label: "Priya"}}
+      ceo: {grid-columns: 2; chip: {class: chip_ceo; label: ""}; who: {shape: text; label: "Marcus"}}
+      cx: {grid-columns: 2; chip: {class: chip_cx; label: ""}; who: {shape: text; label: "Jordan"}}
+      legal: {grid-columns: 2; chip: {class: chip_legal; label: ""}; who: {shape: text; label: "Diane"}}
+      baseline: {grid-columns: 2; chip: {class: chip_baseline; label: ""}; who: {shape: text; label: "baseline"}}
+    }
+
+    committed: {
+      label: "scope committed"
+      grid-columns: 4
+
+      chat: {class: to_add; label: "TS + AI SDK backend\n+ Docker + chat UI"; c1: {class: chip_baseline; label: ""}}
+      qa: {class: to_add; label: "cooking Q&A"; c1: {class: chip_pm; label: ""}}
+      suggest: {class: to_add; label: "recipe suggestions"; c1: {class: chip_pm; label: ""}}
+      equipment_tool: {
+        class: to_add
+        label: "dynamic equipment check"
+        grid-columns: 2
+        c1: {class: chip_pm; label: ""}
+        c2: {class: chip_cx; label: ""}
+      }
+      workaround: {class: to_add; label: "suggest workaround,\nnot flat refusal"; c1: {class: chip_cx; label: ""}}
+      guardrail: {class: to_add; label: "food-adjacent guardrail"; c1: {class: chip_ceo; label: ""}}
+      allergen: {class: to_add; label: "allergen disclosure"; c1: {class: chip_legal; label: ""}}
+      health_redirect: {class: to_add; label: "generic health redirect"; c1: {class: chip_legal; label: ""}}
+      memory: {
+        class: to_add
+        label: "in-session memory"
+        grid-columns: 2
+        c1: {class: chip_ceo; label: ""}
+        c2: {class: chip_cx; label: ""}
+      }
+      search_tool: {class: to_add; label: "web search tool"; c1: {class: chip_baseline; label: ""}}
+      personality: {
+        class: to_add
+        label: "opinionated personality"
+        grid-columns: 2
+        c1: {class: chip_ceo; label: ""}
+        c2: {class: chip_cx; label: ""}
+      }
+      docs: {class: to_add; label: "SCOPING/README/\nTRADEOFFS"; c1: {class: chip_baseline; label: ""}}
+    }
+
+    cut: {
+      label: "scope cut"
+      grid-columns: 4
+
+      cross_session: {
+        class: to_remove
+        label: "durable cross-session\nmemory"
+        grid-columns: 2
+        c1: {class: chip_ceo; label: ""}
+        c2: {class: chip_legal; label: ""}
+      }
+      favorites: {class: to_remove; label: "favorites list"; c1: {class: chip_cx; label: ""}}
+      grocery: {class: to_remove; label: "grocery-list export"; c1: {class: chip_cx; label: ""}}
+      pdf_import: {class: to_remove; label: "PDF recipe import"; c1: {class: chip_cx; label: ""}}
+      voice: {
+        class: to_remove
+        label: "hands-free voice"
+        grid-columns: 2
+        c1: {class: chip_ceo; label: ""}
+        c2: {class: chip_cx; label: ""}
+      }
+      food_safety: {class: to_remove; label: "food-safety verdicts"; c1: {class: chip_legal; label: ""}}
+      coppa: {class: to_remove; label: "under-13 / COPPA"; c1: {class: chip_legal; label: ""}}
+      routing: {class: to_remove; label: "cheap/expensive\nmodel routing"; c1: {class: chip_pm; label: ""}}
+    }
+
+    note: |md
+      Chips mark whose stated priority put an item here — not every\
+      stakeholder mention, just who drove the call. `cross_session`\
+      carries both Marcus's chip (wants it) and Diane's (blocks it):\
+      the tension that cut it lives in the item itself.
+    | {class: note}
+  }
+
+  5_timeline: {
+    direction: right
+    _quality: {class: compiles}
+
+    legend: {
+      label: "priority key"
+      direction: right
+      pm: {grid-columns: 2; chip: {class: chip_pm; label: ""}; who: {shape: text; label: "Priya"}}
+      ceo: {grid-columns: 2; chip: {class: chip_ceo; label: ""}; who: {shape: text; label: "Marcus"}}
+      cx: {grid-columns: 2; chip: {class: chip_cx; label: ""}; who: {shape: text; label: "Jordan"}}
+      legal: {grid-columns: 2; chip: {class: chip_legal; label: ""}; who: {shape: text; label: "Diane"}}
+      baseline: {grid-columns: 2; chip: {class: chip_baseline; label: ""}; who: {shape: text; label: "baseline"}}
+    }
+
+    read: {class: obj_proc; label: "0:00–0:15\nread + SCOPING.md"; c1: {class: chip_baseline; label: ""}}
+    scaffold: {class: obj_proc; label: "0:15–0:30\nscaffold + Docker"; c1: {class: chip_baseline; label: ""}}
+    core: {
+      class: obj_proc
+      label: "0:30–1:30\ncore agent"
+      grid-columns: 4
+      c1: {class: chip_pm; label: ""}
+      c2: {class: chip_ceo; label: ""}
+      c3: {class: chip_cx; label: ""}
+      c4: {class: chip_legal; label: ""}
+    }
+    memory_phase: {
+      class: obj_proc
+      label: "1:30–2:00\nmemory + workaround"
+      grid-columns: 2
+      c1: {class: chip_ceo; label: ""}
+      c2: {class: chip_cx; label: ""}
+    }
+    harden: {class: obj_proc; label: "2:00–2:30\nrobustness pass"; c1: {class: chip_baseline; label: ""}}
+    docs_phase: {class: obj_proc; label: "2:30–2:50\nREADME + TRADEOFFS"; c1: {class: chip_baseline; label: ""}}
+    wrap: {class: obj_proc; label: "2:50–3:00\nbuffer + commit"; c1: {class: chip_baseline; label: ""}}
+
+    read -> scaffold: {class: edge_spawn}
+    scaffold -> core: {class: edge_spawn}
+    core -> memory_phase: {class: edge_spawn}
+    memory_phase -> harden: {class: edge_spawn}
+    harden -> docs_phase: {class: edge_spawn}
+    docs_phase -> wrap: {class: edge_spawn}
+
+    note: |md
+      If `core` runs long, cut from `4_scope_v1`'s committed list\
+      before cutting `harden` or the docs — README scores judgment\
+      on what got deferred, and mishandled input scores worse than\
+      a smaller, honest system.
+    | {class: note}
+  }
+}
