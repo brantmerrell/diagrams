@@ -1,0 +1,403 @@
+# Aggregate of what used to be tech/classes/{basic,function,L4,L7,plan,
+# process,sequence}.d2. Every diagram imports this one file with
+# `classes: @"<rel>/classes"`; quality tags live separately in ./tags.d2.
+#
+# Class names are the contract with the frontend: d2 emits each class name
+# as an SVG class attribute, and src/diagramSemanticThemes.css keys its
+# light/dark colors off those names. Renaming a class here silently breaks
+# its theming.
+#
+# Deliberately no `direction:` here. A `direction` key inside a
+# `classes: @` import is parsed as a class named "direction", not as the
+# diagram's layout direction, so it never had any effect. Set `direction`
+# inside the layer that needs it instead.
+
+**.style.text-transform: none
+
+# ── basic ────────────────────────────────────────────────────────────────
+_link: {
+  height: 30
+}
+
+# ── plan ─────────────────────────────────────────────────────────────────
+to_add: {
+  style: {
+    stroke-width: 3
+  }
+}
+to_remove: {
+  style: {
+    stroke-width: 3
+  }
+}
+unchanged: {
+  style: {
+    stroke-width: 3
+  }
+}
+future: {
+  style: {
+    stroke-width: 3
+    stroke-dash: 3
+    fill: gray
+  }
+}
+
+# ── process ──────────────────────────────────────────────────────────────
+obj_proc: {
+  style: {
+    font-size: 16
+  }
+}
+edge_spawn: {
+  label: "forks/execs"
+  style: {
+    stroke-width: 1
+  }
+}
+edge_signal: {
+  label: "SIGINT"
+  style: {
+    stroke-width: 2
+  }
+}
+edge_no_signal: {
+  label: "SIGINT"
+  style: {
+    stroke-dash: 3
+    stroke-width: 2
+  }
+}
+
+# ── function ─────────────────────────────────────────────────────────────
+TODO: give classes font-size above 25
+cond: {
+  shape: diamond
+}
+# Merged from the former function.d2 and sequence.d2, which each defined
+# their own `highlight`. Debug class - only for temporary use.
+highlight: {
+  style: {
+    stroke-width: 5
+    font-size: 24
+  }
+}
+invis: {
+  style: {
+    stroke-width: 0
+  }
+}
+ndx: { # TODO: reconsider shape
+  shape: step
+}
+edge_down: {
+  shape: oval
+  label: ↓
+  width: 25
+  height: 35
+}
+positive: {
+  shape: oval
+}
+negative: {
+  shape: oval
+}
+iter: {
+  width: 800
+  height: 50
+}
+op: {
+  shape: parallelogram
+}
+scalar: {
+  style: {
+    stroke-dash: 4
+    stroke-width: 3
+  }
+}
+data: {
+  style: {
+    stroke-dash: 3
+    stroke-width: 3
+  }
+}
+iter_step: {
+  shape: circle
+  style: {
+    opacity: 1
+    font-size: 22
+  }
+}
+generic_node: { # not a well-named class; a placeholder for plain value/state nodes with no other class
+  style: {
+    font-size: 26
+  }
+}
+generic_edge: { # not a well-named class; a placeholder for plain sequencing edges with no other class
+  style: {
+    font-size: 26
+  }
+}
+gate_and: {
+  shape: image
+  icon: ./icons/gate_and.svg
+}
+gate_or: {
+  shape: image
+  icon: ./icons/gate_or.svg
+}
+gate_nand: {
+  shape: image
+  icon: ./icons/gate_nand.svg
+}
+gate_nor: {
+  shape: image
+  icon: ./icons/gate_nor.svg
+}
+gate_xor: {
+  shape: image
+  icon: ./icons/gate_xor.svg
+}
+gate_xnor: {
+  shape: image
+  icon: ./icons/gate_xnor.svg
+}
+gate_not: {
+  shape: image
+  icon: ./icons/gate_not.svg
+}
+
+# ── L4 ───────────────────────────────────────────────────────────────────
+obj_socket: {
+  style: {
+    font-size: 32
+  }
+}
+obj_port: {
+  style: {
+    font-size: 30
+  }
+}
+edge_own: {
+  label: 𐑽 # Savian Letter Ear (listens)
+  style: {
+    stroke-width: 2
+    stroke-dash: 2
+  }
+}
+edge_call: {
+  label: ☎ # calls
+  style: {
+    stroke-dash: 4
+  }
+}
+edge_forward: {
+  label: → # forwards
+  style: {
+    stroke-dash: 5
+    stroke-width: 2
+  }
+}
+
+# ── L7 ───────────────────────────────────────────────────────────────────
+debug: {
+  style: {
+    font-size: 32
+    stroke-width: 5
+  }
+}
+notes: {
+  shape: page
+  style: {
+    font-size: 8
+    font-color: Crimson
+    # TODO: switch all instances to "note"
+  }
+}
+note: {
+  shape: page
+  style: {
+    font-size: 30
+  }
+}
+edge_invis: {
+  style: {
+    stroke-width: 0
+  }
+}
+edge_request: {
+  label: rq
+  style: {
+    font-size: 24
+    stroke-dash: 5
+    stroke-width: 3
+  }
+}
+edge_write: {
+  label: W
+  style: {
+    font-size: 24
+    stroke-dash: 2
+    stroke-width: 3
+  }
+}
+edge_query: {
+  label: Q
+  style: {
+    font-size: 24
+    stroke-dash: 4
+    stroke-width: 3
+  }
+}
+obj_cache: {
+  style: {
+    font-size: 26
+  }
+}
+objs_cache: {
+  style: {
+    font-size: 26
+    multiple: true
+  }
+}
+obj_cdn: {
+  style: {
+    font-size: 26
+  }
+}
+obj_client: {
+  shape: c4-person
+  label: client
+  style: {
+    font-size: 26
+  }
+}
+obj_db: {
+  shape: cylinder
+  style: {
+    font-size: 26
+  }
+}
+objs_db: {
+  shape: cylinder
+  style: {
+    font-size: 26
+    multiple: true
+  }
+}
+obj_dns: {
+  style: {
+    font-size: 22
+  }
+}
+obj_lb: {
+  shape: hexagon
+  icon: https://icons.terrastruct.com/gcp%2FProducts%20and%20services%2FNetworking%2FCloud%20Load%20Balancing.svg
+  style: {
+    font-size: 26
+  }
+}
+objs_lb: {
+  style: {
+    multiple: true
+    font-size: 26
+  }
+}
+obj_server: {
+  style: {
+    font-size: 26
+  }
+}
+objs_server: {
+  style: {
+    multiple: true
+    font-size: 26
+  }
+}
+obj_service: {
+  style: {
+    font-size: 26
+  }
+}
+objs_service: {
+  style: {
+    font-size: 26
+    multiple: true
+  }
+}
+obj_queue: {
+  shape: queue
+  style: {
+    font-size: 26
+  }
+}
+ai_assistant: {
+  style: {
+    font-size: 24
+  }
+}
+mcp_server: {
+  style: {
+    font-size: 22
+  }
+}
+data_source: {
+  style: {
+    font-size: 18
+  }
+}
+security_layer: {
+  style: {
+    font-size: 18
+  }
+}
+
+# ── sequence ─────────────────────────────────────────────────────────────
+user: {
+  shape: c4-person
+  style: {
+    font-size: 32
+  }
+}
+frontend: {
+  style: {
+    font-size: 32
+    stroke-width: 5
+  }
+}
+pipeline: {
+  style: {
+    font-size: 32
+    stroke-width: 5
+  }
+}
+api: {
+  style: {
+    stroke-width: 5
+    font-size: 32
+  }
+}
+database: {
+  style: {
+    font-size: 32
+    stroke-width: 5
+  }
+}
+aws: {
+  style: {
+    font-size: 32
+    stroke-width: 5
+  }
+}
+azure: {
+  style: {
+    stroke-width: 5
+    font-size: 32
+  }
+}
+gcp: {
+  style: {
+    font-size: 32
+    stroke-width: 5
+  }
+}

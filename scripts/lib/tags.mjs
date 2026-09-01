@@ -2,12 +2,12 @@
 // scripts/build-tags-manifest.mjs (static tags.json for GitHub Pages).
 //
 // The tag vocabulary is the set of top-level class names defined in
-// tech/classes/tags.d2 (compiles, styled, coherent, …). A diagram carries a
+// tags.d2 (compiles, styled, coherent, …). A diagram carries a
 // tag when its source applies that class somewhere, e.g. `_quality: {class: compiles}`.
 import fs from 'fs'
 import path from 'path'
 
-const CLASS_FILE = 'tech/classes/tags.d2'
+const CLASS_FILE = 'tags.d2'
 
 export function* walkD2Files(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {

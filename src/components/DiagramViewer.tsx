@@ -17,6 +17,7 @@ import {
   isDiagramCurrentPath,
   collectAllDiagramEntries,
 } from '../lib/yamlExtract'
+import { parseTagFilter, makeMatchesTag } from '../lib/tagFilter'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
 
@@ -81,17 +82,17 @@ const DiagramViewer: React.FC = () => {
 
   const { yamlData: navYamlData, diagramStatus } = usePointersYaml(isMobile)
   const { tags } = useDiagramTags()
-  const tagFilter = searchParams.get('tag') || ''
+  const tagFilter = useMemo(() => parseTagFilter(searchParams.get('tag')), [searchParams])
+  const matchesTag = useMemo(() => makeMatchesTag(tagFilter, tags), [tagFilter, tags])
 
   // Entries (not just paths) so a diagram referenced from two different pointers.yaml
   // locations is two distinct stops rather than one, matching the Navigator fix.
   const navigable = useMemo(() => {
     return collectAllDiagramEntries(navYamlData).filter(e => {
       if (diagramStatus.get(e.path) === false) return false
-      if (!tagFilter) return true
-      return tags.get(normalizeToCanonical(e.path))?.includes(tagFilter) ?? false
+      return matchesTag(e.path)
     })
-  }, [navYamlData, diagramStatus, tags, tagFilter])
+  }, [navYamlData, diagramStatus, matchesTag])
 
   const goToAdjacentDiagram = useCallback((direction: 1 | -1) => {
     if (navigable.length === 0) return

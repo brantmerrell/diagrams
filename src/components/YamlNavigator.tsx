@@ -1,4 +1,6 @@
 import { containsDiagram, isDiagramCurrentPath, isDiagramPath } from '../lib/yamlExtract'
+import { tagsForPath } from '../lib/tagFilter'
+import TagDots from './TagDots'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
 
@@ -6,6 +8,8 @@ interface YamlNavigatorProps {
   data: YamlValue
   expandedSections: Set<string>
   diagramStatus: Map<string, boolean>
+  /** Canonical diagram path → quality tags, rendered as dots beside each entry. */
+  diagramTags?: Map<string, string[]>
   /** location.pathname with the leading `/` stripped */
   urlPath: string
   onDiagramClick: (diagramPath: string, parentPath?: string) => void
@@ -20,6 +24,7 @@ const YamlNavigator: React.FC<YamlNavigatorProps> = ({
   data,
   expandedSections,
   diagramStatus,
+  diagramTags,
   urlPath,
   onDiagramClick,
   onToggleSection,
@@ -35,6 +40,7 @@ const YamlNavigator: React.FC<YamlNavigatorProps> = ({
 
       return (
         <div style={{ paddingLeft: `${depth * 16}px` }}>
+          {isD && diagramTags && <TagDots tags={tagsForPath(diagramTags, valueStr)} leading />}
           <span
             className={[
               'yaml-value',

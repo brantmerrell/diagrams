@@ -1,5 +1,5 @@
 // D2 renders `link:` fields as `<a href="…">` wrapping a `<g class="… _link">`
-// (see tech/classes/basic.d2). Neither attribute controls click target, so by
+// (see the `_link` class in classes.d2). Neither attribute controls click target, so by
 // default these navigate the current tab. Force them to open in a new tab.
 const LINK_ANCHOR_RE = /<a\s+([^>]*)>(\s*<g\s+class="[^"]*\b_link\b[^"]*")/g
 

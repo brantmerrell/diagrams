@@ -3,6 +3,7 @@ import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import yaml from 'js-yaml'
 import Toast from './Toast'
 import YamlNavigator from './YamlNavigator'
+import TagDots from './TagDots'
 import { usePointersYaml } from '../hooks/usePointersYaml'
 import { useYamlExpansion, ViewMode } from '../hooks/useYamlExpansion'
 import { useDiagramTags } from '../hooks/useDiagramTags'
@@ -13,11 +14,17 @@ import {
   yamlPathToUrlSegment,
   isDiagramCurrentPath,
   isDiagramPath,
-  normalizeToCanonical,
   collectAllDiagramPaths,
   collectAllDiagramEntries,
   DiagramEntry,
 } from '../lib/yamlExtract'
+import {
+  parseTagFilter,
+  serializeTagFilter,
+  toggleTag,
+  makeMatchesTag,
+  tagsForPath,
+} from '../lib/tagFilter'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
 
@@ -69,19 +76,32 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
   // ── Quality-tag filter (tag URL param) ────────────────────────────────────
 
   const { vocabulary, tags } = useDiagramTags()
-  const tagFilter = searchParams.get('tag') || ''
+  const tagFilter = useMemo(
+    () => parseTagFilter(searchParams.get('tag')),
+    [searchParams],
+  )
 
-  const updateTagFilter = (t: string) => {
+  const updateTagFilter = (next: string[]) => {
     const p = new URLSearchParams(searchParams)
-    if (t) p.set('tag', t)
+    if (next.length) p.set('tag', serializeTagFilter(next))
     else p.delete('tag')
     setSearchParams(p, { replace: true })
   }
 
-  const matchesTag = useCallback((p: string) => {
-    if (!tagFilter) return true
-    return tags.get(normalizeToCanonical(p))?.includes(tagFilter) ?? false
-  }, [tagFilter, tags])
+  const matchesTag = useCallback(
+    makeMatchesTag(tagFilter, tags),
+    [tagFilter, tags],
+  )
+
+  // Counts are over every diagram referenced by pointers.yaml, independent of the
+  // current selection, so chips stay stable as tags are toggled.
+  const tagCounts = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const p of collectAllDiagramPaths(yamlData)) {
+      for (const t of tagsForPath(tags, p)) counts.set(t, (counts.get(t) ?? 0) + 1)
+    }
+    return counts
+  }, [yamlData, tags])
 
   // ── Expansion / scroll ────────────────────────────────────────────────────
 
@@ -93,7 +113,7 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
     : location.pathname.substring(1)
   const diagramParent = searchParams.get('diagramParent') || undefined
   const tagFilteredYamlData = useMemo(
-    () => tagFilter ? pruneByTag(yamlData, matchesTag) : yamlData,
+    () => tagFilter.length ? pruneByTag(yamlData, matchesTag) : yamlData,
     [yamlData, tagFilter, matchesTag],
   )
   const { expandedSections, toggleSection, yamlTreeRef } =
@@ -263,7 +283,7 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
 
   const treeData = useMemo(() => {
     if (viewMode !== 'focused') return tagFilteredYamlData
-    return tagFilter ? pruneByTag(filteredYamlData, matchesTag) : filteredYamlData
+    return tagFilter.length ? pruneByTag(filteredYamlData, matchesTag) : filteredYamlData
   }, [viewMode, filteredYamlData, tagFilteredYamlData, tagFilter, matchesTag])
 
   // ── Copy helpers ──────────────────────────────────────────────────────────
@@ -355,20 +375,39 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
               ✕
             </button>
           )}
-          {vocabulary.length > 0 && (
-            <select
-              className={`view-mode-select tag-filter-select${tagFilter ? ' tag-filter-select--active' : ''}`}
-              value={tagFilter}
-              onChange={e => updateTagFilter(e.target.value)}
-              title="Filter diagrams by quality tag"
-            >
-              <option value="">all tags</option>
-              {vocabulary.map(t => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
-          )}
         </div>
+
+        {vocabulary.length > 0 && (
+          <div className="tag-filter-bar" role="group" aria-label="Filter diagrams by quality tag">
+            <span className="tag-filter-label">tags</span>
+            {vocabulary.map(t => {
+              const active = tagFilter.includes(t)
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  aria-pressed={active}
+                  className={`tag-chip tag-chip--${t}${active ? ' tag-chip--active' : ''}`}
+                  onClick={() => updateTagFilter(toggleTag(tagFilter, t, vocabulary))}
+                  title={`${active ? 'Remove' : 'Add'} "${t}" (${tagCounts.get(t) ?? 0} diagrams)`}
+                >
+                  {t}
+                  <span className="tag-chip-count">{tagCounts.get(t) ?? 0}</span>
+                </button>
+              )
+            })}
+            {tagFilter.length > 0 && (
+              <button
+                type="button"
+                className="tag-filter-clear"
+                onClick={() => updateTagFilter([])}
+                title="Clear tag filter"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        )}
 
         <div className="yaml-tree" ref={yamlTreeRef}>
           {searchResults !== null ? (
@@ -392,19 +431,23 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
                     onClick={() => exists !== false && handleDiagramClick(path)}
                     title={exists === false ? 'Diagram not found' : urlSeg}
                   >
-                    {urlSeg}
-                    {exists === false && ' ⚠️'}
+                    <span className="pointers-search-result-text">
+                      {urlSeg}
+                      {exists === false && ' ⚠️'}
+                    </span>
+                    <TagDots tags={tagsForPath(tags, path)} />
                   </div>
                 )
               })}
             </div>
-          ) : tagFilter && !containsDiagram(treeData) ? (
-            <div className="pointers-search-empty">No diagrams tagged "{tagFilter}"</div>
+          ) : tagFilter.length > 0 && !containsDiagram(treeData) ? (
+            <div className="pointers-search-empty">No diagrams tagged {tagFilter.map(t => `"${t}"`).join(' or ')}</div>
           ) : (
             <YamlNavigator
               data={treeData}
               expandedSections={expandedSections}
               diagramStatus={diagramStatus}
+              diagramTags={tags}
               urlPath={urlPath}
               onDiagramClick={handleDiagramClick}
               onToggleSection={toggleSection}

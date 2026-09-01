@@ -1,0 +1,58 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## Chain of Responsibility
+
+      Passes a request along a chain of handlers until one of them\
+      handles it, decoupling the sender from which handler acts. Used\
+      here to describe a fixed sequence of response-pipeline steps that\
+      each act on and pass along the agent's reply.
+
+      **Applies to:**
+      [pressw/pantrypal_plan.d2](../challenges/pressw/pantrypal_plan.d2) —\
+      `guardrails.allergen_mw` and `guardrails.health_note` each act on\
+      the agent's response in turn before it reaches `api_chat`.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      pantrypal-plan: {
+        label: "challenges/pressw / pantrypal_plan.d2"
+        link: ../challenges/pressw/pantrypal_plan.d2?layer=5_chain_of_responsibility_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+
+    client: "Client" {class: obj_client}
+
+    handler1: "Handler A" {
+      class: obj_service
+      handle: "handle()" {class: obj_service}
+    }
+    handler2: "Handler B" {
+      class: obj_service
+      handle: "handle()" {class: obj_service}
+    }
+
+    client -> handler1.handle: "request" {class: edge_request}
+    handler1.handle -> handler2.handle: "passes along" {class: edge_write}
+
+    note: |md
+      Each handler gets a chance to act on the request/response before\
+      passing it to the next link in the chain — the same way\
+      `allergen_mw` injects a disclosure and hands the response to\
+      `health_note`, which adds its own disclaimer, before it reaches the\
+      client.
+    | {class: note}
+  }
+}

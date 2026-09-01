@@ -330,3 +330,19 @@ D2 `layers: {}` are the primary tool for keeping multiple diagram views in one f
   ```
   This convention helps debugging because if you see an underscore-prefixed ID in the rendered diagram, it indicates an incorrect path reference. Correct paths resolve to the node's label.
 
+- *`|md` blocks need explicit line breaks, or every wrapped line gets forced to full container width.* D2's markdown renderer treats a paragraph as one long unbroken line unless each source line ends with a trailing backslash (`\`) — without it, the rendered text stretches edge-to-edge inside its container regardless of how the source is wrapped at 80 columns. Add `\` at the end of every line within a paragraph (but not the last line of that paragraph) to force real line breaks and get compact, readable text blocks:
+  ```d2
+  # Wrong — renders as one extremely wide line, ignoring source wrapping
+  context: |md
+    Provides a simplified interface to a complex subsystem, hiding its
+    internal structure behind a stable public interface.
+  |
+
+  # Correct — trailing backslash forces a real line break at each line
+  context: |md
+    Provides a simplified interface to a complex subsystem, hiding its\
+    internal structure behind a stable public interface.
+  |
+  ```
+  This applies to any `|md` block — `context:`, node `note:` fields, etc. Blank lines between paragraphs (e.g. before a new heading or list) don't need a trailing `\`.
+
