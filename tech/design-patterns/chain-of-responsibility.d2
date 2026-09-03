@@ -16,6 +16,10 @@ layers: {
       [pressw/pantrypal_plan.d2](../challenges/pressw/pantrypal_plan.d2) —\
       `guardrails.allergen_mw` and `guardrails.health_note` each act on\
       the agent's response in turn before it reaches `api_chat`.
+
+      [sd-notes/tools/dns.d2](../sd-notes/tools/dns.d2) — a resolver walks\
+      root → TLD → authoritative nameservers, each either answering or\
+      referring the query onward.
     | {
       near: top-center
     }
@@ -24,6 +28,11 @@ layers: {
       pantrypal-plan: {
         label: "challenges/pressw / pantrypal_plan.d2"
         link: ../challenges/pressw/pantrypal_plan.d2?layer=5_chain_of_responsibility_pattern
+        class: _link
+      }
+      dns: {
+        label: "sd-notes/tools / dns.d2"
+        link: ../sd-notes/tools/dns.d2?layer=1_chain_of_responsibility_pattern
         class: _link
       }
     }

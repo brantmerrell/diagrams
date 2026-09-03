@@ -1,0 +1,65 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## Observer
+
+      A subject keeps a list of dependents and notifies them when its\
+      state changes. Observers register and unregister themselves; the\
+      subject knows nothing about them beyond the notify interface.
+
+      **Applies to:**
+      - `self/seq_view.d2` — the file watcher on `tech/` is the subject;\
+      the SSE stream notifies every connected browser panel, which\
+      re-fetches the rendered SVG.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      seq-view: {
+        label: "self / seq_view.d2"
+        link: ../self/seq_view.d2?layer=1_observer_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+
+    subject: "Subject" {
+      class: obj_service
+      state: "state" {class: obj_service}
+      attach: "attach(o)" {class: obj_service}
+      notify: "notify()" {class: obj_service}
+    }
+
+    observer_a: "ObserverA" {
+      class: obj_client
+      update: "update()" {class: obj_client}
+    }
+    observer_b: "ObserverB" {
+      class: obj_client
+      update: "update()" {class: obj_client}
+    }
+
+    observer_a -> subject.attach: "registers" {class: edge_request}
+    observer_b -> subject.attach: "registers" {class: edge_request}
+    subject.state -> subject.notify: "changed" {class: edge_query}
+    subject.notify -> observer_a.update: "push" {class: edge_write}
+    subject.notify -> observer_b.update: "push" {class: edge_write}
+    observer_a.update -> subject.state: "pulls detail" {class: edge_query}
+
+    note: |md
+      The subject broadcasts that *something* changed; observers decide\
+      what to do about it. That one-way dependency is what lets a file\
+      watcher drive an arbitrary number of browser panels it has never\
+      heard of.
+    | {class: note}
+  }
+}

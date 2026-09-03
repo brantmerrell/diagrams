@@ -252,4 +252,20 @@ layers: {
     # Only after reading the file can the frontend reach the backend's port.
     app.frontend -> ports.p_backend: {class: edge_call}
   }
+  4_service_discovery_pattern: {
+    ...@"../design-patterns/service-discovery".layers.1_pattern
+
+    registry.label: "port registry"
+    registry.entries.label: "app name -> port"
+    registry.health.label: "liveness probe"
+    instance_1.label: "hi (ephemeral port)"
+    instance_2.label: "diagrams (ephemeral port)"
+    client.label: "browser / make target"
+
+    design_pattern: {
+      label: "design pattern: service-discovery"
+      link: ../design-patterns/service-discovery.d2
+      class: _link
+    }
+  }
 }

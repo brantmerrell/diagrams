@@ -1,0 +1,60 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## Service Discovery
+
+      Instances register their actual address with a registry on start\
+      and deregister on stop. Clients resolve a logical name through the\
+      registry instead of hard-coding a host and port.
+
+      **Applies to:**
+      - `dev/ports.d2` — the progression from static hard-coded ports,\
+      to a dynamic allocator, to an ephemeral-port protocol is exactly\
+      the argument for a registry over fixed addresses.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      ports: {
+        label: "dev / ports.d2"
+        link: ../dev/ports.d2?layer=4_service_discovery_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+
+    registry: "Service registry" {
+      class: obj_service
+      entries: "name -> host:port" {class: data}
+      health: "health check" {class: obj_service}
+    }
+
+    instance_1: "Instance 1\n:ephemeral" {class: obj_server}
+    instance_2: "Instance 2\n:ephemeral" {class: obj_server}
+
+    client: "Client" {class: obj_client}
+
+    instance_1 -> registry.entries: "register" {class: edge_write}
+    instance_2 -> registry.entries: "register" {class: edge_write}
+    registry.health -> instance_1: "probe" {class: edge_query}
+    registry.health -> instance_2: "probe" {class: edge_query}
+    client -> registry.entries: "resolve(name)" {class: edge_query}
+    registry.entries -> client: "host:port" {class: edge_query}
+    client -> instance_2: "connect" {class: edge_request}
+
+    note: |md
+      Hard-coded ports are a registry with one entry, no health check,\
+      and no way to deregister — which is why they collide the moment a\
+      second copy of the app starts.
+    | {class: note}
+  }
+}

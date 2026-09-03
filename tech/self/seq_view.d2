@@ -42,3 +42,24 @@ seq_view: {
   user -> panel: "drag / pinch / wheel — pan & zoom" # TODO: class
   user -> panel: "h / l — previous / next layer" # TODO: class
 }
+
+layers: {
+  1_observer_pattern: {
+    ...@"../design-patterns/observer".layers.1_pattern
+
+    subject.label: "server.js\nfs.watch(tech/)"
+    subject.state.label: "*.d2 mtime"
+    subject.attach.label: "GET /events (SSE)"
+    subject.notify.label: "SSE broadcast"
+    observer_a.label: "D2Panel.tsx"
+    observer_a.update.label: "re-fetch SVG"
+    observer_b.label: "Navigator.tsx"
+    observer_b.update.label: "re-fetch pointers"
+
+    design_pattern: {
+      label: "design pattern: observer"
+      link: ../design-patterns/observer.d2
+      class: _link
+    }
+  }
+}

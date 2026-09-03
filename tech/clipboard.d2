@@ -1,5 +1,6 @@
 direction: right
 vars: @"vars/jbm.d2"
+classes: @"../classes"
 classes: @"../tags"
 
 _quality: {class: compiles}
@@ -118,3 +119,23 @@ clipboards.wayland_primary -> paste.middle_click
 
 # wl-paste reads clipboard
 clipboards.wayland_clip -> commands.wl_paste: {style: {stroke-dash: 3}}
+
+layers: {
+  1_adapter_pattern: {
+    ...@"design-patterns/adapter".layers.1_pattern
+
+    client.label: "Vim keystroke\n\"+yy"
+    target.label: "OS clipboard"
+    target.request.label: "paste"
+    adapter.label: "wl-copy / xclip\n(TextYankPost autocmd)"
+    adapter.request.label: "system('wl-copy', @\")"
+    adaptee.label: "Vim register"
+    adaptee.specificRequest.label: "@+ / @* / @\""
+
+    design_pattern: {
+      label: "design pattern: adapter"
+      link: design-patterns/adapter.d2
+      class: _link
+    }
+  }
+}

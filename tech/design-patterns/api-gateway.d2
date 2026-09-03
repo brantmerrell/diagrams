@@ -1,0 +1,83 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## API Gateway
+
+      A single entry point that fronts a set of backend services. It\
+      owns cross-cutting concerns — authentication, rate limiting,\
+      request routing, response aggregation — so no individual service\
+      has to, and so clients need to know only one address.
+
+      **Applies to:**
+      - `sd-notes/Memory/sd.d2` and `sd-notes/GeneralMotors/sd.d2` — an\
+      explicit `api_gateway` fronts the configurator, streaming, and\
+      asset services for browser / mobile / VR / kiosk clients.
+      - `sd-notes/tools/mcp.d2` — the MCP server is a gateway that\
+      normalises many tool and data sources behind one protocol.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      memory-sd: {
+        label: "sd-notes/Memory / sd.d2"
+        link: ../sd-notes/Memory/sd.d2?layer=1_api_gateway_pattern
+        class: _link
+      }
+      gm-sd: {
+        label: "sd-notes/GeneralMotors / sd.d2"
+        link: ../sd-notes/GeneralMotors/sd.d2?layer=1_api_gateway_pattern
+        class: _link
+      }
+      mcp: {
+        label: "sd-notes/tools / mcp.d2"
+        link: ../sd-notes/tools/mcp.d2?layer=1_api_gateway_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+
+    clients: "Clients" {
+      web: "Web" {class: obj_client}
+      mobile: "Mobile" {class: obj_client}
+      partner: "Partner" {class: obj_client}
+    }
+
+    gateway: "API Gateway" {
+      class: obj_lb
+      auth: "authenticate" {class: obj_service}
+      route: "route" {class: obj_service}
+      aggregate: "aggregate" {class: obj_service}
+    }
+
+    services: "Backend services" {
+      svc_a: "Service A" {class: obj_service}
+      svc_b: "Service B" {class: obj_service}
+      svc_c: "Service C" {class: obj_service}
+    }
+
+    clients.web -> gateway.auth {class: edge_request}
+    clients.mobile -> gateway.auth {class: edge_request}
+    clients.partner -> gateway.auth {class: edge_request}
+    gateway.auth -> gateway.route {class: edge_query}
+    gateway.route -> services.svc_a {class: edge_write}
+    gateway.route -> services.svc_b {class: edge_write}
+    gateway.route -> services.svc_c {class: edge_write}
+    services.svc_a -> gateway.aggregate {class: edge_query}
+    services.svc_b -> gateway.aggregate {class: edge_query}
+
+    note: |md
+      Unlike a plain Proxy, the gateway fans out to *many* services and\
+      may compose their responses. Clients get one address, one auth\
+      scheme, and one failure surface.
+    | {class: note}
+  }
+}

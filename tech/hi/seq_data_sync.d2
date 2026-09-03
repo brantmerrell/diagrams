@@ -27,3 +27,9 @@ seq_data_sync: {
   docker -> local_db: pg_dump {class: pipeline}
   local_db -> heroku_db: "psql \$DATABASE_URL (piped)" {class: database}
 }
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../design-patterns/none.d2
+  class: _link
+}

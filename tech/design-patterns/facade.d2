@@ -18,6 +18,10 @@ layers: {
       and `tools.tool_equipment` behind a single `invoke` call from\
       `api_chat`; callers should only ever reference `agent_loop`, not its\
       internals.
+
+      [my-chess/seq_connector.d2](../my-chess/seq_connector.d2) — the\
+      FastAPI endpoint router hides `python-chess`, `NetworkX`, and the\
+      `diagon` CLI behind two HTTP routes.
     | {
       near: top-center
     }
@@ -26,6 +30,11 @@ layers: {
       pantrypal-plan: {
         label: "challenges/pressw / pantrypal_plan.d2"
         link: ../challenges/pressw/pantrypal_plan.d2?layer=1_facade_pattern
+        class: _link
+      }
+      seq-connector: {
+        label: "my-chess / seq_connector.d2"
+        link: ../my-chess/seq_connector.d2?layer=1_facade_pattern
         class: _link
       }
     }

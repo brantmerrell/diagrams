@@ -17,6 +17,10 @@ layers: {
       `channel_adapter` normalizes `chat_ui`/`voice_ui` messages into the\
       shape `api_chat` expects, so a new channel can plug in without the\
       backend route changing.
+
+      [clipboard.d2](../clipboard.d2) — `wl-copy`/`xclip`, driven by a\
+      `TextYankPost` autocmd, adapt Vim's register interface to the OS\
+      clipboard's.
     | {
       near: top-center
     }
@@ -25,6 +29,11 @@ layers: {
       pantrypal-plan: {
         label: "challenges/pressw / pantrypal_plan.d2"
         link: ../challenges/pressw/pantrypal_plan.d2?layer=2_adapter_pattern
+        class: _link
+      }
+      clipboard: {
+        label: "tech / clipboard.d2"
+        link: ../clipboard.d2?layer=1_adapter_pattern
         class: _link
       }
     }
