@@ -5,24 +5,20 @@
       "path": "/tech/challenges/pressw/pantrypal_plan/0_base.svg"
     },
     {
-      "name": "1_stakeholder_inputs",
-      "path": "/tech/challenges/pressw/pantrypal_plan/1_stakeholder_inputs.svg"
+      "name": "1_facade_pattern",
+      "path": "/tech/challenges/pressw/pantrypal_plan/1_facade_pattern.svg"
     },
     {
-      "name": "2_contradictions",
-      "path": "/tech/challenges/pressw/pantrypal_plan/2_contradictions.svg"
+      "name": "2_adapter_pattern",
+      "path": "/tech/challenges/pressw/pantrypal_plan/2_adapter_pattern.svg"
     },
     {
       "name": "3_architecture",
       "path": "/tech/challenges/pressw/pantrypal_plan/3_architecture.svg"
     },
     {
-      "name": "4_scope_v1",
-      "path": "/tech/challenges/pressw/pantrypal_plan/4_scope_v1.svg"
-    },
-    {
-      "name": "5_timeline",
-      "path": "/tech/challenges/pressw/pantrypal_plan/5_timeline.svg"
+      "name": "4_chain_of_responsibility_pattern",
+      "path": "/tech/challenges/pressw/pantrypal_plan/4_chain_of_responsibility_pattern.svg"
     }
   ]
 }

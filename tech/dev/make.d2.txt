@@ -1,10 +1,14 @@
 vars: @"../vars/jbm.d2"
-classes: @"../classes/process"
-classes: @"../classes/tags"
+classes: @"../../classes"
+classes: @"../../tags"
 
 layers: {
   0_base: {
-    classes: @"../classes/basic"
+    design_pattern: {
+      label: "design pattern: none"
+      link: ../design-patterns/none.d2
+      class: _link
+    }
     direction: right
 
     _quality: {class: styled}
@@ -144,7 +148,6 @@ layers: {
   }
 
   4_fix: {
-    classes: @"../classes/plan"
     direction: down
 
     _quality: {class: compiles}

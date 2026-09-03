@@ -1,6 +1,6 @@
 direction: right
 vars: @"../../vars/jbm.d2"
-classes: @"../../classes/tags"
+classes: @"../../../tags"
 
 _quality: {class: styled}
 
@@ -166,4 +166,10 @@ TransferTransaction -> ATMTransaction: {
 PinValidation -> ATMTransaction: {
   target-arrowhead.shape: triangle
   target-arrowhead.style.filled: false
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
 }

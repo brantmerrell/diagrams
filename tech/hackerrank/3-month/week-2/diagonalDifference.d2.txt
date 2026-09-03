@@ -1,6 +1,6 @@
 vars: @"../../../vars/hackerrank.d2"
 **.style.text-transform: none
-classes: @"../../../classes/tags"
+classes: @"../../../../tags"
 
 # TODO: use d2 grid capabilities to illustrate in separate layer
 
@@ -14,4 +14,10 @@ diagonalDifference {
   _iter -> ascending_sum: increment\narr\[n-1-ndx\]\[ndx\]
   descending_sum -> _diff
   ascending_sum -> _diff
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../../design-patterns/none.d2
+  class: _link
 }

@@ -1,7 +1,6 @@
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/function"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -130,3 +129,23 @@ notes: |md
 * **Pull CDN**: CDN pulls on cache miss
 * URL changes optional (DNS/proxy methods available)
 |
+
+layers: {
+  1_proxy_pattern: {
+    ...@"../../design-patterns/proxy".layers.1_pattern
+
+    client.label: "User (US / EU / Asia)"
+    subject.label: "content URL"
+    proxy.label: "CDN Edge\n(nearest PoP)"
+    proxy.request.label: "GET asset"
+    proxy.control.label: "edge cache check\n(TTL / purge)"
+    real.label: "Origin Server\n(US East)"
+    real.request.label: "GET asset"
+
+    design_pattern: {
+      label: "design pattern: proxy"
+      link: ../../design-patterns/proxy.d2
+      class: _link
+    }
+  }
+}

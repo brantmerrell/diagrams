@@ -1,7 +1,7 @@
 vars: @"../../vars/system-design.d2"
 **.style.text-transform: none
-classes: @"../../classes/L7"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -59,3 +59,9 @@ transaction -- acid_properties.consistency
 transaction -- acid_properties.isolation
 transaction -- acid_properties.durability
 
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
+}

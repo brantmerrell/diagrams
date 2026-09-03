@@ -1,7 +1,7 @@
 vars: @"../../../vars/hackerrank.d2"
 **.style.text-transform: none
-classes: @"../../../classes/function"
-classes: @"../../../classes/tags"
+classes: @"../../../../classes"
+classes: @"../../../../tags"
 
 _quality: {class: compiles}
 
@@ -85,3 +85,9 @@ gridChallenge: {
 }
 grid -> gridChallenge.len_n
 grid -> gridChallenge.len_m
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../../design-patterns/none.d2
+  class: _link
+}

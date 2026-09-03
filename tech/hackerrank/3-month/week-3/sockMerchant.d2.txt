@@ -1,8 +1,8 @@
 direction: down
 vars: @"../../../vars/hackerrank.d2"
 **.style.text-transform: none
-classes: @"../../../classes/tags"
-classes: @"../../../classes/function"
+classes: @"../../../../tags"
+classes: @"../../../../classes"
 
 _quality: {class: compiles}
 
@@ -27,4 +27,10 @@ sockMerchant {
     class: negative
   }
   # TODO: what's actually returned?
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../../design-patterns/none.d2
+  class: _link
 }

@@ -1,7 +1,6 @@
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/function"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -65,3 +64,20 @@ cache_aside_flow -- database
 write_through_flow -- cache
 write_through_flow -- database
 
+
+layers: {
+  1_cache_aside_pattern: {
+    ...@"../../design-patterns/cache-aside".layers.1_pattern
+
+    app.label: "application"
+    cache.label: "cache"
+    db.label: "database"
+    check.label: "In Cache?"
+
+    design_pattern: {
+      label: "design pattern: cache-aside"
+      link: ../../design-patterns/cache-aside.d2
+      class: _link
+    }
+  }
+}

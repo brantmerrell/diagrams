@@ -5,20 +5,49 @@
     "coherent"
   ],
   "tags": {
-    "/tech/challenges/pressw/architecture.d2": [
-      "compiles"
-    ],
     "/tech/challenges/pressw/pantrypal_plan.d2": [
       "compiles"
     ],
-    "/tech/challenges/pressw/tavily_agent_setup.d2": [
+    "/tech/clipboard.d2": [
       "compiles"
     ],
-    "/tech/classes/class_legend.d2": [
-      "styled",
-      "coherent"
+    "/tech/design-patterns/adapter.d2": [
+      "compiles"
     ],
-    "/tech/clipboard.d2": [
+    "/tech/design-patterns/api-gateway.d2": [
+      "compiles"
+    ],
+    "/tech/design-patterns/cache-aside.d2": [
+      "compiles"
+    ],
+    "/tech/design-patterns/chain-of-responsibility.d2": [
+      "compiles"
+    ],
+    "/tech/design-patterns/facade.d2": [
+      "compiles"
+    ],
+    "/tech/design-patterns/mediator.d2": [
+      "compiles"
+    ],
+    "/tech/design-patterns/microservices.d2": [
+      "compiles"
+    ],
+    "/tech/design-patterns/none.d2": [
+      "compiles"
+    ],
+    "/tech/design-patterns/observer.d2": [
+      "compiles"
+    ],
+    "/tech/design-patterns/producer-consumer.d2": [
+      "compiles"
+    ],
+    "/tech/design-patterns/proxy.d2": [
+      "compiles"
+    ],
+    "/tech/design-patterns/service-discovery.d2": [
+      "compiles"
+    ],
+    "/tech/design-patterns/strategy.d2": [
       "compiles"
     ],
     "/tech/dev/docker-recreate-bug.d2": [
@@ -358,6 +387,10 @@
     "/tech/self/setup.d2": [
       "compiles",
       "styled"
+    ],
+    "/class_legend.d2": [
+      "styled",
+      "coherent"
     ]
   }
 }

@@ -1,5 +1,5 @@
 vars: @"../../vars/jbm.d2"
-classes: @"../../classes/tags"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -17,4 +17,10 @@ cloud: {
   blocks.disk -> disks.id
 
   AWS S3 Vancouver -> disks
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
 }

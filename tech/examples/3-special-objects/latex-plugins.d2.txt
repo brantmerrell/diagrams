@@ -1,5 +1,5 @@
 vars: @"../../vars/jbm.d2"
-classes: @"../../classes/tags"
+classes: @"../../../tags"
 
 _quality: {class: styled}
 
@@ -63,4 +63,10 @@ asm: {
   ex: |latex
     \min_{ \mathclap{\substack{ x \in \mathbb{R}^n \ x \geq 0 \ Ax \leq b }}} c^T x
   |
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
 }

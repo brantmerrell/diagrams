@@ -3,9 +3,8 @@ TODO: disperse "notes" into diagram(s)
 """
 direction: down
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/basic"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -220,3 +219,9 @@ WebServer -> ReadAPI: {class: edge_query}
 WebServer -> WriteAPI: {class: edge_write}
 WriteAPI -> SQLWriteMasterSlave: {class: edge_query}
 WriteAPI -> SQLWriteMasterSlave: {class: edge_write}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
+}

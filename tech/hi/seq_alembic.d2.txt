@@ -1,9 +1,14 @@
 vars: @"../vars/jbm.d2"
-classes: @"../classes/sequence"
-classes: @"../classes/tags"
+classes: @"../../classes"
+classes: @"../../tags"
 
 layers: {
   1_migration: {
+    design_pattern: {
+      label: "design pattern: none"
+      link: ../design-patterns/none.d2
+      class: _link
+    }
     _quality: {class: compiles}
 
     shape: sequence_diagram

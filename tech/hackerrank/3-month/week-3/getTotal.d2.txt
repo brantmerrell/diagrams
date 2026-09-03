@@ -1,8 +1,8 @@
 direction: down
 vars: @"../../../vars/hackerrank.d2"
 **.style.text-transform: none
-classes: @"../../../classes/tags"
-classes: @"../../../classes/function"
+classes: @"../../../../tags"
+classes: @"../../../../classes"
 
 _quality: {class: compiles}
 
@@ -38,4 +38,10 @@ getTotalX: {
   cond_b -> AND
   AND -> eligibility
   eligibility -> result: increment
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../../design-patterns/none.d2
+  class: _link
 }

@@ -1,8 +1,7 @@
 grid-rows: 2
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/function"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -118,4 +117,10 @@ sharding_system: {
   shard_key_hasher -> shard_a: hash(user_id) % 3 = 0
   shard_key_hasher -> shard_b: hash(user_id) % 3 = 1
   shard_key_hasher -> shard_c: hash(user_id) % 3 = 2
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
 }

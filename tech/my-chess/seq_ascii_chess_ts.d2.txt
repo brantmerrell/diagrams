@@ -1,6 +1,6 @@
 vars: @"../vars/jbm.d2"
-classes: @"../classes/L7"
-classes: @"../classes/tags"
+classes: @"../../classes"
+classes: @"../../tags"
 
 layers: {
   0_main: {
@@ -41,5 +41,24 @@ layers: {
     browser -> App: {class: edge_request; label: "sign in with Lichess"}
     App -> lichess: {class: edge_request; label: "redirect to /oauth (PKCE flow)"}
     App -> lichess: {class: edge_request; label: "POST /api/token (exchange code)"}
+  }
+  2_strategy_pattern: {
+    ...@"../design-patterns/strategy".layers.1_pattern
+
+    client.label: "User"
+    context.label: "ascii-chess-ts"
+    context.execute.label: "render board"
+    context.slot.label: "presentation mode"
+    iface.label: "board renderer"
+    iface.run.label: "render(fen)"
+    concrete_a.label: "ASCII board"
+    concrete_b.label: "link graph"
+    concrete_c.label: "heatmap"
+
+    design_pattern: {
+      label: "design pattern: strategy"
+      link: ../design-patterns/strategy.d2
+      class: _link
+    }
   }
 }

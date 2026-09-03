@@ -1,6 +1,6 @@
 vars: @"../vars/jbm.d2"
-classes: @"../classes/L7"
-classes: @"../classes/tags"
+classes: @"../../classes"
+classes: @"../../tags"
 
 _quality: {class: compiles}
 
@@ -26,4 +26,10 @@ seq_prototype_shiny: {
   server -> connector: {class: edge_request; label: "GET /links?fen_string=<updated FEN>"}
   user -> server: {class: edge_request; label: "undo"}
   server -> chess_py: {class: edge_write; label: "board.pop()"}
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../design-patterns/none.d2
+  class: _link
 }

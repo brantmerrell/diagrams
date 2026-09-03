@@ -1,8 +1,8 @@
 # TODO: convert wall of text to layers of diagrams
 direction: down
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -116,3 +116,9 @@ diagnostic_tools.profiler -> optimization_strategies.index_optimization: 2.missi
 diagnostic_tools.explain_plan -> optimization_strategies.query_optimization: 3.inefficient queries
 diagnostic_tools.profiler -> optimization_strategies.cache_optimization: 4.cache misses
 
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
+}

@@ -1,6 +1,6 @@
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -150,3 +150,9 @@ base_properties: |md
 
 nosql_comparison -- cap_theorem
 cap_theorem -- base_properties
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
+}

@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "base",
+      "path": "/tech/sd-notes/GeneralMotors/sd/index.svg"
+    },
+    {
+      "name": "1_api_gateway_pattern",
+      "path": "/tech/sd-notes/GeneralMotors/sd/1_api_gateway_pattern.svg"
+    }
+  ]
+}

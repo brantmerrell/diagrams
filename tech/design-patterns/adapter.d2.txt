@@ -1,0 +1,75 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## Adapter
+
+      Converts the interface of a class into another interface clients\
+      expect, letting otherwise-incompatible things work together. Used\
+      here to describe a component that normalizes messages between\
+      multiple client channels and a single backend request shape.
+
+      **Applies to:**
+      [pressw/pantrypal_plan.d2](../challenges/pressw/pantrypal_plan.d2) —\
+      `channel_adapter` normalizes `chat_ui`/`voice_ui` messages into the\
+      shape `api_chat` expects, so a new channel can plug in without the\
+      backend route changing.
+
+      [clipboard.d2](../clipboard.d2) — `wl-copy`/`xclip`, driven by a\
+      `TextYankPost` autocmd, adapt Vim's register interface to the OS\
+      clipboard's.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      pantrypal-plan: {
+        label: "challenges/pressw / pantrypal_plan.d2"
+        link: ../challenges/pressw/pantrypal_plan.d2?layer=2_adapter_pattern
+        class: _link
+      }
+      clipboard: {
+        label: "tech / clipboard.d2"
+        link: ../clipboard.d2?layer=1_adapter_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+
+    client: "Client" {class: obj_client}
+
+    target: "Target" {
+      class: obj_service
+      request: "request()" {class: obj_service}
+    }
+
+    adapter: "Adapter" {
+      class: obj_service
+      request: "request()" {class: obj_service}
+    }
+
+    adaptee: "Adaptee" {
+      class: obj_service
+      specificRequest: "specificRequest()" {class: obj_service}
+    }
+
+    client -> target.request: "expects" {class: edge_request}
+    client -> adapter.request: "calls" {class: edge_request}
+    adapter.request -> adaptee.specificRequest: "translates to" {class: edge_write}
+
+    note: |md
+      The client only ever calls the `Target` interface's `request()`.\
+      `Adapter` implements that interface and internally translates the\
+      call into `Adaptee`'s incompatible `specificRequest()` — the same\
+      way `channel_adapter` lets `chat_ui`/`voice_ui` talk to `api_chat`\
+      without either side knowing about the other's shape.
+    | {class: note}
+  }
+}

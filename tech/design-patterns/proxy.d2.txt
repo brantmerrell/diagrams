@@ -1,0 +1,88 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## Proxy
+
+      A stand-in object that shares the real subject's interface and\
+      controls access to it. The client believes it is talking to the\
+      real thing; the proxy adds caching, routing, protection, or\
+      indirection before delegating.
+
+      **Applies to:**
+      - `sd-notes/tools/reverse_proxy.d2` — the reverse proxy terminates\
+      SSL, routes, and rate-limits on behalf of the web/API servers.
+      - `sd-notes/tools/cdn.d2` — edge nodes are geographic caching\
+      proxies for the origin server.
+      - `sd-notes/designs/mint.d2` — the web server fronts the internal\
+      services rather than exposing them.
+      - `self/setup.d2` — the Vite dev server proxies `/tech/**` and\
+      `*.svg` through to `server.js`.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      reverse-proxy: {
+        label: "sd-notes/tools / reverse_proxy.d2"
+        link: ../sd-notes/tools/reverse_proxy.d2?layer=1_proxy_pattern
+        class: _link
+      }
+      cdn: {
+        label: "sd-notes/tools / cdn.d2"
+        link: ../sd-notes/tools/cdn.d2?layer=1_proxy_pattern
+        class: _link
+      }
+      mint: {
+        label: "sd-notes/designs / mint.d2"
+        link: ../sd-notes/designs/mint.d2?layer=3_proxy_pattern
+        class: _link
+      }
+      setup: {
+        label: "self / setup.d2"
+        link: ../self/setup.d2?layer=5_proxy_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+    direction: right
+
+    client: "Client" {class: obj_client}
+
+    subject: "Subject\n(shared interface)" {
+      class: obj_service
+      request: "request()" {class: obj_service}
+    }
+
+    proxy: "Proxy" {
+      class: obj_service
+      request: "request()" {class: obj_service}
+      control: "check / cache / route" {class: obj_service}
+    }
+
+    real: "RealSubject" {
+      class: obj_service
+      request: "request()" {class: obj_service}
+    }
+
+    client -> proxy.request: "calls" {class: edge_request}
+    proxy.request -> proxy.control {class: edge_query}
+    proxy.control -> real.request: "delegates" {class: edge_write}
+    proxy -> subject: "implements" {class: edge_invis}
+    real -> subject: "implements" {class: edge_invis}
+
+    note: |md
+      The client holds a reference typed as `Subject` and cannot tell\
+      the proxy from the real subject. That substitutability is what\
+      lets a reverse proxy, a CDN edge, or a dev-server proxy be\
+      inserted without changing the caller.
+    | {class: note}
+  }
+}

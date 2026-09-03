@@ -1,5 +1,5 @@
 vars: @"../../vars/jbm.d2"
-classes: @"../../classes/tags"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -11,4 +11,10 @@ y: And I'm a PC {
 }
 x -> y: gazoontite {
   link: https://google.com
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
 }

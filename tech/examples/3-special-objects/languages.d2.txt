@@ -1,5 +1,5 @@
 vars: @"../../vars/jbm.d2"
-classes: @"../../classes/tags"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -37,3 +37,9 @@ python: {
 go -- typescript
 go -- python
 typescript -- python
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
+}

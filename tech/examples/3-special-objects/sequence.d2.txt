@@ -1,5 +1,5 @@
 vars: @"../../vars/jbm.d2"
-classes: @"../../classes/tags"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -29,3 +29,9 @@ scorer.t -> item.t3: getNormalMaximum()
 scorer.t -> itemOutcome.t2: setScore(score)
 scorer.t -> itemOutcome.t3: setFeedback(missingConcepts)
 
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
+}

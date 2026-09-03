@@ -1,7 +1,7 @@
 vars: @"../../../vars/hackerrank.d2"
 **.style.text-transform: none
-classes: @"../../../classes/function"
-classes: @"../../../classes/tags"
+classes: @"../../../../classes"
+classes: @"../../../../tags"
 
 _quality: {class: compiles}
 
@@ -27,4 +27,10 @@ towerBreakers {
     label: player 2 wins
     class: positive
   }
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../../design-patterns/none.d2
+  class: _link
 }

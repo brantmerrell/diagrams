@@ -1,7 +1,7 @@
 direction: down
 vars: @"../../../vars/hackerrank.d2"
 **.style.text-transform: none
-classes: @"../../../classes/tags"
+classes: @"../../../../tags"
 
 _quality: {class: compiles}
 
@@ -43,3 +43,9 @@ n -> findZigZagSequence.iter.ed
 n -> findZigZagSequence.iter
 findZigZagSequence.cond.y -> print: print(elem)
 findZigZagSequence.cond.n -> print: print(elem, end = ' ')
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../../design-patterns/none.d2
+  class: _link
+}

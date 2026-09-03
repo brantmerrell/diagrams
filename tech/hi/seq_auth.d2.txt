@@ -1,6 +1,6 @@
 vars: @"../vars/jbm.d2"
-classes: @"../classes/sequence"
-classes: @"../classes/tags"
+classes: @"../../classes"
+classes: @"../../tags"
 
 _quality: {class: styled}
 
@@ -43,4 +43,10 @@ seq_auth: {
   api_auth -> db: validate token {class: api}
   api_auth -> db: "set used_at" {class: api}
   api_auth -> browser: set session cookie {class: api}
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../design-patterns/none.d2
+  class: _link
 }

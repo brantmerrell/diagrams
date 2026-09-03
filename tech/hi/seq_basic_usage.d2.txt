@@ -1,6 +1,6 @@
 vars: @"../vars/jbm.d2"
-classes: @"../classes/sequence"
-classes: @"../classes/tags"
+classes: @"../../classes"
+classes: @"../../tags"
 
 _quality: {class: styled}
 
@@ -43,4 +43,10 @@ seq_basic_usage: {
     Navigation
     ```
   |
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../design-patterns/none.d2
+  class: _link
 }

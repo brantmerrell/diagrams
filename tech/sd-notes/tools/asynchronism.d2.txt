@@ -1,6 +1,6 @@
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -66,3 +66,22 @@ strategies.rate_limiter -> producer: slow down
 strategies.circuit_breaker -> producer: reject requests
 strategies.buffer_manager -> queue: expand capacity
 strategies.load_shedder -> queue: drop requests
+
+layers: {
+  1_producer_consumer_pattern: {
+    ...@"../../design-patterns/producer-consumer".layers.1_pattern
+
+    producers.p1.label: "web request"
+    producers.p2.label: "scheduled job"
+    queue.label: "Message Queue"
+    consumers.c1.label: "worker 1"
+    consumers.c2.label: "worker 2"
+    backpressure.label: "rate_limiter /\nbuffer_manager /\ncircuit_breaker /\nload_shedder"
+
+    design_pattern: {
+      label: "design pattern: producer-consumer"
+      link: ../../design-patterns/producer-consumer.d2
+      class: _link
+    }
+  }
+}

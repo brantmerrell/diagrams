@@ -15,6 +15,10 @@
     {
       "name": "4_heroku",
       "path": "/tech/self/setup/4_heroku.svg"
+    },
+    {
+      "name": "5_proxy_pattern",
+      "path": "/tech/self/setup/5_proxy_pattern.svg"
     }
   ]
 }

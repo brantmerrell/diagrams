@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "base",
+      "path": "/tech/sd-notes/tools/dns/index.svg"
+    },
+    {
+      "name": "1_chain_of_responsibility_pattern",
+      "path": "/tech/sd-notes/tools/dns/1_chain_of_responsibility_pattern.svg"
+    }
+  ]
+}

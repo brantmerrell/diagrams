@@ -1,0 +1,80 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## Strategy
+
+      A family of interchangeable algorithms behind one interface. The\
+      context holds a reference to the interface and delegates; swapping\
+      the concrete strategy changes behaviour without touching the\
+      context.
+
+      **Applies to:**
+      - `sd-notes/tools/load_balancer.d2` — round-robin, least-\
+      connections, and hashing are interchangeable selection algorithms\
+      behind one `algorithm` slot.
+      - `my-chess/seq_ascii_chess_ts.d2` — the renderer picks among\
+      board-presentation strategies.
+      - `my-chess/seq_blender_renderer.d2` — Blender is one of several\
+      interchangeable renderer backends behind the connector API.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      load-balancer: {
+        label: "sd-notes/tools / load_balancer.d2"
+        link: ../sd-notes/tools/load_balancer.d2?layer=1_strategy_pattern
+        class: _link
+      }
+      ascii-chess: {
+        label: "my-chess / seq_ascii_chess_ts.d2"
+        link: ../my-chess/seq_ascii_chess_ts.d2?layer=2_strategy_pattern
+        class: _link
+      }
+      blender: {
+        label: "my-chess / seq_blender_renderer.d2"
+        link: ../my-chess/seq_blender_renderer.d2?layer=1_strategy_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+
+    client: "Client" {class: obj_client}
+
+    context: "Context" {
+      class: obj_service
+      execute: "execute()" {class: obj_service}
+      slot: "strategy" {class: obj_service}
+    }
+
+    iface: "Strategy\n(interface)" {
+      class: obj_service
+      run: "run(input)" {class: obj_service}
+    }
+
+    concrete_a: "ConcreteStrategyA" {class: obj_service}
+    concrete_b: "ConcreteStrategyB" {class: obj_service}
+    concrete_c: "ConcreteStrategyC" {class: obj_service}
+
+    client -> context.slot: "chooses" {class: edge_write}
+    client -> context.execute: "calls" {class: edge_request}
+    context.execute -> iface.run: "delegates" {class: edge_query}
+    concrete_a -> iface: "implements" {class: edge_invis}
+    concrete_b -> iface: "implements" {class: edge_invis}
+    concrete_c -> iface: "implements" {class: edge_invis}
+
+    note: |md
+      The context never branches on which algorithm is in use — the\
+      choice is data, not control flow. Adding a fourth strategy means\
+      adding a class, not editing the context.
+    | {class: note}
+  }
+}

@@ -1,6 +1,6 @@
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -143,3 +143,24 @@ scaling_patterns: |md
 * **Auto-scaling**: Dynamic resource allocation
 * **Load distribution**: Spread work across instances
 | { class: notes }
+
+layers: {
+  1_microservices_pattern: {
+    ...@"../../design-patterns/microservices".layers.1_pattern
+
+    gateway.label: "api_gateway"
+    svc_a.label: "user_service"
+    svc_a.db.label: "user_db"
+    svc_b.label: "product_service"
+    svc_b.db.label: "product_db"
+    svc_c.label: "order_service"
+    svc_c.db.label: "order_db"
+    bus.label: "message_queue"
+
+    design_pattern: {
+      label: "design pattern: microservices"
+      link: ../../design-patterns/microservices.d2
+      class: _link
+    }
+  }
+}

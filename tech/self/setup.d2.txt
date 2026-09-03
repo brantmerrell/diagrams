@@ -1,8 +1,6 @@
 vars: @"../vars/jbm.d2"
-classes: @"../classes/L7"
-classes: @"../classes/tags"
-classes: @"../classes/process"
-classes: @"../classes/basic"
+classes: @"../../classes"
+classes: @"../../tags"
 
 layers: {
   1_dev: {
@@ -155,5 +153,22 @@ layers: {
     container -- heroku: {class: edge_invis}
     container -> heroku: {class: edge_write; label: "deployed\n as image"}
     heroku -> express: {class: edge_request; label: "runs container,\nbinds PORT env var"}
+  }
+  5_proxy_pattern: {
+    ...@"../design-patterns/proxy".layers.1_pattern
+
+    client.label: "Browser\n:5173"
+    subject.label: "/tech/**, *.svg"
+    proxy.label: "Vite dev server"
+    proxy.request.label: "receive request"
+    proxy.control.label: "proxy rule match"
+    real.label: "server.js\n:3002"
+    real.request.label: "render + serve"
+
+    design_pattern: {
+      label: "design pattern: proxy"
+      link: ../design-patterns/proxy.d2
+      class: _link
+    }
   }
 }

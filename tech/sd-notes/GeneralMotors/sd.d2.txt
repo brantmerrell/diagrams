@@ -1,6 +1,6 @@
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -189,3 +189,23 @@ services.configurator_api -> databases.analytics_db: usage metrics
 services.streaming_service -> databases.analytics_db: performance data
 external.dealer_systems -> services.configurator_api: inventory sync
 
+
+layers: {
+  1_api_gateway_pattern: {
+    ...@"../../design-patterns/api-gateway".layers.1_pattern
+
+    gateway.label: "api_gateway"
+    clients.web.label: "web_browser"
+    clients.mobile.label: "mobile_app"
+    clients.partner.label: "vr_headset /\nshowroom_kiosk"
+    services.svc_a.label: "configurator_api"
+    services.svc_b.label: "streaming_service"
+    services.svc_c.label: "rendering_engine"
+
+    design_pattern: {
+      label: "design pattern: api-gateway"
+      link: ../../design-patterns/api-gateway.d2
+      class: _link
+    }
+  }
+}

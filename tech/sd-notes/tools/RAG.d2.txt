@@ -1,10 +1,13 @@
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/basic"
-classes: @"../../classes/function"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 layers: {
   0_overview: {
+    design_pattern: {
+      label: "design pattern: none"
+      link: ../../design-patterns/none.d2
+      class: _link
+    }
     _quality: {class: compiles}
 
     user: {

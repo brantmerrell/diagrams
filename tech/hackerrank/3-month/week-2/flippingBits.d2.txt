@@ -1,6 +1,6 @@
 vars: @"../../../vars/hackerrank.d2"
 **.style.text-transform: none
-classes: @"../../../classes/tags"
+classes: @"../../../../tags"
 
 _quality: {class: compiles}
 
@@ -12,3 +12,9 @@ flippingBits {
   const: const 4294967295 # TODO: keyword const or just conceptual const?
 }
 n -> flippingBits.const: subtract\nfrom # TODO: this should be in the function
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../../design-patterns/none.d2
+  class: _link
+}

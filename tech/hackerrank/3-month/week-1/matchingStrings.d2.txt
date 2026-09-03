@@ -1,8 +1,8 @@
 direction: down
 vars: @"../../../vars/hackerrank.d2"
 **.style.text-transform: none
-classes: @"../../../classes/tags"
-classes: @"../../../classes/function"
+classes: @"../../../../tags"
+classes: @"../../../../classes"
 
 _quality: {class: compiles}
 
@@ -33,3 +33,9 @@ _def: def\nmatchingStrings {
 }
 _input.strings -> _def._iter_str: { class: data }
 _input.queries -> _def._iter_e: { class: data }
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../../design-patterns/none.d2
+  class: _link
+}

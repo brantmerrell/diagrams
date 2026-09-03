@@ -1,6 +1,6 @@
 vars: @"../../../vars/hackerrank.d2"
 **.style.text-transform: none
-classes: @"../../../classes/tags"
+classes: @"../../../../tags"
 
 _quality: {class: compiles}
 
@@ -29,4 +29,10 @@ rotateLeft {
   |
   left_splice -> result
   right_splice -> result
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../../design-patterns/none.d2
+  class: _link
 }

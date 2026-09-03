@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "base",
+      "path": "/tech/sd-notes/tools/cdn/index.svg"
+    },
+    {
+      "name": "1_proxy_pattern",
+      "path": "/tech/sd-notes/tools/cdn/1_proxy_pattern.svg"
+    }
+  ]
+}

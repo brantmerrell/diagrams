@@ -1,9 +1,8 @@
 # TODO: make this a layer of rdbms.d2
 **.style.text-transform: none
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/function"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -52,3 +51,9 @@ federation -> sharding: outgrown functional split # is this really a sequential 
 sharding -> denormalization: join complexity # is this really a sequential relationship?
 denormalization -> sql_tuning: write performance issues # is this really a sequential relationship?
 # these aren't sequential; at most their relationships to scaling_type can include numbers.
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../design-patterns/none.d2
+  class: _link
+}

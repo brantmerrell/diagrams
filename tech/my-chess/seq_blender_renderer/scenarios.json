@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "base",
+      "path": "/tech/my-chess/seq_blender_renderer/index.svg"
+    },
+    {
+      "name": "1_strategy_pattern",
+      "path": "/tech/my-chess/seq_blender_renderer/1_strategy_pattern.svg"
+    }
+  ]
+}

@@ -1,0 +1,586 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## None
+
+      94 diagrams in this repository do not correspond to any\
+      software design pattern, and that is the correct outcome rather than\
+      a gap to be filled.
+
+      - **`tech/examples/**`** documents D2 language features — block\
+      strings, grids, LaTeX, tooltips. The subject matter is syntax, not\
+      architecture.
+      - **`tech/hackerrank/**`** documents single-function algorithms.\
+      Most are a loop and an accumulator; naming a pattern there would be\
+      cargo-culting. (A handful do show sliding-window, two-pointer, or\
+      greedy *algorithmic* techniques, which are not design patterns.)
+      - **`tech/sd-notes/tools/rdbms*`, `NoSQL`, `vector_database`,\
+      `communication`** are reference notes on storage and protocol\
+      taxonomies, not structures with a pattern intent.
+      - **`tech/dev/**`** debugging write-ups are narratives of a specific\
+      failure and its fix.
+      - The remaining sequence diagrams describe concrete call flows that\
+      happen not to be shaped by a named pattern.
+
+      Diagrams here link back to this page so the classification is\
+      explicit and reviewable, rather than being an absence of evidence.
+    | {
+      near: top-center
+    }
+    tech_dev: {
+      label: "tech/dev (3)"
+      grid-columns: 1
+      n_docker_recreate_bug: {
+        label: "docker-recreate-bug.d2"
+        link: ../dev/docker-recreate-bug.d2
+        class: _link
+      }
+      n_make: {
+        label: "make.d2"
+        link: ../dev/make.d2
+        class: _link
+      }
+      n_zombie_processes: {
+        label: "zombie-processes.d2"
+        link: ../dev/zombie-processes.d2
+        class: _link
+      }
+    }
+    tech_examples: {
+      label: "tech/examples (1)"
+      grid-columns: 1
+      n_jacob: {
+        label: "jacob.d2"
+        link: ../examples/jacob.d2
+        class: _link
+      }
+    }
+    tech_examples_3_special_objects: {
+      label: "tech/examples/3-special-objects (12)"
+      grid-columns: 1
+      n_block_strings: {
+        label: "block-strings.d2"
+        link: ../examples/3-special-objects/block-strings.d2
+        class: _link
+      }
+      n_grid_flask_pod: {
+        label: "grid-flask-pod.d2"
+        link: ../examples/3-special-objects/grid-flask-pod.d2
+        class: _link
+      }
+      n_grid_forge: {
+        label: "grid-forge.d2"
+        link: ../examples/3-special-objects/grid-forge.d2
+        class: _link
+      }
+      n_grid_japan: {
+        label: "grid-japan.d2"
+        link: ../examples/3-special-objects/grid-japan.d2
+        class: _link
+      }
+      n_languages: {
+        label: "languages.d2"
+        link: ../examples/3-special-objects/languages.d2
+        class: _link
+      }
+      n_latex_plugins: {
+        label: "latex-plugins.d2"
+        link: ../examples/3-special-objects/latex-plugins.d2
+        class: _link
+      }
+      n_latex: {
+        label: "latex.d2"
+        link: ../examples/3-special-objects/latex.d2
+        class: _link
+      }
+      n_link: {
+        label: "link.d2"
+        link: ../examples/3-special-objects/link.d2
+        class: _link
+      }
+      n_markdown: {
+        label: "markdown.d2"
+        link: ../examples/3-special-objects/markdown.d2
+        class: _link
+      }
+      n_sequence: {
+        label: "sequence.d2"
+        link: ../examples/3-special-objects/sequence.d2
+        class: _link
+      }
+      n_sql: {
+        label: "sql.d2"
+        link: ../examples/3-special-objects/sql.d2
+        class: _link
+      }
+      n_uml: {
+        label: "uml.d2"
+        link: ../examples/3-special-objects/uml.d2
+        class: _link
+      }
+    }
+    tech_examples_4_customization: {
+      label: "tech/examples/4-customization (4)"
+      grid-columns: 1
+      n_d2_legend: {
+        label: "d2-legend.d2"
+        link: ../examples/4-customization/d2-legend.d2
+        class: _link
+      }
+      n_dimensions: {
+        label: "dimensions.d2"
+        link: ../examples/4-customization/dimensions.d2
+        class: _link
+      }
+      n_multi_class: {
+        label: "multi-class.d2"
+        link: ../examples/4-customization/multi-class.d2
+        class: _link
+      }
+      n_tooltip: {
+        label: "tooltip.d2"
+        link: ../examples/4-customization/tooltip.d2
+        class: _link
+      }
+    }
+    tech_examples_5_in_depth: {
+      label: "tech/examples/5-in-depth (1)"
+      grid-columns: 1
+      n_variables: {
+        label: "variables.d2"
+        link: ../examples/5-in-depth/variables.d2
+        class: _link
+      }
+    }
+    tech_hackerrank_1_week_day_1: {
+      label: "tech/hackerrank/1-week/day-1 (3)"
+      grid-columns: 1
+      n_miniMaxSum: {
+        label: "miniMaxSum.d2"
+        link: ../hackerrank/1-week/day-1/miniMaxSum.d2
+        class: _link
+      }
+      n_plusMinus: {
+        label: "plusMinus.d2"
+        link: ../hackerrank/1-week/day-1/plusMinus.d2
+        class: _link
+      }
+      n_timeConversion: {
+        label: "timeConversion.d2"
+        link: ../hackerrank/1-week/day-1/timeConversion.d2
+        class: _link
+      }
+    }
+    tech_hackerrank_1_week_day_2: {
+      label: "tech/hackerrank/1-week/day-2 (3)"
+      grid-columns: 1
+      n_countingSort: {
+        label: "countingSort.d2"
+        link: ../hackerrank/1-week/day-2/countingSort.d2
+        class: _link
+      }
+      n_diagonalDifference: {
+        label: "diagonalDifference.d2"
+        link: ../hackerrank/1-week/day-2/diagonalDifference.d2
+        class: _link
+      }
+      n_lonelyinteger: {
+        label: "lonelyinteger.d2"
+        link: ../hackerrank/1-week/day-2/lonelyinteger.d2
+        class: _link
+      }
+    }
+    tech_hackerrank_1_week_day_3: {
+      label: "tech/hackerrank/1-week/day-3 (3)"
+      grid-columns: 1
+      n_caesarCipher: {
+        label: "caesarCipher.d2"
+        link: ../hackerrank/1-week/day-3/caesarCipher.d2
+        class: _link
+      }
+      n_findZigZagSequence: {
+        label: "findZigZagSequence.d2"
+        link: ../hackerrank/1-week/day-3/findZigZagSequence.d2
+        class: _link
+      }
+      n_towerBreakers: {
+        label: "towerBreakers.d2"
+        link: ../hackerrank/1-week/day-3/towerBreakers.d2
+        class: _link
+      }
+    }
+    tech_hackerrank_1_week_day_4: {
+      label: "tech/hackerrank/1-week/day-4 (3)"
+      grid-columns: 1
+      n_gridChallenge: {
+        label: "gridChallenge.d2"
+        link: ../hackerrank/1-week/day-4/gridChallenge.d2
+        class: _link
+      }
+      n_minimumBribes: {
+        label: "minimumBribes.d2"
+        link: ../hackerrank/1-week/day-4/minimumBribes.d2
+        class: _link
+      }
+      n_superDigit: {
+        label: "superDigit.d2"
+        link: ../hackerrank/1-week/day-4/superDigit.d2
+        class: _link
+      }
+    }
+    tech_hackerrank_1_week_day_5: {
+      label: "tech/hackerrank/1-week/day-5 (3)"
+      grid-columns: 1
+      n_isBalanced: {
+        label: "isBalanced.d2"
+        link: ../hackerrank/1-week/day-5/isBalanced.d2
+        class: _link
+      }
+      n_mergeLists: {
+        label: "mergeLists.d2"
+        link: ../hackerrank/1-week/day-5/mergeLists.d2
+        class: _link
+      }
+      n_queuing: {
+        label: "queuing.d2"
+        link: ../hackerrank/1-week/day-5/queuing.d2
+        class: _link
+      }
+    }
+    tech_hackerrank_3_month_week_1: {
+      label: "tech/hackerrank/3-month/week-1 (6)"
+      grid-columns: 1
+      n_breakingRecords: {
+        label: "breakingRecords.d2"
+        link: ../hackerrank/3-month/week-1/breakingRecords.d2
+        class: _link
+      }
+      n_divisibleSumPairs: {
+        label: "divisibleSumPairs.d2"
+        link: ../hackerrank/3-month/week-1/divisibleSumPairs.d2
+        class: _link
+      }
+      n_matchingStrings: {
+        label: "matchingStrings.d2"
+        link: ../hackerrank/3-month/week-1/matchingStrings.d2
+        class: _link
+      }
+      n_miniMaxSum: {
+        label: "miniMaxSum.d2"
+        link: ../hackerrank/3-month/week-1/miniMaxSum.d2
+        class: _link
+      }
+      n_plusMinus: {
+        label: "plusMinus.d2"
+        link: ../hackerrank/3-month/week-1/plusMinus.d2
+        class: _link
+      }
+      n_timeConversion: {
+        label: "timeConversion.d2"
+        link: ../hackerrank/3-month/week-1/timeConversion.d2
+        class: _link
+      }
+    }
+    tech_hackerrank_3_month_week_2: {
+      label: "tech/hackerrank/3-month/week-2 (9)"
+      grid-columns: 1
+      n_countingSort: {
+        label: "countingSort.d2"
+        link: ../hackerrank/3-month/week-2/countingSort.d2
+        class: _link
+      }
+      n_countingValleys: {
+        label: "countingValleys.d2"
+        link: ../hackerrank/3-month/week-2/countingValleys.d2
+        class: _link
+      }
+      n_diagonalDifference: {
+        label: "diagonalDifference.d2"
+        link: ../hackerrank/3-month/week-2/diagonalDifference.d2
+        class: _link
+      }
+      n_flippingBits: {
+        label: "flippingBits.d2"
+        link: ../hackerrank/3-month/week-2/flippingBits.d2
+        class: _link
+      }
+      n_flippingMatrix: {
+        label: "flippingMatrix.d2"
+        link: ../hackerrank/3-month/week-2/flippingMatrix.d2
+        class: _link
+      }
+      n_gradingStudents: {
+        label: "gradingStudents.d2"
+        link: ../hackerrank/3-month/week-2/gradingStudents.d2
+        class: _link
+      }
+      n_lonelyinteger: {
+        label: "lonelyinteger.d2"
+        link: ../hackerrank/3-month/week-2/lonelyinteger.d2
+        class: _link
+      }
+      n_marsExploration: {
+        label: "marsExploration.d2"
+        link: ../hackerrank/3-month/week-2/marsExploration.d2
+        class: _link
+      }
+      n_pangrams: {
+        label: "pangrams.d2"
+        link: ../hackerrank/3-month/week-2/pangrams.d2
+        class: _link
+      }
+    }
+    tech_hackerrank_3_month_week_3: {
+      label: "tech/hackerrank/3-month/week-3 (9)"
+      grid-columns: 1
+      n_birthday: {
+        label: "birthday.d2"
+        link: ../hackerrank/3-month/week-3/birthday.d2
+        class: _link
+      }
+      n_findZigZagSequence: {
+        label: "findZigZagSequence.d2"
+        link: ../hackerrank/3-month/week-3/findZigZagSequence.d2
+        class: _link
+      }
+      n_getTotal: {
+        label: "getTotal.d2"
+        link: ../hackerrank/3-month/week-3/getTotal.d2
+        class: _link
+      }
+      n_maximumPerimeterTriangle: {
+        label: "maximumPerimeterTriangle.d2"
+        link: ../hackerrank/3-month/week-3/maximumPerimeterTriangle.d2
+        class: _link
+      }
+      n_migratoryBirds: {
+        label: "migratoryBirds.d2"
+        link: ../hackerrank/3-month/week-3/migratoryBirds.d2
+        class: _link
+      }
+      n_pageCount: {
+        label: "pageCount.d2"
+        link: ../hackerrank/3-month/week-3/pageCount.d2
+        class: _link
+      }
+      n_sockMerchant: {
+        label: "sockMerchant.d2"
+        link: ../hackerrank/3-month/week-3/sockMerchant.d2
+        class: _link
+      }
+      n_strings_xor: {
+        label: "strings_xor.d2"
+        link: ../hackerrank/3-month/week-3/strings_xor.d2
+        class: _link
+      }
+      n_twoArrays: {
+        label: "twoArrays.d2"
+        link: ../hackerrank/3-month/week-3/twoArrays.d2
+        class: _link
+      }
+    }
+    tech_hackerrank_3_month_week_4: {
+      label: "tech/hackerrank/3-month/week-4 (7)"
+      grid-columns: 1
+      n_caesarCipher: {
+        label: "caesarCipher.d2"
+        link: ../hackerrank/3-month/week-4/caesarCipher.d2
+        class: _link
+      }
+      n_closestNumbers: {
+        label: "closestNumbers.d2"
+        link: ../hackerrank/3-month/week-4/closestNumbers.d2
+        class: _link
+      }
+      n_kangaroo: {
+        label: "kangaroo.d2"
+        link: ../hackerrank/3-month/week-4/kangaroo.d2
+        class: _link
+      }
+      n_leftRotation: {
+        label: "leftRotation.d2"
+        link: ../hackerrank/3-month/week-4/leftRotation.d2
+        class: _link
+      }
+      n_minimumAbsoluteDifference: {
+        label: "minimumAbsoluteDifference.d2"
+        link: ../hackerrank/3-month/week-4/minimumAbsoluteDifference.d2
+        class: _link
+      }
+      n_pickingNumbers: {
+        label: "pickingNumbers.d2"
+        link: ../hackerrank/3-month/week-4/pickingNumbers.d2
+        class: _link
+      }
+      n_towerBreakers: {
+        label: "towerBreakers.d2"
+        link: ../hackerrank/3-month/week-4/towerBreakers.d2
+        class: _link
+      }
+    }
+    tech_hackerrank_3_month_week_5: {
+      label: "tech/hackerrank/3-month/week-5 (6)"
+      grid-columns: 1
+      n_dynamicArray: {
+        label: "dynamicArray.d2"
+        link: ../hackerrank/3-month/week-5/dynamicArray.d2
+        class: _link
+      }
+      n_gridChallenge: {
+        label: "gridChallenge.d2"
+        link: ../hackerrank/3-month/week-5/gridChallenge.d2
+        class: _link
+      }
+      n_is_smart_number: {
+        label: "is_smart_number.d2"
+        link: ../hackerrank/3-month/week-5/is_smart_number.d2
+        class: _link
+      }
+      n_maxMin: {
+        label: "maxMin.d2"
+        link: ../hackerrank/3-month/week-5/maxMin.d2
+        class: _link
+      }
+      n_missingNumbers: {
+        label: "missingNumbers.d2"
+        link: ../hackerrank/3-month/week-5/missingNumbers.d2
+        class: _link
+      }
+      n_strongPassword: {
+        label: "strongPassword.d2"
+        link: ../hackerrank/3-month/week-5/strongPassword.d2
+        class: _link
+      }
+    }
+    tech_hi: {
+      label: "tech/hi (10)"
+      grid-columns: 1
+      n_seq_alembic: {
+        label: "seq_alembic.d2"
+        link: ../hi/seq_alembic.d2
+        class: _link
+      }
+      n_seq_auth: {
+        label: "seq_auth.d2"
+        link: ../hi/seq_auth.d2
+        class: _link
+      }
+      n_seq_basic_usage: {
+        label: "seq_basic_usage.d2"
+        link: ../hi/seq_basic_usage.d2
+        class: _link
+      }
+      n_seq_data_sync: {
+        label: "seq_data_sync.d2"
+        link: ../hi/seq_data_sync.d2
+        class: _link
+      }
+      n_seq_enrich_glosses: {
+        label: "seq_enrich_glosses.d2"
+        link: ../hi/seq_enrich_glosses.d2
+        class: _link
+      }
+      n_seq_fetch_text: {
+        label: "seq_fetch_text.d2"
+        link: ../hi/seq_fetch_text.d2
+        class: _link
+      }
+      n_seq_frontend: {
+        label: "seq_frontend.d2"
+        link: ../hi/seq_frontend.d2
+        class: _link
+      }
+      n_seq_generate_audio: {
+        label: "seq_generate_audio.d2"
+        link: ../hi/seq_generate_audio.d2
+        class: _link
+      }
+      n_seq_migration: {
+        label: "seq_migration.d2"
+        link: ../hi/seq_migration.d2
+        class: _link
+      }
+      n_seq_process_sentences: {
+        label: "seq_process_sentences.d2"
+        link: ../hi/seq_process_sentences.d2
+        class: _link
+      }
+    }
+    tech_my_chess: {
+      label: "tech/my-chess (1)"
+      grid-columns: 1
+      n_seq_prototype_shiny: {
+        label: "seq_prototype_shiny.d2"
+        link: ../my-chess/seq_prototype_shiny.d2
+        class: _link
+      }
+    }
+    tech_sd_notes_designs: {
+      label: "tech/sd-notes/designs (1)"
+      grid-columns: 1
+      n_pastebin: {
+        label: "pastebin.d2"
+        link: ../sd-notes/designs/pastebin.d2
+        class: _link
+      }
+    }
+    tech_sd_notes_tools: {
+      label: "tech/sd-notes/tools (8)"
+      grid-columns: 1
+      n_NoSQL: {
+        label: "NoSQL.d2"
+        link: ../sd-notes/tools/NoSQL.d2
+        class: _link
+      }
+      n_RAG: {
+        label: "RAG.d2"
+        link: ../sd-notes/tools/RAG.d2
+        class: _link
+      }
+      n_communication: {
+        label: "communication.d2"
+        link: ../sd-notes/tools/communication.d2
+        class: _link
+      }
+      n_rdbms: {
+        label: "rdbms.d2"
+        link: ../sd-notes/tools/rdbms.d2
+        class: _link
+      }
+      n_rdbms_scaling: {
+        label: "rdbms_scaling.d2"
+        link: ../sd-notes/tools/rdbms_scaling.d2
+        class: _link
+      }
+      n_rdbms_systems: {
+        label: "rdbms_systems.d2"
+        link: ../sd-notes/tools/rdbms_systems.d2
+        class: _link
+      }
+      n_rdbms_tuning: {
+        label: "rdbms_tuning.d2"
+        link: ../sd-notes/tools/rdbms_tuning.d2
+        class: _link
+      }
+      n_vector_database: {
+        label: "vector_database.d2"
+        link: ../sd-notes/tools/vector_database.d2
+        class: _link
+      }
+    }
+    tech_self: {
+      label: "tech/self (1)"
+      grid-columns: 1
+      n_seq_tagging: {
+        label: "seq_tagging.d2"
+        link: ../self/seq_tagging.d2
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+}

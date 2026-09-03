@@ -1,6 +1,10 @@
 {
   "scenarios": [
     {
+      "name": "1_facade_pattern",
+      "path": "/tech/my-chess/seq_connector/1_facade_pattern.svg"
+    },
+    {
       "name": "seq_connector",
       "path": "/tech/my-chess/seq_connector/seq_connector.svg"
     }

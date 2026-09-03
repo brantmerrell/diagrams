@@ -1,6 +1,6 @@
 vars: @"../vars/jbm.d2"
-classes: @"../classes/sequence"
-classes: @"../classes/tags"
+classes: @"../../classes"
+classes: @"../../tags"
 
 _quality: {class: compiles}
 
@@ -59,4 +59,10 @@ seq_process_sentences: {
     audio_path left NULL (filled later by generate_audio.py)
     ```
   | {class: pipeline}
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../design-patterns/none.d2
+  class: _link
 }

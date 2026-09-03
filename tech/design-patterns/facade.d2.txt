@@ -1,0 +1,82 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## Facade
+
+      Provides a simplified interface to a complex subsystem, hiding its\
+      internal structure behind a stable public interface. Used here to\
+      keep the LLM/tool internals of the PantryPal agent loop behind a\
+      single `invoke` entry point.
+
+      **Applies to:**
+      [pressw/pantrypal_plan.d2](../challenges/pressw/pantrypal_plan.d2) —\
+      `core.agent_loop` wraps `external.llm_provider`, `tools.tool_search`,\
+      and `tools.tool_equipment` behind a single `invoke` call from\
+      `api_chat`; callers should only ever reference `agent_loop`, not its\
+      internals.
+
+      [my-chess/seq_connector.d2](../my-chess/seq_connector.d2) — the\
+      FastAPI endpoint router hides `python-chess`, `NetworkX`, and the\
+      `diagon` CLI behind two HTTP routes.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      pantrypal-plan: {
+        label: "challenges/pressw / pantrypal_plan.d2"
+        link: ../challenges/pressw/pantrypal_plan.d2?layer=1_facade_pattern
+        class: _link
+      }
+      seq-connector: {
+        label: "my-chess / seq_connector.d2"
+        link: ../my-chess/seq_connector.d2?layer=1_facade_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+
+    client: "Client" {class: obj_client}
+
+    facade: "ComputerFacade" {
+      class: obj_service
+      start: "start()" {class: obj_service}
+    }
+
+    cpu: "CPU" {
+      class: obj_service
+      freeze: "freeze()" {class: obj_service}
+      execute: "execute()" {class: obj_service}
+    }
+    memory: "Memory" {
+      class: obj_service
+      load: "load(data)" {class: obj_service}
+    }
+    hd: "HardDrive" {
+      class: obj_service
+      read: "read()" {class: obj_service}
+    }
+
+    client -> facade.start: "calls" {class: edge_request}
+    facade.start -> cpu.freeze {class: edge_write}
+    facade.start -> hd.read {class: edge_query}
+    hd.read -> memory.load: "boot data" {class: edge_write}
+    facade.start -> cpu.execute {class: edge_write}
+
+    note: |md
+      The client only ever talks to the facade's single entry point\
+      (`start()`). It never sees `CPU`, `Memory`, or `HardDrive`\
+      individually — the same way callers of the PantryPal agent loop\
+      should only see `agent_loop`, not `llm_provider`/`tool_search`/\
+      `tool_equipment` directly.
+    | {class: note}
+  }
+}

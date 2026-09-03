@@ -1,7 +1,6 @@
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/function"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -51,3 +50,25 @@ load_balancer.health_checker -> server_pool.server2: {class: edge_query}
 load_balancer.health_checker -> server_pool.server_n: {class: edge_query}
 
 # algorithms: simple, capacity-aware, load-aware, session-sticky, retry-if-unhealthy (health-aware?)
+
+layers: {
+  1_strategy_pattern: {
+    ...@"../../design-patterns/strategy".layers.1_pattern
+
+    client.label: "Client"
+    context.label: "Load Balancer"
+    context.execute.label: "pick backend"
+    context.slot.label: "algorithm"
+    iface.label: "selection algorithm"
+    iface.run.label: "choose(server_pool)"
+    concrete_a.label: "round robin"
+    concrete_b.label: "weighted"
+    concrete_c.label: "least connections"
+
+    design_pattern: {
+      label: "design pattern: strategy"
+      link: ../../design-patterns/strategy.d2
+      class: _link
+    }
+  }
+}

@@ -1,6 +1,6 @@
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/L7"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -29,3 +29,21 @@ _rs <- _isp: {
 }
 _devices -> _domain
 
+
+layers: {
+  1_chain_of_responsibility_pattern: {
+    ...@"../../design-patterns/chain-of-responsibility".layers.1_pattern
+
+    client.label: "resolver client"
+    handler1.label: "Root / TLD nameserver"
+    handler1.handle.label: "referral"
+    handler2.label: "Authoritative nameserver"
+    handler2.handle.label: "answer"
+
+    design_pattern: {
+      label: "design pattern: chain-of-responsibility"
+      link: ../../design-patterns/chain-of-responsibility.d2
+      class: _link
+    }
+  }
+}

@@ -15,6 +15,10 @@
     {
       "name": "3_ephemeral_protocol",
       "path": "/tech/dev/ports/3_ephemeral_protocol.svg"
+    },
+    {
+      "name": "4_service_discovery_pattern",
+      "path": "/tech/dev/ports/4_service_discovery_pattern.svg"
     }
   ]
 }

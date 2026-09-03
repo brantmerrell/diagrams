@@ -1,5 +1,6 @@
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -177,5 +178,28 @@ implementation_notes -> MCPServer: {
   style: {
     stroke-dash: 5
     stroke: gray
+  }
+}
+
+layers: {
+  1_api_gateway_pattern: {
+    ...@"../../design-patterns/api-gateway".layers.1_pattern
+
+    gateway.label: "MCP Server"
+    gateway.auth.label: "AuthLayer\nauthenticate / authorize"
+    gateway.route.label: "DataRouter\nroute / transform"
+    gateway.aggregate.label: "AIAssistant\naggregateContext()"
+    clients.web.label: "EnterpriseUser"
+    clients.mobile.label: "Claude AI Assistant"
+    clients.partner.label: "ConnectionManager"
+    services.svc_a.label: "resources"
+    services.svc_b.label: "tools"
+    services.svc_c.label: "prompts"
+
+    design_pattern: {
+      label: "design pattern: api-gateway"
+      link: ../../design-patterns/api-gateway.d2
+      class: _link
+    }
   }
 }

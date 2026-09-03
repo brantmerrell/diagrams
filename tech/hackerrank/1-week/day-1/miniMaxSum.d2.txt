@@ -1,7 +1,7 @@
 vars: @"../../../vars/hackerrank.d2"
 **.style.text-transform: none
-classes: @"../../../classes/function"
-classes: @"../../../classes/tags"
+classes: @"../../../../classes"
+classes: @"../../../../tags"
 
 _quality: {class: compiles}
 
@@ -61,4 +61,10 @@ miniMaxSum: {
   right_sum -> right_append
   left_append -> result
   right_append -> result
+}
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../../design-patterns/none.d2
+  class: _link
 }

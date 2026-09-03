@@ -7,6 +7,10 @@
     {
       "name": "1_login",
       "path": "/tech/my-chess/seq_ascii_chess_ts/1_login.svg"
+    },
+    {
+      "name": "2_strategy_pattern",
+      "path": "/tech/my-chess/seq_ascii_chess_ts/2_strategy_pattern.svg"
     }
   ]
 }

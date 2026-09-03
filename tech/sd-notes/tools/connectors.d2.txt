@@ -1,6 +1,7 @@
 direction: right
 vars: @"../../vars/system-design.d2"
-classes: @"../../classes/tags"
+classes: @"../../../classes"
+classes: @"../../../tags"
 
 _quality: {class: compiles}
 
@@ -221,4 +222,22 @@ CodeExecutionConnector -> ToolConnector: {
 VisionConnector -> ToolConnector: {
   target-arrowhead.shape: triangle
   target-arrowhead.style.filled: false
+}
+
+layers: {
+  1_mediator_pattern: {
+    ...@"../../design-patterns/mediator".layers.1_pattern
+
+    mediator.label: "Connector Management\n(registry)"
+    mediator.notify.label: "connect / execute / retry"
+    colleague_a.label: "AI Agent/Model"
+    colleague_b.label: "Connector"
+    colleague_c.label: "External System"
+
+    design_pattern: {
+      label: "design pattern: mediator"
+      link: ../../design-patterns/mediator.d2
+      class: _link
+    }
+  }
 }

@@ -1,8 +1,8 @@
 direction: down
 vars: @"../../../vars/hackerrank.d2"
 **.style.text-transform: none
-classes: @"../../../classes/tags"
-classes: @"../../../classes/function"
+classes: @"../../../../tags"
+classes: @"../../../../classes"
 
 _quality: {class: compiles}
 
@@ -40,3 +40,9 @@ _input.n -> _def._iter_i: { class: scalar }
 _def._iter_i -> _def._iter_j: n { class: scalar }
 _input.ar -> _def._condition: { class: data }
 _input.k -> _def._condition: { class: scalar }
+
+design_pattern: {
+  label: "design pattern: none"
+  link: ../../../design-patterns/none.d2
+  class: _link
+}
