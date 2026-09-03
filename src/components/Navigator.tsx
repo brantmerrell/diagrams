@@ -105,10 +105,9 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
 
   // ── Expansion / scroll ────────────────────────────────────────────────────
 
-  // Strip /tech/ prefix from pathname for YAML matching
-  const urlPath = location.pathname.startsWith('/tech/')
-    ? location.pathname.substring('/tech/'.length)
-    : location.pathname === '/tech' || location.pathname === '/'
+  // The pathname *is* the diagram's repo-relative path (see yamlExtract's
+  // canonical-path notes); `/tech` alone is the bare landing route.
+  const urlPath = location.pathname === '/tech' || location.pathname === '/'
     ? ''
     : location.pathname.substring(1)
   const diagramParent = searchParams.get('diagramParent') || undefined
@@ -162,7 +161,7 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
   const handleDiagramClick = useCallback((diagramPath: string, parentPath?: string) => {
     setToastMessage(null)
 
-    const targetPath = `/tech/${yamlPathToUrlSegment(diagramPath)}`
+    const targetPath = `/${yamlPathToUrlSegment(diagramPath)}`
     if (location.pathname === targetPath) {
       // In drawer mode, tapping the current diagram just closes the drawer to show it
       if (onRequestClose) onRequestClose()

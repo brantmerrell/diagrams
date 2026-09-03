@@ -96,9 +96,7 @@ const DiagramViewer: React.FC = () => {
 
   const goToAdjacentDiagram = useCallback((direction: 1 | -1) => {
     if (navigable.length === 0) return
-    const urlPath = location.pathname.startsWith('/tech/')
-      ? location.pathname.substring('/tech/'.length)
-      : ''
+    const urlPath = location.pathname === '/tech' ? '' : location.pathname.substring(1)
     // Disambiguate "current" by (path, parent) first — see Navigator's keyboard
     // handler for why path alone isn't enough when a diagram has more than one pointer.
     const currentDiagramParent = searchParams.get('diagramParent') || undefined
@@ -116,7 +114,7 @@ const DiagramViewer: React.FC = () => {
     else params.delete('diagramParent')
     params.delete('layer')
     navigate({
-      pathname: `/tech/${yamlPathToUrlSegment(next.path)}`,
+      pathname: `/${yamlPathToUrlSegment(next.path)}`,
       search: params.toString(),
     })
   }, [navigable, location.pathname, searchParams, navigate])
@@ -143,7 +141,7 @@ const DiagramViewer: React.FC = () => {
           const data = yaml.load(text) as YamlValue
           const firstPath = findFirstDiagramPath(data)
           const urlPath = firstPath ? yamlPathToUrlSegment(firstPath) : null
-          if (urlPath) navigate(`/tech/${urlPath}`, { replace: true })
+          if (urlPath) navigate(`/${urlPath}`, { replace: true })
           else setLoading(false)
         })
         .catch((err) => { if (err?.name !== 'AbortError') setLoading(false) })
@@ -151,10 +149,8 @@ const DiagramViewer: React.FC = () => {
     }
 
     setLoading(true)
-    // Strip /tech/ prefix from pathname to get the diagram path
-    const urlPath = location.pathname.startsWith('/tech/')
-      ? location.pathname.substring('/tech/'.length)
-      : location.pathname.substring(1)
+    // The pathname is the diagram's repo-relative path
+    const urlPath = location.pathname.substring(1)
 
     fetch('/pointers.yaml', { signal })
       .then((response) => response.text())

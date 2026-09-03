@@ -10,7 +10,7 @@ A viewer for d2/mermaid diagrams (`diagram-viewer`, Vite + React frontend, `serv
 
 ## Two indexes — don't confuse them
 
-**`pointers.yaml`** (repo root) — hand-maintained. A tree mapping real source files (in this repo and in sibling repos like `../hi`, `../my-chess`) to the `.d2`/`.mmd` files that describe them. `usePointersYaml.ts` fetches it directly and polls every 2s; it drives the navigator tree UI. **A new diagram under `tech/` is invisible in the navigator until it's referenced somewhere in this tree** — creating the `.d2` file is not enough.
+**`pointers.yaml`** (repo root) — hand-maintained. A tree mapping real source files (in this repo and in sibling repos like `../hi`, `../my-chess`) to the `.d2`/`.mmd` files that describe them. `usePointersYaml.ts` fetches it directly and polls every 2s; it drives the navigator tree UI. **A new diagram is invisible in the navigator until it's referenced somewhere in this tree** — creating the `.d2` file is not enough.
 
   - Diagrams tied to one source file go under that file's path in the tree — the nesting doesn't have to mirror the diagram's own path under `tech/`. E.g. `hi/frontend/src/main.tsx` points to `./tech/hi/seq_frontend.d2`; the source path has a `src/` segment the diagram path doesn't, and that's fine, the two trees aren't meant to match.
   - `spotlight:` is just a manually-curated top-level bucket for whatever's being organized right now — it has no special code behind it (it's rendered like any other branch) and no fixed meaning. Rename or restructure it whenever it stops fitting. New diagrams or diagrams currently being modified can go here.
@@ -24,3 +24,16 @@ A viewer for d2/mermaid diagrams (`diagram-viewer`, Vite + React frontend, `serv
 - Shared styling lives in two root-level files, imported per-diagram with a path relative to the repo root: `classes: @"../../classes"` (all visual classes — `obj_*`/`edge_*`, `_link` glossary nodes, `to_add`/`to_remove`/`unchanged`/`future` for a `fix` layer, sequence and gate classes) and `classes: @"../../tags"` (the `_quality` vocabulary). Class *names* are the contract with `src/diagramSemanticThemes.css`, which keys light/dark colors off them — renaming a class silently breaks its theming. Never put `direction:` in these files: inside a `classes: @` import it's parsed as a class named `direction` and has no effect, so set `direction` in the layer that needs it.
 - Debugging write-ups (see `tech/dev/make.d2`, `tech/dev/zombie-processes.d2`, `tech/dev/docker-recreate-bug.d2`) follow: a numbered diagnosis layer or two, then a `fix` layer using the `plan` classes, with `note: {shape: text; label: "..."}` blocks carrying the reasoning.
 - Validate with the `d2` CLI before committing: `d2 tech/path/to/file.d2 /tmp/out.svg`.
+
+## Design patterns
+
+`tech/design-patterns/` holds one file per named pattern (`facade.d2`, `proxy.d2`, `strategy.d2`, …) plus `none.d2`. Every diagram in the repo is classified against them, and the link is **bidirectional**:
+
+- A pattern file has a `0_base` layer (an `|md` context block naming the pattern, an **Applies to** list explaining *why* each diagram matches, and a `links:` grid of `_link` nodes pointing at `<diagram>.d2?layer=<N>_<pattern>_pattern`) and a `1_pattern` layer holding the generic, abstract structure.
+- A matching diagram consumes the pattern by spreading it into its own layer — `...@"../../design-patterns/proxy".layers.1_pattern` — then overriding `.label` on each node to name the concrete counterpart. Nothing is redrawn; the shared layer is the single source of truth for the pattern's shape. The layer also carries a `design_pattern` `_link` node back to the pattern file.
+- A diagram that matches no pattern gets a `design_pattern` `_link` node to `none.d2` (at root scope, or inside its first layer if it has one). This makes "no pattern applies" an explicit, reviewed claim rather than an omission. Algorithm walkthroughs (`tech/hackerrank/**`) and D2-syntax demos (`tech/examples/**`) are legitimately `none` — sliding-window and two-pointer are algorithmic techniques, not design patterns.
+- Layer indices are per-diagram and need only avoid colliding with existing layers; they don't encode ranking across diagrams.
+
+## Diagram paths
+
+A diagram's URL *is* its repo-relative path: `tech/dev/make.d2` is served at `/tech/dev/make.d2`, and `class_legend.d2` (which lives at the repo root beside the `classes.d2`/`tags.d2` it documents) at `/class_legend.d2`. `tech/` is where most diagrams happen to live, not a hardcoded prefix — the canonical path used by the server APIs, the tag index and the `diagramStatus` map is just `/` + that repo-relative path. Root-level `.d2` files are indexed for tags too, except `tags.d2` itself, which defines the vocabulary rather than applying it.

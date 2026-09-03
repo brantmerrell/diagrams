@@ -4,8 +4,18 @@ challenges/:
     - ./tech/challenges/pressw/pantrypal_plan.d2
 design-patterns:
   - ./tech/design-patterns/adapter.d2
+  - ./tech/design-patterns/api-gateway.d2
+  - ./tech/design-patterns/cache-aside.d2
   - ./tech/design-patterns/chain-of-responsibility.d2
   - ./tech/design-patterns/facade.d2
+  - ./tech/design-patterns/mediator.d2
+  - ./tech/design-patterns/microservices.d2
+  - ./tech/design-patterns/none.d2
+  - ./tech/design-patterns/observer.d2
+  - ./tech/design-patterns/producer-consumer.d2
+  - ./tech/design-patterns/proxy.d2
+  - ./tech/design-patterns/service-discovery.d2
+  - ./tech/design-patterns/strategy.d2
 sd-notes/:
   designs/:
     mint/:
@@ -253,5 +263,5 @@ d2-documentation:
     - ./tech/examples/4-customization/tooltip.d2
   5-in-depth:
     - ./tech/examples/5-in-depth/variables.d2
-classes/:
-  - ./tech/classes/class_legend.d2
+classes.d2:
+  - ./class_legend.d2

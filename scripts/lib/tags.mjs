@@ -50,14 +50,15 @@ export function extractTagsFromSource(source, vocabulary) {
 
 /**
  * Build the full index: { vocabulary, tags } where tags maps canonical
- * diagram paths (`/tech/foo/bar.d2`) to their tag arrays. Untagged
- * diagrams are omitted.
+ * diagram paths (`/tech/foo/bar.d2`, or `/class_legend.d2` for a diagram
+ * that lives at the repo root next to classes.d2) to their tag arrays.
+ * Untagged diagrams are omitted.
  */
 export function buildTagsIndex(root) {
   const vocabulary = readTagVocabulary(root)
   const tags = {}
   if (vocabulary.length > 0) {
-    for (const d2File of walkD2Files(path.join(root, 'tech'))) {
+    for (const d2File of diagramFiles(root)) {
       const source = fs.readFileSync(d2File, 'utf-8')
       const fileTags = extractTagsFromSource(source, vocabulary)
       if (fileTags.length === 0) continue
@@ -66,4 +67,21 @@ export function buildTagsIndex(root) {
     }
   }
   return { vocabulary, tags }
+}
+
+/**
+ * Every .d2 file that can be a diagram: all of tech/ recursively, plus any
+ * .d2 at the repo root (class_legend.d2 sits beside the classes.d2 and tags.d2
+ * it documents). The tag vocabulary file itself is excluded — it defines the
+ * classes rather than applying them, so indexing it would list the vocabulary
+ * as a diagram carrying every tag.
+ */
+function* diagramFiles(root) {
+  const techDir = path.join(root, 'tech')
+  if (fs.existsSync(techDir)) yield* walkD2Files(techDir)
+  for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith('.d2')) continue
+    if (entry.name === CLASS_FILE) continue
+    yield path.join(root, entry.name)
+  }
 }
