@@ -1,0 +1,212 @@
+direction: down
+vars: @"../vars/hackerrank.d2"
+classes: @"../../classes.d2"
+classes: @"../../tags.d2"
+
+
+layers: {
+  0_context: {
+    **.style.text-transform: none
+    links: {
+      grid-columns: 1
+      hackerrank: {
+        label: Hackerrank Exercise
+        link: https://www.hackerrank.com/contests/software-engineer-prep-kit/challenges/one-pass-removal-kth-from-end/problem
+        class: _link
+      }
+      iterator-pattern: {
+        label: "design-patterns / iterator.d2"
+        link: ../design-patterns/iterator.d2
+        class: _link
+      }
+    }
+    **.style.text-transform: none
+    _quality: {class: coherent}
+    input: {
+      n: n\nlength of head
+      head: head\nstdin array
+      k: k\n position to remove
+    }
+    SinglyLinkedListNode {
+      class: _class
+      __init__(self, node_data)
+      "self.data": int
+      "self.next": None
+    }
+    SinglyLinkedList: {
+      class: _class
+      __init__: self
+      "self.head": None
+      "self.tail": None
+      insert_node(self, node_data)
+    }
+    head: {
+      height: 30
+      label: head
+      note: |md
+      * initialized as SinglyLinkedList
+      * iteratively constructed using insert_node
+      |
+    }
+    iter: {
+      class: iter
+      label: iterate through head input
+    }
+    insert_node: {
+      label: insert_node(self, node_data)
+      class: op
+      head: {
+        class: cond
+      }
+      "head = node": {
+        height: 30
+      }
+      "tail.next = node": {
+        height: 30
+      }
+      "tail = node": {
+        height: 30
+      }
+      head -> "head = node": {
+        class: positive
+      }
+      head -> "tail.next = node": {
+        class: negative
+      }
+      "head = node" -> "tail = node"
+      "tail.next = node" -> "tail = node"
+    }
+    print_singly_linked_list: {
+      class: op
+      _while: {
+        label: while node
+        class: iter
+      }
+      _print1: {
+        label: print(node.data)
+        class: op
+      }
+      _print2: {
+        label: print(sep)
+      }
+      _while -> _print1
+      _cond <- _print1
+      _cond: {
+        class: cond
+        label: node = node.next
+      }
+      _cond -> _print2
+    }
+    removeKthNodeFromEnd: {
+      class: op
+      "solution here": {
+        shape: text
+      }
+    }
+    insert_node -> SinglyLinkedListNode: uses {
+      class: edge
+    }
+    SinglyLinkedList -> insert_node: defines {
+      class: edge
+    }
+    input -> iter
+    iter -> insert_node
+    iter -> head
+    head -> removeKthNodeFromEnd
+    removeKthNodeFromEnd -> print_singly_linked_list
+  }
+  1_solution: {
+    _quality: {class: compiles}
+    **.style.text-transform: none
+    removeKthNodeFromEnd: {
+      class: op
+      label: removeKthNodeFromEnd(head, k)
+      array: {
+        label: array
+        note: |md
+        * initialized as empty
+        * iteratively constructed
+        |
+        print_singly_linked_list: |py
+          def print_singly_linked_list(node, sep):
+              while node: # USE THIS
+                  print(node.data, end='')
+                  node = node.next # USE THIS
+                  if node:
+                      print(sep, end='')
+        |
+      }
+      pop: {
+        class: op
+        label: pop
+        snippet: |py
+        if k < len(array): # not applicable if k is too large
+            # position is right-to-left
+            # language is zero-indexed
+            array.pop(len(array) - 1 - k)
+        |
+      }
+      result: {
+        note: |md
+        * logic & syntax based on main
+        * simply reconstructs from array
+        |
+        main: |py
+        if __name__ == '__main__':
+            head_count = int(input().strip())
+
+            head = SinglyLinkedList()
+
+            for _ in range(head_count):
+                head_item = int(input().strip())
+                head.insert_node(head_item) # USE THIS
+
+            k = int(input().strip())
+
+            result = removeKthNodeFromEnd(head.head, k)
+
+          print_singly_linked_list(result, '\n')
+          print()
+      |
+      }
+      array -> pop -> result
+    }
+  }
+  2_cases: {
+    _quality: {class: compiles}
+    example: {
+      grid-rows: 2
+      n: n=4
+      head: head=5 6 7 8
+      k: k=3
+      o: expected\noutput=6 7 8
+    }
+    sample_0: {
+      grid-rows: 2
+      n: n=1
+      head: head=5
+      k: k=1
+      o: expected\noutput=5
+    }
+    sample_1: {
+      grid-rows: 2
+      n: n=2
+      head: head=1
+      k: k=2
+      o: expected\noutput=0
+    }
+  }
+
+  3_iterator_pattern: {
+    ...@"../design-patterns/iterator".layers.1_pattern
+
+    client.label: "print_singly_linked_list\n(caller)"
+
+    aggregate.label: "SinglyLinkedList\n(head)"
+    aggregate.createIterator.label: "head\n(first node)"
+
+    iterator.label: "node\n(cursor)"
+    iterator.hasNext.label: "while node:"
+    iterator.next.label: "node = node.next"
+  }
+}

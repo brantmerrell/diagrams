@@ -159,14 +159,20 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
 
   // ── Navigation ────────────────────────────────────────────────────────────
 
-  const handleDiagramClick = useCallback((diagramPath: string, parentPath?: string) => {
+  // `source` distinguishes an explicit click/selection (where landing on the diagram
+  // already open is worth a toast) from j/k/gg/G keyboard navigation, which must be able
+  // to move between two entries that share a diagram path but differ only by parent.
+  const handleDiagramClick = useCallback((diagramPath: string, parentPath?: string, source: 'click' | 'keyboard' = 'click') => {
     setToastMessage(null)
 
     const targetPath = `/tech/${yamlPathToUrlSegment(diagramPath)}`
-    if (location.pathname === targetPath) {
+    const currentDiagramParent = searchParams.get('diagramParent') || undefined
+    if (location.pathname === targetPath && parentPath === currentDiagramParent) {
       // In drawer mode, tapping the current diagram just closes the drawer to show it
-      if (onRequestClose) onRequestClose()
-      else setToastMessage('Already viewing this diagram')
+      if (source === 'click') {
+        if (onRequestClose) onRequestClose()
+        else setToastMessage('Already viewing this diagram')
+      }
       return
     }
 
@@ -243,7 +249,7 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
         if (lastKeyRef.current?.key === 'g' && now - lastKeyRef.current.time < 500) {
           lastKeyRef.current = null
           e.preventDefault()
-          handleDiagramClick(navigable[0].path, navigable[0].parent)
+          handleDiagramClick(navigable[0].path, navigable[0].parent, 'keyboard')
         } else {
           lastKeyRef.current = { key: 'g', time: now }
         }
@@ -253,7 +259,7 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
       if (e.key === 'G') {
         e.preventDefault()
         const last = navigable[navigable.length - 1]
-        handleDiagramClick(last.path, last.parent)
+        handleDiagramClick(last.path, last.parent, 'keyboard')
         return
       }
 
@@ -273,7 +279,7 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
         : (currentIndex - 1 + navigable.length) % navigable.length
 
       e.preventDefault()
-      handleDiagramClick(navigable[nextIndex].path, navigable[nextIndex].parent)
+      handleDiagramClick(navigable[nextIndex].path, navigable[nextIndex].parent, 'keyboard')
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)

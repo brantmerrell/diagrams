@@ -1,11 +1,9 @@
 ---
-challenges/:
-  pressw/:
-    - ./tech/challenges/pressw/pantrypal_plan.d2
 design-patterns:
   - ./tech/design-patterns/adapter.d2
   - ./tech/design-patterns/chain-of-responsibility.d2
   - ./tech/design-patterns/facade.d2
+  - ./tech/design-patterns/iterator.d2
 sd-notes/:
   designs/:
     mint/:
@@ -88,12 +86,12 @@ jbm.eco:
     backend/:
       alembic/:
         env.py:
-          - ./tech/hi/seq_alembic.d2
+          - ./tech/hi/alembic.d2
         script.py.mako:
-          - ./tech/hi/seq_alembic.d2
+          - ./tech/hi/alembic.d2
       app/:
         models.py:
-          - ./tech/hi/seq_alembic.d2
+          - ./tech/hi/alembic.d2
     data/:
       audio/:
       raw/:
@@ -107,131 +105,7 @@ jbm.eco:
       process_sentences.py:
         - ./tech/hi/seq_process_sentences.d2
 hackerrank/:
-  TODO:
-    - link each to hackerrank problem
-    - add prefixes to layer names
-    - create pattern-specific diagrams linking to hackerrank problems
-    - add python snippets for syntactic review of indexing and splicing (see miniMaxSum)
-    - include function signatures in labels and remove external depictions of params/inputs
-    - add diagrams for "mod" roles
-    - develop depiction of init vs modification for given variable
-  1-week/:
-    day-1/:
-      1_plus-minus/:
-        - ./tech/hackerrank/1-week/day-1/plusMinus.d2
-      2_mini-max-sum/:
-        - ./tech/hackerrank/1-week/day-1/miniMaxSum.d2
-      3_time-conversion/:
-        - ./tech/hackerrank/1-week/day-1/timeConversion.d2
-    day-2/:
-      1_lonely-integer/:
-        - ./tech/hackerrank/1-week/day-2/lonelyinteger.d2
-      2_diagonal-difference/:
-        - ./tech/hackerrank/1-week/day-2/diagonalDifference.d2
-      3_counting-sort/:
-        - ./tech/hackerrank/1-week/day-2/countingSort.d2
-    day-3/:
-      1_zig-zag-sequence/:
-        - ./tech/hackerrank/1-week/day-3/findZigZagSequence.d2
-      2_tower-breakers/:
-        - ./tech/hackerrank/1-week/day-3/towerBreakers.d2
-      3_caesar-cipher/:
-        - ./tech/hackerrank/1-week/day-3/caesarCipher.d2
-    day-4/:
-      1_grid-challenge/:
-        - ./tech/hackerrank/1-week/day-4/gridChallenge.d2
-      2_recursive-digit-sum/:
-        - ./tech/hackerrank/1-week/day-4/superDigit.d2
-      3_new-year-chaos/:
-        - ./tech/hackerrank/1-week/day-4/minimumBribes.d2
-    day-5/:
-      1_merge-two-sorted-linked-lists/:
-        - ./tech/hackerrank/1-week/day-5/mergeLists.d2
-      2_queue-using-two-stacks/:
-        - ./tech/hackerrank/1-week/day-5/queuing.d2
-      3_balanced-brackets/:
-        - ./tech/hackerrank/1-week/day-5/isBalanced.d2
-  3-month/:
-    week-1/:
-      1_plus-minus/:
-        - ./tech/hackerrank/3-month/week-1/plusMinus.d2
-      2_mini-max-sum/:
-        - ./tech/hackerrank/3-month/week-1/miniMaxSum.d2
-      3_time-conversion/:
-        - ./tech/hackerrank/3-month/week-1/timeConversion.d2
-      4_breaking-records/:
-        - ./tech/hackerrank/3-month/week-1/breakingRecords.d2
-      6_divisible-sum-pairs/:
-        - ./tech/hackerrank/3-month/week-1/divisibleSumPairs.d2
-      7_sparse-arrays/:
-        - ./tech/hackerrank/3-month/week-1/matchingStrings.d2
-    week-2/:
-      1_lonely-integer/:
-        - ./tech/hackerrank/3-month/week-2/lonelyinteger.d2
-      2_grading-students/:
-        - ./tech/hackerrank/3-month/week-2/gradingStudents.d2
-      3_flipping-bits/:
-        - ./tech/hackerrank/3-month/week-2/flippingBits.d2
-      4_diagonal-difference/:
-        - ./tech/hackerrank/3-month/week-2/diagonalDifference.d2
-      5_counting-sort-1/:
-        - ./tech/hackerrank/3-month/week-2/countingSort.d2
-      6_counting-valleys/:
-        - ./tech/hackerrank/3-month/week-2/countingValleys.d2
-      7_pangrams/:
-        - ./tech/hackerrank/3-month/week-2/pangrams.d2
-      8_mars-exploration/:
-        - ./tech/hackerrank/3-month/week-2/marsExploration.d2 # TODO: finish diagram
-      challenge/:
-        - ./tech/hackerrank/3-month/week-2/flippingMatrix.d2
-    week-3/:
-      1_permuting-two-arrays/:
-        - ./tech/hackerrank/3-month/week-3/twoArrays.d2
-      2_birthday-bar/:
-        - ./tech/hackerrank/3-month/week-3/birthday.d2
-      3_xor-strings/:
-        - ./tech/hackerrank/3-month/week-3/strings_xor.d2
-      4_sock-merchant/:
-        - ./tech/hackerrank/3-month/week-3/sockMerchant.d2
-      5_migratory-birds/:
-        - ./tech/hackerrank/3-month/week-3/migratoryBirds.d2
-      6_maximum-perimeter-triangle/:
-        - ./tech/hackerrank/3-month/week-3/maximumPerimeterTriangle.d2
-      7_zig-zag-sequence/:
-        - ./tech/hackerrank/3-month/week-3/findZigZagSequence.d2
-      8_drawing-book/:
-        - ./tech/hackerrank/3-month/week-3/pageCount.d2
-      9_between-two-sets/:
-        - ./tech/hackerrank/3-month/week-3/getTotal.d2
-    week-4/:
-      1_picking-numbers/:
-        - ./tech/hackerrank/3-month/week-4/pickingNumbers.d2
-      2_left-rotation/:
-        - ./tech/hackerrank/3-month/week-4/leftRotation.d2
-      3_number-line-jumps/:
-        - ./tech/hackerrank/3-month/week-4/kangaroo.d2
-      4_separate-numbers/:
-      5_closest-numbers/:
-        - ./tech/hackerrank/3-month/week-4/closestNumbers.d2
-      6_tower-breakers/:
-        - ./tech/hackerrank/3-month/week-4/towerBreakers.d2
-      7_min-abs-diff-arr/:
-        - ./tech/hackerrank/3-month/week-4/minimumAbsoluteDifference.d2
-      8_caesar-cipher/:
-        - ./tech/hackerrank/3-month/week-4/caesarCipher.d2
-    week-5/:
-      1_max-min/:
-        - ./tech/hackerrank/3-month/week-5/maxMin.d2
-      2_strong-password/:
-        - ./tech/hackerrank/3-month/week-5/strongPassword.d2
-      3_dynamic-array/:
-        - ./tech/hackerrank/3-month/week-5/dynamicArray.d2
-      4_smart-number-2/:
-        - ./tech/hackerrank/3-month/week-5/is_smart_number.d2
-      5_missing-numbers/:
-        - ./tech/hackerrank/3-month/week-5/missingNumbers.d2
-      7_grid-challenge/:
-        - ./tech/hackerrank/3-month/week-5/gridChallenge.d2
+  - ./tech/hackerrank/removeKthNodeFromEnd.d2
 d2-documentation:
   3-special-objects:
     - ./tech/examples/3-special-objects/block-strings.d2
@@ -255,3 +129,6 @@ d2-documentation:
     - ./tech/examples/5-in-depth/variables.d2
 classes/:
   - ./tech/classes/class_legend.d2
+challenges/:
+  pressw/:
+    - ./tech/challenges/pressw/pantrypal_plan.d2

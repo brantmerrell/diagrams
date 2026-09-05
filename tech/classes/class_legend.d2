@@ -5,9 +5,7 @@ classes: @"../../tags"
 layers: {
   0_basic: {
     _link: {class: _link; label: "_link"}
-  }
-  1_function: {
-    grid-columns: 3
+    grid-columns: 5
 
     cond: {class: cond; label: "cond"}
     ndx: {class: ndx; label: "ndx"}
@@ -33,9 +31,6 @@ layers: {
     gate_xor: {class: gate_xor; label: "gate_xor"}
     gate_xnor: {class: gate_xnor; label: "gate_xnor"}
     gate_not: {class: gate_not; label: "gate_not"}
-  }
-  2_L4: {
-    grid-columns: 2
 
     obj_socket: {class: obj_socket; label: "obj_socket"}
     obj_port: {class: obj_port; label: "obj_port"}
@@ -57,12 +52,9 @@ layers: {
       B: {label: "B"}
       A -> B: {class: edge_forward}
     }
-  }
-  3_L7: {
-    grid-columns: 5
 
     debug: {class: debug; label: "debug"}
-    notes: {class: notes; label: "notes"}
+    notes: {class: note; label: "notes"}
     note: {class: note; label: "note"}
     obj_cache: {class: obj_cache; label: "obj_cache"}
     objs_cache: {class: objs_cache; label: "objs_cache"}
@@ -106,17 +98,10 @@ layers: {
       B: {label: "B"}
       A -> B: {class: edge_query}
     }
-  }
-  4_plan: {
-    grid-columns: 3
 
     to_add: {class: to_add; label: "to_add"}
     to_remove: {class: to_remove; label: "to_remove"}
     unchanged: {class: unchanged; label: "unchanged"}
-  }
-
-  5_process: {
-    grid-columns: 4
 
     obj_proc: {class: obj_proc; label: "obj_proc"}
     edge_spawn_demo: {
@@ -137,10 +122,6 @@ layers: {
       B: {label: "B"}
       A -> B: {class: edge_no_signal}
     }
-  }
-
-  6_sequence: {
-    grid-columns: 3
 
     user: {class: user; label: "user"}
     frontend: {class: frontend; label: "frontend"}
@@ -150,10 +131,6 @@ layers: {
     aws: {class: aws; label: "aws"}
     azure: {class: azure; label: "azure"}
     gcp: {class: gcp; label: "gcp"}
-  }
-
-  7_tags: {
-
     demo_styled: {class: styled; label: "styled"}
     demo_coherent: {class: coherent; label: "coherent"}
   }

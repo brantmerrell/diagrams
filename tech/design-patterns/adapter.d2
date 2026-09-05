@@ -3,6 +3,7 @@ classes: @"../../classes"
 classes: @"../../tags"
 
 layers: {
+  **.style.text-transform: none
   0_base: {
     context: |md
       ## Adapter
@@ -11,12 +12,6 @@ layers: {
       expect, letting otherwise-incompatible things work together. Used\
       here to describe a component that normalizes messages between\
       multiple client channels and a single backend request shape.
-
-      **Applies to:**
-      [pressw/pantrypal_plan.d2](../challenges/pressw/pantrypal_plan.d2) —\
-      `channel_adapter` normalizes `chat_ui`/`voice_ui` messages into the\
-      shape `api_chat` expects, so a new channel can plug in without the\
-      backend route changing.
     | {
       near: top-center
     }

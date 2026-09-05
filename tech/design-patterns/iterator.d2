@@ -1,0 +1,58 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  **.style.text-transform: none
+  0_base: {
+    context: |md
+      ## Iterator
+
+      Provides sequential access to the elements of an aggregate object\
+      without exposing its underlying representation. Used here to\
+      describe walking a singly linked list node-by-node without the\
+      caller needing to know about `.next` pointers directly.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      removeKthNodeFromEnd: {
+        label: "hackerrank / removeKthNodeFromEnd.d2"
+        link: ../hackerrank/removeKthNodeFromEnd.d2?layer=3_iterator_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+
+    client: "Client" {class: obj_client}
+
+    aggregate: "Aggregate" {
+      class: obj_service
+      createIterator: "createIterator()" {class: obj_service}
+    }
+
+    iterator: "Iterator" {
+      class: obj_service
+      hasNext: "hasNext()" {class: obj_service}
+      next: "next()" {class: obj_service}
+    }
+
+    client -> aggregate.createIterator: "requests" {class: edge_request}
+    aggregate.createIterator -> iterator.hasNext: "returns" {class: edge_write}
+    client -> iterator.hasNext: "checks" {class: edge_query}
+    client -> iterator.next: "advances" {class: edge_request}
+
+    note: |md
+      The client only calls `hasNext()`/`next()` on the iterator — it\
+      never touches the aggregate's internal storage directly, the same\
+      way `print_singly_linked_list` walks `node = node.next` without\
+      the caller needing to know how `SinglyLinkedList` stores its\
+      nodes.
+    | {class: note}
+  }
+}
