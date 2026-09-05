@@ -250,4 +250,21 @@ layers: {
     AccountsAPI -> SQLWriteMasterSlave
     TransactionExtractionService -> SQLWriteMasterSlave
   }
+  3_proxy_pattern: {
+    ...@"../../design-patterns/proxy".layers.1_pattern
+
+    client.label: "Browser"
+    subject.label: "public HTTP API"
+    proxy.label: "Web Server"
+    proxy.request.label: "handle request"
+    proxy.control.label: "auth / route"
+    real.label: "Internal services"
+    real.request.label: "handle request"
+
+    design_pattern: {
+      label: "design pattern: proxy"
+      link: ../../design-patterns/proxy.d2
+      class: _link
+    }
+  }
 }

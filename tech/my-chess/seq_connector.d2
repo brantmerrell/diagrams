@@ -27,4 +27,24 @@ layers: {
     router -> networkx: {class: edge_query; label: "build_acyclic_graph(edges)"}
     router -> diagon: {class: edge_request; label: "pipe edge list to stdin"}
   }
+  1_facade_pattern: {
+    ...@"../design-patterns/facade".layers.1_pattern
+
+    client.label: "client\nGET /links, PUT /graphdag"
+    facade.label: "FastAPI + endpoint router"
+    facade.start.label: "route"
+    cpu.label: "python-chess"
+    cpu.freeze.label: "parse FEN -> board"
+    cpu.execute.label: "get_nodes / get_edges"
+    memory.label: "diagon CLI"
+    memory.load.label: "pipe edge list"
+    hd.label: "NetworkX"
+    hd.read.label: "build_acyclic_graph"
+
+    design_pattern: {
+      label: "design pattern: facade"
+      link: ../design-patterns/facade.d2
+      class: _link
+    }
+  }
 }

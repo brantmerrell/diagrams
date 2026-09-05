@@ -1,0 +1,57 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## Mediator
+
+      Colleagues that would otherwise form an N×N mesh all talk to one\
+      mediator instead. The mediator owns the interaction rules, so each\
+      colleague only needs to know the mediator.
+
+      **Applies to:**
+      - `sd-notes/tools/connectors.d2` — the connector layer sits between\
+      heterogeneous producers and consumers so neither side has to know\
+      the other's protocol or address.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      connectors: {
+        label: "sd-notes/tools / connectors.d2"
+        link: ../sd-notes/tools/connectors.d2?layer=1_mediator_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+
+    mediator: "Mediator" {
+      class: obj_service
+      notify: "notify(sender, event)" {class: obj_service}
+    }
+
+    colleague_a: "ColleagueA" {class: obj_service}
+    colleague_b: "ColleagueB" {class: obj_service}
+    colleague_c: "ColleagueC" {class: obj_service}
+
+    colleague_a -> mediator.notify {class: edge_request}
+    colleague_b -> mediator.notify {class: edge_request}
+    colleague_c -> mediator.notify {class: edge_request}
+    mediator.notify -> colleague_a {class: edge_write}
+    mediator.notify -> colleague_b {class: edge_write}
+    mediator.notify -> colleague_c {class: edge_write}
+
+    note: |md
+      Without the mediator these three colleagues need six directed\
+      edges and mutual knowledge of each other. With it, each knows\
+      exactly one collaborator and the coupling collapses from N² to N.
+    | {class: note}
+  }
+}

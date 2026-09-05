@@ -8,10 +8,11 @@ function App() {
       <div className="app">
         <div className="app-content">
           <Routes>
-            <Route path="/tech" element={<DiagramViewer />} />
-            <Route path="/tech/*.d2" element={<DiagramViewer />} />
-            <Route path="/tech/*" element={<DiagramViewer />} />
+            {/* Diagram URLs are the diagram's repo-relative path, so most live
+                under /tech/… but a root-level one (e.g. /class_legend.d2) is
+                equally routable. */}
             <Route path="/" element={<Navigate to="/tech" replace />} />
+            <Route path="/*" element={<DiagramViewer />} />
           </Routes>
         </div>
       </div>

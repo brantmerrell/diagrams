@@ -1,0 +1,56 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## Cache-Aside (Lazy Loading)
+
+      The application, not the cache, owns the read path: check the\
+      cache, and on a miss read the database and populate the cache\
+      before returning. The cache is never in the write path, so it can\
+      fail without taking the system down.
+
+      **Applies to:**
+      - `sd-notes/tools/application_caching.d2` — the `cache_check`\
+      branch with hit and miss paths, plus TTL and invalidation, is the\
+      cache-aside read path.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      application-caching: {
+        label: "sd-notes/tools / application_caching.d2"
+        link: ../sd-notes/tools/application_caching.d2?layer=1_cache_aside_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+
+    app: "Application" {class: obj_service}
+    cache: "Cache" {class: obj_cache}
+    db: "Database" {class: obj_db}
+
+    check: "in cache?" {class: cond}
+
+    app -> cache: "1. read" {class: edge_query}
+    cache -> check {class: generic_edge}
+    check -> app: "hit — return" {class: edge_query}
+    check -> db: "miss — 2. read" {class: edge_query}
+    db -> cache: "3. populate (with TTL)" {class: edge_write}
+    cache -> app: "4. return" {class: edge_query}
+
+    note: |md
+      Contrast with read-through, where the cache itself loads from the\
+      database. Cache-aside keeps that logic in the application, which\
+      means a cold or dead cache degrades latency rather than\
+      correctness.
+    | {class: note}
+  }
+}

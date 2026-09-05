@@ -19,7 +19,7 @@ COPY tech/ ./tech/
 # classes.d2 / tags.d2 are imported by every diagram in tech/, and icons/ is
 # referenced by the gate_* classes in classes.d2 — d2 resolves both relative to
 # the file that declares them, so they must sit at the image root.
-COPY classes.d2 tags.d2 ./
+COPY classes.d2 tags.d2 class_legend.d2 ./
 COPY icons/ ./icons/
 COPY pointers.yaml ./
 

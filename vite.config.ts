@@ -9,7 +9,7 @@ const blockRawD2Plugin = (): Plugin => ({
       if (req.url?.startsWith('/api')) {
         return next()
       }
-      if (req.url?.match(/\/tech\/.*\.d2(\?|$)/)) {
+      if (req.url?.match(/\.d2(\?|$)/)) {
         req.url = '/index.html'
       }
       next()
@@ -32,7 +32,10 @@ export default defineConfig(({ mode }) => {
           target: backendTarget,
           changeOrigin: true,
         },
-        '^/tech/.*\\.svg$': {
+        // Diagram SVGs are d2's compiled output, served from disk by the backend.
+        // Any repo-relative .svg path qualifies (diagrams are no longer confined
+        // to tech/), but vite's own module/asset routes must not be intercepted.
+        '^/(?!@|src/|node_modules/|assets/|vite\\.svg).*\\.svg$': {
           target: backendTarget,
           changeOrigin: true,
         },

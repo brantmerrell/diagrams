@@ -1,0 +1,63 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    context: |md
+      ## Producer-Consumer
+
+      Producers append work to a bounded queue; consumers drain it at\
+      their own rate. The queue decouples the two in time, absorbs\
+      bursts, and makes back-pressure explicit.
+
+      **Applies to:**
+      - `sd-notes/tools/asynchronism.d2` — the message queue plus the\
+      rate limiter, buffer manager, circuit breaker, and load shedder\
+      are all mechanisms for handling a full or slow queue.
+    | {
+      near: top-center
+    }
+    links: {
+      grid-columns: 1
+      asynchronism: {
+        label: "sd-notes/tools / asynchronism.d2"
+        link: ../sd-notes/tools/asynchronism.d2?layer=1_producer_consumer_pattern
+        class: _link
+      }
+    }
+    _quality: {class: compiles}
+  }
+
+  1_pattern: {
+    _quality: {class: compiles}
+    direction: right
+
+    producers: "Producers" {
+      p1: "Producer 1" {class: obj_service}
+      p2: "Producer 2" {class: obj_service}
+    }
+
+    queue: "Bounded queue" {class: obj_queue}
+
+    consumers: "Consumers" {
+      c1: "Consumer 1" {class: obj_service}
+      c2: "Consumer 2" {class: obj_service}
+    }
+
+    backpressure: "back-pressure\n(block / shed / buffer)" {class: cond}
+
+    producers.p1 -> queue: "enqueue" {class: edge_write}
+    producers.p2 -> queue: "enqueue" {class: edge_write}
+    queue -> consumers.c1: "dequeue" {class: edge_query}
+    queue -> consumers.c2: "dequeue" {class: edge_query}
+    queue -> backpressure: "full" {class: edge_signal}
+    backpressure -> producers.p1 {class: edge_signal}
+
+    note: |md
+      The interesting design work is not the queue — it is what happens\
+      when it fills. Blocking, shedding, buffering, and circuit-breaking\
+      are the four answers, and picking one is a product decision.
+    | {class: note}
+  }
+}

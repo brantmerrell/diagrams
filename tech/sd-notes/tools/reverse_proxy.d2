@@ -93,3 +93,23 @@ security_features: { # what performs these? Does the developer write them? Does 
 reverse_proxy.rate_limiter -- security_features.ddos_protection
 reverse_proxy.cache -- security_features.compression
 reverse_proxy.ssl_termination -- security_features.header_manipulation
+
+layers: {
+  1_proxy_pattern: {
+    ...@"../../design-patterns/proxy".layers.1_pattern
+
+    client.label: "Internet clients"
+    subject.label: "HTTP interface\n(host + path)"
+    proxy.label: "Reverse Proxy\n(Nginx/Apache)"
+    proxy.request.label: "accept :443"
+    proxy.control.label: "SSL termination,\nrouting, cache, rate limit"
+    real.label: "Backend Servers"
+    real.request.label: "web_servers / api_server"
+
+    design_pattern: {
+      label: "design pattern: proxy"
+      link: ../../design-patterns/proxy.d2
+      class: _link
+    }
+  }
+}

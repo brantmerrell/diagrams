@@ -12,6 +12,11 @@ layers: {
       without exposing its underlying representation. Used here to\
       describe walking a singly linked list node-by-node without the\
       caller needing to know about `.next` pointers directly.
+
+      **Applies to:**
+      [hackerrank/removeKthNodeFromEnd.d2](../hackerrank/removeKthNodeFromEnd.d2) —\
+      `print_singly_linked_list` walks `node = node.next` until\
+      exhausted, never touching `SinglyLinkedList`'s storage directly.
     | {
       near: top-center
     }

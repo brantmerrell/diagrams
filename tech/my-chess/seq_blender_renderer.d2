@@ -25,3 +25,25 @@ seq_blender_renderer: {
   operator -> connector_svc: {class: edge_request; label: "fetch_<connection_type>(new_fen)"}
   connector_svc -> connector: {class: edge_request; label: "GET /<endpoint>?fen_string=<new FEN>"}
 }
+
+layers: {
+  1_strategy_pattern: {
+    ...@"../design-patterns/strategy".layers.1_pattern
+
+    client.label: "blender"
+    context.label: "connector_service.py"
+    context.execute.label: "render()"
+    context.slot.label: "renderer backend"
+    iface.label: "renderer"
+    iface.run.label: "render(position)"
+    concrete_a.label: "Blender"
+    concrete_b.label: "diagon (ASCII)"
+    concrete_c.label: "SVG"
+
+    design_pattern: {
+      label: "design pattern: strategy"
+      link: ../design-patterns/strategy.d2
+      class: _link
+    }
+  }
+}

@@ -54,12 +54,8 @@ const MermaidPanel: React.FC<MermaidPanelProps> = ({ diagramPath }) => {
   }, [showCode, mmdSource])
 
   const canonicalPath = normalizeToCanonical(diagramPath) // e.g. /tech/SDPVEDO-7489.mmd
-  // Strip /tech/ prefix for server endpoint
-  const serverPath = canonicalPath.startsWith('/tech/')
-    ? canonicalPath.slice('/tech/'.length)
-    : canonicalPath.startsWith('/')
-      ? canonicalPath.slice(1)
-      : canonicalPath
+  // Server endpoints take the repo-relative path (canonical minus the leading /)
+  const serverPath = canonicalPath.startsWith('/') ? canonicalPath.slice(1) : canonicalPath
 
   const renderMermaid = async (source: string, signal: AbortSignal) => {
     if (signal.aborted) return

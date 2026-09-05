@@ -12,7 +12,23 @@ const __dirname = path.dirname(__filename)
 const app = express()
 app.use(express.json())
 
-// Serve SVG files from tech/ folder
+// Serve compiled diagram SVGs. Most diagrams live under tech/, but a diagram
+// may also sit at the repo root next to classes.d2 (e.g. class_legend.d2), and
+// d2 writes its output beside the source — so resolve any repo-relative .svg
+// request, with a traversal guard and an explicit deny-list for non-diagram dirs.
+const SVG_DENY = new Set(['node_modules', 'dist', 'src', '.git', '.github'])
+
+app.get(/^\/.+\.svg$/, (req, res, next) => {
+  const rel = decodeURIComponent(req.path.slice(1))
+  const fullPath = path.join(__dirname, rel)
+  if (!fullPath.startsWith(__dirname + path.sep)) return res.status(400).end()
+  if (SVG_DENY.has(rel.split('/')[0])) return next()
+  if (!fs.existsSync(fullPath) || !fs.statSync(fullPath).isFile()) return next()
+  res.setHeader('Content-Type', 'image/svg+xml')
+  fs.createReadStream(fullPath).pipe(res)
+})
+
+// Serve remaining static files (JSON manifests, etc.) from tech/
 app.use('/tech', express.static(path.join(__dirname, 'tech'), {
   setHeaders: (res, filepath) => {
     if (filepath.endsWith('.svg')) {
@@ -310,10 +326,12 @@ const DARK_THEME_ID = '201'
 // .d2 level at all, see diagramSemanticThemes.css), only the light/dark
 // theme's automatic shape coloring, via the theme query param below.
 app.get('/api/tech/png/:d2Path(*)', (req, res) => {
-  const d2RelPath = req.params.d2Path  // already includes 'tech/' prefix
+  const d2RelPath = req.params.d2Path  // repo-relative, e.g. tech/dev/make.d2
   const fullPath = path.join(__dirname, d2RelPath)
 
-  if (!fullPath.startsWith(path.join(__dirname, 'tech') + path.sep)) {
+  // Traversal guard only — the .d2 suffix forced below is what keeps this from
+  // reading arbitrary repo files.
+  if (!fullPath.startsWith(__dirname + path.sep)) {
     return res.status(400).json({ error: 'Invalid path' })
   }
 
@@ -388,10 +406,10 @@ app.get('/api/arch/data', (req, res) => {
 
 // Serve raw .d2 source text
 app.get('/api/d2/source/:d2Path(*)', (req, res) => {
-  const d2Path = req.params.d2Path
-  const fullPath = path.join(__dirname, d2Path.startsWith('tech/') ? d2Path : `tech/${d2Path}`)
+  const d2Path = req.params.d2Path  // repo-relative, e.g. tech/dev/make.d2
+  const fullPath = path.join(__dirname, d2Path)
 
-  if (!fullPath.startsWith(path.join(__dirname, 'tech'))) {
+  if (!fullPath.startsWith(__dirname + path.sep)) {
     return res.status(400).json({ error: 'Invalid path' })
   }
 
@@ -410,10 +428,10 @@ app.get('/api/d2/source/:d2Path(*)', (req, res) => {
 
 // Serve raw .mmd source text
 app.get('/api/mmd/source/:mmdPath(*)', (req, res) => {
-  const mmdPath = req.params.mmdPath
-  const fullPath = path.join(__dirname, mmdPath.startsWith('tech/') ? mmdPath : `tech/${mmdPath}`)
+  const mmdPath = req.params.mmdPath  // repo-relative, e.g. tech/foo.mmd
+  const fullPath = path.join(__dirname, mmdPath)
 
-  if (!fullPath.startsWith(path.join(__dirname, 'tech'))) {
+  if (!fullPath.startsWith(__dirname + path.sep)) {
     return res.status(400).json({ error: 'Invalid path' })
   }
 

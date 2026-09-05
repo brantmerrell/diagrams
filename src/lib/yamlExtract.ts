@@ -180,34 +180,38 @@ export function collectAllDiagramPaths(obj: unknown): string[] {
 
 /**
  * Convert a diagram path as stored in pointers.yaml (`./tech/...` or `/tech/...`)
- * to the viewer URL path suffix (no leading slash), e.g. `publishing/PRs/367.d2`.
+ * to the viewer URL path suffix (no leading slash), e.g. `tech/publishing/PRs/367.d2`.
  * Returns null for paths that don't match either prefix (use `yamlPathToUrlSegment`
  * if you also need legacy `src-cd/…` support or a guaranteed non-null result).
  * Handles both .d2 and .mmd extensions.
  */
 export function pointersYamlDiagramToUrlPath(srcPath: string): string | null {
   if (!srcPath || !isDiagramPath(srcPath)) return null
-  if (srcPath.startsWith('./tech/')) return srcPath.slice('./tech/'.length)
-  if (srcPath.startsWith('/tech/')) return srcPath.slice('/tech/'.length)
+  if (srcPath.startsWith('./')) return srcPath.slice(2)
+  if (srcPath.startsWith('/')) return srcPath.slice(1)
   return null
 }
 
 // ── Canonical path utilities ─────────────────────────────────────────────────
 //
-// Canonical form is `/tech/<relative>`, e.g. `/tech/publishing/PRs/367.d2`.
-// URL segment form is `<relative>`, e.g. `publishing/PRs/367.d2`.
+// Canonical form is `/<repo-relative path>`, e.g. `/tech/publishing/PRs/367.d2`
+// or `/class_legend.d2` for a diagram that lives at the repo root next to
+// `classes.d2`. URL segment form is the same string without the leading slash,
+// so the browser pathname *is* the repo-relative path — `tech/` is just the
+// directory most diagrams happen to live in, not a hardcoded prefix.
 //
 // Representations in the wild:
 //   YAML value   ./tech/foo.d2  or  /tech/foo.d2  (legacy: src-cd/foo.d2)
-//   URL segment  publishing/PRs/foo.d2          (browser pathname minus leading /)
+//   URL segment  tech/publishing/PRs/foo.d2     (browser pathname minus leading /)
 //   Canonical    /tech/publishing/PRs/foo.d2      (sent to server, used as Map key)
 //   SVG URL      /tech/publishing/PRs/foo.svg     (served as static file by Vite)
 
 /**
- * Any diagram path format → canonical `/tech/…` form.
+ * Any diagram path format → canonical repo-rooted form.
  *   `./tech/foo.d2`  → `/tech/foo.d2`
  *    `/tech/foo.d2`  → `/tech/foo.d2`  (no-op)
  *     `tech/foo.d2`  → `/tech/foo.d2`
+ *   `./class_legend.d2` → `/class_legend.d2`
  */
 export function normalizeToCanonical(p: string): string {
   if (p.startsWith('./')) return p.slice(1)    // ./tech/… → /tech/…
@@ -216,10 +220,10 @@ export function normalizeToCanonical(p: string): string {
 }
 
 /**
- * URL segment (e.g. `publishing/PRs/367.d2`) → canonical `/tech/publishing/PRs/367.d2`.
+ * URL segment (e.g. `tech/publishing/PRs/367.d2`) → canonical `/tech/publishing/PRs/367.d2`.
  */
 export function urlSegmentToCanonical(urlSeg: string): string {
-  return `/tech/${urlSeg}`
+  return `/${urlSeg}`
 }
 
 /**
@@ -238,22 +242,17 @@ export function isMermaidPath(p: string): boolean {
 }
 
 /**
- * Any pointers.yaml diagram path value → URL segment (no leading `/`, no `tech/` prefix).
+ * Any pointers.yaml diagram path value → URL segment (canonical path without the
+ * leading `/`), e.g. `tech/dev/make.d2` or `class_legend.d2`.
  * Handles the legacy `src-cd/…` format, current `./tech/…` and `/tech/…` formats,
- * and falls back gracefully for any other canonical `/tech/…` or bare `tech/…` paths.
+ * and falls back gracefully for any other canonical or bare path.
  * Unlike `pointersYamlDiagramToUrlPath`, never returns null.
  */
 export function yamlPathToUrlSegment(diagramPath: string): string {
-  // Legacy: src-cd/publishing/PRs/foo.d2 → publishing/PRs/foo.d2
+  // Legacy: src-cd/publishing/PRs/foo.d2 → tech/publishing/PRs/foo.d2
   const legacyMatch = diagramPath.match(/src-cd\/(.+\.(d2|mmd))$/)
-  if (legacyMatch) return legacyMatch[1]
-  // Current YAML formats: ./tech/… or /tech/…
-  const converted = pointersYamlDiagramToUrlPath(diagramPath)
-  if (converted) return converted
-  // Fallback: strip /tech/ or tech/ prefix from canonical/bare paths
-  const canonical = normalizeToCanonical(diagramPath)
-  if (canonical.startsWith('/tech/')) return canonical.slice('/tech/'.length)
-  return diagramPath
+  if (legacyMatch) return `tech/${legacyMatch[1]}`
+  return normalizeToCanonical(diagramPath).slice(1)
 }
 
 /**
