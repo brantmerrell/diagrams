@@ -39,9 +39,17 @@ jobs:
 
       - name: Compile d2 files to SVG
         run: |
-          find tech -name "*.d2" | while read f; do
-            d2 "$f" "${f%.d2}.svg" 2>/dev/null || true
-          done
+          failed=""
+          while read -r f; do
+            if ! d2 "$f" "${f%.d2}.svg"; then
+              echo "::error file=$f::d2 compile failed for $f"
+              failed="$failed $f"
+            fi
+          done < <(find tech -name "*.d2")
+          if [ -n "$failed" ]; then
+            echo "d2 compile failed for:$failed"
+            exit 1
+          fi
 
       - name: Generate scenario manifests
         # Static stand-in for /api/tech/scenarios — the frontend falls back to
