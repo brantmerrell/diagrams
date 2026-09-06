@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/examples/3-special-objects/latex/0_base.svg"
+    },
+    {
+      "name": "1_latex",
+      "path": "/tech/examples/3-special-objects/latex/1_latex.svg"
+    },
+    {
+      "name": "2_plugins",
+      "path": "/tech/examples/3-special-objects/latex/2_plugins.svg"
+    }
+  ]
+}

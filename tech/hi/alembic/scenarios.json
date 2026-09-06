@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/hi/alembic/0_base.svg"
+    },
+    {
+      "name": "1_migration",
+      "path": "/tech/hi/alembic/1_migration.svg"
+    },
+    {
+      "name": "2_schema",
+      "path": "/tech/hi/alembic/2_schema.svg"
+    }
+  ]
+}

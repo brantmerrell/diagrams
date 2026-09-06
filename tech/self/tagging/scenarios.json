@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/self/tagging/0_base.svg"
+    },
+    {
+      "name": "1_tagging",
+      "path": "/tech/self/tagging/1_tagging.svg"
+    },
+    {
+      "name": "2_filter",
+      "path": "/tech/self/tagging/2_filter.svg"
+    }
+  ]
+}

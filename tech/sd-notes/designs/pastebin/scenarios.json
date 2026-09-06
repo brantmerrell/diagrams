@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/sd-notes/designs/pastebin/0_base.svg"
+    },
+    {
+      "name": "1_pastebin",
+      "path": "/tech/sd-notes/designs/pastebin/1_pastebin.svg"
+    }
+  ]
+}

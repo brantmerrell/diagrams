@@ -2,242 +2,203 @@ direction: right
 vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
-
-_quality: {class: compiles}
-
-# TODO: links, layers
-
-AIAgent: AI Agent/Model {
-  shape: class
-  +model
-  +context
-
-  +plan()
-  +invokeConnector()
-  +augmentContext()
-  +learnFromResults()
-}
-
-Connector: {
-  shape: class
-  +name
-  +config
-  +credentials
-
-  +connect()
-  +execute()
-  +disconnect()
-}
-
-ConnectorManager: Connector Management {
-  shape: class
-  +registry
-
-  +authenticate()
-  +rateLimit()
-  +monitor()
-  +retry()
-}
-
-ExternalSystem: External System {
-  shape: class
-  +endpoint
-  +protocol
-}
-
-DataConnector: Data Connector {
-  shape: class
-  +schema
-
-  +fetch()
-}
-
-ServiceConnector: Service Connector {
-  shape: class
-  +scope
-
-  +act()
-}
-
-ToolConnector: Tool Connector {
-  shape: class
-  +capability
-
-  +run()
-}
-
-RESTAPIConnector: REST API Connector {
-  shape: class
-  +baseUrl
-
-  +invoke()
-}
-
-DatabaseConnector: Database Connector {
-  shape: class
-  +dsn
-
-  +query()
-}
-
-FileSystemConnector: File System Connector {
-  shape: class
-  +rootPath
-
-  +read()
-  +write()
-}
-
-StreamConnector: Real-time Stream Connector {
-  shape: class
-  +topic
-
-  +subscribe()
-}
-
-AuthConnector: Authentication Connector {
-  shape: class
-  +provider
-
-  +authenticate()
-}
-
-EmailSMSConnector: Email/SMS Connector {
-  shape: class
-  +channel
-
-  +send()
-}
-
-CalendarConnector: Calendar Connector {
-  shape: class
-  +calendarId
-
-  +schedule()
-}
-
-PaymentConnector: Payment Connector {
-  shape: class
-  +gateway
-
-  +charge()
-}
-
-WebSearchConnector: Web Search Connector {
-  shape: class
-  +engine
-
-  +search()
-}
-
-CodeExecutionConnector: Code Execution Connector {
-  shape: class
-  +runtime
-
-  +run()
-}
-
-VisionConnector: Computer Vision Connector {
-  shape: class
-  +model
-
-  +analyze()
-}
-
-# Associations
-AIAgent -- Connector: +invokes {
-  source-arrowhead: 1
-  target-arrowhead: 1..*
-}
-
-ConnectorManager -- Connector: manages {
-  source-arrowhead: 1
-  target-arrowhead: *
-}
-
-Connector -- ExternalSystem: connects to {
-  source-arrowhead: *
-  target-arrowhead: 1
-}
-
-# Connector categories
-DataConnector -> Connector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-ServiceConnector -> Connector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-ToolConnector -> Connector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-
-# Data connectors
-RESTAPIConnector -> DataConnector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-DatabaseConnector -> DataConnector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-FileSystemConnector -> DataConnector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-StreamConnector -> DataConnector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-
-# Service connectors
-AuthConnector -> ServiceConnector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-EmailSMSConnector -> ServiceConnector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-CalendarConnector -> ServiceConnector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-PaymentConnector -> ServiceConnector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-
-# Tool connectors
-WebSearchConnector -> ToolConnector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-CodeExecutionConnector -> ToolConnector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-VisionConnector -> ToolConnector: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-
 layers: {
+  **.style.text-transform: none
+  0_base: {
+    _quality: {class: compiles}
+    design_pattern: {
+      label: "design pattern: mediator"
+      link: ../../design-patterns/mediator.d2
+      class: _link
+    }
+  }
   1_mediator_pattern: {
+    _quality: {class: compiles}
     ...@"../../design-patterns/mediator".layers.1_pattern
-
     mediator.label: "Connector Management\n(registry)"
     mediator.notify.label: "connect / execute / retry"
     colleague_a.label: "AI Agent/Model"
     colleague_b.label: "Connector"
     colleague_c.label: "External System"
-
-    design_pattern: {
-      label: "design pattern: mediator"
-      link: ../../design-patterns/mediator.d2
-      class: _link
+  }
+  2_unsorted: {
+    direction: right
+    _quality: {class: compiles}
+    # TODO: links
+    AIAgent: AI Agent/Model {
+      shape: class
+      +model
+      +context
+      +plan()
+      +invokeConnector()
+      +augmentContext()
+      +learnFromResults()
+    }
+    Connector: {
+      shape: class
+      +name
+      +config
+      +credentials
+      +connect()
+      +execute()
+      +disconnect()
+    }
+    ConnectorManager: Connector Management {
+      shape: class
+      +registry
+      +authenticate()
+      +rateLimit()
+      +monitor()
+      +retry()
+    }
+    ExternalSystem: External System {
+      shape: class
+      +endpoint
+      +protocol
+    }
+    DataConnector: Data Connector {
+      shape: class
+      +schema
+      +fetch()
+    }
+    ServiceConnector: Service Connector {
+      shape: class
+      +scope
+      +act()
+    }
+    ToolConnector: Tool Connector {
+      shape: class
+      +capability
+      +run()
+    }
+    RESTAPIConnector: REST API Connector {
+      shape: class
+      +baseUrl
+      +invoke()
+    }
+    DatabaseConnector: Database Connector {
+      shape: class
+      +dsn
+      +query()
+    }
+    FileSystemConnector: File System Connector {
+      shape: class
+      +rootPath
+      +read()
+      +write()
+    }
+    StreamConnector: Real-time Stream Connector {
+      shape: class
+      +topic
+      +subscribe()
+    }
+    AuthConnector: Authentication Connector {
+      shape: class
+      +provider
+      +authenticate()
+    }
+    EmailSMSConnector: Email/SMS Connector {
+      shape: class
+      +channel
+      +send()
+    }
+    CalendarConnector: Calendar Connector {
+      shape: class
+      +calendarId
+      +schedule()
+    }
+    PaymentConnector: Payment Connector {
+      shape: class
+      +gateway
+      +charge()
+    }
+    WebSearchConnector: Web Search Connector {
+      shape: class
+      +engine
+      +search()
+    }
+    CodeExecutionConnector: Code Execution Connector {
+      shape: class
+      +runtime
+      +run()
+    }
+    VisionConnector: Computer Vision Connector {
+      shape: class
+      +model
+      +analyze()
+    }
+    # Associations
+    AIAgent -- Connector: +invokes {
+      source-arrowhead: 1
+      target-arrowhead: 1..*
+    }
+    ConnectorManager -- Connector: manages {
+      source-arrowhead: 1
+      target-arrowhead: *
+    }
+    Connector -- ExternalSystem: connects to {
+      source-arrowhead: *
+      target-arrowhead: 1
+    }
+    # Connector categories
+    DataConnector -> Connector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    ServiceConnector -> Connector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    ToolConnector -> Connector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    # Data connectors
+    RESTAPIConnector -> DataConnector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    DatabaseConnector -> DataConnector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    FileSystemConnector -> DataConnector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    StreamConnector -> DataConnector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    # Service connectors
+    AuthConnector -> ServiceConnector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    EmailSMSConnector -> ServiceConnector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    CalendarConnector -> ServiceConnector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    PaymentConnector -> ServiceConnector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    # Tool connectors
+    WebSearchConnector -> ToolConnector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    CodeExecutionConnector -> ToolConnector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    VisionConnector -> ToolConnector: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
     }
   }
 }

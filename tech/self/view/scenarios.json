@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "1_sequence",
+      "path": "/tech/self/view/1_sequence.svg"
+    },
+    {
+      "name": "2_observer_pattern",
+      "path": "/tech/self/view/2_observer_pattern.svg"
+    }
+  ]
+}

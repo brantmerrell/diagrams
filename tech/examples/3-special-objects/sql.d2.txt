@@ -1,26 +1,28 @@
 vars: @"../../vars/jbm.d2"
 classes: @"../../../tags"
-
-_quality: {class: compiles}
-
-cloud: {
-  disks: {
-    shape: sql_table
-    id: int {constraint: primary_key}
+layers: {
+  **.style.text-transform: none
+  0_base: {
+    design_pattern: {
+      label: "design pattern: none"
+      link: ../../design-patterns/none.d2
+      class: _link
+    }
   }
-  blocks: {
-    shape: sql_table
-    id: int {constraint: primary_key}
-    disk: int {constraint: foreign_key}
-    blob: blob
+  1_sql: {
+    cloud: {
+      disks: {
+        shape: sql_table
+        id: int {constraint: primary_key}
+      }
+      blocks: {
+        shape: sql_table
+        id: int {constraint: primary_key}
+        disk: int {constraint: foreign_key}
+        blob: blob
+      }
+      blocks.disk -> disks.id
+      AWS S3 Vancouver -> disks
+    }
   }
-  blocks.disk -> disks.id
-
-  AWS S3 Vancouver -> disks
-}
-
-design_pattern: {
-  label: "design pattern: none"
-  link: ../../design-patterns/none.d2
-  class: _link
 }

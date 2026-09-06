@@ -1,0 +1,59 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+layers: {
+  0_main: {
+    _quality: {class: styled}
+    shape: sequence_diagram
+    browser: {class: obj_client; label: browser}
+    index_tsx: {label: index.tsx; class: obj_service}
+    App: {class: obj_service}
+    Redux: {label: Redux store; class: obj_cache}
+    connector: {label: connector API; class: obj_server}
+    chesscom: {label: Chess.com API; class: obj_service}
+    browser -> index_tsx: {class: edge_request; label: "load page"}
+    index_tsx -> App: render {class: edge_request}
+    App -> Redux: {class: edge_write; label: "initialize store"}
+    Redux.note: |md
+      * positions
+      * puzzles
+      * setups
+      * slices
+    | {
+      class: obj_cache
+    }
+    App -> connector: {class: edge_request; label: "GET /none?fen_string=<starting FEN>"}
+    browser -> App: {class: edge_request; label: "change connection type or FEN"}
+    App -> Redux: {class: edge_write; label: "dispatch loadFen / setConnectionType"}
+    App -> connector: {class: edge_request; label: "GET /<endpoint>?fen_string=<FEN>"}
+    browser -> App: {class: edge_request; label: "load daily puzzle"}
+    App -> chesscom: {class: edge_request; label: "GET /pub/puzzle"}
+  }
+  1_login: {
+    _quality: {class: compiles}
+    shape: sequence_diagram
+    browser: {class: obj_client; label: browser}
+    App: {class: obj_service}
+    lichess: {label: Lichess API; class: obj_service}
+    browser -> App: {class: edge_request; label: "sign in with Lichess"}
+    App -> lichess: {class: edge_request; label: "redirect to /oauth (PKCE flow)"}
+    App -> lichess: {class: edge_request; label: "POST /api/token (exchange code)"}
+  }
+  2_strategy_pattern: {
+    ...@"../design-patterns/strategy".layers.1_pattern
+    client.label: "User"
+    context.label: "ascii-chess-ts"
+    context.execute.label: "render board"
+    context.slot.label: "presentation mode"
+    iface.label: "board renderer"
+    iface.run.label: "render(fen)"
+    concrete_a.label: "ASCII board"
+    concrete_b.label: "link graph"
+    concrete_c.label: "heatmap"
+    design_pattern: {
+      label: "design pattern: strategy"
+      link: ../design-patterns/strategy.d2
+      class: _link
+    }
+  }
+}

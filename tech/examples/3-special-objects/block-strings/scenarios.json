@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/examples/3-special-objects/block-strings/0_base.svg"
+    },
+    {
+      "name": "1_block_strings",
+      "path": "/tech/examples/3-special-objects/block-strings/1_block_strings.svg"
+    }
+  ]
+}

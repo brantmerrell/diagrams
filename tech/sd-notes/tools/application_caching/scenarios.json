@@ -1,12 +1,16 @@
 {
   "scenarios": [
     {
-      "name": "base",
-      "path": "/tech/sd-notes/tools/application_caching/index.svg"
+      "name": "0_base",
+      "path": "/tech/sd-notes/tools/application_caching/0_base.svg"
     },
     {
       "name": "1_cache_aside_pattern",
       "path": "/tech/sd-notes/tools/application_caching/1_cache_aside_pattern.svg"
+    },
+    {
+      "name": "2_unsorted",
+      "path": "/tech/sd-notes/tools/application_caching/2_unsorted.svg"
     }
   ]
 }

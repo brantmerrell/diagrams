@@ -1,16 +1,20 @@
 {
   "scenarios": [
     {
-      "name": "0_http",
-      "path": "/tech/sd-notes/tools/communication/0_http.svg"
+      "name": "0_base",
+      "path": "/tech/sd-notes/tools/communication/0_base.svg"
     },
     {
-      "name": "1_websocket",
-      "path": "/tech/sd-notes/tools/communication/1_websocket.svg"
+      "name": "1_http",
+      "path": "/tech/sd-notes/tools/communication/1_http.svg"
     },
     {
-      "name": "2_grpc",
-      "path": "/tech/sd-notes/tools/communication/2_grpc.svg"
+      "name": "2_websocket",
+      "path": "/tech/sd-notes/tools/communication/2_websocket.svg"
+    },
+    {
+      "name": "3_grpc",
+      "path": "/tech/sd-notes/tools/communication/3_grpc.svg"
     }
   ]
 }

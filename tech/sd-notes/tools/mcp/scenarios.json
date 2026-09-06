@@ -1,12 +1,16 @@
 {
   "scenarios": [
     {
-      "name": "base",
-      "path": "/tech/sd-notes/tools/mcp/index.svg"
+      "name": "0_base",
+      "path": "/tech/sd-notes/tools/mcp/0_base.svg"
     },
     {
       "name": "1_api_gateway_pattern",
       "path": "/tech/sd-notes/tools/mcp/1_api_gateway_pattern.svg"
+    },
+    {
+      "name": "2_unsorted",
+      "path": "/tech/sd-notes/tools/mcp/2_unsorted.svg"
     }
   ]
 }

@@ -1,190 +1,17 @@
 vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
-
-_quality: {class: compiles}
-
-# TODO: links, layers
-
-EnterpriseUser: Enterprise User {
-  shape: class
-  +identity
-
-  +prompt()
-}
-
-AIAssistant: Claude AI Assistant {
-  shape: class
-  +model
-  +context
-
-  +sendMCPRequest()
-  +aggregateContext()
-  +respond()
-}
-
-AuthLayer: Authentication & Authorization {
-  shape: class
-  +oauthTokens
-  +permissions
-
-  +authenticate()
-  +authorize()
-  +refreshToken()
-}
-
-ConnectionManager: Connection Manager {
-  shape: class
-  +sessions
-  +encryption
-
-  +open()
-  +close()
-  +rateLimit()
-}
-
-DataRouter: Data Router & Transformer {
-  shape: class
-  +transformers
-
-  +route()
-  +transform()
-  +auditLog()
-}
-
-MCPServer: MCP Server {
-  shape: class
-  +name
-  +capabilities
-
-  +listResources()
-  +readResource()
-  +callTool()
-}
-
-GoogleWorkspaceServer: Google Workspace Server {
-  shape: class
-  +driveScope
-  +gmailScope
-  +calendarScope
-
-  +searchDrive()
-  +scheduleMeeting()
-}
-
-SlackServer: Slack Server {
-  shape: class
-  +workspace
-
-  +searchChannels()
-  +postMessage()
-}
-
-SalesforceServer: Salesforce CRM Server {
-  shape: class
-  +org
-
-  +querySalesData()
-}
-
-GitHubServer: GitHub Server {
-  shape: class
-  +repositories
-
-  +searchCode()
-  +openIssue()
-}
-
-DatabaseServer: PostgreSQL Server {
-  shape: class
-  +dsn
-
-  +query()
-}
-
-# Associations
-EnterpriseUser -- AIAssistant: +prompts {
-  source-arrowhead: 1..*
-  target-arrowhead: 1
-}
-
-AIAssistant -- AuthLayer: +sends MCP requests {
-  source-arrowhead: 1
-  target-arrowhead: 1
-}
-
-AuthLayer -- ConnectionManager: +admits {
-  source-arrowhead: 1
-  target-arrowhead: 1
-}
-
-ConnectionManager -- DataRouter: +routes via {
-  source-arrowhead: 1
-  target-arrowhead: 1
-}
-
-DataRouter -- MCPServer: +dispatches to {
-  source-arrowhead: 1
-  target-arrowhead: *
-}
-
-# Concrete MCP servers
-GoogleWorkspaceServer -> MCPServer: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-SlackServer -> MCPServer: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-SalesforceServer -> MCPServer: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-GitHubServer -> MCPServer: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-DatabaseServer -> MCPServer: {
-  target-arrowhead.shape: triangle
-  target-arrowhead.style.filled: false
-}
-
-# Implementation Details
-# TODO: too big a block of text for a diagram
-implementation_notes: |md
-## MCP Implementation Details
-
-### Protocol Features
-* **Standardized APIs**: Consistent interface across all data sources
-* **Real-time Access**: Live data rather than cached/stale information
-* **Bidirectional**: AI can both read and write (with permissions)
-* **Type Safety**: Structured data exchange with validation
-
-### Security Mechanisms
-* **Scoped Access**: AI only accesses explicitly granted resources
-* **Token Refresh**: Automatic handling of expired credentials
-* **Rate Limiting**: Prevents system overload
-* **Data Residency**: Compliance with regional data requirements
-
-### Development Benefits
-* **Plug-and-Play**: Easy to add new data sources
-* **Vendor Agnostic**: Works across different AI platforms
-* **Enterprise Ready**: Built-in compliance and security features
-* **Scalable**: Handles multiple concurrent requests efficiently
-|
-
-implementation_notes -> MCPServer: {
-  style: {
-    stroke-dash: 5
-    stroke: gray
-  }
-}
-
 layers: {
+  0_base: {
+    _quality: {class: compiles}
+    design_pattern: {
+      label: "design pattern: api-gateway"
+      link: ../../design-patterns/api-gateway.d2
+      class: _link
+    }
+  }
   1_api_gateway_pattern: {
     ...@"../../design-patterns/api-gateway".layers.1_pattern
-
     gateway.label: "MCP Server"
     gateway.auth.label: "AuthLayer\nauthenticate / authorize"
     gateway.route.label: "DataRouter\nroute / transform"
@@ -195,11 +22,151 @@ layers: {
     services.svc_a.label: "resources"
     services.svc_b.label: "tools"
     services.svc_c.label: "prompts"
-
-    design_pattern: {
-      label: "design pattern: api-gateway"
-      link: ../../design-patterns/api-gateway.d2
-      class: _link
+  }
+  2_unsorted: {
+    _quality: {class: compiles}
+    # TODO: links
+    EnterpriseUser: Enterprise User {
+      shape: class
+      +identity
+      +prompt()
+    }
+    AIAssistant: Claude AI Assistant {
+      shape: class
+      +model
+      +context
+      +sendMCPRequest()
+      +aggregateContext()
+      +respond()
+    }
+    AuthLayer: Authentication & Authorization {
+      shape: class
+      +oauthTokens
+      +permissions
+      +authenticate()
+      +authorize()
+      +refreshToken()
+    }
+    ConnectionManager: Connection Manager {
+      shape: class
+      +sessions
+      +encryption
+      +open()
+      +close()
+      +rateLimit()
+    }
+    DataRouter: Data Router & Transformer {
+      shape: class
+      +transformers
+      +route()
+      +transform()
+      +auditLog()
+    }
+    MCPServer: MCP Server {
+      shape: class
+      +name
+      +capabilities
+      +listResources()
+      +readResource()
+      +callTool()
+    }
+    GoogleWorkspaceServer: Google Workspace Server {
+      shape: class
+      +driveScope
+      +gmailScope
+      +calendarScope
+      +searchDrive()
+      +scheduleMeeting()
+    }
+    SlackServer: Slack Server {
+      shape: class
+      +workspace
+      +searchChannels()
+      +postMessage()
+    }
+    SalesforceServer: Salesforce CRM Server {
+      shape: class
+      +org
+      +querySalesData()
+    }
+    GitHubServer: GitHub Server {
+      shape: class
+      +repositories
+      +searchCode()
+      +openIssue()
+    }
+    DatabaseServer: PostgreSQL Server {
+      shape: class
+      +dsn
+      +query()
+    }
+    # Associations
+    EnterpriseUser -- AIAssistant: +prompts {
+      source-arrowhead: 1..*
+      target-arrowhead: 1
+    }
+    AIAssistant -- AuthLayer: +sends MCP requests {
+      source-arrowhead: 1
+      target-arrowhead: 1
+    }
+    AuthLayer -- ConnectionManager: +admits {
+      source-arrowhead: 1
+      target-arrowhead: 1
+    }
+    ConnectionManager -- DataRouter: +routes via {
+      source-arrowhead: 1
+      target-arrowhead: 1
+    }
+    DataRouter -- MCPServer: +dispatches to {
+      source-arrowhead: 1
+      target-arrowhead: *
+    }
+    # Concrete MCP servers
+    GoogleWorkspaceServer -> MCPServer: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    SlackServer -> MCPServer: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    SalesforceServer -> MCPServer: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    GitHubServer -> MCPServer: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    DatabaseServer -> MCPServer: {
+      target-arrowhead.shape: triangle
+      target-arrowhead.style.filled: false
+    }
+    # Implementation Details
+    # TODO: too big a block of text for a diagram
+    implementation_notes: |md
+    ## MCP Implementation Details
+    ### Protocol Features
+    * **Standardized APIs**: Consistent interface across all data sources
+    * **Real-time Access**: Live data rather than cached/stale information
+    * **Bidirectional**: AI can both read and write (with permissions)
+    * **Type Safety**: Structured data exchange with validation
+    ### Security Mechanisms
+    * **Scoped Access**: AI only accesses explicitly granted resources
+    * **Token Refresh**: Automatic handling of expired credentials
+    * **Rate Limiting**: Prevents system overload
+    * **Data Residency**: Compliance with regional data requirements
+    ### Development Benefits
+    * **Plug-and-Play**: Easy to add new data sources
+    * **Vendor Agnostic**: Works across different AI platforms
+    * **Enterprise Ready**: Built-in compliance and security features
+    * **Scalable**: Handles multiple concurrent requests efficiently
+    |
+    implementation_notes -> MCPServer: {
+      style: {
+        stroke-dash: 5
+        stroke: gray
+      }
     }
   }
 }

@@ -1,0 +1,47 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+layers: {
+  0_base: {
+    _quality: {class: styled}
+    design_pattern: {
+      label: "design pattern: facade"
+      link: ../design-patterns/facade.d2
+      class: _link
+    }
+  }
+  1_sequence: {
+    _quality: {class: styled}
+    shape: sequence_diagram
+    client: {class: obj_client}
+    app: {label: FastAPI; class: obj_server}
+    router: {label: endpoint router; class: obj_service}
+    chess: {label: python-chess; class: obj_service}
+    networkx: {label: NetworkX; class: obj_service}
+    diagon: {label: diagon CLI; class: obj_service}
+    uvicorn: {class: obj_server}
+    app -> uvicorn: "serve on 0.0.0.0:" # {PORT}
+    client -> app: {class: edge_request; label: "GET /links?fen_string=<FEN>&heatmap=false"}
+    app -> router: {class: edge_request; label: "route to links.py"}
+    router -> chess: {class: edge_query; label: "parse FEN → board"}
+    router -> chess: {class: edge_query; label: "get_nodes(board, heatmap)"}
+    router -> chess: {class: edge_query; label: "get_edges(board)"}
+    client -> app: {class: edge_request; label: "PUT /graphdag"}
+    app -> router: {class: edge_request; label: "route to graphdag.py"}
+    router -> networkx: {class: edge_query; label: "build_acyclic_graph(edges)"}
+    router -> diagon: {class: edge_request; label: "pipe edge list to stdin"}
+  }
+  2_facade_pattern: {
+    ...@"../design-patterns/facade".layers.1_pattern
+    client.label: "client\nGET /links, PUT /graphdag"
+    facade.label: "FastAPI + endpoint router"
+    facade.start.label: "route"
+    cpu.label: "python-chess"
+    cpu.freeze.label: "parse FEN -> board"
+    cpu.execute.label: "get_nodes / get_edges"
+    memory.label: "diagon CLI"
+    memory.load.label: "pipe edge list"
+    hd.label: "NetworkX"
+    hd.read.label: "build_acyclic_graph"
+  }
+}

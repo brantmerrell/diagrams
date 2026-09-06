@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/examples/3-special-objects/sql/0_base.svg"
+    },
+    {
+      "name": "1_sql",
+      "path": "/tech/examples/3-special-objects/sql/1_sql.svg"
+    }
+  ]
+}

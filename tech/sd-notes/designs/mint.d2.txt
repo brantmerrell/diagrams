@@ -1,7 +1,6 @@
 vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
-
 layers: {
   1_initial: {
     """
@@ -10,11 +9,9 @@ layers: {
     _quality: {
       class: compiles
     }
-
     Client: {
       class: obj_client
     }
-
     WebServer: {
       label: Web Server\n(Reverse Proxy)
       class: obj_server
@@ -28,12 +25,10 @@ layers: {
         class: _link
       }
     }
-
     AccountsAPI: {
       label: Accounts API
       class: obj_service
     }
-
     TransactionExtractionService: {
       label: Transaction\nExtraction\nService
       class: obj_service
@@ -42,17 +37,14 @@ layers: {
       label: Category\nService
       class: obj_service
     }
-
     BudgetService: {
       label: Budget\nService
       class: obj_service
     }
-
     NotificationService: {
       label: Notification\nService
       class: obj_service
     }
-
     SQLDatabase: {
       label: SQL Database\n(Single)
       class: obj_db
@@ -66,11 +58,9 @@ layers: {
         class: _link
       }
     }
-
     # Simple request flow
     Client -> WebServer
     WebServer -> AccountsAPI
-
     # Core transaction processing flow
     AccountsAPI -> TransactionExtractionService: {
       class: edge_request # is this the right edge class?
@@ -79,7 +69,6 @@ layers: {
     TransactionExtractionService -> CategoryService: categorize
     TransactionExtractionService -> BudgetService: analyze spending
     BudgetService -> NotificationService: budget alerts
-
     # All services connect to single database
     AccountsAPI -> SQLDatabase
     TransactionExtractionService -> SQLDatabase
@@ -90,10 +79,9 @@ layers: {
   2_final: {
     direction: down
     _quality: {class: compiles}
-
     AccountsAPI: {
       label: Accounts API
-      class: objs_service
+      class: obj_service
     }
     BudgetService: {
       label: BudgetService
@@ -252,7 +240,6 @@ layers: {
   }
   3_proxy_pattern: {
     ...@"../../design-patterns/proxy".layers.1_pattern
-
     client.label: "Browser"
     subject.label: "public HTTP API"
     proxy.label: "Web Server"
@@ -260,7 +247,6 @@ layers: {
     proxy.control.label: "auth / route"
     real.label: "Internal services"
     real.request.label: "handle request"
-
     design_pattern: {
       label: "design pattern: proxy"
       link: ../../design-patterns/proxy.d2

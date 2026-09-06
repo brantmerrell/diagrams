@@ -1,49 +1,51 @@
 vars: @"../../vars/jbm.d2"
-vars: {
-  d2-legend: {
-    a: {
-      label: Microservice
+classes: @"../../../tags"
+layers: {
+  **.style.text-transform: none
+  0_base: {
+    design_pattern: {
+      label: "design pattern: none"
+      link: ../../design-patterns/none.d2
+      class: _link
     }
-    b: Database {
+  }
+  1_legend: {
+    vars: {
+      d2-legend: {
+        a: {
+          label: Microservice
+        }
+        b: Database {
+          shape: cylinder
+          style.stroke-dash: 2
+        }
+        a <-> b: Good relationship {
+          style.stroke: red
+          style.stroke-dash: 2
+          style.stroke-width: 1
+        }
+        a -> b: Bad relationship
+        a -> b: Tenuous {
+          target-arrowhead.shape: circle
+        }
+      }
+    }
+    api-1
+    api-2
+    api-1 -> postgres
+    api-2 -> postgres
+    postgres: {
       shape: cylinder
-      style.stroke-dash: 2
     }
-    a <-> b: Good relationship {
+    postgres -> external: {
+      style.stroke: black
+    }
+    api-1 <-> api-2: {
       style.stroke: red
       style.stroke-dash: 2
-      style.stroke-width: 1
     }
-    a -> b: Bad relationship
-    a -> b: Tenuous {
+    api-1 -> api-3: {
       target-arrowhead.shape: circle
     }
   }
-}
-
-classes: @"../../../tags"
-
-_quality: {class: compiles}
-
-api-1
-api-2
-api-1 -> postgres
-api-2 -> postgres
-postgres: {
-  shape: cylinder
-}
-postgres -> external: {
-  style.stroke: black
-}
-api-1 <-> api-2: {
-  style.stroke: red
-  style.stroke-dash: 2
-}
-api-1 -> api-3: {
-  target-arrowhead.shape: circle
-}
-
-design_pattern: {
-  label: "design pattern: none"
-  link: ../../design-patterns/none.d2
-  class: _link
 }

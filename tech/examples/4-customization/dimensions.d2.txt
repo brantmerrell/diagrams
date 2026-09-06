@@ -1,35 +1,34 @@
 vars: @"../../vars/jbm.d2"
 classes: @"../../../tags"
-
-_quality: {class: compiles}
-
 direction: right
-
-small jerry: "" {
-  shape: image
-  icon: https://static.wikia.nocookie.net/tomandjerry/images/4/46/JerryJumbo3-1-.jpg
-  width: 200
-  height: 200
-}
-
-med jerry: "" {
-  shape: image
-  icon: https://static.wikia.nocookie.net/tomandjerry/images/4/46/JerryJumbo3-1-.jpg
-  width: 300
-  height: 300
-}
-
-big jerry: "" {
-  shape: image
-  icon: https://static.wikia.nocookie.net/tomandjerry/images/4/46/JerryJumbo3-1-.jpg
-  width: 500
-  height: 400
-}
-
-big jerry -> med jerry -> small jerry
-
-design_pattern: {
-  label: "design pattern: none"
-  link: ../../design-patterns/none.d2
-  class: _link
+layers: {
+  **.style.text-transform: none
+  0_base: {
+    design_pattern: {
+      label: "design pattern: none"
+      link: ../../design-patterns/none.d2
+      class: _link
+    }
+  }
+  1_dimensions: {
+    small jerry: "" {
+      shape: image
+      icon: https://static.wikia.nocookie.net/tomandjerry/images/4/46/JerryJumbo3-1-.jpg
+      width: 200
+      height: 200
+    }
+    med jerry: "" {
+      shape: image
+      icon: https://static.wikia.nocookie.net/tomandjerry/images/4/46/JerryJumbo3-1-.jpg
+      width: 300
+      height: 300
+    }
+    big jerry: "" {
+      shape: image
+      icon: https://static.wikia.nocookie.net/tomandjerry/images/4/46/JerryJumbo3-1-.jpg
+      width: 500
+      height: 400
+    }
+    big jerry -> med jerry -> small jerry
+  }
 }

@@ -1,8 +1,8 @@
 {
   "scenarios": [
     {
-      "name": "0_overview",
-      "path": "/tech/sd-notes/tools/RAG/0_overview.svg"
+      "name": "0_base",
+      "path": "/tech/sd-notes/tools/RAG/0_base.svg"
     },
     {
       "name": "1_architecture",

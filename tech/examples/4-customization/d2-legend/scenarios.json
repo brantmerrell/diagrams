@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/examples/4-customization/d2-legend/0_base.svg"
+    },
+    {
+      "name": "1_legend",
+      "path": "/tech/examples/4-customization/d2-legend/1_legend.svg"
+    }
+  ]
+}

@@ -1,35 +1,35 @@
 vars: @"../../vars/jbm.d2"
 classes: @"../../../tags"
-
-_quality: {class: compiles}
-
-classes: {
-  d2: {
-    label: ""
-    icon: https://play.d2lang.com/assets/icons/d2-logo.svg
+layers: {
+  **.style.text-transform: none
+  0_base: {
+    design_pattern: {
+      label: "design pattern: none"
+      link: ../../design-patterns/none.d2
+      class: _link
+    }
   }
-  sphere: {
-    shape: circle
-    style.stroke-width: 0
+  1_multi_class: {
+    classes: {
+      d2: {
+        label: ""
+        icon: https://play.d2lang.com/assets/icons/d2-logo.svg
+      }
+      sphere: {
+        shape: circle
+        style.stroke-width: 0
+      }
+    }
+    logo.class: [d2; sphere]
+    classes: {
+      uno: {
+        label: 1
+      }
+      dos: {
+        label: 2
+      }
+    }
+    x.class: [uno; dos]
+    y.class: [dos; uno]
   }
-}
-
-logo.class: [d2; sphere]
-
-classes: {
-  uno: {
-    label: 1
-  }
-  dos: {
-    label: 2
-  }
-}
-
-x.class: [uno; dos]
-y.class: [dos; uno]
-
-design_pattern: {
-  label: "design pattern: none"
-  link: ../../design-patterns/none.d2
-  class: _link
 }

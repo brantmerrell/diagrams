@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/hi/frontend/0_base.svg"
+    },
+    {
+      "name": "1_auth",
+      "path": "/tech/hi/frontend/1_auth.svg"
+    },
+    {
+      "name": "2_load",
+      "path": "/tech/hi/frontend/2_load.svg"
+    }
+  ]
+}

@@ -8,26 +8,9 @@ classes: {
   chip_legal: {shape: square; width: 30; height: 30; style: {fill: "#F03E3E"}}
   chip_baseline: {shape: square; width: 30; height: 30; style: {fill: "#868E96"}}
 }
-
 layers: {
   0_base: {
-    _quality: {class: compiles}
-
-    description: |md
-      ## PantryPal take-home: plan of completion
-      The real assessment (`pantrypal-assessment/`): build v1 of an AI\
-      cooking assistant against four intentionally-contradictory\
-      stakeholder artifacts, in a self-timeboxed 3 hours.
-
-      This documents the brief itself (stakeholder asks + the\
-      contradictions between them) and a plan for using the time box:\
-      what's in scope, what's explicitly cut, and roughly how the\
-      3 hours get spent.
-
-      Source: `~/Documents/Professional/Challenges/PressW/pantrypal-assessment/`
-    | {
-      class: obj_service
-    }
+    _quality: {class: styled}
     links: {
       grid-columns: 1
       facade-pattern: {
@@ -47,45 +30,32 @@ layers: {
       }
     }
   }
-
   1_facade_pattern: {
     ...@"../../design-patterns/facade".layers.1_pattern
-
     client.label: "api_chat\nPOST /chat"
-
     facade.label: "agent_loop\n(tool-calling loop)"
     facade.start.label: "invoke"
-
     cpu.label: "llm_provider\n(via AI SDK)"
     cpu.freeze.label: "reason / generate"
     cpu.execute.label: "loads lane_guardrail"
-
     memory.label: "tool_search\n(Tavily)"
     memory.load.label: "tool call"
-
     hd.label: "tool_equipment"
     hd.read.label: "tool call"
   }
-
   2_adapter_pattern: {
     ...@"../../design-patterns/adapter".layers.1_pattern
-
     client.label: "chat_ui\n(voice_ui future)"
-
     target.label: "channel_adapter"
     target.request.label: "normalized message"
-
     adapter.label: "channel_adapter"
     adapter.request.label: "normalized message"
-
     adaptee.label: "api_chat\n(POST /chat)"
     adaptee.specificRequest.label: "backend request shape"
   }
-
   3_architecture: {
     direction: down
-    # _quality: {class: compiles}
-
+    _quality: {class: styled}
     legend: {
       label: "priority key"
       direction: right
@@ -95,7 +65,6 @@ layers: {
       legal: {grid-columns: 2; chip: {class: chip_legal; label: ""}; who: {shape: text; label: "Diane"}}
       baseline: {grid-columns: 2; chip: {class: chip_baseline; label: ""}; who: {shape: text; label: "baseline"}}
     }
-
     client: {
       label: "client"
       chat_ui: {class: [obj_client; to_add]; label: "chat frontend\n(text channel)"; c1: {class: chip_baseline; label: ""}}
@@ -107,16 +76,13 @@ layers: {
         c2: {class: chip_cx; label: ""}
       }
     }
-
     channel_adapter: {
       class: [obj_service; to_add]
       label: "channel adapter"
       note: {shape: text; label: "build now: normalizes input/output so\nvoice can plug in later without touching\nthe core. No voice implementation yet."}
       c1: {class: chip_ceo; label: ""}
     }
-
     api_chat: {class: [obj_server; to_add]; label: "POST /chat\n(AI SDK route)"; c1: {class: chip_baseline; label: ""}}
-
     core: {
       label: "agent core"
       agent_loop: {class: [ai_assistant; to_add]; label: "tool-calling loop\n(generateText/streamText)"; c1: {class: chip_baseline; label: ""}}
@@ -130,7 +96,6 @@ layers: {
       }
       conversation_context: {class: to_add; label: "conversation context\n(in-request messages,\nno DB)"; c1: {class: chip_baseline; label: ""}}
     }
-
     tools: {
       label: "tools (model-invoked)"
       tool_search: {class: [obj_service; to_add]; label: "web search\n(Tavily)"; c1: {class: chip_baseline; label: ""}}
@@ -143,7 +108,6 @@ layers: {
       }
       tool_router: {class: [obj_service; future]; label: "model router\n(cheap vs smart)"; c1: {class: chip_pm; label: ""}}
     }
-
     guardrails: {
       label: "response pipeline"
       allergen_mw: {
@@ -159,7 +123,6 @@ layers: {
         c1: {class: chip_legal; label: ""}
       }
     }
-
     state: {
       label: "state"
       profile_store: {
@@ -173,7 +136,6 @@ layers: {
       favorites_store: {class: [obj_db; future]; label: "favorites"; c1: {class: chip_cx; label: ""}}
       recipe_kb: {class: [obj_db; future]; label: "recipe knowledge base\n(from PDF import)"; c1: {class: chip_cx; label: ""}}
     }
-
     external: {
       label: "external"
       llm_provider: {class: [ai_assistant; to_add]; label: "LLM provider\n(via AI SDK)"; c1: {class: chip_baseline; label: ""}}
@@ -181,9 +143,7 @@ layers: {
       pdf_ingest: {class: [obj_service; future]; label: "PDF recipe\ningestion"; c1: {class: chip_cx; label: ""}}
       grocery_export: {class: [obj_service; future]; label: "grocery-list\nexport"; c1: {class: chip_cx; label: ""}}
     }
-
     docker_compose: {class: [obj_service; to_add]; label: "docker-compose.yml"; c1: {class: chip_baseline; label: ""}}
-
     client.chat_ui -> channel_adapter: {class: edge_request; label: message}
     client.voice_ui -> channel_adapter: {class: [edge_request; future]; label: "message\n(future)"}
     channel_adapter -> api_chat: {class: edge_request}
@@ -213,15 +173,11 @@ layers: {
     docker_compose -> api_chat: {class: edge_spawn; label: up}
     docker_compose -> client.chat_ui: {class: edge_spawn; label: up}
   }
-
   4_chain_of_responsibility_pattern: {
     ...@"../../design-patterns/chain-of-responsibility".layers.1_pattern
-
     client.label: "agent_loop"
-
     handler1.label: "allergen_mw\n(disclosure injector)"
     handler1.handle.label: "inject allergen\ndisclosure"
-
     handler2.label: "health_note\n(disclaimer)"
     handler2.handle.label: "add health\ndisclaimer"
   }

@@ -1,0 +1,45 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+layers: {
+  0_base: {
+    _quality: {class: styled}
+    design_pattern: {
+      label: "design pattern: none"
+      link: ../design-patterns/none.d2
+      class: _link
+    }
+  }
+  1_fetch_text: {
+    _quality: {class: styled}
+    shape: sequence_diagram
+    developer: {shape: c4-person; class: pipeline}
+    script: {label: fetch_text.py; class: pipeline}
+    wikisource: "Hindi Wikisource" {
+      icon: ../../icons/wikisource.png
+      shape: image
+    }
+    fs: {
+      label: data/raw
+      class: database
+      icon: ../../icons/folder.svg
+      shape: image
+    }
+    developer -> script: "python fetch_text.py \"<page title>\"" {class: pipeline}
+    script.note1: |md
+      ```
+      slugify(page_title) → ASCII slug
+      (or codepoint-based slug for pure Devanagari)
+      ```
+    | {class: pipeline}
+    script -> wikisource: "GET /w/api.php?action=parse&page=<title>&prop=text" {class: pipeline}
+    script.note2: |md
+      ```
+      BeautifulSoup: strip tables, nav, edit links, footnotes
+      extract `<p>` text → NFC normalize → collapse spaces
+      ```
+    | {class: pipeline}
+    script -> fs: "write <slug>.txt (Devanagari prose)" {class: pipeline}
+    script -> fs: "write <slug>.json (title_hi, slug, source_url, author, char_count)" {class: pipeline}
+  }
+}

@@ -1,87 +1,78 @@
 vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
-
-_quality: {class: compiles}
-
-
-# System components that handle back pressure
-producer: {
-  class: obj_server
-  label: Producer
-}
-
-queue: {
-  class: obj_queue
-  label: Message Queue
-}
-
-consumer: {
-  class: obj_server  
-  label: Consumer
-}
-
-queue_monitor: {
-  label: Queue Monitor
-  shape: diamond
-}
-
-# Back pressure strategies as system behaviors
-strategies: { # are these really strategies or are they mechanisms? 
-  # as labelled, a rate limiter, a circuit breaker, a buffer manager, and a load shredder sound like parts of the same goal
-  # it's possible the designer chooses between them because only one is needed, but it's possible multiple are needed
-  # unless there's a strategy called the "rate limiter" strategy, the "circuit breaker" strategy, etc
-  # in which case these objects should have nodes and edges inside of them
-  # TODO: do these deserve their own layers?
-  rate_limiter: {
-    label: Rate Limiter
-    shape: hexagon
-  }
-  
-  circuit_breaker: {
-    label: Circuit Breaker
-    shape: hexagon
-  }
-  
-  buffer_manager: {
-    label: Buffer Manager
-    shape: hexagon
-  }
-  
-  load_shedder: {
-    label: Load Shedder
-    shape: hexagon
-  }
-}
-
-producer -> queue: { class: edge_request } # are publishing events really requests? doesn't request imply that a response is necessary?
-queue -> consumer: { class: edge_request } # are publishing events really requests? doesn't request imply that a response is necessary?
-queue_monitor -> queue: monitors
-queue_monitor -> strategies.rate_limiter: high load
-queue_monitor -> strategies.circuit_breaker: system stress
-queue_monitor -> strategies.buffer_manager: manageable load
-queue_monitor -> strategies.load_shedder: overload
-
-strategies.rate_limiter -> producer: slow down
-strategies.circuit_breaker -> producer: reject requests
-strategies.buffer_manager -> queue: expand capacity
-strategies.load_shedder -> queue: drop requests
-
 layers: {
+  0_base: {
+    design_pattern: {
+      label: "design pattern: producer-consumer"
+      link: ../../design-patterns/producer-consumer.d2
+      class: _link
+    }
+    _quality: {class: styled}
+  }
   1_producer_consumer_pattern: {
+    _quality: {class: compiles}
     ...@"../../design-patterns/producer-consumer".layers.1_pattern
-
     producers.p1.label: "web request"
     producers.p2.label: "scheduled job"
     queue.label: "Message Queue"
     consumers.c1.label: "worker 1"
     consumers.c2.label: "worker 2"
     backpressure.label: "rate_limiter /\nbuffer_manager /\ncircuit_breaker /\nload_shedder"
-
-    design_pattern: {
-      label: "design pattern: producer-consumer"
-      link: ../../design-patterns/producer-consumer.d2
-      class: _link
+  }
+  2_unsorted: {
+    # System components that handle back pressure
+    producer: {
+      class: obj_server
+      label: Producer
     }
+    queue: {
+      class: obj_queue
+      label: Message Queue
+    }
+    consumer: {
+      class: obj_server  
+      label: Consumer
+    }
+    queue_monitor: {
+      label: Queue Monitor
+      shape: diamond
+    }
+    # Back pressure strategies as system behaviors
+    strategies: { # are these really strategies or are they mechanisms? 
+      # as labelled, a rate limiter, a circuit breaker, a buffer manager, and a load shredder sound like parts of the same goal
+      # it's possible the designer chooses between them because only one is needed, but it's possible multiple are needed
+      # unless there's a strategy called the "rate limiter" strategy, the "circuit breaker" strategy, etc
+      # in which case these objects should have nodes and edges inside of them
+      # TODO: do these deserve their own layers?
+      rate_limiter: {
+        label: Rate Limiter
+        shape: hexagon
+      }
+      circuit_breaker: {
+        label: Circuit Breaker
+        shape: hexagon
+      }
+      buffer_manager: {
+        label: Buffer Manager
+        shape: hexagon
+      }
+      load_shedder: {
+        label: Load Shedder
+        shape: hexagon
+      }
+    }
+    producer -> queue: { class: edge_request } # are publishing events really requests? doesn't request imply that a response is necessary?
+    queue -> consumer: { class: edge_request } # are publishing events really requests? doesn't request imply that a response is necessary?
+    queue_monitor -> queue: monitors
+    queue_monitor -> strategies.rate_limiter: high load
+    queue_monitor -> strategies.circuit_breaker: system stress
+    queue_monitor -> strategies.buffer_manager: manageable load
+    queue_monitor -> strategies.load_shedder: overload
+    strategies.rate_limiter -> producer: slow down
+    strategies.circuit_breaker -> producer: reject requests
+    strategies.buffer_manager -> queue: expand capacity
+    strategies.load_shedder -> queue: drop requests
+    _quality: {class: styled}
   }
 }

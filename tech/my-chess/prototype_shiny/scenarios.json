@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/my-chess/prototype_shiny/0_base.svg"
+    },
+    {
+      "name": "1_sequence",
+      "path": "/tech/my-chess/prototype_shiny/1_sequence.svg"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/examples/4-customization/tooltip/0_base.svg"
+    },
+    {
+      "name": "1_tooltip",
+      "path": "/tech/examples/4-customization/tooltip/1_tooltip.svg"
+    }
+  ]
+}

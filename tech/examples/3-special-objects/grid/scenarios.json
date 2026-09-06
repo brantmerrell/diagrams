@@ -1,0 +1,20 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/examples/3-special-objects/grid/0_base.svg"
+    },
+    {
+      "name": "1_grid_flask_pod",
+      "path": "/tech/examples/3-special-objects/grid/1_grid_flask_pod.svg"
+    },
+    {
+      "name": "2_grid_forge",
+      "path": "/tech/examples/3-special-objects/grid/2_grid_forge.svg"
+    },
+    {
+      "name": "3_grid_japan",
+      "path": "/tech/examples/3-special-objects/grid/3_grid_japan.svg"
+    }
+  ]
+}
