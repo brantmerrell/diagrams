@@ -24,6 +24,7 @@ layers: {
     _quality: {class: styled}
   }
   1_pattern: {
+    direction: right
     _quality: {class: styled}
     app: "Application" {class: obj_service}
     cache: "Cache" {class: obj_cache}
