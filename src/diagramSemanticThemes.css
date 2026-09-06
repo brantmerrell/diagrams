@@ -1,16 +1,3 @@
-/*
- * Color for every classes/*.d2 class that used to carry an explicit color
- * lives here now, not in the .d2 source — d2 has no per-theme conditional
- * class syntax, so a class can only ever bake in one literal color. This
- * file is the single source of truth for both the light and dark variant of
- * each. Keyed off the data-diagram-theme attribute D2Panel toggles.
- *
- * Selectors target the actual markup d2 emits: `.shape` for a node's own
- * outline, `path.connection` / `polygon.connection` for an edge's line and
- * arrowhead, and `text` for any label.
- */
-
-/* positive */
 [data-diagram-theme="light"] .positive .shape,
 [data-diagram-theme="light"] .positive path.connection {
   stroke: ForestGreen;
@@ -70,11 +57,6 @@
   stroke: mediumspringgreen;
 }
 
-/*
- * highlight (function.d2, sequence.d2) — debug-only class, but debug-only
- * doesn't exempt it from this pattern: Crimson already reads fine on both a
- * white and a dark canvas (~5:1 contrast on white) — same value both themes.
- */
 [data-diagram-theme="light"] .highlight .shape,
 [data-diagram-theme="light"] .highlight path.connection,
 [data-diagram-theme="dark"] .highlight .shape,
@@ -90,11 +72,6 @@
   fill: Crimson;
 }
 
-/*
- * ---- classes/basic.d2 ----
- * _link's fill/font-color read fine on both a white and a dark canvas as-is
- * (a bounded box, not a thin stroke or unbounded text) — same value both themes.
- */
 [data-diagram-theme="light"] ._link .shape,
 [data-diagram-theme="dark"] ._link .shape {
   fill: LightBlue;
@@ -104,7 +81,6 @@
   fill: Black;
 }
 
-/* ---- classes/L4.d2 ---- */
 [data-diagram-theme="light"] .edge_own path.connection {
   stroke: OrangeRed;
 }
@@ -131,20 +107,6 @@
   fill: Violet;
 }
 
-/*
- * ---- classes/plan.d2 ---- and ---- classes/process.d2 ----
- * DarkGreen/DarkRed/Gray are already dark/muted enough to read on both a
- * white and a dark canvas — same value both themes.
- */
-/*
- * .shape is a wrapper <g> — the sketch renderer's actual outline rect(s)
- * inside it carry their own D2-generated stroke-B*/stroke-N* class straight
- * from the embedded per-diagram stylesheet, which sets stroke directly on
- * that element. A directly-applied value always beats one merely inherited
- * from .shape, regardless of this rule's specificity — so these must also
- * target .shape's descendants, and !important is required to win against
- * D2's own same-element class.
- */
 [data-diagram-theme="light"] .to_add .shape,
 [data-diagram-theme="light"] .to_add .shape *,
 [data-diagram-theme="dark"] .to_add .shape,
@@ -178,7 +140,6 @@
   stroke: Gray;
 }
 
-/* ---- classes/sequence.d2 ---- */
 [data-diagram-theme="light"] .frontend .shape,
 [data-diagram-theme="dark"] .frontend .shape {
   stroke: SteelBlue;
@@ -216,7 +177,6 @@
   fill: Azure;
 }
 
-/* ---- classes/L7.d2 ---- */
 [data-diagram-theme="light"] .debug .shape,
 [data-diagram-theme="dark"] .debug .shape {
   stroke: Crimson;

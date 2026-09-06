@@ -2,11 +2,15 @@ FROM node:18
 
 WORKDIR /app
 
-# Install d2
 RUN curl -fsSL https://d2lang.com/install.sh | sh -s --
 
-# Install bun — dependencies are installed from the committed bun.lock, not
-# resolved fresh, so the container gets exactly what was tested locally.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends chromium \
+    && rm -rf /var/lib/apt/lists/*
+RUN echo "a" > /tmp/warm.d2 \
+    && echo y | d2 /tmp/warm.d2 /tmp/warm.png \
+    && rm -rf /tmp/warm.d2 /tmp/warm.png
+
 RUN curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:${PATH}"
 
@@ -16,10 +20,9 @@ RUN bun install --production --frozen-lockfile
 COPY server.js ./
 COPY scripts/ ./scripts/
 COPY tech/ ./tech/
-# classes.d2 / tags.d2 are imported by every diagram in tech/, and icons/ is
-# referenced by the gate_* classes in classes.d2 — d2 resolves both relative to
-# the file that declares them, so they must sit at the image root.
-COPY classes.d2 tags.d2 class_legend.d2 ./
+COPY classes.d2 ./
+COPY tags.d2 ./
+COPY class_legend.d2 ./
 COPY icons/ ./icons/
 COPY pointers.yaml ./
 
