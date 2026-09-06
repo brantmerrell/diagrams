@@ -45,26 +45,92 @@ function escapeXml(s: string): string {
 
 type StyledLine = { text: string; bold: boolean; fontSize: number }
 
-function walkHtml(el: Element, lines: StyledLine[]): void {
-  const tag = el.tagName.toLowerCase()
-  if (tag === 'h1') {
-    const t = el.textContent?.trim() ?? ''
-    if (t) lines.push({ text: t, bold: true, fontSize: 20 })
-  } else if (tag === 'h2') {
-    const t = el.textContent?.trim() ?? ''
-    if (t) lines.push({ text: t, bold: true, fontSize: 16 })
-  } else if (tag === 'h3') {
-    const t = el.textContent?.trim() ?? ''
-    if (t) lines.push({ text: t, bold: true, fontSize: 14 })
-  } else if (tag === 'p') {
-    const t = el.textContent?.trim() ?? ''
-    if (t) lines.push({ text: t, bold: false, fontSize: 13 })
-  } else if (tag === 'li') {
-    const t = el.textContent?.trim() ?? ''
-    if (t) lines.push({ text: '• ' + t, bold: false, fontSize: 13 })
-  } else {
-    for (const child of Array.from(el.children)) walkHtml(child, lines)
+// Shared 2D context used only for measureText — never drawn to or attached to the page.
+let measureCtx: CanvasRenderingContext2D | null = null
+function getMeasureCtx(): CanvasRenderingContext2D {
+  if (!measureCtx) measureCtx = document.createElement('canvas').getContext('2d')!
+  return measureCtx
+}
+
+/** Greedily wraps `text` to fit `maxWidth`, measured in the given font (mirrors browser word-wrap). */
+function wrapToWidth(text: string, maxWidth: number, bold: boolean, fontSize: number): string[] {
+  const ctx = getMeasureCtx()
+  ctx.font = `${bold ? 'bold ' : ''}${fontSize}px sans-serif`
+  const words = text.split(/\s+/).filter(Boolean)
+  const lines: string[] = []
+  let current = ''
+  for (const word of words) {
+    const candidate = current ? `${current} ${word}` : word
+    if (current && ctx.measureText(candidate).width > maxWidth) {
+      lines.push(current)
+      current = word
+    } else {
+      current = candidate
+    }
   }
+  if (current) lines.push(current)
+  return lines.length ? lines : ['']
+}
+
+/**
+ * Splits an element's content on <br> boundaries (DOM parsing collapses <br> into
+ * whitespace-free adjacency, so `.textContent` alone would run wrapped source lines
+ * together) into hard-break segments, trimmed and with empties dropped.
+ */
+function getHardBreakSegments(el: Element): string[] {
+  const segments: string[] = []
+  let current = ''
+  for (const node of Array.from(el.childNodes)) {
+    if (node.nodeType === Node.ELEMENT_NODE && (node as Element).tagName === 'BR') {
+      segments.push(current)
+      current = ''
+    } else {
+      current += node.textContent ?? ''
+    }
+  }
+  segments.push(current)
+  return segments.map(s => s.trim()).filter(Boolean)
+}
+
+function pushWrapped(el: Element, bold: boolean, fontSize: number, maxWidth: number, lines: StyledLine[], prefix = ''): void {
+  for (const segment of getHardBreakSegments(el)) {
+    const wrapped = wrapToWidth(segment, maxWidth, bold, fontSize)
+    wrapped.forEach((line, i) => lines.push({ text: i === 0 ? prefix + line : line, bold, fontSize }))
+  }
+}
+
+function walkHtml(el: Element, lines: StyledLine[], maxWidth: number): void {
+  const tag = el.tagName.toLowerCase()
+  if (tag === 'h1') pushWrapped(el, true, 20, maxWidth, lines)
+  else if (tag === 'h2') pushWrapped(el, true, 16, maxWidth, lines)
+  else if (tag === 'h3') pushWrapped(el, true, 14, maxWidth, lines)
+  else if (tag === 'p') pushWrapped(el, false, 13, maxWidth, lines)
+  else if (tag === 'li') pushWrapped(el, false, 13, maxWidth, lines, '• ')
+  else for (const child of Array.from(el.children)) walkHtml(child, lines, maxWidth)
+}
+
+/**
+ * D2 renders markdown as `<div class="md color-NX">…</div>` inside the foreignObject,
+ * where `color-NX` is one of D2's own theme classes (not this repo's) carrying the
+ * markdown's actual text color, defined in the SVG's own embedded `<style>` block —
+ * as a plain `.color-NX{color:...}` rule for light, and (after makeThemeToggleable
+ * rewrites D2's dark media-query into an attribute selector — see svgTheme.ts)
+ * `[data-diagram-theme="dark"] .d2-<hash> .color-NX{color:...}` for dark — note the
+ * per-diagram `.d2-<hash>` scoping class between the attribute selector and the
+ * class itself, so the two aren't adjacent. D2 always emits the light rule first,
+ * so a plain first-match is reliably the light value.
+ */
+function resolveMarkdownColor(svgStr: string, divClass: string, theme: 'light' | 'dark' | undefined): string {
+  const fallback = theme === 'dark' ? '#F4F6FA' : '#000410'
+  const colorClass = divClass.split(/\s+/).find(c => /^color-/.test(c))
+  if (!colorClass) return fallback
+  const escaped = colorClass.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  if (theme === 'dark') {
+    const dark = new RegExp(`\\[data-diagram-theme="dark"\\][^{]*\\.${escaped}\\{[^}]*color:([^;}]+)`).exec(svgStr)
+    if (dark) return dark[1].trim()
+  }
+  const light = new RegExp(`\\.${escaped}\\{[^}]*color:([^;}]+)`).exec(svgStr)
+  return light ? light[1].trim() : fallback
 }
 
 /**
@@ -72,13 +138,7 @@ function walkHtml(el: Element, lines: StyledLine[]): void {
  * Runs before DOMParser so the canvas never sees <foreignObject>.
  * Inner HTML is re-parsed with text/html so <h2>, <li> etc. are real elements.
  */
-function replaceForeignObjectsInString(svgStr: string): string {
-  // D2 hardcodes fill="..." directly on <text> elements; grab the first one.
-  const colorMatch =
-    svgStr.match(/class="[^"]*\btext\b[^"]*"[^>]*fill="([^"]+)"/) ??
-    svgStr.match(/fill="([^"]+)"[^>]*class="[^"]*\btext\b[^"]*"/)
-  const textColor = colorMatch?.[1] ?? '#000000'
-
+function replaceForeignObjectsInString(svgStr: string, theme?: 'light' | 'dark'): string {
   return svgStr.replace(
     /<foreignObject([^>]*)>([\s\S]*?)<\/foreignObject>/g,
     (_, attrs, innerHtml) => {
@@ -87,21 +147,26 @@ function replaceForeignObjectsInString(svgStr: string): string {
         return m ? parseFloat(m[1]) : 0
       }
       const foX = get('x'), foY = get('y'), foW = get('width'), foH = get('height')
-      const cx = foX + foW / 2
+      const padding = 8
+      const textX = foX + padding
+      const maxWidth = Math.max(foW - padding * 2, 10)
 
       const htmlDoc = new DOMParser().parseFromString(innerHtml, 'text/html')
+      const divClass = htmlDoc.body.firstElementChild?.getAttribute('class') ?? ''
+      const textColor = resolveMarkdownColor(svgStr, divClass, theme)
+
       const lines: StyledLine[] = []
-      for (const child of Array.from(htmlDoc.body.children)) walkHtml(child, lines)
+      for (const child of Array.from(htmlDoc.body.children)) walkHtml(child, lines, maxWidth)
 
       if (!lines.length) return ''
 
       const lineHeight = 18
       const totalH = lines.length * lineHeight
-      let curY = foY + (foH - totalH) / 2 + lineHeight * 0.8
+      let curY = foY + Math.max((foH - totalH) / 2, 0) + lineHeight * 0.8
 
       return lines.map(line => {
         const y = curY; curY += lineHeight
-        return `<text x="${cx}" y="${y}" text-anchor="middle" font-size="${line.fontSize}" font-family="sans-serif" fill="${textColor}"${line.bold ? ' font-weight="bold"' : ''}>${escapeXml(line.text)}</text>`
+        return `<text x="${textX}" y="${y}" text-anchor="start" font-size="${line.fontSize}" font-family="sans-serif" fill="${textColor}"${line.bold ? ' font-weight="bold"' : ''}>${escapeXml(line.text)}</text>`
       }).join('\n')
     },
   )
@@ -206,7 +271,7 @@ function svgElToPngBlob(svgEl: SVGSVGElement, theme?: 'light' | 'dark'): Promise
  * so the HTML inside them can be parsed correctly by a separate text/html DOMParser.
  */
 export function svgToPngBlob(svgContent: string, theme?: 'light' | 'dark'): Promise<Blob> {
-  const cleaned = replaceForeignObjectsInString(detaintSvgString(svgContent))
+  const cleaned = replaceForeignObjectsInString(detaintSvgString(svgContent), theme)
   return new Promise((resolve, reject) => {
     const parser = new DOMParser()
     const doc = parser.parseFromString(cleaned, 'image/svg+xml')
