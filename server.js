@@ -344,8 +344,15 @@ app.get('/api/tech/png/:d2Path(*)', (req, res) => {
   const themeId = req.query.theme === 'dark' ? DARK_THEME_ID : req.query.theme === 'light' ? LIGHT_THEME_ID : null
   const themeArgs = themeId ? ['--theme', themeId] : []
 
+  // d2 0.8+ defaults --target to '*', which expands a multi-layer/scenario
+  // diagram into a directory of per-board PNGs instead of the single file this
+  // endpoint expects. Target the requested board (or the root board) explicitly
+  // so the output is always one flat file matching what the client is viewing.
+  const layerName = /^[A-Za-z0-9_]+$/.test(req.query.layer || '') ? req.query.layer : ''
+  const targetArgs = [`--target=${layerName ? `layers.${layerName}` : ''}`]
+
   const tmpPng = path.join('/tmp', `d2-${Date.now()}-${Math.random().toString(36).slice(2)}.png`)
-  const d2Process = spawn('d2', [...themeArgs, d2File, tmpPng], { cwd: __dirname })
+  const d2Process = spawn('d2', [...themeArgs, ...targetArgs, d2File, tmpPng], { cwd: __dirname })
 
   let stderr = ''
   d2Process.stderr.on('data', d => { stderr += d.toString() })

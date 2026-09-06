@@ -86,12 +86,17 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
     // (as this used to) puts the call too far from the click. Instead, hand
     // ClipboardItem a Promise<Blob> and call write() synchronously right
     // here; the promise resolves later, but the call itself is immediate.
+    // Match the PNG to whatever layer/scenario is currently on screen — d2 0.8+
+    // otherwise renders every board in the file when --target isn't given.
+    const currentLayer = scenarios?.[activeScenarioIndex]?.name
+    const layerParam = currentLayer ? `&layer=${encodeURIComponent(currentLayer)}` : ''
+
     const blobPromise: Promise<Blob> = (async () => {
       try {
         // The d2 CLI's own PNG renderer — full markdown/foreignObject fidelity,
         // unlike the client-side canvas fallback below. --theme keeps it roughly
         // in sync with the current light/dark toggle (see server.js).
-        const response = await fetch(`/api/tech/png/${d2ServerPath}?theme=${theme}`)
+        const response = await fetch(`/api/tech/png/${d2ServerPath}?theme=${theme}${layerParam}`)
         if (!response.ok) throw new Error(`PNG render failed: ${response.status}`)
         return await response.blob()
       } catch {
@@ -105,7 +110,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
       () => { setCopyLabel('✓'); setTimeout(() => setCopyLabel('⎘'), 2000) },
       err => { console.error('Copy failed:', err); setCopyLabel('✗'); setTimeout(() => setCopyLabel('⎘'), 2000) },
     )
-  }, [showCode, sourceCode, d2ServerPath, svgContent, theme])
+  }, [showCode, sourceCode, d2ServerPath, svgContent, theme, scenarios, activeScenarioIndex])
 
   const handleGoToScenario = useCallback((index: number) => {
     goToScenario(index)
