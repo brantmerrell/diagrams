@@ -1,49 +1,48 @@
 vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
-
-_quality: {class: compiles}
-
-_rs: {
-    label: Root DNS Server
-    icon: https://icons.terrastruct.com/tech%2F022-server.svg
-}
-_isp: {
-    label: ISP DNS Server\nor Router
-    icon: https://icons.terrastruct.com/tech%2F022-server.svg
-}
-_devices: {
-    label: tablet \|\nphone \|\nlaptop
-    icon: https://icons.terrastruct.com/tech%2Flaptop.svg
-}
-_domain: {
-    label: Domain\nwww.google.com\n173.194.115.96
-}
-_devices -> _isp: {
-    class: edge_request
-    label: google.com?
-}
-_rs <- _isp: {
-    class: edge_request
-    label: google.com?
-}
-_devices -> _domain
-
-
 layers: {
-  1_chain_of_responsibility_pattern: {
-    ...@"../../design-patterns/chain-of-responsibility".layers.1_pattern
-
-    client.label: "resolver client"
-    handler1.label: "Root / TLD nameserver"
-    handler1.handle.label: "referral"
-    handler2.label: "Authoritative nameserver"
-    handler2.handle.label: "answer"
-
+  0_base: {
     design_pattern: {
       label: "design pattern: chain-of-responsibility"
       link: ../../design-patterns/chain-of-responsibility.d2
       class: _link
     }
+    _quality: {class: compiles}
+  }
+  1_chain_of_responsibility_pattern: {
+    _quality: {class: compiles}
+    ...@"../../design-patterns/chain-of-responsibility".layers.1_pattern
+    client.label: "resolver client"
+    handler1.label: "Root / TLD nameserver"
+    handler1.handle.label: "referral"
+    handler2.label: "Authoritative nameserver"
+    handler2.handle.label: "answer"
+  }
+  2_unsorted: {
+    _rs: {
+        label: Root DNS Server
+        icon: https://icons.terrastruct.com/tech%2F022-server.svg
+    }
+    _isp: {
+        label: ISP DNS Server\nor Router
+        icon: https://icons.terrastruct.com/tech%2F022-server.svg
+    }
+    _devices: {
+        label: tablet \|\nphone \|\nlaptop
+        icon: https://icons.terrastruct.com/tech%2Flaptop.svg
+    }
+    _domain: {
+        label: Domain\nwww.google.com\n173.194.115.96
+    }
+    _devices -> _isp: {
+        class: edge_request
+        label: google.com?
+    }
+    _rs <- _isp: {
+        class: edge_request
+        label: google.com?
+    }
+    _devices -> _domain
   }
 }

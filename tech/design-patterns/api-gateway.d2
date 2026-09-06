@@ -1,23 +1,15 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
-
 layers: {
   0_base: {
+    **.style.text-transform: none
     context: |md
       ## API Gateway
-
       A single entry point that fronts a set of backend services. It\
       owns cross-cutting concerns — authentication, rate limiting,\
       request routing, response aggregation — so no individual service\
       has to, and so clients need to know only one address.
-
-      **Applies to:**
-      - `sd-notes/GeneralMotors/sd.d2` — an explicit `api_gateway` fronts\
-      the configurator, streaming, and asset services for browser /\
-      mobile / VR / kiosk clients.
-      - `sd-notes/tools/mcp.d2` — the MCP server is a gateway that\
-      normalises many tool and data sources behind one protocol.
     | {
       near: top-center
     }
@@ -34,31 +26,27 @@ layers: {
         class: _link
       }
     }
-    _quality: {class: compiles}
+    _quality: {class: styled}
   }
-
   1_pattern: {
-    _quality: {class: compiles}
-
+    **.style.text-transform: none
+    _quality: {class: styled}
     clients: "Clients" {
       web: "Web" {class: obj_client}
       mobile: "Mobile" {class: obj_client}
       partner: "Partner" {class: obj_client}
     }
-
     gateway: "API Gateway" {
       class: obj_lb
       auth: "authenticate" {class: obj_service}
       route: "route" {class: obj_service}
       aggregate: "aggregate" {class: obj_service}
     }
-
     services: "Backend services" {
       svc_a: "Service A" {class: obj_service}
       svc_b: "Service B" {class: obj_service}
       svc_c: "Service C" {class: obj_service}
     }
-
     clients.web -> gateway.auth {class: edge_request}
     clients.mobile -> gateway.auth {class: edge_request}
     clients.partner -> gateway.auth {class: edge_request}
@@ -68,7 +56,6 @@ layers: {
     gateway.route -> services.svc_c {class: edge_write}
     services.svc_a -> gateway.aggregate {class: edge_query}
     services.svc_b -> gateway.aggregate {class: edge_query}
-
     note: |md
       Unlike a plain Proxy, the gateway fans out to *many* services and\
       may compose their responses. Clients get one address, one auth\

@@ -1,9 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
-
 _quality: {class: styled}
-
 seq_auth: {
   shape: sequence_diagram
   inbox: {label: "email inbox"}
@@ -23,7 +21,6 @@ seq_auth: {
     icon: ../../icons/aws_ses.svg
     shape: image
   }
-
   Router -> Auth: route /auth
   Auth.note1: |md
     render email form
@@ -36,7 +33,6 @@ seq_auth: {
   api_auth -> Auth: check your email {class: api}
   ses -> inbox: magic link email {class: aws}
   inbox -> browser: click link
-
   browser -> Router: "navigate /auth?token="
   Router -> Auth: "route /auth?token="
   Auth -> api_auth: "GET /auth/verify?token="
@@ -44,7 +40,6 @@ seq_auth: {
   api_auth -> db: "set used_at" {class: api}
   api_auth -> browser: set session cookie {class: api}
 }
-
 design_pattern: {
   label: "design pattern: none"
   link: ../design-patterns/none.d2

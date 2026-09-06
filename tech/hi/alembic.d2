@@ -1,17 +1,18 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
-
 layers: {
   **.style.text-transform: none
-  1_migration: {
+  0_base: {
+    _quality: {class: styled}
     design_pattern: {
       label: "design pattern: none"
       link: ../design-patterns/none.d2
       class: _link
     }
-    _quality: {class: compiles}
-
+  }
+  1_migration: {
+    _quality: {class: styled}
     shape: sequence_diagram
     developer: {class: user}
     alembic: {class: api}
@@ -24,7 +25,6 @@ layers: {
       icon: ../../icons/postgresql.svg
       shape: image
     }
-
     developer -> alembic: alembic upgrade head {class: user}
     alembic -> env_py: load {class: api}
     env_py.note1: |md
@@ -135,7 +135,6 @@ layers: {
       sentence_id: uuid {constraint: foreign_key}
       read_at: timestamptz
     }
-
     sentences.story_id -> stories.id
     word_senses.lemma_id -> lemmas.id
     sentence_words.sentence_id -> sentences.id

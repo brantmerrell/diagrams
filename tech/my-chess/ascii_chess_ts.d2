@@ -1,11 +1,9 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
-
 layers: {
   0_main: {
-    _quality: {class: compiles}
-
+    _quality: {class: styled}
     shape: sequence_diagram
     browser: {class: obj_client; label: browser}
     index_tsx: {label: index.tsx; class: obj_service}
@@ -33,7 +31,6 @@ layers: {
   }
   1_login: {
     _quality: {class: compiles}
-
     shape: sequence_diagram
     browser: {class: obj_client; label: browser}
     App: {class: obj_service}
@@ -44,7 +41,6 @@ layers: {
   }
   2_strategy_pattern: {
     ...@"../design-patterns/strategy".layers.1_pattern
-
     client.label: "User"
     context.label: "ascii-chess-ts"
     context.execute.label: "render board"
@@ -54,7 +50,6 @@ layers: {
     concrete_a.label: "ASCII board"
     concrete_b.label: "link graph"
     concrete_c.label: "heatmap"
-
     design_pattern: {
       label: "design pattern: strategy"
       link: ../design-patterns/strategy.d2

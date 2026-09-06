@@ -1,15 +1,17 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
-
 layers: {
-  0_fetch_text: {
+  0_base: {
+    _quality: {class: styled}
     design_pattern: {
       label: "design pattern: none"
       link: ../design-patterns/none.d2
       class: _link
     }
-    _quality: {class: compiles}
+  }
+  1_fetch_text: {
+    _quality: {class: styled}
     shape: sequence_diagram
     developer: {shape: c4-person; class: pipeline}
     script: {label: fetch_text.py; class: pipeline}
@@ -23,7 +25,6 @@ layers: {
       icon: ../../icons/folder.svg
       shape: image
     }
-
     developer -> script: "python fetch_text.py \"<page title>\"" {class: pipeline}
     script.note1: |md
       ```

@@ -1,16 +1,17 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
-
 layers: {
-  0_auth: {
+  0_base: {
+    _quality: {class: styled}
     design_pattern: {
       label: "design pattern: none"
       link: ../design-patterns/none.d2
       class: _link
     }
-    _quality: {class: compiles}
-
+  }
+  1_auth: {
+    _quality: {class: styled}
     shape: sequence_diagram
     browser: {class: user}
     AuthProvider: {label: "context\nAuthContext\nAuthProvider"; class: frontend}
@@ -38,9 +39,8 @@ layers: {
     Reader -> api: "POST /api/auth/logout\n(credentials: include)" {class: frontend} # TODO: verbs are edges, endpoints are nodes
     Reader -> AuthProvider: setUser(null) {class: frontend}
   }
-  1_load: {
-    _quality: {class: compiles}
-
+  2_load: {
+    _quality: {class: styled}
     shape: sequence_diagram
     browser: {class: user}
     main_tsx: {label: main.tsx; class: frontend}

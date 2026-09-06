@@ -33,9 +33,6 @@ sd-notes/:
     - ./tech/sd-notes/tools/NoSQL.d2
     - ./tech/sd-notes/tools/RAG.d2
     - ./tech/sd-notes/tools/rdbms.d2
-    - ./tech/sd-notes/tools/rdbms_scaling.d2
-    - ./tech/sd-notes/tools/rdbms_systems.d2
-    - ./tech/sd-notes/tools/rdbms_tuning.d2
     - ./tech/sd-notes/tools/reverse_proxy.d2
     - ./tech/sd-notes/tools/vector_database.d2
 jacob:
@@ -51,48 +48,48 @@ jbm.eco:
     src/:
       components/:
         D2Panel.tsx:
-          - ./tech/self/seq_view.d2
+          - ./tech/self/view.d2
         Navigator.tsx:
-          - ./tech/self/seq_view.d2
-          - ./tech/self/seq_tagging.d2
+          - ./tech/self/view.d2
+          - ./tech/self/tagging.d2
     scripts/:
       lib/:
         tags.mjs:
-          - ./tech/self/seq_tagging.d2
+          - ./tech/self/tagging.d2
     server.js:
-      - ./tech/self/seq_view.d2
-      - ./tech/self/seq_tagging.d2
+      - ./tech/self/view.d2
+      - ./tech/self/tagging.d2
   chess.jbm.eco:
     details:
       repository: https://github.com/brantmerrell/my-chess
       description: chess visualization app
     connector/:
       main.py:
-        - ./tech/my-chess/seq_connector.d2
+        - ./tech/my-chess/connector.d2
     ascii-chess-ts/:
       src/:
         index.tsx:
-          - ./tech/my-chess/seq_ascii_chess_ts.d2
+          - ./tech/my-chess/ascii_chess_ts.d2
       public/:
         index.html:
     prototype-shiny/:
       app.R:
-        - ./tech/my-chess/seq_prototype_shiny.d2
+        - ./tech/my-chess/prototype_shiny.d2
     blender-renderer/:
       __init__.py:
-        - ./tech/my-chess/seq_blender_renderer.d2
+        - ./tech/my-chess/blender_renderer.d2
   hi.jbm.eco:
     frontend/:
       index.html:
       src/:
         main.tsx:
-          - ./tech/hi/seq_frontend.d2
+          - ./tech/hi/frontend.d2
         context/:
           AuthContext.tsx:
-            - ./tech/hi/seq_frontend.d2
+            - ./tech/hi/frontend.d2
         pages/:
           Auth.tsx:
-            - ./tech/hi/seq_frontend.d2
+            - ./tech/hi/frontend.d2
     backend/:
       alembic/:
         env.py:
@@ -107,25 +104,23 @@ jbm.eco:
       raw/:
     pipeline/:
       enrich_glosses.py:
-        - ./tech/hi/seq_enrich_glosses.d2
+        - ./tech/hi/enrich_glosses.d2
       fetch_text.py:
-        - ./tech/hi/seq_fetch_text.d2
+        - ./tech/hi/fetch_text.d2
       generate_audio.py:
-        - ./tech/hi/seq_generate_audio.d2
+        - ./tech/hi/generate_audio.d2
       process_sentences.py:
-        - ./tech/hi/seq_process_sentences.d2
+        - ./tech/hi/process_sentences.d2
+dev:
+  - ./tech/dev/docker-recreate-bug.d2
 hackerrank/:
   - ./tech/hackerrank/removeKthNodeFromEnd.d2
 d2-documentation:
   3-special-objects:
     - ./tech/examples/3-special-objects/block-strings.d2
-    - ./tech/examples/3-special-objects/grid-flask-pod.d2
-    - ./tech/examples/3-special-objects/grid-forge.d2
-    - ./tech/examples/3-special-objects/grid-japan.d2
+    - ./tech/examples/3-special-objects/grid.d2
     - ./tech/examples/3-special-objects/languages.d2
-    - ./tech/examples/3-special-objects/latex-plugins.d2
     - ./tech/examples/3-special-objects/latex.d2
-    - ./tech/examples/3-special-objects/link.d2
     - ./tech/examples/3-special-objects/markdown.d2
     - ./tech/examples/3-special-objects/sequence.d2
     - ./tech/examples/3-special-objects/sql.d2
@@ -137,7 +132,7 @@ d2-documentation:
     - ./tech/examples/4-customization/tooltip.d2
   5-in-depth:
     - ./tech/examples/5-in-depth/variables.d2
-classes.d2:
+classes:
   - ./class_legend.d2
 challenges/:
   pressw/:

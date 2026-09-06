@@ -1,21 +1,14 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
-
 layers: {
   0_base: {
+    **.style.text-transform: none
     context: |md
       ## Microservices
-
       One deployable per bounded context, each owning its own datastore.\
       Services communicate over the network rather than in-process, and\
       are released independently.
-
-      **Applies to:**
-      - `sd-notes/tools/application_layer.d2` — contrasts a monolith\
-      (shared database behind a load balancer) with user / product /\
-      order services that each own a private database and coordinate\
-      through a message queue.
     | {
       near: top-center
     }
@@ -27,14 +20,11 @@ layers: {
         class: _link
       }
     }
-    _quality: {class: compiles}
+    _quality: {class: styled}
   }
-
   1_pattern: {
-    _quality: {class: compiles}
-
+    _quality: {class: styled}
     gateway: "API Gateway" {class: obj_lb}
-
     svc_a: "Service A" {
       class: obj_service
       db: "own DB" {class: obj_db}
@@ -47,9 +37,7 @@ layers: {
       class: obj_service
       db: "own DB" {class: obj_db}
     }
-
     bus: "Message queue" {class: obj_queue}
-
     gateway -> svc_a {class: edge_request}
     gateway -> svc_b {class: edge_request}
     gateway -> svc_c {class: edge_request}
@@ -58,7 +46,6 @@ layers: {
     svc_c -> svc_c.db {class: edge_write}
     svc_a -> bus: "publishes" {class: edge_write}
     bus -> svc_c: "consumes" {class: edge_query}
-
     note: |md
       The defining constraint is the private datastore, not the process\
       count. Services that share one database are a distributed\

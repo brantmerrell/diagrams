@@ -1,36 +1,41 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
-
 layers: {
   0_base: {
+    **.style.text-transform: none
+    grid-rows: 2
     context: |md
       ## None
-
-      42 diagrams in this repository do not correspond to any\
-      software design pattern, and that is the correct outcome rather than\
-      a gap to be filled.
-
-      - **`tech/examples/**`** documents D2 language features — block\
-      strings, grids, LaTeX, tooltips. The subject matter is syntax, not\
-      architecture.
-      - **`tech/hackerrank/**`** documents single-function algorithms.\
-      Most are a loop and an accumulator; naming a pattern there would be\
-      cargo-culting. (`removeKthNodeFromEnd.d2` is the exception — its\
-      `print_singly_linked_list` traversal is a genuine Iterator, so it\
-      links to [iterator.d2](iterator.d2) instead of here.)
-      - **`tech/sd-notes/tools/rdbms*`, `NoSQL`, `vector_database`,\
-      `communication`** are reference notes on storage and protocol\
-      taxonomies, not structures with a pattern intent.
-      - **`tech/dev/**`** debugging write-ups are narratives of a specific\
-      failure and its fix.
-      - The remaining sequence diagrams describe concrete call flows that\
-      happen not to be shaped by a named pattern.
-
-      Diagrams here link back to this page so the classification is\
-      explicit and reviewable, rather than being an absence of evidence.
-    | {
-      near: top-center
+      These diagrams do not correspond to any\
+      software design pattern.
+    |
+    tech_sd_notes_designs: {
+      label: "tech/sd-notes/designs (1)"
+      grid-columns: 1
+      n_pastebin: {
+        label: "pastebin.d2"
+        link: ../sd-notes/designs/pastebin.d2
+        class: _link
+      }
+    }
+    tech_self: {
+      label: "tech/self (1)"
+      grid-columns: 1
+      n_seq_tagging: {
+        label: "seq_tagging.d2"
+        link: ../self/seq_tagging.d2
+        class: _link
+      }
+    }
+    tech_my_chess: {
+      label: "tech/my-chess (1)"
+      grid-columns: 1
+      n_seq_prototype_shiny: {
+        label: "seq_prototype_shiny.d2"
+        link: ../my-chess/seq_prototype_shiny.d2
+        class: _link
+      }
     }
     tech_dev: {
       label: "tech/dev (3)"
@@ -51,118 +56,56 @@ layers: {
         class: _link
       }
     }
-    tech_examples: {
-      label: "tech/examples (1)"
+    tech_sd_notes_tools: {
+      label: "tech/sd-notes/tools (8)"
       grid-columns: 1
-      n_jacob: {
-        label: "jacob.d2"
-        link: ../examples/jacob.d2
+      n_NoSQL: {
+        label: "NoSQL.d2"
+        link: ../sd-notes/tools/NoSQL.d2
         class: _link
       }
-    }
-    tech_examples_3_special_objects: {
-      label: "tech/examples/3-special-objects (12)"
-      grid-columns: 1
-      n_block_strings: {
-        label: "block-strings.d2"
-        link: ../examples/3-special-objects/block-strings.d2
+      n_RAG: {
+        label: "RAG.d2"
+        link: ../sd-notes/tools/RAG.d2
         class: _link
       }
-      n_grid_flask_pod: {
-        label: "grid-flask-pod.d2"
-        link: ../examples/3-special-objects/grid-flask-pod.d2
+      n_communication: {
+        label: "communication.d2"
+        link: ../sd-notes/tools/communication.d2
         class: _link
       }
-      n_grid_forge: {
-        label: "grid-forge.d2"
-        link: ../examples/3-special-objects/grid-forge.d2
+      n_rdbms: {
+        label: "rdbms.d2"
+        link: ../sd-notes/tools/rdbms.d2
         class: _link
       }
-      n_grid_japan: {
-        label: "grid-japan.d2"
-        link: ../examples/3-special-objects/grid-japan.d2
+      n_rdbms_scaling: {
+        label: "rdbms_scaling.d2"
+        link: ../sd-notes/tools/rdbms_scaling.d2
         class: _link
       }
-      n_languages: {
-        label: "languages.d2"
-        link: ../examples/3-special-objects/languages.d2
+      n_rdbms_systems: {
+        label: "rdbms_systems.d2"
+        link: ../sd-notes/tools/rdbms_systems.d2
         class: _link
       }
-      n_latex_plugins: {
-        label: "latex-plugins.d2"
-        link: ../examples/3-special-objects/latex-plugins.d2
+      n_rdbms_tuning: {
+        label: "rdbms_tuning.d2"
+        link: ../sd-notes/tools/rdbms_tuning.d2
         class: _link
       }
-      n_latex: {
-        label: "latex.d2"
-        link: ../examples/3-special-objects/latex.d2
-        class: _link
-      }
-      n_link: {
-        label: "link.d2"
-        link: ../examples/3-special-objects/link.d2
-        class: _link
-      }
-      n_markdown: {
-        label: "markdown.d2"
-        link: ../examples/3-special-objects/markdown.d2
-        class: _link
-      }
-      n_sequence: {
-        label: "sequence.d2"
-        link: ../examples/3-special-objects/sequence.d2
-        class: _link
-      }
-      n_sql: {
-        label: "sql.d2"
-        link: ../examples/3-special-objects/sql.d2
-        class: _link
-      }
-      n_uml: {
-        label: "uml.d2"
-        link: ../examples/3-special-objects/uml.d2
-        class: _link
-      }
-    }
-    tech_examples_4_customization: {
-      label: "tech/examples/4-customization (4)"
-      grid-columns: 1
-      n_d2_legend: {
-        label: "d2-legend.d2"
-        link: ../examples/4-customization/d2-legend.d2
-        class: _link
-      }
-      n_dimensions: {
-        label: "dimensions.d2"
-        link: ../examples/4-customization/dimensions.d2
-        class: _link
-      }
-      n_multi_class: {
-        label: "multi-class.d2"
-        link: ../examples/4-customization/multi-class.d2
-        class: _link
-      }
-      n_tooltip: {
-        label: "tooltip.d2"
-        link: ../examples/4-customization/tooltip.d2
-        class: _link
-      }
-    }
-    tech_examples_5_in_depth: {
-      label: "tech/examples/5-in-depth (1)"
-      grid-columns: 1
-      n_variables: {
-        label: "variables.d2"
-        link: ../examples/5-in-depth/variables.d2
+      n_vector_database: {
+        label: "vector_database.d2"
+        link: ../sd-notes/tools/vector_database.d2
         class: _link
       }
     }
     tech_hi: {
       label: "tech/hi (10)"
       grid-columns: 1
-      n_seq_alembic: {
-        label: "seq_alembic.d2"
-        link: ../hi/seq_alembic.d2
+      alembic: {
+        label: "alembic.d2"
+        link: ../hi/alembic.d2
         class: _link
       }
       n_seq_auth: {
@@ -211,77 +154,6 @@ layers: {
         class: _link
       }
     }
-    tech_my_chess: {
-      label: "tech/my-chess (1)"
-      grid-columns: 1
-      n_seq_prototype_shiny: {
-        label: "seq_prototype_shiny.d2"
-        link: ../my-chess/seq_prototype_shiny.d2
-        class: _link
-      }
-    }
-    tech_sd_notes_designs: {
-      label: "tech/sd-notes/designs (1)"
-      grid-columns: 1
-      n_pastebin: {
-        label: "pastebin.d2"
-        link: ../sd-notes/designs/pastebin.d2
-        class: _link
-      }
-    }
-    tech_sd_notes_tools: {
-      label: "tech/sd-notes/tools (8)"
-      grid-columns: 1
-      n_NoSQL: {
-        label: "NoSQL.d2"
-        link: ../sd-notes/tools/NoSQL.d2
-        class: _link
-      }
-      n_RAG: {
-        label: "RAG.d2"
-        link: ../sd-notes/tools/RAG.d2
-        class: _link
-      }
-      n_communication: {
-        label: "communication.d2"
-        link: ../sd-notes/tools/communication.d2
-        class: _link
-      }
-      n_rdbms: {
-        label: "rdbms.d2"
-        link: ../sd-notes/tools/rdbms.d2
-        class: _link
-      }
-      n_rdbms_scaling: {
-        label: "rdbms_scaling.d2"
-        link: ../sd-notes/tools/rdbms_scaling.d2
-        class: _link
-      }
-      n_rdbms_systems: {
-        label: "rdbms_systems.d2"
-        link: ../sd-notes/tools/rdbms_systems.d2
-        class: _link
-      }
-      n_rdbms_tuning: {
-        label: "rdbms_tuning.d2"
-        link: ../sd-notes/tools/rdbms_tuning.d2
-        class: _link
-      }
-      n_vector_database: {
-        label: "vector_database.d2"
-        link: ../sd-notes/tools/vector_database.d2
-        class: _link
-      }
-    }
-    tech_self: {
-      label: "tech/self (1)"
-      grid-columns: 1
-      n_seq_tagging: {
-        label: "seq_tagging.d2"
-        link: ../self/seq_tagging.d2
-        class: _link
-      }
-    }
-    _quality: {class: compiles}
+    _quality: {class: styled}
   }
 }

@@ -1,7 +1,6 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
-
 layers: {
   1_dev: {
     direction: down
@@ -23,7 +22,6 @@ layers: {
     express: {
       class: obj_server
       label: "express (server.js)\n(ephemeral port)"
-
       api_proxy: {shape: text; class: data_source; label: "/api"}
       svg_proxy: {shape: text; class: data_source; label: "/tech/*.svg"}
     }
@@ -38,7 +36,6 @@ layers: {
       ## .env.local
       VITE_BACKEND_PORT=_
     | {class: obj_db}
-
     developer -> coordinator: {class: edge_spawn; label: "bun run start"}
     coordinator -> express: {class: edge_write; label: "spawn:\nPORT=_"}
     coordinator -> env_local: {class: edge_write; label: "write\nVITE_BACKEND_PORT"}
@@ -66,7 +63,6 @@ layers: {
     pages: {
       class: obj_cdn
       label: "GitHub Pages\nstatic dist/"
-
       svg: {shape: text; class: data_source; label: "*.svg\n(precompiled)"}
       tags: {shape: text; class: data_source; label: "/tech/tags.json\n(no /api/tech/tags here)"}
       scenario_files: {shape: text; class: data_source; label: "*/scenarios.json\n(no /api/tech/scenarios here)"}
@@ -86,7 +82,6 @@ layers: {
       |
     }
     actions -- actions_steps: {class: edge_invis}
-
     artifacts: {
       class: obj_db
       label: Artifacts
@@ -102,7 +97,6 @@ layers: {
       |
     }
     artifacts -- artifacts_list: {class: edge_invis}
-
     actions -> artifacts: {
       class: edge_write
       label: publish
@@ -156,7 +150,6 @@ layers: {
   }
   5_proxy_pattern: {
     ...@"../design-patterns/proxy".layers.1_pattern
-
     client.label: "Browser\n:5173"
     subject.label: "/tech/**, *.svg"
     proxy.label: "Vite dev server"
@@ -164,7 +157,6 @@ layers: {
     proxy.control.label: "proxy rule match"
     real.label: "server.js\n:3002"
     real.request.label: "render + serve"
-
     design_pattern: {
       label: "design pattern: proxy"
       link: ../design-patterns/proxy.d2

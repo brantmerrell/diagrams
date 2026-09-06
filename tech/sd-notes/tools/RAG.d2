@@ -2,14 +2,21 @@ vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
 layers: {
-  0_overview: {
-    design_pattern: {
-      label: "design pattern: none"
-      link: ../../design-patterns/none.d2
-      class: _link
+  0_base: {
+    links: {
+      grid-columns: 1
+      wiki: {
+        link: https://en.wikipedia.org/wiki/Retrieval-augmented_generation
+        label: wiki/Retrieval-augmented_generation
+        class: _link
+      }
+      design_pattern: {
+        label: "design pattern: none"
+        link: ../../design-patterns/none.d2
+        class: _link
+      }
     }
     _quality: {class: compiles}
-
     user: {
       class: obj_client
       label: User
@@ -23,6 +30,7 @@ layers: {
       label: Orchestration Layer\n(Gateway, Routing,\nPrompt Engineering)
       wiki: {
         link: https://en.wikipedia.org/wiki/Orchestration_(computing)
+        label: wiki/Orchestration_(computing)
         class: _link
       }
     }
@@ -82,7 +90,6 @@ layers: {
   }
   1_architecture: {
     _quality: {class: compiles}
-
     user_interface: {
       label: User Interface
       user: {
@@ -278,10 +285,6 @@ layers: {
   4_agentic_rag_pattern: {
     label: Agentic RAG
     _quality: {class: compiles}
-    wiki: {
-      link: https://en.wikipedia.org/wiki/Retrieval-augmented_generation
-      class: _link
-    }
     planning_agent: {
       class: ai_assistant
       label: Planning Agent\n(Query Decomposition)

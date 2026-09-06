@@ -1,14 +1,17 @@
 vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
-**.style.text-transform: none
 layers: {
-  0_http: {
+  **.style.text-transform: none
+  0_base: {
+    _quality: {class: compiles}
     design_pattern: {
       label: "design pattern: none"
       link: ../../design-patterns/none.d2
       class: _link
     }
+  }
+  1_http: {
     # TODO: zig-zag
     _quality: {class: compiles}
     client: {
@@ -31,7 +34,7 @@ layers: {
     client -> server: {class: edge_request}
     client -- request_flow
   }
-  1_websocket: {
+  2_websocket: {
     _quality: {class: styled}
     client: {
       class: obj_client
@@ -51,7 +54,7 @@ layers: {
     client <-> server: {class: edge_request; label: bidirectional}
     client -- connection_upgrade
   }
-  2_grpc: {
+  3_grpc: {
     _quality: {class: styled}
     client_service: {
       class: obj_server
@@ -69,8 +72,8 @@ layers: {
       label: HTTP/2 + TLS
       shape: hexagon
     }
-    client_service -> protobuf_layer: serialize
-    protobuf_layer -> http2_layer: transport
+    client_service -> protobuf_layer: serialize {class: edge}
+    protobuf_layer -> http2_layer: transport {class: edge}
     http2_layer -> server_service: {class: edge_request}
     server_service -> http2_layer
     http2_layer -> protobuf_layer: transport

@@ -2,8 +2,6 @@ direction: down
 vars: @"../vars/hackerrank.d2"
 classes: @"../../classes.d2"
 classes: @"../../tags.d2"
-
-
 layers: {
   0_context: {
     **.style.text-transform: none
@@ -149,17 +147,12 @@ layers: {
         main: |py
         if __name__ == '__main__':
             head_count = int(input().strip())
-
             head = SinglyLinkedList()
-
             for _ in range(head_count):
                 head_item = int(input().strip())
                 head.insert_node(head_item) # USE THIS
-
             k = int(input().strip())
-
             result = removeKthNodeFromEnd(head.head, k)
-
           print_singly_linked_list(result, '\n')
           print()
       |
@@ -191,19 +184,14 @@ layers: {
       o: expected\noutput=0
     }
   }
-
   3_iterator_pattern: {
     ...@"../design-patterns/iterator".layers.1_pattern
-
     client.label: "print_singly_linked_list\n(caller)"
-
     aggregate.label: "SinglyLinkedList\n(head)"
     aggregate.createIterator.label: "head\n(first node)"
-
     iterator.label: "node\n(cursor)"
     iterator.hasNext.label: "while node:"
     iterator.next.label: "node = node.next"
-
     design_pattern: {
       label: "design pattern: iterator"
       link: ../design-patterns/iterator.d2

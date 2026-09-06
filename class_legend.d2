@@ -1,12 +1,9 @@
 vars: @"./tech/vars/jbm.d2"
 classes: @"./classes"
 classes: @"./tags"
-
 layers: {
-  0_basic: {
-    _link: {class: _link; label: "_link"}
+  1_legend: {
     grid-columns: 5
-
     cond: {class: cond; label: "cond"}
     ndx: {class: ndx; label: "ndx"}
     edge_down: {class: edge_down; label: "edge_down"}
@@ -31,7 +28,6 @@ layers: {
     gate_xor: {class: gate_xor; label: "gate_xor"}
     gate_xnor: {class: gate_xnor; label: "gate_xnor"}
     gate_not: {class: gate_not; label: "gate_not"}
-
     obj_socket: {class: obj_socket; label: "obj_socket"}
     obj_port: {class: obj_port; label: "obj_port"}
     edge_own_demo: {
@@ -52,7 +48,6 @@ layers: {
       B: {label: "B"}
       A -> B: {class: edge_forward}
     }
-
     debug: {class: debug; label: "debug"}
     notes: {class: note; label: "notes"}
     note: {class: note; label: "note"}
@@ -98,11 +93,9 @@ layers: {
       B: {label: "B"}
       A -> B: {class: edge_query}
     }
-
     to_add: {class: to_add; label: "to_add"}
     to_remove: {class: to_remove; label: "to_remove"}
     unchanged: {class: unchanged; label: "unchanged"}
-
     obj_proc: {class: obj_proc; label: "obj_proc"}
     edge_spawn_demo: {
       label: "edge_spawn"
@@ -122,7 +115,6 @@ layers: {
       B: {label: "B"}
       A -> B: {class: edge_no_signal}
     }
-
     user: {class: user; label: "user"}
     frontend: {class: frontend; label: "frontend"}
     pipeline: {class: pipeline; label: "pipeline"}
@@ -131,7 +123,5 @@ layers: {
     aws: {class: aws; label: "aws"}
     azure: {class: azure; label: "azure"}
     gcp: {class: gcp; label: "gcp"}
-    demo_styled: {class: styled; label: "styled"}
-    demo_coherent: {class: coherent; label: "coherent"}
   }
 }

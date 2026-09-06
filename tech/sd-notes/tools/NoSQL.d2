@@ -1,158 +1,137 @@
 vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
-
-_quality: {class: compiles}
-
-# TODO: split into layers
-# TODO: cap theorem gets its own diagram; link to it from here
-# TODO: put BASE properties with CAP or as its own pattern?
-
-# NoSQL Database Types Comparison
-nosql_comparison: {
-  grid-rows: 2
-  grid-columns: 2
-  label: NoSQL Database Types
-
-  key_value: {
-    label: Key-Value Store
-    class: obj_db
-
-    kv_store: {
-      shape: sql_table
-      key: string {constraint: primary_key}
-      value: blob
-      ttl: int
+"""
+TODO:
+* CAP theorm gets its own diagram (design patterns?) and import into layer
+* BASE properties get their own diagram (design patterns?) and import into layer
+"""
+layers: {
+  **.style.text-transform: none
+  0_base: {
+    _quality: {class: compiles}
+    design_pattern: {
+      label: "design pattern: none"
+      link: ../../design-patterns/none.d2
+      class: _link
     }
-
-    use_cases: |md
+  }
+  1_nosql_comparison: {
+    grid-rows: 2
+    grid-columns: 2
+    label: NoSQL Database Types
+    key_value: {
+      label: Key-Value Store
+      class: obj_db
+      kv_store: {
+        shape: sql_table
+        key: string {constraint: primary_key}
+        value: blob
+        ttl: int
+      }
+      use_cases: |md
+        ## Use Cases
+        * Session Storage/caching
+        * Configuration
+        * Real-time Data
+      |
+      examples: |md
+      ## Examples
+      * Redis
+      * DynamoDB
+      * Memcached
+      |
+    }
+    document: {
+      label: Document Store
+      class: obj_db
+      documents: {
+        shape: sql_table
+        _id: objectid {constraint: primary_key}
+        name: string
+        address: document
+        tags: array
+      }
+      use_cases: |md
       ## Use Cases
-      * Session Storage/caching
-      * Configuration
-      * Real-time Data
-    |
-
-    examples: |md
-    ## Examples
-    * Redis
-    * DynamoDB
-    * Memcached
-    |
-  }
-
-  document: {
-    label: Document Store
-    class: obj_db
-
-    documents: {
-      shape: sql_table
-      _id: objectid {constraint: primary_key}
-      name: string
-      address: document
-      tags: array
+      * Content Management
+      * Product Catalogs
+      * User Profiles
+      |
+      examples: |md
+      ## Examples
+      * MongoDB
+      * CouchDB
+      * Elasticsearch
+      |
     }
-
-    use_cases: |md
-    ## Use Cases
-    * Content Management
-    * Product Catalogs
-    * User Profiles
-    |
-
-    examples: |md
-    ## Examples
-    * MongoDB
-    * CouchDB
-    * Elasticsearch
-    |
-  }
-
-  wide_column: {
-    label: Wide Column Store
-    class: obj_db
-
-    column_family: {
-      shape: sql_table
-      row_key: string {constraint: primary_key}
-      col1: Column<Name, Value, Timestamp>
-      col2: Column<Name, Value, Timestamp>
-      colN: Column<Name, Value, Timestamp>
+    wide_column: {
+      label: Wide Column Store
+      class: obj_db
+      column_family: {
+        shape: sql_table
+        row_key: string {constraint: primary_key}
+        col1: Column<Name, Value, Timestamp>
+        col2: Column<Name, Value, Timestamp>
+        colN: Column<Name, Value, Timestamp>
+      }
+      use_cases: |md
+        ## Use Cases
+        * Large Datasets
+        * Time Series Data
+        * IoT Applications
+      |
+      examples: |md
+      ## Examples
+      * Cassandra
+      * HBase
+      * BigTable
+      |
     }
-
-    use_cases: |md
-      ## Use Cases
-      * Large Datasets
-      * Time Series Data
-      * IoT Applications
-    |
-
-    examples: |md
-    ## Examples
-    * Cassandra
-    * HBase
-    * BigTable
-    |
-  }
-
-  graph: {
-    label: Graph Database
-    class: obj_db
-
-    nodes: {
-      shape: sql_table
-      id: uuid {constraint: primary_key}
-      label: string
-      properties: json
+    graph: {
+      label: Graph Database
+      class: obj_db
+      nodes: {
+        shape: sql_table
+        id: uuid {constraint: primary_key}
+        label: string
+        properties: json
+      }
+      edges: {
+        shape: sql_table
+        src: uuid {constraint: foreign_key}
+        dst: uuid {constraint: foreign_key}
+        type: string
+        properties: json
+      }
+      edges.src -> nodes.id
+      edges.dst -> nodes.id
+      use_cases: |md
+        ## Use Cases
+        * Social Networks
+        * Recommendation Engines
+        * Fraud Detection
+      |
+      examples: |md
+      ## Examples
+      * Neo4j
+      * Amazon Neptune
+      * ArangoDB
+      |
     }
-
-    edges: {
-      shape: sql_table
-      src: uuid {constraint: foreign_key}
-      dst: uuid {constraint: foreign_key}
-      type: string
-      properties: json
-    }
-
-    edges.src -> nodes.id
-    edges.dst -> nodes.id
-
-    use_cases: |md
-      ## Use Cases
-      * Social Networks
-      * Recommendation Engines
-      * Fraud Detection
-    |
-
-    examples: |md
-    ## Examples
-    * Neo4j
-    * Amazon Neptune
-    * ArangoDB
-    |
   }
-}
-
-cap_theorem: |md
-  ## CAP Theorem
-  * consistency: All nodes see same data
-  * availability: System remains operational
-  * partition_tolerance: System continues despite network failures
-|
-# since the cap theorem claims that only 2 of these are possible, which two are possible in this case (NoSQL?)
-
-# BASE vs ACID
-base_properties: |md
-  ## BASE Properties
-  * Basically Available: System guarantees availability
-  * Soft State: State may change over time
-  * Eventual Consistency: System becomes consistent eventually
-|
-
-nosql_comparison -- cap_theorem
-cap_theorem -- base_properties
-
-design_pattern: {
-  label: "design pattern: none"
-  link: ../../design-patterns/none.d2
-  class: _link
+  cap_theorem: |md
+    ## CAP Theorem
+    * consistency: All nodes see same data
+    * availability: System remains operational
+    * partition_tolerance: System continues despite network failures
+  |
+  # since the cap theorem claims that only 2 of these are possible, which two are possible in this case (NoSQL?)
+  # BASE vs ACID
+  base_properties: |md
+    ## BASE Properties
+    * Basically Available: System guarantees availability
+    * Soft State: State may change over time
+    * Eventual Consistency: System becomes consistent eventually
+  |
 }
