@@ -613,6 +613,11 @@
   box-shadow: 0 0 0 2px #82aaff, 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+.zoom-button--code {
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
 .zoom-button--active:hover {
   background-color: #4350e0;
 }

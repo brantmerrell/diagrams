@@ -210,7 +210,7 @@ const MermaidPanel: React.FC<MermaidPanelProps> = ({ diagramPath }) => {
           {!showCode && <button className="zoom-button zoom-button--step" onClick={e => { e.stopPropagation(); zoomOut() }} title="Zoom Out">−</button>}
           {!showCode && <button className="zoom-button" onClick={e => { e.stopPropagation(); reset() }} title="Reset Zoom">⟲</button>}
           <button
-            className={`zoom-button${showCode ? ' zoom-button--active' : ''}`}
+            className={`zoom-button zoom-button--code${showCode ? ' zoom-button--active' : ''}`}
             onClick={e => {
               e.stopPropagation()
               setSearchParams(prev => {

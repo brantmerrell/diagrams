@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_base: {
     **.style.text-transform: none
@@ -30,7 +31,15 @@ layers: {
   }
   1_pattern: {
     _quality: {class: styled}
-    client: "Client" {class: obj_client}
+    note: |md
+      The client only ever talks to\
+      the facade's single entry point\
+      (`start()`). It never sees `CPU`,\
+      `Memory`, or `HardDrive` individually.
+    | {class: note}
+    client: "Client" {
+      class: obj_client
+    }
     facade: "ComputerFacade" {
       class: obj_service
       start: "start()" {class: obj_service}
@@ -49,16 +58,10 @@ layers: {
       read: "read()" {class: obj_service}
     }
     client -> facade.start: "calls" {class: edge_request}
-    facade.start -> cpu.freeze {class: edge_write}
-    facade.start -> hd.read {class: edge_query}
+    facade.start -> cpu.freeze: {class: edge_write}
+    facade.start -> hd.read: {class: edge_query}
     hd.read -> memory.load: "boot data" {class: edge_write}
-    facade.start -> cpu.execute {class: edge_write}
-    note: |md
-      The client only ever talks to the facade's single entry point\
-      (`start()`). It never sees `CPU`, `Memory`, or `HardDrive`\
-      individually — the same way callers of the PantryPal agent loop\
-      should only see `agent_loop`, not `llm_provider`/`tool_search`/\
-      `tool_equipment` directly.
-    | {class: note}
+    facade.start -> cpu.execute: {class: edge_write}
+    client -- note: {class: invis}
   }
 }

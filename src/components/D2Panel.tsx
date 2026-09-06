@@ -159,7 +159,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
             >{theme === 'dark' ? '☾' : '☀'}</button>
           )}
           <button
-            className={`zoom-button${showCode ? ' zoom-button--active' : ''}`}
+            className={`zoom-button zoom-button--code${showCode ? ' zoom-button--active' : ''}`}
             onClick={handleToggleCode}
             title={showCode ? 'Show rendered diagram' : 'Show source code'}
           >{'</>'}</button>

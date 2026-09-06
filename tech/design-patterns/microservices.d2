@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_base: {
     **.style.text-transform: none
@@ -38,14 +39,15 @@ layers: {
       db: "own DB" {class: obj_db}
     }
     bus: "Message queue" {class: obj_queue}
-    gateway -> svc_a {class: edge_request}
-    gateway -> svc_b {class: edge_request}
-    gateway -> svc_c {class: edge_request}
-    svc_a -> svc_a.db {class: edge_write}
-    svc_b -> svc_b.db {class: edge_write}
-    svc_c -> svc_c.db {class: edge_write}
+    gateway -> svc_a: {class: edge_request}
+    gateway -> svc_b: {class: edge_request}
+    gateway -> svc_c: {class: edge_request}
+    svc_a -> svc_a.db: {class: edge_write}
+    svc_b -> svc_b.db: {class: edge_write}
+    svc_c -> svc_c.db: {class: edge_write}
     svc_a -> bus: "publishes" {class: edge_write}
     bus -> svc_c: "consumes" {class: edge_query}
+    svc_b -- note: {class: invis}
     note: |md
       The defining constraint is the private datastore, not the process\
       count. Services that share one database are a distributed\

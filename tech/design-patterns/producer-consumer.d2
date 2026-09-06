@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_base: {
     **.style.text-transform: none
@@ -40,7 +41,10 @@ layers: {
     queue -> consumers.c1: "dequeue" {class: edge_query}
     queue -> consumers.c2: "dequeue" {class: edge_query}
     queue -> backpressure: "full" {class: edge_signal}
-    backpressure -> producers.p1 {class: edge_signal}
+    producers.p1 <- backpressure: {
+      class: edge_signal
+      class: highlight
+    }
     note: |md
       The interesting design work is not the queue — it is what happens\
       when it fills. Blocking, shedding, buffering, and circuit-breaking\
