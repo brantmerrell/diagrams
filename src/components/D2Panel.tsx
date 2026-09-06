@@ -5,7 +5,6 @@ import CodeView from './CodeView'
 import { useDiagramWatch } from '../hooks/useDiagramWatch'
 import { useDiagramViewport } from '../hooks/useDiagramViewport'
 import { useDiagramTheme } from '../hooks/useDiagramTheme'
-import { svgToPngBlob } from '../lib/svgToPng'
 import { normalizeToCanonical } from '../lib/yamlExtract'
 
 interface D2PanelProps {
@@ -25,7 +24,6 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
   const showCode = searchParams.get('view') === 'code'
 
   const [sourceCode, setSourceCode] = useState<string | null>(null)
-  const [copyLabel, setCopyLabel] = useState('⎘')
   const { theme, toggleTheme } = useDiagramTheme()
 
   const canonicalPath = diagramPath ? normalizeToCanonical(diagramPath) : ''
@@ -66,51 +64,6 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
       return p
     }, { replace: true })
   }, [showCode, setSearchParams])
-
-  const handleCopy = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation()
-
-    if (showCode && sourceCode !== null) {
-      navigator.clipboard.writeText(sourceCode).then(
-        () => { setCopyLabel('✓'); setTimeout(() => setCopyLabel('⎘'), 2000) },
-        err => { console.error('Copy failed:', err); setCopyLabel('✗'); setTimeout(() => setCopyLabel('⎘'), 2000) },
-      )
-      return
-    }
-
-    if (!d2ServerPath) return
-    setCopyLabel('…')
-
-    // Firefox blocks navigator.clipboard.write() unless it's called within
-    // the click's user-activation window — awaiting the fetch/blob first
-    // (as this used to) puts the call too far from the click. Instead, hand
-    // ClipboardItem a Promise<Blob> and call write() synchronously right
-    // here; the promise resolves later, but the call itself is immediate.
-    // Match the PNG to whatever layer/scenario is currently on screen — d2 0.8+
-    // otherwise renders every board in the file when --target isn't given.
-    const currentLayer = scenarios?.[activeScenarioIndex]?.name
-    const layerParam = currentLayer ? `&layer=${encodeURIComponent(currentLayer)}` : ''
-
-    const blobPromise: Promise<Blob> = (async () => {
-      try {
-        // The d2 CLI's own PNG renderer — full markdown/foreignObject fidelity,
-        // unlike the client-side canvas fallback below. --theme keeps it roughly
-        // in sync with the current light/dark toggle (see server.js).
-        const response = await fetch(`/api/tech/png/${d2ServerPath}?theme=${theme}${layerParam}`)
-        if (!response.ok) throw new Error(`PNG render failed: ${response.status}`)
-        return await response.blob()
-      } catch {
-        // Static deployment (no backend): render the displayed SVG in-browser
-        if (!svgContent) throw new Error('No diagram loaded to copy')
-        return await svgToPngBlob(svgContent, theme)
-      }
-    })()
-
-    navigator.clipboard.write([new ClipboardItem({ 'image/png': blobPromise })]).then(
-      () => { setCopyLabel('✓'); setTimeout(() => setCopyLabel('⎘'), 2000) },
-      err => { console.error('Copy failed:', err); setCopyLabel('✗'); setTimeout(() => setCopyLabel('⎘'), 2000) },
-    )
-  }, [showCode, sourceCode, d2ServerPath, svgContent, theme, scenarios, activeScenarioIndex])
 
   const handleGoToScenario = useCallback((index: number) => {
     goToScenario(index)
@@ -176,17 +129,6 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
             dangerouslySetInnerHTML={{ __html: svgContent }}
           />
         )}
-        {!showCode && (copyLabel === '…' || copyLabel === '✓') && (
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'rgba(0,0,0,0.45)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff', fontSize: '1.1rem', letterSpacing: '0.05em',
-            pointerEvents: 'none',
-          }}>
-            {copyLabel === '…' ? 'Rendering PNG…' : 'Copied to clipboard'}
-          </div>
-        )}
 
         <div className="zoom-controls" onDoubleClick={e => e.stopPropagation()}>
           {scenarios && scenarios.length > 1 && !showCode && (
@@ -221,12 +163,6 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
             onClick={handleToggleCode}
             title={showCode ? 'Show rendered diagram' : 'Show source code'}
           >{'</>'}</button>
-          <button
-            className="zoom-button"
-            onClick={handleCopy}
-            disabled={copyLabel === '…'}
-            title={showCode ? 'Copy source code' : 'Copy PNG to clipboard'}
-          >{copyLabel}</button>
           {!showCode && <div className="zoom-indicator">{Math.round(scale * 100)}%</div>}
         </div>
       </div>

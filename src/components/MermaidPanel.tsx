@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef, useId, useCallback } from 'react'
+import { useState, useEffect, useRef, useId } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import mermaid from 'mermaid'
 import { normalizeToCanonical } from '../lib/yamlExtract'
 import Toast from './Toast'
 import CodeView from './CodeView'
 import { useDiagramViewport } from '../hooks/useDiagramViewport'
-import { svgDomToPngBlob } from '../lib/svgToPng'
 
 // Initialized once globally in main.tsx — do not re-initialize here
 
@@ -23,7 +22,6 @@ const MermaidPanel: React.FC<MermaidPanelProps> = ({ diagramPath }) => {
   const diagramId = useId().replace(/:/g, '_')
   const renderCount = useRef(0)
   const lastMermaidIdRef = useRef<string | null>(null)
-  const diagramRef = useRef<HTMLDivElement>(null)
 
   const {
     scale, position, isDragging,
@@ -32,26 +30,6 @@ const MermaidPanel: React.FC<MermaidPanelProps> = ({ diagramPath }) => {
     onDoubleClick, zoomIn, zoomOut, reset,
     wheelRef,
   } = useDiagramViewport(diagramPath, showCode)
-
-  const [copyLabel, setCopyLabel] = useState('⎘')
-  const handleCopy = useCallback(async (e: React.MouseEvent) => {
-    e.stopPropagation()
-    try {
-      if (showCode && mmdSource) {
-        await navigator.clipboard.writeText(mmdSource)
-      } else {
-        if (!diagramRef.current) return
-        const blob = await svgDomToPngBlob(diagramRef.current)
-        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
-      }
-      setCopyLabel('✓')
-      setTimeout(() => setCopyLabel('⎘'), 2000)
-    } catch (err) {
-      console.error('Copy failed:', err)
-      setCopyLabel('✗')
-      setTimeout(() => setCopyLabel('⎘'), 2000)
-    }
-  }, [showCode, mmdSource])
 
   const canonicalPath = normalizeToCanonical(diagramPath) // e.g. /tech/SDPVEDO-7489.mmd
   // Server endpoints take the repo-relative path (canonical minus the leading /)
@@ -221,7 +199,6 @@ const MermaidPanel: React.FC<MermaidPanelProps> = ({ diagramPath }) => {
           <CodeView code={mmdSource} />
         ) : (
           <div
-            ref={diagramRef}
             className="diagram-content"
             style={{ transform: `translate(${position.x}px, ${position.y}px) scale(${scale})` }}
             dangerouslySetInnerHTML={{ __html: svgContent }}
@@ -245,11 +222,6 @@ const MermaidPanel: React.FC<MermaidPanelProps> = ({ diagramPath }) => {
             }}
             title={showCode ? 'Show rendered diagram' : 'Show source code'}
           >{'</>'}</button>
-          <button
-            className="zoom-button"
-            onClick={handleCopy}
-            title={showCode ? 'Copy source code' : 'Copy PNG to clipboard'}
-          >{copyLabel}</button>
           {!showCode && <div className="zoom-indicator">{Math.round(scale * 100)}%</div>}
         </div>
       </div>
