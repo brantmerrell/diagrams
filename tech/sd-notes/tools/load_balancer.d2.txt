@@ -1,8 +1,8 @@
 vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
-**.style.text-transform: none
 layers: {
+  **.style.text-transform: none
   0_base: {
     _quality: {class: compiles}
     design_pattern: {

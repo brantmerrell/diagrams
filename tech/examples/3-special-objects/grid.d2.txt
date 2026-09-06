@@ -95,7 +95,7 @@ layers: {
       }
       nextpod: {
         width: 180
-        icon: https://www.svgrepo.com/show/378440/nextjs-fill.svg
+        icon: ../../../icons/nextjs.svg
         style: {
           fill: "#ECECEC"
           stroke: "#aeb5bd"
@@ -104,7 +104,7 @@ layers: {
       }
       flaskpod: {
         width: 180
-        icon: https://www.svgrepo.com/show/508915/flask.svg
+        icon: ../../../icons/flask.svg
         style: {
           fill: "#ECECEC"
           stroke: "#aeb5bd"

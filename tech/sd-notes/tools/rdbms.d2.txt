@@ -1,5 +1,4 @@
 vars: @"../../vars/system-design.d2"
-**.style.text-transform: none
 classes: @"../../../classes"
 classes: @"../../../tags"
 layers: {

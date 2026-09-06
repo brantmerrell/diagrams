@@ -1,8 +1,8 @@
 vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
-**.style.text-transform: none
 layers: {
+  **.style.text-transform: none
   1_proxy_pattern: {
     ...@"../../design-patterns/proxy".layers.1_pattern
     client.label: "User (US / EU / Asia)"

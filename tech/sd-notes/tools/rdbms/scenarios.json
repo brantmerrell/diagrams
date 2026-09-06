@@ -1,0 +1,24 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/sd-notes/tools/rdbms/0_base.svg"
+    },
+    {
+      "name": "1_rdbms",
+      "path": "/tech/sd-notes/tools/rdbms/1_rdbms.svg"
+    },
+    {
+      "name": "2_scaling",
+      "path": "/tech/sd-notes/tools/rdbms/2_scaling.svg"
+    },
+    {
+      "name": "3_systems",
+      "path": "/tech/sd-notes/tools/rdbms/3_systems.svg"
+    },
+    {
+      "name": "4_tuning",
+      "path": "/tech/sd-notes/tools/rdbms/4_tuning.svg"
+    }
+  ]
+}
