@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_base: {
     **.style.text-transform: none
@@ -34,6 +35,11 @@ layers: {
     handler1: "Handler A" {
       class: obj_service
       handle: "handle()" {class: obj_service}
+      note: |md
+        Each handler gets a chance to act on the\
+          request/response before passing it to\
+          the next link in the chain.
+      | {class: note}
     }
     handler2: "Handler B" {
       class: obj_service
@@ -41,12 +47,5 @@ layers: {
     }
     client -> handler1.handle: "request" {class: edge_request}
     handler1.handle -> handler2.handle: "passes along" {class: edge_write}
-    note: |md
-      Each handler gets a chance to act on the request/response before\
-      passing it to the next link in the chain — the same way\
-      `allergen_mw` injects a disclosure and hands the response to\
-      `health_note`, which adds its own disclaimer, before it reaches the\
-      client.
-    | {class: note}
   }
 }

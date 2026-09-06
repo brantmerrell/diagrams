@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_base: {
     **.style.text-transform: none
@@ -41,8 +42,10 @@ layers: {
     observer_a -> subject.attach: "registers" {class: edge_request}
     observer_b -> subject.attach: "registers" {class: edge_request}
     subject.state -> subject.notify: "changed" {class: edge_query}
-    subject.notify -> observer_a.update: "push" {class: edge_write}
-    subject.notify -> observer_b.update: "push" {class: edge_write}
+    observer_a.update <- subject.notify: "push" {
+      class: edge_write
+    }
+    observer_b.update <- subject.notify: "push" {class: edge_write}
     observer_a.update -> subject.state: "pulls detail" {class: edge_query}
     note: |md
       The subject broadcasts that *something* changed; observers decide\

@@ -1,16 +1,20 @@
 {
   "scenarios": [
     {
-      "name": "0_context",
-      "path": "/tech/hackerrank/removeKthNodeFromEnd/0_context.svg"
+      "name": "0_base",
+      "path": "/tech/hackerrank/removeKthNodeFromEnd/0_base.svg"
     },
     {
-      "name": "1_solution",
-      "path": "/tech/hackerrank/removeKthNodeFromEnd/1_solution.svg"
+      "name": "1_context",
+      "path": "/tech/hackerrank/removeKthNodeFromEnd/1_context.svg"
     },
     {
       "name": "2_cases",
       "path": "/tech/hackerrank/removeKthNodeFromEnd/2_cases.svg"
+    },
+    {
+      "name": "2_solution",
+      "path": "/tech/hackerrank/removeKthNodeFromEnd/2_solution.svg"
     },
     {
       "name": "3_iterator_pattern",

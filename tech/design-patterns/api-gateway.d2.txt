@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_base: {
     **.style.text-transform: none
@@ -41,25 +42,26 @@ layers: {
       auth: "authenticate" {class: obj_service}
       route: "route" {class: obj_service}
       aggregate: "aggregate" {class: obj_service}
+      note: |md
+        Unlike a plain Proxy, the gateway fans out to *many* services and\
+        may compose their responses. Clients get one address, one auth\
+        scheme, and one failure surface.
+      | {class: note}
     }
     services: "Backend services" {
       svc_a: "Service A" {class: obj_service}
       svc_b: "Service B" {class: obj_service}
       svc_c: "Service C" {class: obj_service}
     }
-    clients.web -> gateway.auth {class: edge_request}
-    clients.mobile -> gateway.auth {class: edge_request}
-    clients.partner -> gateway.auth {class: edge_request}
-    gateway.auth -> gateway.route {class: edge_query}
-    gateway.route -> services.svc_a {class: edge_write}
-    gateway.route -> services.svc_b {class: edge_write}
-    gateway.route -> services.svc_c {class: edge_write}
-    services.svc_a -> gateway.aggregate {class: edge_query}
-    services.svc_b -> gateway.aggregate {class: edge_query}
-    note: |md
-      Unlike a plain Proxy, the gateway fans out to *many* services and\
-      may compose their responses. Clients get one address, one auth\
-      scheme, and one failure surface.
-    | {class: note}
+    clients.web -> gateway.auth: {class: edge_request}
+    clients.mobile -> gateway.auth: {class: edge_request}
+    clients.partner -> gateway.auth: {class: edge_request}
+    gateway.auth -> gateway.route: {class: edge_query}
+    gateway.route -> services.svc_a: {class: edge_write}
+    gateway.route -> services.svc_b: {class: edge_write}
+    gateway.route -> services.svc_c: {class: edge_write}
+    gateway.aggregate <- services.svc_a: {class: edge_query}
+    gateway.aggregate <- services.svc_b: {class: edge_query}
+    direction: right
   }
 }

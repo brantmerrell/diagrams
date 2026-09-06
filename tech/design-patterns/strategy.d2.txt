@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_base: {
     **.style.text-transform: none
@@ -51,9 +52,9 @@ layers: {
     client -> context.slot: "chooses" {class: edge_write}
     client -> context.execute: "calls" {class: edge_request}
     context.execute -> iface.run: "delegates" {class: edge_query}
-    concrete_a -> iface: "implements" {class: edge_invis}
-    concrete_b -> iface: "implements" {class: edge_invis}
-    concrete_c -> iface: "implements" {class: edge_invis}
+    concrete_a -> iface: "implements" {class: edge}
+    concrete_b -> iface: "implements" {class: edge}
+    concrete_c -> iface: "implements" {class: edge}
     note: |md
       The context never branches on which algorithm is in use — the\
       choice is data, not control flow. Adding a fourth strategy means\
