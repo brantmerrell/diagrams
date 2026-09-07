@@ -72,6 +72,36 @@ function writePreviewPage(urlPath, pngUrlPath, title, description) {
   fs.writeFileSync(path.join(outDir, 'index.html'), indexTemplate.replace('</head>', meta))
 }
 
+// d2 PNG rendering launches a fresh headless-Chromium process per call — on a
+// resource-constrained CI runner, rendering ~200 of these back-to-back hits
+// occasional Chromium crashes unrelated to the diagram itself (verified: every
+// diagram that failed in a real run rendered fine when retried locally). One
+// retry absorbs that flakiness instead of leaving the diagram without a
+// preview image for the whole deploy.
+const MAX_ATTEMPTS = 2
+
+function renderPreviewPng(target, d2File, pngAbsPath, urlPath) {
+  let lastErr
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      execFileSync('d2', [target, d2File, pngAbsPath], { stdio: 'pipe', encoding: 'utf8' })
+      return true
+    } catch (err) {
+      lastErr = err
+      if (attempt < MAX_ATTEMPTS) {
+        console.warn(`preview render failed for ${urlPath} (attempt ${attempt}/${MAX_ATTEMPTS}), retrying`)
+      }
+    }
+  }
+  // With encoding: 'utf8', a failed execFileSync's err.stderr is d2/Chromium's
+  // actual error text. Logging only err.message (the old behavior) prints
+  // just "Command failed: <cmd>" — the wrapper's own message, no diagnostic
+  // content at all.
+  const detail = (lastErr.stderr || lastErr.message || '').toString().trim()
+  console.warn(`preview render failed for ${urlPath} after ${MAX_ATTEMPTS} attempts:\n${detail}`)
+  return false
+}
+
 let pageCount = 0
 let pngCount = 0
 let failCount = 0
@@ -100,14 +130,11 @@ for (const d2File of walkD2Files(root)) {
     fs.mkdirSync(path.dirname(pngAbsPath), { recursive: true })
 
     const target = layer && layer !== 'base' ? `--target=layers.${layer}` : '--target='
-    try {
-      execFileSync('d2', [target, d2File, pngAbsPath], { stdio: 'pipe' })
-      pngCount++
-    } catch (err) {
-      console.warn(`preview render failed for ${urlPath}: ${err.message.split('\n')[0]}`)
+    if (!renderPreviewPng(target, d2File, pngAbsPath, urlPath)) {
       failCount++
       return
     }
+    pngCount++
 
     const bareTitle = summary.title || diagramName
     const title = layer ? `${bareTitle} — ${layer}` : bareTitle
