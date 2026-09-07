@@ -1,0 +1,43 @@
+# Quality-tag vocabulary. Kept out of ./classes.d2 because scripts/lib/tags.mjs
+# reads this file's top-level keys as the tag vocabulary (compiles, styled,
+# coherent) for /api/tech/tags and the generated tech/tags.json. A diagram
+# carries a tag when its source applies the class, e.g. `_quality: {class: compiles}`.
+#
+# Adding a top-level key here adds a tag to the filter UI; the parser in
+# scripts/lib/tags.mjs matches `^([A-Za-z0-9_-]+)\s*:`, so keep new entries
+# at column 0 and leave nested style keys indented.
+
+**.style.text-transform: none
+compiles: {
+  label: LAYER QUALITY:\n pending style review
+  near: top-left
+  style: {
+    font-color: Crimson
+    font-size: 32
+    stroke-dash: 4
+    stroke-width: 3
+    stroke: Crimson
+  }
+}
+styled: {
+  near: top-right
+  label: LAYER QUALITY:\n pending tech review
+  style: {
+    font-color: Yellow
+    font-size: 16
+    stroke-dash: 4
+    stroke-width: 2
+    stroke: Yellow
+  }
+}
+coherent: {
+  label: LAYER QUALITY: \n coherent
+  near: bottom-right
+  style: {
+    font-color: DarkGreen
+    font-size: 12
+    stroke-dash: 4
+    stroke-width: 1
+    stroke: DarkGreen
+  }
+}
