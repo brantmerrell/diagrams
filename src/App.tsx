@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import DiagramViewer from './components/DiagramViewer'
 import './App.css'
 
@@ -8,10 +8,11 @@ function App() {
       <div className="app">
         <div className="app-content">
           <Routes>
-            {/* Diagram URLs are the diagram's repo-relative path, so most live
-                under /tech/… but a root-level one (e.g. /class_legend.d2) is
-                equally routable. */}
-            <Route path="/" element={<Navigate to="/tech" replace />} />
+            {/* Diagram URLs are the diagram's repo-relative path — no fixed
+                prefix, any top-level directory is equally routable. The bare
+                "/" root (matched here by the wildcard too) is the landing
+                route: DiagramViewer loads the first diagram from
+                pointers.yaml for it. */}
             <Route path="/*" element={<DiagramViewer />} />
           </Routes>
         </div>

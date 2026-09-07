@@ -256,6 +256,23 @@ export function yamlPathToUrlSegment(diagramPath: string): string {
 }
 
 /**
+ * Splits a trailing `/<layer>` path segment off a diagram URL pathname, e.g.
+ * `/tech/foo.d2/1_pattern` → `{ diagramPathname: '/tech/foo.d2', pathLayer:
+ * '1_pattern' }`. This is the canonical, shareable way to address a specific
+ * layer (deploy.yml pre-renders a static preview page per diagram+layer at
+ * these paths — a static host can only vary content by path, not query
+ * string). Every consumer of `location.pathname` for diagram-path purposes
+ * (lookup, "is this the current diagram" checks, filename extraction) must
+ * strip this segment first, or a non-default layer breaks that check.
+ * `?layer=` is still read elsewhere for compatibility with existing
+ * tech/**\/*.d2 cross-links using that form — this only concerns the path form.
+ */
+export function splitLayerFromPathname(pathname: string): { diagramPathname: string; pathLayer?: string } {
+  const m = /^(.*\.d2)\/([^/]+)\/?$/.exec(pathname)
+  return m ? { diagramPathname: m[1], pathLayer: m[2] } : { diagramPathname: pathname }
+}
+
+/**
  * True when `diagramPath` (a pointers.yaml value) resolves to the same URL segment
  * as `urlPath` (location.pathname with the leading `/` removed).
  */

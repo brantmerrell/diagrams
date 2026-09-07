@@ -16,6 +16,7 @@ import {
   isDiagramPath,
   collectAllDiagramPaths,
   collectAllDiagramEntries,
+  splitLayerFromPathname,
   DiagramEntry,
 } from '../lib/yamlExtract'
 import {
@@ -62,6 +63,9 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
   const navigate = useNavigate()
   const location = useLocation()
   const [searchParams, setSearchParams] = useSearchParams()
+  // Strip any trailing /<layer> path segment before treating the pathname as
+  // a diagram path — see splitLayerFromPathname for why that segment exists.
+  const { diagramPathname } = splitLayerFromPathname(location.pathname)
 
   // ── yamlView URL param ────────────────────────────────────────────────────
 
@@ -106,10 +110,10 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
   // ── Expansion / scroll ────────────────────────────────────────────────────
 
   // The pathname *is* the diagram's repo-relative path (see yamlExtract's
-  // canonical-path notes); `/tech` alone is the bare landing route.
-  const urlPath = location.pathname === '/tech' || location.pathname === '/'
+  // canonical-path notes); the bare root is the landing route.
+  const urlPath = diagramPathname === '/'
     ? ''
-    : location.pathname.substring(1)
+    : diagramPathname.substring(1)
   const diagramParent = searchParams.get('diagramParent') || undefined
   const tagFilteredYamlData = useMemo(
     () => tagFilter.length ? pruneByTag(yamlData, matchesTag) : yamlData,
@@ -122,11 +126,11 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
 
   useEffect(() => {
     if (viewMode !== 'focused' || !rawYaml) return
-    const filename = diagramFilenameFromPathname(location.pathname)
+    const filename = diagramFilenameFromPathname(diagramPathname)
     if (!filename) { setFilteredYamlData(null); return }
     const extracted = extractDiagramContext(rawYaml, filename)
     setFilteredYamlData(extracted ? yaml.load(extracted) as YamlValue : null)
-  }, [location.pathname, rawYaml, viewMode])
+  }, [diagramPathname, rawYaml, viewMode])
 
   // ── Search ────────────────────────────────────────────────────────────────
 
@@ -166,7 +170,7 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
 
     const targetPath = `/${yamlPathToUrlSegment(diagramPath)}`
     const currentDiagramParent = searchParams.get('diagramParent') || undefined
-    if (location.pathname === targetPath && parentPath === currentDiagramParent) {
+    if (diagramPathname === targetPath && parentPath === currentDiagramParent) {
       // In drawer mode, tapping the current diagram just closes the drawer to show it
       if (source === 'click') {
         if (onRequestClose) onRequestClose()
@@ -190,7 +194,7 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
     // may not be visible yet and needs to be scrolled into view
     navigate({ pathname: targetPath, search: params.toString() })
     onRequestClose?.()
-  }, [location.pathname, searchParams, navigate, onRequestClose])
+  }, [diagramPathname, searchParams, navigate, onRequestClose])
 
   // While the search input is focused, up/down pick a result and Enter opens it —
   // instead of the global j/k/g/G handler below, which bails on focused inputs.

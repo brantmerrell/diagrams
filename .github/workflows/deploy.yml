@@ -29,13 +29,18 @@ jobs:
         with:
           bun-version: latest
 
-      # Installs from the committed bun.lock — reproducible, matches what's
-      # tested locally. Node stays for the steps below (tsc, vite build).
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
       - name: Install d2
         run: curl -fsSL https://d2lang.com/install.sh | sh -s --
+
+      - name: Warm up d2's Chromium (for PNG rendering)
+        run: |
+          npx --yes playwright@1.48.0 install-deps chromium
+          echo "a" > /tmp/d2-warm.d2
+          echo y | d2 /tmp/d2-warm.d2 /tmp/d2-warm.png
+          rm -f /tmp/d2-warm.d2 /tmp/d2-warm.png
 
       - name: Compile d2 files to SVG
         run: |
@@ -45,20 +50,16 @@ jobs:
               echo "::error file=$f::d2 compile failed for $f"
               failed="$failed $f"
             fi
-          done < <(find tech -name "*.d2")
+          done < <(find . \( -path ./node_modules -o -path ./dist -o -path ./src -o -path ./.git -o -path ./.github \) -prune -o -name "*.d2" -print)
           if [ -n "$failed" ]; then
             echo "d2 compile failed for:$failed"
             exit 1
           fi
 
       - name: Generate scenario manifests
-        # Static stand-in for /api/tech/scenarios — the frontend falls back to
-        # these scenarios.json files when the API is absent (GitHub Pages).
         run: node scripts/build-scenario-manifests.mjs
 
       - name: Generate tags manifest
-        # Static stand-in for /api/tech/tags — the frontend's quality-tag
-        # filter falls back to /tech/tags.json when the API is absent.
         run: node scripts/build-tags-manifest.mjs
 
       - name: Build frontend
@@ -66,23 +67,32 @@ jobs:
         env:
           CI: false
 
-      - name: Copy tech and pointers.yaml into dist
+      - name: Copy diagram sources into dist
         run: |
-          # Exclude .d2/.mmd sources from the static Pages copy only. If a real
-          # file exists at e.g. /tech/hi/seq_frontend.d2, GitHub Pages serves
-          # it as a download instead of falling back to 404.html, breaking the
-          # SPA route of the same name on hard refresh. The Heroku container is
-          # unaffected: its Dockerfile COPYs tech/ (sources included) from the
-          # repo, not from dist/.
-          rsync -a --exclude='*.d2' --exclude='*.mmd' tech/ dist/tech/
-          # Publish sources under a .txt suffix instead — no SPA route ends in
-          # .txt, so these can't shadow a route. The frontend's code view falls
-          # back to them when /api/*/source is absent (GitHub Pages).
-          find tech \( -name '*.d2' -o -name '*.mmd' \) | while read -r f; do
+          SKIP_DIRS="node_modules dist src .git .github public icons scripts"
+          for dir in */; do
+            dir="${dir%/}"
+            skip=false
+            for s in $SKIP_DIRS; do [ "$dir" = "$s" ] && skip=true && break; done
+            $skip && continue
+            has_diagrams=$(find "$dir" \( -name '*.d2' -o -name '*.mmd' \) -print -quit)
+            [ -z "$has_diagrams" ] && continue
+            mkdir -p "dist/$dir"
+            rsync -a --exclude='*.d2' --exclude='*.mmd' "$dir/" "dist/$dir/"
+            find "$dir" \( -name '*.d2' -o -name '*.mmd' \) | while read -r f; do
+              cp "$f" "dist/$f.txt"
+            done
+          done
+          find . -maxdepth 1 -name '*.d2' | while read -r f; do
+            svg="${f%.d2}.svg"
+            [ -f "$svg" ] && cp "$svg" dist/
             cp "$f" "dist/$f.txt"
           done
           cp pointers.yaml dist/
           cp dist/index.html dist/404.html
+
+      - name: Generate social link-preview pages
+        run: node scripts/build-social-previews.mjs
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

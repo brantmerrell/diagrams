@@ -10,13 +10,6 @@ ENV PATH="/root/.bun/bin:${PATH}"
 COPY package.json bun.lock ./
 RUN bun install --production --frozen-lockfile
 
-COPY server.js ./
-COPY scripts/ ./scripts/
-COPY tech/ ./tech/
-COPY classes.d2 ./
-COPY tags.d2 ./
-COPY class_legend.d2 ./
-COPY icons/ ./icons/
-COPY pointers.yaml ./
+COPY . .
 
 CMD node server.js

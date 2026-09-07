@@ -3,4 +3,5 @@ dist/
 .env
 *.local
 *.svg
+*.json
 tech/tags.json

@@ -16,6 +16,7 @@ import {
   isDiagramPath,
   isDiagramCurrentPath,
   collectAllDiagramEntries,
+  splitLayerFromPathname,
 } from '../lib/yamlExtract'
 import { parseTagFilter, makeMatchesTag } from '../lib/tagFilter'
 
@@ -68,7 +69,8 @@ interface DiagramContent {
 const DiagramViewer: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
+  const { diagramPathname, pathLayer } = splitLayerFromPathname(location.pathname)
   const [content, setContent] = useState<DiagramContent>({})
   const [loading, setLoading] = useState(true)
   const [isYamlCollapsed, setIsYamlCollapsed] = useState(false)
@@ -96,7 +98,7 @@ const DiagramViewer: React.FC = () => {
 
   const goToAdjacentDiagram = useCallback((direction: 1 | -1) => {
     if (navigable.length === 0) return
-    const urlPath = location.pathname === '/tech' ? '' : location.pathname.substring(1)
+    const urlPath = diagramPathname === '/' ? '' : diagramPathname.substring(1)
     // Disambiguate "current" by (path, parent) first — see Navigator's keyboard
     // handler for why path alone isn't enough when a diagram has more than one pointer.
     const currentDiagramParent = searchParams.get('diagramParent') || undefined
@@ -117,24 +119,28 @@ const DiagramViewer: React.FC = () => {
       pathname: `/${yamlPathToUrlSegment(next.path)}`,
       search: params.toString(),
     })
-  }, [navigable, location.pathname, searchParams, navigate])
+  }, [navigable, diagramPathname, searchParams, navigate])
 
-  const initialLayerName = searchParams.get('layer') || undefined
+  const initialLayerName = pathLayer ?? (searchParams.get('layer') || undefined)
 
+  // Writes the layer as a path segment (the canonical, shareable form) and
+  // drops any stale `?layer=` so a diagram opened via an old-style link
+  // converts over on the first layer change instead of carrying both forms.
   const handleLayerChange = useCallback((name: string) => {
-    setSearchParams(prev => {
-      const next = new URLSearchParams(prev)
-      next.set('layer', name)
-      return next
+    const params = new URLSearchParams(searchParams)
+    params.delete('layer')
+    navigate({
+      pathname: `${diagramPathname}/${name}`,
+      search: params.toString(),
     }, { replace: true })
-  }, [setSearchParams])
+  }, [navigate, diagramPathname, searchParams])
 
   useEffect(() => {
     const ac = new AbortController()
     const { signal } = ac
 
-    // If at bare /tech, load first diagram from pointers.yaml
-    if (location.pathname === '/tech' || location.pathname === '/tech/') {
+    // If at the bare root, load first diagram from pointers.yaml
+    if (diagramPathname === '/') {
       fetch('/pointers.yaml', { signal })
         .then((r) => r.text())
         .then((text) => {
@@ -149,8 +155,9 @@ const DiagramViewer: React.FC = () => {
     }
 
     setLoading(true)
-    // The pathname is the diagram's repo-relative path
-    const urlPath = location.pathname.substring(1)
+    // The pathname (minus any trailing /<layer> segment) is the diagram's
+    // repo-relative path
+    const urlPath = diagramPathname.substring(1)
 
     fetch('/pointers.yaml', { signal })
       .then((response) => response.text())
@@ -174,7 +181,7 @@ const DiagramViewer: React.FC = () => {
         }
       })
     return () => ac.abort()
-  }, [location.pathname, navigate])
+  }, [diagramPathname, navigate])
 
   const { d2Path, mmdPath } = content
 

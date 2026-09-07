@@ -9,11 +9,19 @@ import path from 'path'
 
 const CLASS_FILE = 'tags.d2'
 
+// Directories that never hold diagrams — skipped so a repo-wide walk doesn't
+// descend into node_modules, doesn't pick up icons/scripts/public assets, and
+// doesn't re-scan build output. Mirrors server.js's SVG_DENY list.
+const EXCLUDE_DIRS = new Set(['node_modules', 'dist', 'src', '.git', '.github', 'public', 'icons', 'scripts'])
+
 export function* walkD2Files(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, entry.name)
-    if (entry.isDirectory()) yield* walkD2Files(full)
-    else if (entry.name.endsWith('.d2')) yield full
+    if (entry.isDirectory()) {
+      if (EXCLUDE_DIRS.has(entry.name)) continue
+      yield* walkD2Files(path.join(dir, entry.name))
+    } else if (entry.name.endsWith('.d2')) {
+      yield path.join(dir, entry.name)
+    }
   }
 }
 
@@ -70,18 +78,16 @@ export function buildTagsIndex(root) {
 }
 
 /**
- * Every .d2 file that can be a diagram: all of tech/ recursively, plus any
- * .d2 at the repo root (class_legend.d2 sits beside the classes.d2 and tags.d2
- * it documents). The tag vocabulary file itself is excluded — it defines the
- * classes rather than applying them, so indexing it would list the vocabulary
- * as a diagram carrying every tag.
+ * Every .d2 file that can be a diagram: anywhere in the repo (tech/ is just
+ * where most of them happen to live — a new top-level directory needs no
+ * code change to be picked up), excluding EXCLUDE_DIRS. The tag vocabulary
+ * file itself is excluded — it defines the classes rather than applying
+ * them, so indexing it would list the vocabulary as a diagram carrying
+ * every tag.
  */
 function* diagramFiles(root) {
-  const techDir = path.join(root, 'tech')
-  if (fs.existsSync(techDir)) yield* walkD2Files(techDir)
-  for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
-    if (!entry.isFile() || !entry.name.endsWith('.d2')) continue
-    if (entry.name === CLASS_FILE) continue
-    yield path.join(root, entry.name)
+  for (const file of walkD2Files(root)) {
+    if (path.basename(file) === CLASS_FILE) continue
+    yield file
   }
 }

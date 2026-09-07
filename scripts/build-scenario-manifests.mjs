@@ -2,24 +2,16 @@
 // (e.g. tech/hi/seq_frontend/), mirroring the /api/tech/scenarios response
 // shape from server.js. Static deployments (GitHub Pages) have no API, so the
 // frontend falls back to fetching this manifest to discover layer/scenario SVGs.
-// Run after compiling .d2 files, before copying tech/ into dist/.
+// Run after compiling .d2 files, before copying diagram sources into dist/.
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { walkD2Files } from './lib/tags.mjs'
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
-const techDir = path.join(root, 'tech')
-
-function* walkD2Files(dir) {
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, entry.name)
-    if (entry.isDirectory()) yield* walkD2Files(full)
-    else if (entry.name.endsWith('.d2')) yield full
-  }
-}
 
 let count = 0
-for (const d2File of walkD2Files(techDir)) {
+for (const d2File of walkD2Files(root)) {
   const scenarioDir = d2File.replace(/\.d2$/, '')
   if (!fs.existsSync(scenarioDir) || !fs.statSync(scenarioDir).isDirectory()) continue
 
