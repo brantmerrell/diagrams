@@ -65,7 +65,7 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
   const [searchParams, setSearchParams] = useSearchParams()
   // Strip any trailing /<layer> path segment before treating the pathname as
   // a diagram path — see splitLayerFromPathname for why that segment exists.
-  const { diagramPathname } = splitLayerFromPathname(location.pathname)
+  const { diagramPathname, pathTheme } = splitLayerFromPathname(location.pathname)
 
   // ── yamlView URL param ────────────────────────────────────────────────────
 
@@ -168,9 +168,12 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
   const handleDiagramClick = useCallback((diagramPath: string, parentPath?: string, source: 'click' | 'keyboard' = 'click') => {
     setToastMessage(null)
 
-    const targetPath = `/${yamlPathToUrlSegment(diagramPath)}`
+    const bareTargetPath = `/${yamlPathToUrlSegment(diagramPath)}`
+    // Theme is a personal display preference, not diagram-specific — carry it
+    // forward instead of losing it and waiting on the self-stamp round-trip.
+    const targetPath = `${bareTargetPath}${pathTheme ? `/${pathTheme}` : ''}`
     const currentDiagramParent = searchParams.get('diagramParent') || undefined
-    if (diagramPathname === targetPath && parentPath === currentDiagramParent) {
+    if (diagramPathname === bareTargetPath && parentPath === currentDiagramParent) {
       // In drawer mode, tapping the current diagram just closes the drawer to show it
       if (source === 'click') {
         if (onRequestClose) onRequestClose()
@@ -194,7 +197,7 @@ const Navigator: React.FC<NavigatorProps> = ({ onCollapseChange, onRequestClose 
     // may not be visible yet and needs to be scrolled into view
     navigate({ pathname: targetPath, search: params.toString() })
     onRequestClose?.()
-  }, [diagramPathname, searchParams, navigate, onRequestClose])
+  }, [diagramPathname, pathTheme, searchParams, navigate, onRequestClose])
 
   // While the search input is focused, up/down pick a result and Enter opens it —
   // instead of the global j/k/g/G handler below, which bails on focused inputs.

@@ -255,21 +255,53 @@ export function yamlPathToUrlSegment(diagramPath: string): string {
   return normalizeToCanonical(diagramPath).slice(1)
 }
 
+// Light/dark preference for a rendered diagram — lives in the URL path (see
+// splitLayerFromPathname), not a query param, for the same reason layer does:
+// a static host can't vary a social-preview image by query string, only by
+// path. useDiagramTheme.ts re-exports this as `DiagramTheme`.
+export type PathTheme = 'light' | 'dark'
+
+function isPathTheme(s: string): s is PathTheme {
+  return s === 'light' || s === 'dark'
+}
+
 /**
- * Splits a trailing `/<layer>` path segment off a diagram URL pathname, e.g.
- * `/tech/foo.d2/1_pattern` → `{ diagramPathname: '/tech/foo.d2', pathLayer:
- * '1_pattern' }`. This is the canonical, shareable way to address a specific
- * layer (deploy.yml pre-renders a static preview page per diagram+layer at
- * these paths — a static host can only vary content by path, not query
- * string). Every consumer of `location.pathname` for diagram-path purposes
- * (lookup, "is this the current diagram" checks, filename extraction) must
- * strip this segment first, or a non-default layer breaks that check.
+ * Splits trailing `/<layer>` and `/<theme>` path segments off a diagram URL
+ * pathname, e.g. `/tech/foo.d2/1_pattern/dark` → `{ diagramPathname:
+ * '/tech/foo.d2', pathLayer: '1_pattern', pathTheme: 'dark' }`. Either segment
+ * may be absent (`/tech/foo.d2/dark` has a theme but no layer; `/tech/foo.d2`
+ * has neither). This is the canonical, shareable way to address a specific
+ * layer+theme (deploy.yml pre-renders a static preview page per diagram,
+ * layer, and theme at these paths — a static host can only vary content by
+ * path, not query string). Every consumer of `location.pathname` for
+ * diagram-path purposes (lookup, "is this the current diagram" checks,
+ * filename extraction) must strip these segments first, or a non-default
+ * layer/theme breaks that check.
  * `?layer=` is still read elsewhere for compatibility with existing
  * tech/**\/*.d2 cross-links using that form — this only concerns the path form.
  */
-export function splitLayerFromPathname(pathname: string): { diagramPathname: string; pathLayer?: string } {
-  const m = /^(.*\.d2)\/([^/]+)\/?$/.exec(pathname)
-  return m ? { diagramPathname: m[1], pathLayer: m[2] } : { diagramPathname: pathname }
+export function splitLayerFromPathname(
+  pathname: string,
+): { diagramPathname: string; pathLayer?: string; pathTheme?: PathTheme } {
+  // Every generated preview page lives inside a real directory named after
+  // the diagram (dist/tech/foo.d2/, .../light/, .../1_pattern/, …), so
+  // tech/foo.d2 is a literal directory on the static host, not just a route.
+  // A bare request to it with no trailing slash (a refresh, a raw <a href>
+  // inside a rendered SVG) gets 301-redirected to add one, same as any
+  // static host does for a directory URL — strip it back off here so that
+  // redirect doesn't leave the app unable to resolve its own diagram path.
+  let rest = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
+  let pathTheme: PathTheme | undefined
+
+  const themeMatch = /^(.*\.d2(?:\/[^/]+)?)\/(light|dark)\/?$/.exec(rest)
+  if (themeMatch) {
+    rest = themeMatch[1]
+    if (isPathTheme(themeMatch[2])) pathTheme = themeMatch[2]
+  }
+
+  const layerMatch = /^(.*\.d2)\/([^/]+)\/?$/.exec(rest)
+  if (layerMatch) return { diagramPathname: layerMatch[1], pathLayer: layerMatch[2], pathTheme }
+  return { diagramPathname: rest, pathTheme }
 }
 
 /**

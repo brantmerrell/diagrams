@@ -4,17 +4,19 @@ import Toast from './Toast'
 import CodeView from './CodeView'
 import { useDiagramWatch } from '../hooks/useDiagramWatch'
 import { useDiagramViewport } from '../hooks/useDiagramViewport'
-import { useDiagramTheme } from '../hooks/useDiagramTheme'
+import { useDiagramTheme, DiagramTheme } from '../hooks/useDiagramTheme'
 import { normalizeToCanonical } from '../lib/yamlExtract'
 
 interface D2PanelProps {
   diagramPath?: string
   initialLayerName?: string
   onLayerChange?: (name: string) => void
+  initialTheme?: DiagramTheme
+  onThemeChange: (theme: DiagramTheme) => void
 }
 
 
-const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLayerChange }) => {
+const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLayerChange, initialTheme, onThemeChange }) => {
   const {
     svgContent, error, toastMessage, clearToast,
     scenarios, activeScenarioIndex, goToScenario,
@@ -24,7 +26,7 @@ const D2Panel: React.FC<D2PanelProps> = ({ diagramPath, initialLayerName, onLaye
   const showCode = searchParams.get('view') === 'code'
 
   const [sourceCode, setSourceCode] = useState<string | null>(null)
-  const { theme, toggleTheme } = useDiagramTheme()
+  const { theme, toggleTheme } = useDiagramTheme(initialTheme, onThemeChange)
 
   const canonicalPath = diagramPath ? normalizeToCanonical(diagramPath) : ''
   const d2ServerPath = canonicalPath.startsWith('/') ? canonicalPath.slice(1) : canonicalPath

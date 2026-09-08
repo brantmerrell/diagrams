@@ -1,50 +1,38 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import type { PathTheme } from '../lib/yamlExtract'
 
-export type DiagramTheme = 'light' | 'dark'
+export type DiagramTheme = PathTheme
 
 const STORAGE_KEY = 'diagramTheme'
 
-function isDiagramTheme(v: string | null): v is DiagramTheme {
-  return v === 'light' || v === 'dark'
-}
-
 function getStoredOrSystemTheme(): DiagramTheme {
   const stored = localStorage.getItem(STORAGE_KEY)
-  if (isDiagramTheme(stored)) return stored
+  if (stored === 'light' || stored === 'dark') return stored
   return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
 // Tracks the user's manual light/dark preference for rendered .d2 diagrams,
 // independent of the OS/browser color-scheme (see svgTheme.ts for why that
-// distinction is needed). Lives in the `theme` URL param, falling back to
-// localStorage and then the OS preference only for a link that carries no
-// param at all — so a reload keeps the preference, and once resolved the
-// theme is written back into the URL so a copied link is self-describing
-// even if the visitor never touches the toggle.
-export function useDiagramTheme() {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const urlTheme = searchParams.get('theme')
+// distinction is needed). `initialTheme` comes from a `/light` or `/dark`
+// path segment (see splitLayerFromPathname) — DiagramViewer owns the actual
+// URL and passes it down, the same way it does for layer. Falls back to
+// localStorage and then the OS preference only when the URL carries no theme
+// segment at all, and calls `onThemeChange` to write the resolved value back
+// so a copied link is self-describing even if the visitor never touches the
+// toggle.
+export function useDiagramTheme(initialTheme: DiagramTheme | undefined, onThemeChange: (theme: DiagramTheme) => void) {
+  const [theme, setTheme] = useState<DiagramTheme>(() => initialTheme ?? getStoredOrSystemTheme())
 
-  const [theme, setTheme] = useState<DiagramTheme>(() =>
-    isDiagramTheme(urlTheme) ? urlTheme : getStoredOrSystemTheme(),
-  )
-
-  // No ?theme= yet (fresh link, or one with no theme at all) — stamp the
-  // resolved value in so the address bar always reflects what's rendered.
+  // No theme segment in the URL yet — stamp the resolved value in so the
+  // address bar (and any link copied from it) always reflects what's shown.
   useEffect(() => {
-    if (isDiagramTheme(urlTheme)) return
-    setSearchParams(prev => {
-      const p = new URLSearchParams(prev)
-      p.set('theme', theme)
-      return p
-    }, { replace: true })
-  }, [urlTheme, theme, setSearchParams])
+    if (!initialTheme) onThemeChange(theme)
+  }, [initialTheme, theme, onThemeChange])
 
-  // An explicit ?theme= in the URL (shared link, back/forward nav) wins.
+  // An explicit theme segment in the URL (shared link, back/forward nav) wins.
   useEffect(() => {
-    if (isDiagramTheme(urlTheme) && urlTheme !== theme) setTheme(urlTheme)
-  }, [urlTheme, theme])
+    if (initialTheme && initialTheme !== theme) setTheme(initialTheme)
+  }, [initialTheme, theme])
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, theme)
@@ -53,14 +41,10 @@ export function useDiagramTheme() {
   const toggleTheme = useCallback(() => {
     setTheme(prev => {
       const next = prev === 'dark' ? 'light' : 'dark'
-      setSearchParams(sp => {
-        const p = new URLSearchParams(sp)
-        p.set('theme', next)
-        return p
-      }, { replace: true })
+      onThemeChange(next)
       return next
     })
-  }, [setSearchParams])
+  }, [onThemeChange])
 
   return { theme, toggleTheme }
 }

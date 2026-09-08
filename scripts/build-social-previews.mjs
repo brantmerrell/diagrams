@@ -1,23 +1,27 @@
 // Generates Open Graph / Twitter Card link-preview pages for every
-// diagram (and every layer of every multi-layer diagram).
+// diagram, every layer of every multi-layer diagram, and both light/dark
+// themes of each.
 //
 // Social crawlers (Facebook, LinkedIn, Twitter/X) fetch a URL's raw HTML
 // and read <meta property="og:image"> etc. straight out of it — they never
 // run JavaScript, and none of them accept SVG for a preview image (raster
 // only). A static host (GitHub Pages) also can't vary a response by query
-// string, only by path — so a diagram+layer combination is only previewable
-// if it has its own real file at its own path. See splitLayerFromPathname
-// in src/lib/yamlExtract.ts for the matching path scheme the app itself
-// reads (`/tech/foo.d2/1_pattern`).
+// string, only by path — so a diagram+layer+theme combination is only
+// previewable if it has its own real file at its own path. See
+// splitLayerFromPathname in src/lib/yamlExtract.ts for the matching path
+// scheme the app itself reads (`/tech/foo.d2/1_pattern/dark`) — theme lives
+// there rather than in `?theme=` for exactly this reason.
 //
-// For every diagram this renders one PNG per layer via the d2 CLI (needs
-// Chromium — see the `echo y |` warm-up in the "Compile d2 files to SVG"
-// step) and writes a small HTML page at dist/<diagram-path>[/<layer>]/index.html:
-// a copy of the built index.html with per-page <meta> tags injected, so a
-// crawler gets the right preview and a real browser still boots the full
-// interactive app at exactly that diagram+layer. The default/first layer's
-// page is additionally written to the diagram's own bare path, since that's
-// the URL most people will actually share.
+// For every diagram this renders one PNG per layer per theme via the d2 CLI
+// (needs Chromium — see the `echo y |` warm-up in the "Compile d2 files to
+// SVG" step) and writes a small HTML page at
+// dist/<diagram-path>[/<layer>]/<theme>/index.html: a copy of the built
+// index.html with per-page <meta> tags injected, so a crawler gets the right
+// preview and a real browser still boots the full interactive app at exactly
+// that diagram+layer+theme. The default layer's light-theme page is
+// additionally written to the diagram's own fully bare path (no layer, no
+// theme segment) — the URL a raw bookmark or manually typed link hits before
+// the app has a chance to self-stamp its own layer/theme into the address bar.
 //
 // Must run after `vite build` (needs dist/index.html as the template) and
 // after build-scenario-manifests.mjs (a diagram's own scenarios.json is how
@@ -32,7 +36,15 @@ const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 const distDir = path.join(root, 'dist')
 const siteUrl = 'https://diagrams.jbm.eco'
 
+// Strip the root template's own generic og:/twitter: tags (and the comment
+// introducing them — see index.html) before injecting per-page ones below.
+// Leaving both sets in the document let a crawler that takes the first
+// occurrence of each og:/twitter: property (Twitter/X does) show the
+// generic site-wide fallback instead of the diagram's own preview, even
+// though the diagram-specific tags were present further down the page.
 const indexTemplate = fs.readFileSync(path.join(distDir, 'index.html'), 'utf8')
+  .replace(/\s*<!--[\s\S]*?Site-wide fallback[\s\S]*?-->\n?/, '')
+  .replace(/\s*<meta (?:property="og:|name="twitter:)[^>]*>\n?/g, '')
 
 function escapeHtml(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -80,11 +92,21 @@ function writePreviewPage(urlPath, pngUrlPath, title, description) {
 // preview image for the whole deploy.
 const MAX_ATTEMPTS = 2
 
-function renderPreviewPng(target, d2File, pngAbsPath, urlPath) {
+// d2's PNG export rejects --dark-theme outright ("cannot be used while
+// exporting to another format other than .svg") — that flag only affects the
+// @media(prefers-color-scheme:dark) block a browser picks between at view
+// time, which a static raster can't do. A dark preview instead has to be a
+// full alternate render using --theme with a self-contained dark preset.
+// This isn't the same palette as the app's own automatic dark-mode rewrite
+// (see svgTheme.ts) — just the closest good-faith dark rendering d2's PNG
+// path can produce on its own.
+const DARK_THEME_ID = 200 // "Dark Mauve" — see `d2 themes`
+
+function renderPreviewPng(d2Args, d2File, pngAbsPath, urlPath) {
   let lastErr
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {
-      execFileSync('d2', [target, d2File, pngAbsPath], { stdio: 'pipe', encoding: 'utf8' })
+      execFileSync('d2', [...d2Args, d2File, pngAbsPath], { stdio: 'pipe', encoding: 'utf8' })
       return true
     } catch (err) {
       lastErr = err
@@ -124,32 +146,39 @@ for (const d2File of walkD2Files(root)) {
   const layers = scenarios && scenarios.length ? scenarios.map(s => s.name) : [null]
 
   layers.forEach((layer, i) => {
-    const urlPath = layer ? `${relD2}/${layer}` : relD2
-    const pngUrlPath = `/${urlPath}/preview.png`
-    const pngAbsPath = path.join(distDir, urlPath, 'preview.png')
-    fs.mkdirSync(path.dirname(pngAbsPath), { recursive: true })
-
+    const layerUrlPath = layer ? `${relD2}/${layer}` : relD2
     const target = layer && layer !== 'base' ? `--target=layers.${layer}` : '--target='
-    if (!renderPreviewPng(target, d2File, pngAbsPath, urlPath)) {
-      failCount++
-      return
-    }
-    pngCount++
 
     const bareTitle = summary.title || diagramName
+    // Title skips the layer name for the bare-path fallback below: nobody
+    // sharing the plain link cares that the default view happens to be
+    // internally named "0_base".
     const title = layer ? `${bareTitle} — ${layer}` : bareTitle
     const description = summary.body || `A d2 diagram: ${relD2}`
 
-    writePreviewPage(urlPath, pngUrlPath, title, description)
-    pageCount++
+    for (const theme of ['light', 'dark']) {
+      const urlPath = `${layerUrlPath}/${theme}`
+      const pngUrlPath = `/${urlPath}/preview.png`
+      const pngAbsPath = path.join(distDir, urlPath, 'preview.png')
+      fs.mkdirSync(path.dirname(pngAbsPath), { recursive: true })
 
-    // The first/default layer's page is also the diagram's own bare-path
-    // preview — that's the URL most people will actually share. Its title
-    // skips the layer name: nobody sharing the plain link cares that the
-    // default view happens to be internally named "0_base".
-    if (i === 0 && layer) {
-      writePreviewPage(relD2, pngUrlPath, bareTitle, description)
+      const d2Args = theme === 'dark' ? [`--theme=${DARK_THEME_ID}`, target] : [target]
+      if (!renderPreviewPng(d2Args, d2File, pngAbsPath, urlPath)) {
+        failCount++
+        continue
+      }
+      pngCount++
+
+      writePreviewPage(urlPath, pngUrlPath, title, description)
       pageCount++
+
+      // The default layer's light-theme page is also written to the
+      // diagram's fully bare path (no layer, no theme segment) — see the
+      // file header for why that path still needs its own preview.
+      if (i === 0 && theme === 'light') {
+        writePreviewPage(relD2, pngUrlPath, bareTitle, description)
+        pageCount++
+      }
     }
   })
 }

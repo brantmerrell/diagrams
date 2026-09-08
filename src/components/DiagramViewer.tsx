@@ -19,6 +19,7 @@ import {
   splitLayerFromPathname,
 } from '../lib/yamlExtract'
 import { parseTagFilter, makeMatchesTag } from '../lib/tagFilter'
+import { DiagramTheme } from '../hooks/useDiagramTheme'
 
 type YamlValue = string | number | boolean | null | YamlValue[] | { [key: string]: YamlValue }
 
@@ -70,7 +71,7 @@ const DiagramViewer: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const { diagramPathname, pathLayer } = splitLayerFromPathname(location.pathname)
+  const { diagramPathname, pathLayer, pathTheme } = splitLayerFromPathname(location.pathname)
   const [content, setContent] = useState<DiagramContent>({})
   const [loading, setLoading] = useState(true)
   const [isYamlCollapsed, setIsYamlCollapsed] = useState(false)
@@ -115,25 +116,46 @@ const DiagramViewer: React.FC = () => {
     if (next.parent) params.set('diagramParent', next.parent)
     else params.delete('diagramParent')
     params.delete('layer')
+    // Theme is a personal display preference, not diagram-specific — carry it
+    // forward to the new diagram (which starts at its own default layer, so
+    // no layer segment here).
     navigate({
-      pathname: `/${yamlPathToUrlSegment(next.path)}`,
+      pathname: `/${yamlPathToUrlSegment(next.path)}${pathTheme ? `/${pathTheme}` : ''}`,
       search: params.toString(),
     })
-  }, [navigable, diagramPathname, searchParams, navigate])
+  }, [navigable, diagramPathname, pathTheme, searchParams, navigate])
 
   const initialLayerName = pathLayer ?? (searchParams.get('layer') || undefined)
+
+  // Falls back to the legacy `?theme=` query param (pre-path-segment links)
+  // the same way initialLayerName falls back to `?layer=` — left in query
+  // form until the next toggle converts it, same lazy-migration policy as layer.
+  const legacyTheme = searchParams.get('theme')
+  const initialTheme: DiagramTheme | undefined =
+    pathTheme ?? (legacyTheme === 'light' || legacyTheme === 'dark' ? legacyTheme : undefined)
 
   // Writes the layer as a path segment (the canonical, shareable form) and
   // drops any stale `?layer=` so a diagram opened via an old-style link
   // converts over on the first layer change instead of carrying both forms.
+  // The current theme segment (if any) is preserved after the new layer.
   const handleLayerChange = useCallback((name: string) => {
     const params = new URLSearchParams(searchParams)
     params.delete('layer')
     navigate({
-      pathname: `${diagramPathname}/${name}`,
+      pathname: `${diagramPathname}/${name}${pathTheme ? `/${pathTheme}` : ''}`,
       search: params.toString(),
     }, { replace: true })
-  }, [navigate, diagramPathname, searchParams])
+  }, [navigate, diagramPathname, pathTheme, searchParams])
+
+  // Writes theme as a path segment after any layer segment — see
+  // splitLayerFromPathname and useDiagramTheme for why theme lives in the
+  // path rather than a query param.
+  const handleThemeChange = useCallback((theme: DiagramTheme) => {
+    navigate({
+      pathname: `${diagramPathname}${pathLayer ? `/${pathLayer}` : ''}/${theme}`,
+      search: searchParams.toString(),
+    }, { replace: true })
+  }, [navigate, diagramPathname, pathLayer, searchParams])
 
   useEffect(() => {
     const ac = new AbortController()
@@ -189,9 +211,15 @@ const DiagramViewer: React.FC = () => {
     return mmdPath ? (
       <MermaidPanel diagramPath={mmdPath} />
     ) : (
-      <D2Panel diagramPath={d2Path} initialLayerName={initialLayerName} onLayerChange={handleLayerChange} />
+      <D2Panel
+        diagramPath={d2Path}
+        initialLayerName={initialLayerName}
+        onLayerChange={handleLayerChange}
+        initialTheme={initialTheme}
+        onThemeChange={handleThemeChange}
+      />
     )
-  }, [d2Path, mmdPath, initialLayerName, handleLayerChange])
+  }, [d2Path, mmdPath, initialLayerName, handleLayerChange, initialTheme, handleThemeChange])
 
   if (loading) {
     return <div className="loading">Loading diagram...</div>
