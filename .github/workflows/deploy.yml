@@ -33,7 +33,11 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Install d2
-        run: curl -fsSL https://d2lang.com/install.sh | sh -s --
+        # Pinned in .d2-version (shared with the Dockerfile) — this used to
+        # install "latest" and picked up v0.9.0 mid-run, which added PNG-export
+        # validation that broke social-preview rendering for diagrams that
+        # compiled to SVG fine. Bump .d2-version deliberately, not by surprise.
+        run: curl -fsSL https://d2lang.com/install.sh | sh -s -- --version "$(cat .d2-version)"
 
       - name: Warm up d2's Chromium (for PNG rendering)
         run: |
