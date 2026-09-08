@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.9.0" preserveAspectRatio="xMinYMin meet" viewBox="0 0 2383 1185"><svg class="d2-1596241913 d2-svg" width="2383" height="1185" viewBox="-572 -240 2383 1185"><rect x="-572" y="-240" width="2383" height="1185" rx="0" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
+<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.8.2" preserveAspectRatio="xMinYMin meet" viewBox="0 0 2383 1185"><svg class="d2-1596241913 d2-svg" width="2383" height="1185" viewBox="-572 -240 2383 1185"><rect x="-572.000000" y="-240.000000" width="2383.000000" height="1185.000000" rx="0.000000" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
 .appendix-icon {
 	filter: drop-shadow(0px 0px 32px rgba(31, 36, 58, 0.1));
 }
@@ -29,19 +29,149 @@
 }
 
 		.d2-1596241913 .fill-N1{fill:#000410;}
+		.d2-1596241913 .fill-N2{fill:#000410;}
+		.d2-1596241913 .fill-N3{fill:#9499AB;}
+		.d2-1596241913 .fill-N4{fill:#FFFFFF;}
+		.d2-1596241913 .fill-N5{fill:#FFFFFF;}
+		.d2-1596241913 .fill-N6{fill:#EEF1F8;}
 		.d2-1596241913 .fill-N7{fill:#FFFFFF;}
+		.d2-1596241913 .fill-B1{fill:#000410;}
+		.d2-1596241913 .fill-B2{fill:#000410;}
+		.d2-1596241913 .fill-B3{fill:#FFFFFF;}
 		.d2-1596241913 .fill-B4{fill:#E7E9EE;}
 		.d2-1596241913 .fill-B5{fill:#F5F6F9;}
 		.d2-1596241913 .fill-B6{fill:#FFFFFF;}
+		.d2-1596241913 .fill-AA2{fill:#6D7284;}
+		.d2-1596241913 .fill-AA4{fill:#F5F6F9;}
+		.d2-1596241913 .fill-AA5{fill:#FFFFFF;}
+		.d2-1596241913 .fill-AB4{fill:#F5F6F9;}
+		.d2-1596241913 .fill-AB5{fill:#FFFFFF;}
+		.d2-1596241913 .stroke-N1{stroke:#000410;}
+		.d2-1596241913 .stroke-N2{stroke:#000410;}
+		.d2-1596241913 .stroke-N3{stroke:#9499AB;}
+		.d2-1596241913 .stroke-N4{stroke:#FFFFFF;}
+		.d2-1596241913 .stroke-N5{stroke:#FFFFFF;}
+		.d2-1596241913 .stroke-N6{stroke:#EEF1F8;}
+		.d2-1596241913 .stroke-N7{stroke:#FFFFFF;}
 		.d2-1596241913 .stroke-B1{stroke:#000410;}
-		.d2-1596241913 .stroke-B2{stroke:#000410;}.appendix text.text{fill:#000410}.md{--color-fg-default:#000410;--color-fg-muted:#000410;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#000410;--color-border-muted:#000410;--color-neutral-muted:#EEF1F8;--color-accent-fg:#000410;--color-accent-emphasis:#000410;--color-attention-subtle:#000410;--color-danger-fg:red;}.light-code{display: block}.dark-code{display: none}@media screen and (prefers-color-scheme:dark){
+		.d2-1596241913 .stroke-B2{stroke:#000410;}
+		.d2-1596241913 .stroke-B3{stroke:#FFFFFF;}
+		.d2-1596241913 .stroke-B4{stroke:#E7E9EE;}
+		.d2-1596241913 .stroke-B5{stroke:#F5F6F9;}
+		.d2-1596241913 .stroke-B6{stroke:#FFFFFF;}
+		.d2-1596241913 .stroke-AA2{stroke:#6D7284;}
+		.d2-1596241913 .stroke-AA4{stroke:#F5F6F9;}
+		.d2-1596241913 .stroke-AA5{stroke:#FFFFFF;}
+		.d2-1596241913 .stroke-AB4{stroke:#F5F6F9;}
+		.d2-1596241913 .stroke-AB5{stroke:#FFFFFF;}
+		.d2-1596241913 .background-color-N1{background-color:#000410;}
+		.d2-1596241913 .background-color-N2{background-color:#000410;}
+		.d2-1596241913 .background-color-N3{background-color:#9499AB;}
+		.d2-1596241913 .background-color-N4{background-color:#FFFFFF;}
+		.d2-1596241913 .background-color-N5{background-color:#FFFFFF;}
+		.d2-1596241913 .background-color-N6{background-color:#EEF1F8;}
+		.d2-1596241913 .background-color-N7{background-color:#FFFFFF;}
+		.d2-1596241913 .background-color-B1{background-color:#000410;}
+		.d2-1596241913 .background-color-B2{background-color:#000410;}
+		.d2-1596241913 .background-color-B3{background-color:#FFFFFF;}
+		.d2-1596241913 .background-color-B4{background-color:#E7E9EE;}
+		.d2-1596241913 .background-color-B5{background-color:#F5F6F9;}
+		.d2-1596241913 .background-color-B6{background-color:#FFFFFF;}
+		.d2-1596241913 .background-color-AA2{background-color:#6D7284;}
+		.d2-1596241913 .background-color-AA4{background-color:#F5F6F9;}
+		.d2-1596241913 .background-color-AA5{background-color:#FFFFFF;}
+		.d2-1596241913 .background-color-AB4{background-color:#F5F6F9;}
+		.d2-1596241913 .background-color-AB5{background-color:#FFFFFF;}
+		.d2-1596241913 .color-N1{color:#000410;}
+		.d2-1596241913 .color-N2{color:#000410;}
+		.d2-1596241913 .color-N3{color:#9499AB;}
+		.d2-1596241913 .color-N4{color:#FFFFFF;}
+		.d2-1596241913 .color-N5{color:#FFFFFF;}
+		.d2-1596241913 .color-N6{color:#EEF1F8;}
+		.d2-1596241913 .color-N7{color:#FFFFFF;}
+		.d2-1596241913 .color-B1{color:#000410;}
+		.d2-1596241913 .color-B2{color:#000410;}
+		.d2-1596241913 .color-B3{color:#FFFFFF;}
+		.d2-1596241913 .color-B4{color:#E7E9EE;}
+		.d2-1596241913 .color-B5{color:#F5F6F9;}
+		.d2-1596241913 .color-B6{color:#FFFFFF;}
+		.d2-1596241913 .color-AA2{color:#6D7284;}
+		.d2-1596241913 .color-AA4{color:#F5F6F9;}
+		.d2-1596241913 .color-AA5{color:#FFFFFF;}
+		.d2-1596241913 .color-AB4{color:#F5F6F9;}
+		.d2-1596241913 .color-AB5{color:#FFFFFF;}.appendix text.text{fill:#000410}.md{--color-fg-default:#000410;--color-fg-muted:#000410;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#000410;--color-border-muted:#000410;--color-neutral-muted:#EEF1F8;--color-accent-fg:#000410;--color-accent-emphasis:#000410;--color-attention-subtle:#000410;--color-danger-fg:red;}.sketch-overlay-B1{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-B2{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-B3{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-B4{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-B5{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-B6{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-AA2{fill:url(#streaks-dark-d2-1596241913);mix-blend-mode:overlay}.sketch-overlay-AA4{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-AA5{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-AB4{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-AB5{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-N1{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-N2{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-N3{fill:url(#streaks-normal-d2-1596241913);mix-blend-mode:color-burn}.sketch-overlay-N4{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-N5{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-N6{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-N7{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.light-code{display: block}.dark-code{display: none}@media screen and (prefers-color-scheme:dark){
 		.d2-1596241913 .fill-N1{fill:#F4F6FA;}
+		.d2-1596241913 .fill-N2{fill:#BBBEC9;}
+		.d2-1596241913 .fill-N3{fill:#868A96;}
+		.d2-1596241913 .fill-N4{fill:#676D7D;}
+		.d2-1596241913 .fill-N5{fill:#3A3D49;}
+		.d2-1596241913 .fill-N6{fill:#191C28;}
 		.d2-1596241913 .fill-N7{fill:#000410;}
+		.d2-1596241913 .fill-B1{fill:#F4F6FA;}
+		.d2-1596241913 .fill-B2{fill:#6B8AFB;}
+		.d2-1596241913 .fill-B3{fill:#3733E9;}
 		.d2-1596241913 .fill-B4{fill:#070B67;}
 		.d2-1596241913 .fill-B5{fill:#0B1197;}
 		.d2-1596241913 .fill-B6{fill:#3733E9;}
+		.d2-1596241913 .fill-AA2{fill:#8B5DEE;}
+		.d2-1596241913 .fill-AA4{fill:#4918B1;}
+		.d2-1596241913 .fill-AA5{fill:#7240DD;}
+		.d2-1596241913 .fill-AB4{fill:#00607C;}
+		.d2-1596241913 .fill-AB5{fill:#01799D;}
+		.d2-1596241913 .stroke-N1{stroke:#F4F6FA;}
+		.d2-1596241913 .stroke-N2{stroke:#BBBEC9;}
+		.d2-1596241913 .stroke-N3{stroke:#868A96;}
+		.d2-1596241913 .stroke-N4{stroke:#676D7D;}
+		.d2-1596241913 .stroke-N5{stroke:#3A3D49;}
+		.d2-1596241913 .stroke-N6{stroke:#191C28;}
+		.d2-1596241913 .stroke-N7{stroke:#000410;}
 		.d2-1596241913 .stroke-B1{stroke:#F4F6FA;}
-		.d2-1596241913 .stroke-B2{stroke:#6B8AFB;}.appendix text.text{fill:#F4F6FA}.md{--color-fg-default:#F4F6FA;--color-fg-muted:#BBBEC9;--color-fg-subtle:#868A96;--color-canvas-default:#000410;--color-canvas-subtle:#191C28;--color-border-default:#F4F6FA;--color-border-muted:#6B8AFB;--color-neutral-muted:#191C28;--color-accent-fg:#6B8AFB;--color-accent-emphasis:#6B8AFB;--color-attention-subtle:#BBBEC9;--color-danger-fg:red;}.light-code{display: none}.dark-code{display: block}}]]></style><style type="text/css"><![CDATA[
+		.d2-1596241913 .stroke-B2{stroke:#6B8AFB;}
+		.d2-1596241913 .stroke-B3{stroke:#3733E9;}
+		.d2-1596241913 .stroke-B4{stroke:#070B67;}
+		.d2-1596241913 .stroke-B5{stroke:#0B1197;}
+		.d2-1596241913 .stroke-B6{stroke:#3733E9;}
+		.d2-1596241913 .stroke-AA2{stroke:#8B5DEE;}
+		.d2-1596241913 .stroke-AA4{stroke:#4918B1;}
+		.d2-1596241913 .stroke-AA5{stroke:#7240DD;}
+		.d2-1596241913 .stroke-AB4{stroke:#00607C;}
+		.d2-1596241913 .stroke-AB5{stroke:#01799D;}
+		.d2-1596241913 .background-color-N1{background-color:#F4F6FA;}
+		.d2-1596241913 .background-color-N2{background-color:#BBBEC9;}
+		.d2-1596241913 .background-color-N3{background-color:#868A96;}
+		.d2-1596241913 .background-color-N4{background-color:#676D7D;}
+		.d2-1596241913 .background-color-N5{background-color:#3A3D49;}
+		.d2-1596241913 .background-color-N6{background-color:#191C28;}
+		.d2-1596241913 .background-color-N7{background-color:#000410;}
+		.d2-1596241913 .background-color-B1{background-color:#F4F6FA;}
+		.d2-1596241913 .background-color-B2{background-color:#6B8AFB;}
+		.d2-1596241913 .background-color-B3{background-color:#3733E9;}
+		.d2-1596241913 .background-color-B4{background-color:#070B67;}
+		.d2-1596241913 .background-color-B5{background-color:#0B1197;}
+		.d2-1596241913 .background-color-B6{background-color:#3733E9;}
+		.d2-1596241913 .background-color-AA2{background-color:#8B5DEE;}
+		.d2-1596241913 .background-color-AA4{background-color:#4918B1;}
+		.d2-1596241913 .background-color-AA5{background-color:#7240DD;}
+		.d2-1596241913 .background-color-AB4{background-color:#00607C;}
+		.d2-1596241913 .background-color-AB5{background-color:#01799D;}
+		.d2-1596241913 .color-N1{color:#F4F6FA;}
+		.d2-1596241913 .color-N2{color:#BBBEC9;}
+		.d2-1596241913 .color-N3{color:#868A96;}
+		.d2-1596241913 .color-N4{color:#676D7D;}
+		.d2-1596241913 .color-N5{color:#3A3D49;}
+		.d2-1596241913 .color-N6{color:#191C28;}
+		.d2-1596241913 .color-N7{color:#000410;}
+		.d2-1596241913 .color-B1{color:#F4F6FA;}
+		.d2-1596241913 .color-B2{color:#6B8AFB;}
+		.d2-1596241913 .color-B3{color:#3733E9;}
+		.d2-1596241913 .color-B4{color:#070B67;}
+		.d2-1596241913 .color-B5{color:#0B1197;}
+		.d2-1596241913 .color-B6{color:#3733E9;}
+		.d2-1596241913 .color-AA2{color:#8B5DEE;}
+		.d2-1596241913 .color-AA4{color:#4918B1;}
+		.d2-1596241913 .color-AA5{color:#7240DD;}
+		.d2-1596241913 .color-AB4{color:#00607C;}
+		.d2-1596241913 .color-AB5{color:#01799D;}.appendix text.text{fill:#F4F6FA}.md{--color-fg-default:#F4F6FA;--color-fg-muted:#BBBEC9;--color-fg-subtle:#868A96;--color-canvas-default:#000410;--color-canvas-subtle:#191C28;--color-border-default:#F4F6FA;--color-border-muted:#6B8AFB;--color-neutral-muted:#191C28;--color-accent-fg:#6B8AFB;--color-accent-emphasis:#6B8AFB;--color-attention-subtle:#BBBEC9;--color-danger-fg:red;}.sketch-overlay-B1{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-B2{fill:url(#streaks-normal-d2-1596241913);mix-blend-mode:color-burn}.sketch-overlay-B3{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-B4{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-B5{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-B6{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-AA2{fill:url(#streaks-dark-d2-1596241913);mix-blend-mode:overlay}.sketch-overlay-AA4{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-AA5{fill:url(#streaks-dark-d2-1596241913);mix-blend-mode:overlay}.sketch-overlay-AB4{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-AB5{fill:url(#streaks-dark-d2-1596241913);mix-blend-mode:overlay}.sketch-overlay-N1{fill:url(#streaks-bright-d2-1596241913);mix-blend-mode:darken}.sketch-overlay-N2{fill:url(#streaks-normal-d2-1596241913);mix-blend-mode:color-burn}.sketch-overlay-N3{fill:url(#streaks-dark-d2-1596241913);mix-blend-mode:overlay}.sketch-overlay-N4{fill:url(#streaks-dark-d2-1596241913);mix-blend-mode:overlay}.sketch-overlay-N5{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-N6{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.sketch-overlay-N7{fill:url(#streaks-darker-d2-1596241913);mix-blend-mode:lighten}.light-code{display: none}.dark-code{display: block}}]]></style><style type="text/css"><![CDATA[
 .dots-overlay {
 	fill: url(#dots-d2-1596241913);
 	mix-blend-mode: multiply;
@@ -74,7 +204,7 @@
 <rect x="7" y="7" width="1" height="1" fill="#0A0F25"/>
 </g>
 </pattern>
-</defs><g class="X3F1YWxpdHk= compiles"><g class="shape" ><rect x="-470" y="-138" width="450" height="118" stroke="Crimson" class=" fill-B6" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" /></g><text x="-245" y="-83.5" fill="Crimson" class="text-mono-bold" style="text-anchor:middle;font-size:32px"><tspan x="-245" dy="0">LAYER QUALITY:</tspan><tspan x="-245" dy="36.5"> pending style review</tspan></text></g><g class="cmV0cmlldmFsX21ldHJpY3M="><g class="shape" ><rect x="0" y="0" width="1710" height="285" class=" stroke-B1 fill-B4" style="stroke-width:2;" /><rect x="0" y="0" width="1710" height="285" class="dots-overlay" style="stroke-width:2;" /><rect x="5" y="5" width="1700" height="275" fill="transparent" class=" stroke-B1" style="stroke-width:2;" /></g><text x="855" y="33" class="text-mono fill-N1" style="text-anchor:middle;font-size:28px">RETRIEVAL EVALUATION</text></g><g class="Z2VuZXJhdGlvbl9tZXRyaWNz"><g class="shape" ><rect x="0" y="325" width="1710" height="282" class=" stroke-B1 fill-B4" style="stroke-width:2;" /><rect x="0" y="325" width="1710" height="282" class="dots-overlay" style="stroke-width:2;" /><rect x="5" y="330" width="1700" height="272" fill="transparent" class=" stroke-B1" style="stroke-width:2;" /></g><text x="855" y="358" class="text-mono fill-N1" style="text-anchor:middle;font-size:28px">GENERATION EVALUATION</text></g><g class="ZTJlX21ldHJpY3M="><g class="shape" ><rect x="0" y="647" width="1710" height="197" class=" stroke-B1 fill-B4" style="stroke-width:2;" /><rect x="0" y="647" width="1710" height="197" class="dots-overlay" style="stroke-width:2;" /><rect x="5" y="652" width="1700" height="187" fill="transparent" class=" stroke-B1" style="stroke-width:2;" /></g><text x="855" y="680" class="text-mono fill-N1" style="text-anchor:middle;font-size:28px">END-TO-END EVALUATION</text></g><g class="cmV0cmlldmFsX21ldHJpY3MucHJlY2lzaW9u"><g class="shape" ><ellipse rx="261.5" ry="92.5" cx="855.5" cy="142.5" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /><ellipse rx="261.5" ry="92.5" cx="855.5" cy="142.5" class="dots-overlay" style="stroke-width:2;" /></g><text x="855.5" y="107" class="text-mono fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="855.5" dy="0">PRECISION@K</tspan><tspan x="855.5" dy="27.5">(RELEVANT OF RETRIEVED)</tspan></text></g><g class="cmV0cmlldmFsX21ldHJpY3MucmVjYWxs"><g class="shape" ><ellipse rx="261.5" ry="92.5" cx="1398.5" cy="142.5" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /><ellipse rx="261.5" ry="92.5" cx="1398.5" cy="142.5" class="dots-overlay" style="stroke-width:2;" /></g><text x="1398.5" y="107" class="text-mono fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="1398.5" dy="0">RECALL@K</tspan><tspan x="1398.5" dy="27.5">(RETRIEVED OF RELEVANT)</tspan></text></g><g class="cmV0cmlldmFsX21ldHJpY3MubXJy"><g class="shape" ><ellipse rx="262" ry="92.5" cx="312" cy="142.5" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /><ellipse rx="262" ry="92.5" cx="312" cy="142.5" class="dots-overlay" style="stroke-width:2;" /></g><text x="312" y="107" class="text-mono fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="312" dy="0">MEAN RECIPROCAL RANK</tspan><tspan x="312" dy="27.5">(FIRST RELEVANT RESULT)</tspan></text></g><g class="Z2VuZXJhdGlvbl9tZXRyaWNzLmZhaXRoZnVsbmVzcw=="><g class="shape" ><ellipse rx="171.5" ry="57" cx="704.5" cy="466" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="704.5" y="463.5" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="704.5" dy="0">FAITHFULNESS</tspan><tspan x="704.5" dy="18.5">(GROUNDED IN CONTEXT)</tspan></text></g><g class="Z2VuZXJhdGlvbl9tZXRyaWNzLmFuc3dlcl9yZWxldmFuY2U="><g class="shape" ><ellipse rx="172" ry="57.5" cx="1068" cy="465.5" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1068" y="463" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="1068" dy="0">ANSWER RELEVANCE</tspan><tspan x="1068" dy="18.5">(ADDRESSES THE QUERY)</tspan></text></g><g class="Z2VuZXJhdGlvbl9tZXRyaWNzLmhhbGx1Y2luYXRpb25fcmF0ZQ=="><g class="shape" ><ellipse rx="231.5" ry="91" cx="281.5" cy="466" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /><ellipse rx="231.5" ry="91" cx="281.5" cy="466" class="dots-overlay" style="stroke-width:2;" /></g><text x="281.5" y="431" class="text-mono fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="281.5" dy="0">HALLUCINATION RATE</tspan><tspan x="281.5" dy="27.5">(UNSUPPORTED CLAIMS)</tspan></text></g><g class="ZTJlX21ldHJpY3MudXNlcl9zYXRpc2ZhY3Rpb24="><g class="shape" ><ellipse rx="146" ry="48.5" cx="495" cy="745.5" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="495" y="743" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="495" dy="0">USER SATISFACTION</tspan><tspan x="495" dy="18.5">(THUMBS UP/DOWN)</tspan></text></g><g class="ZTJlX21ldHJpY3MudGFza19jb21wbGV0aW9u"><g class="shape" ><ellipse rx="133" ry="44.5" cx="794" cy="745.5" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="794" y="743" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="794" dy="0">TASK COMPLETION</tspan><tspan x="794" dy="18.5">(SUCCESS RATE)</tspan></text></g><g class="ZTJlX21ldHJpY3MubGF0ZW5jeQ=="><g class="shape" ><ellipse rx="139.5" ry="46.5" cx="189.5" cy="745.5" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="189.5" y="743" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="189.5" dy="0">RESPONSE LATENCY</tspan><tspan x="189.5" dy="18.5">(TIME TO ANSWER)</tspan></text></g><g class="ZTJlX21ldHJpY3MuY29zdF9lZmZpY2llbmN5"><g class="shape" ><ellipse rx="133.5" ry="44.5" cx="1080.5" cy="745.5" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1080.5" y="743" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="1080.5" dy="0">COST EFFICIENCY</tspan><tspan x="1080.5" dy="18.5">($/QUERY)</tspan></text></g><a href="https://en.wikipedia.org/wiki/Precision_and_recall" xlink:href="https://en.wikipedia.org/wiki/Precision_and_recall"><g class="cmV0cmlldmFsX21ldHJpY3MucHJlY2lzaW9uLndpa2k= _link"><g class="shape" ><rect x="817" y="155" width="77" height="30" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="855.5" y="175.5" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">wiki</text></g></a><a href="https://en.wikipedia.org/wiki/Precision_and_recall" xlink:href="https://en.wikipedia.org/wiki/Precision_and_recall"><g class="cmV0cmlldmFsX21ldHJpY3MucmVjYWxsLndpa2k= _link"><g class="shape" ><rect x="1360" y="155" width="77" height="30" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="1398.5" y="175.5" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">wiki</text></g></a><a href="https://en.wikipedia.org/wiki/Mean_reciprocal_rank" xlink:href="https://en.wikipedia.org/wiki/Mean_reciprocal_rank"><g class="cmV0cmlldmFsX21ldHJpY3MubXJyLndpa2k= _link"><g class="shape" ><rect x="273" y="155" width="77" height="30" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="311.5" y="175.5" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">wiki</text></g></a><a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)" xlink:href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)"><g class="Z2VuZXJhdGlvbl9tZXRyaWNzLmhhbGx1Y2luYXRpb25fcmF0ZS53aWtp _link"><g class="shape" ><rect x="243" y="477" width="77" height="30" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="281.5" y="497.5" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">wiki</text></g></a><g transform="translate(878 139)" class="appendix-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+</defs><g class="X3F1YWxpdHk= compiles"><g class="shape" ><rect x="-470.000000" y="-138.000000" width="450.000000" height="118.000000" stroke="Crimson" class=" fill-B6" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" /></g><text x="-245.000000" y="-83.500000" fill="Crimson" class="text-mono-bold" style="text-anchor:middle;font-size:32px"><tspan x="-245.000000" dy="0.000000">LAYER QUALITY:</tspan><tspan x="-245.000000" dy="36.500000"> pending style review</tspan></text></g><g class="cmV0cmlldmFsX21ldHJpY3M="><g class="shape" ><rect x="0.000000" y="0.000000" width="1710.000000" height="285.000000" class=" stroke-B1 fill-B4" style="stroke-width:2;" /><rect x="0.000000" y="0.000000" width="1710.000000" height="285.000000" class="dots-overlay" style="stroke-width:2;" /><rect x="5.000000" y="5.000000" width="1700.000000" height="275.000000" fill="transparent" class=" stroke-B1" style="stroke-width:2;" /></g><text x="855.000000" y="33.000000" class="text-mono fill-N1" style="text-anchor:middle;font-size:28px">RETRIEVAL EVALUATION</text></g><g class="Z2VuZXJhdGlvbl9tZXRyaWNz"><g class="shape" ><rect x="0.000000" y="325.000000" width="1710.000000" height="282.000000" class=" stroke-B1 fill-B4" style="stroke-width:2;" /><rect x="0.000000" y="325.000000" width="1710.000000" height="282.000000" class="dots-overlay" style="stroke-width:2;" /><rect x="5.000000" y="330.000000" width="1700.000000" height="272.000000" fill="transparent" class=" stroke-B1" style="stroke-width:2;" /></g><text x="855.000000" y="358.000000" class="text-mono fill-N1" style="text-anchor:middle;font-size:28px">GENERATION EVALUATION</text></g><g class="ZTJlX21ldHJpY3M="><g class="shape" ><rect x="0.000000" y="647.000000" width="1710.000000" height="197.000000" class=" stroke-B1 fill-B4" style="stroke-width:2;" /><rect x="0.000000" y="647.000000" width="1710.000000" height="197.000000" class="dots-overlay" style="stroke-width:2;" /><rect x="5.000000" y="652.000000" width="1700.000000" height="187.000000" fill="transparent" class=" stroke-B1" style="stroke-width:2;" /></g><text x="855.000000" y="680.000000" class="text-mono fill-N1" style="text-anchor:middle;font-size:28px">END-TO-END EVALUATION</text></g><g class="cmV0cmlldmFsX21ldHJpY3MucHJlY2lzaW9u"><g class="shape" ><ellipse rx="261.500000" ry="92.500000" cx="855.500000" cy="142.500000" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /><ellipse rx="261.500000" ry="92.500000" cx="855.500000" cy="142.500000" class="dots-overlay" style="stroke-width:2;" /></g><text x="855.500000" y="107.000000" class="text-mono fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="855.500000" dy="0.000000">PRECISION@K</tspan><tspan x="855.500000" dy="27.500000">(RELEVANT OF RETRIEVED)</tspan></text></g><g class="cmV0cmlldmFsX21ldHJpY3MucmVjYWxs"><g class="shape" ><ellipse rx="261.500000" ry="92.500000" cx="1398.500000" cy="142.500000" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /><ellipse rx="261.500000" ry="92.500000" cx="1398.500000" cy="142.500000" class="dots-overlay" style="stroke-width:2;" /></g><text x="1398.500000" y="107.000000" class="text-mono fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="1398.500000" dy="0.000000">RECALL@K</tspan><tspan x="1398.500000" dy="27.500000">(RETRIEVED OF RELEVANT)</tspan></text></g><g class="cmV0cmlldmFsX21ldHJpY3MubXJy"><g class="shape" ><ellipse rx="262.000000" ry="92.500000" cx="312.000000" cy="142.500000" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /><ellipse rx="262.000000" ry="92.500000" cx="312.000000" cy="142.500000" class="dots-overlay" style="stroke-width:2;" /></g><text x="312.000000" y="107.000000" class="text-mono fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="312.000000" dy="0.000000">MEAN RECIPROCAL RANK</tspan><tspan x="312.000000" dy="27.500000">(FIRST RELEVANT RESULT)</tspan></text></g><g class="Z2VuZXJhdGlvbl9tZXRyaWNzLmZhaXRoZnVsbmVzcw=="><g class="shape" ><ellipse rx="171.500000" ry="57.000000" cx="704.500000" cy="466.000000" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="704.500000" y="463.500000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="704.500000" dy="0.000000">FAITHFULNESS</tspan><tspan x="704.500000" dy="18.500000">(GROUNDED IN CONTEXT)</tspan></text></g><g class="Z2VuZXJhdGlvbl9tZXRyaWNzLmFuc3dlcl9yZWxldmFuY2U="><g class="shape" ><ellipse rx="172.000000" ry="57.500000" cx="1068.000000" cy="465.500000" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1068.000000" y="463.000000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="1068.000000" dy="0.000000">ANSWER RELEVANCE</tspan><tspan x="1068.000000" dy="18.500000">(ADDRESSES THE QUERY)</tspan></text></g><g class="Z2VuZXJhdGlvbl9tZXRyaWNzLmhhbGx1Y2luYXRpb25fcmF0ZQ=="><g class="shape" ><ellipse rx="231.500000" ry="91.000000" cx="281.500000" cy="466.000000" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /><ellipse rx="231.500000" ry="91.000000" cx="281.500000" cy="466.000000" class="dots-overlay" style="stroke-width:2;" /></g><text x="281.500000" y="431.000000" class="text-mono fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="281.500000" dy="0.000000">HALLUCINATION RATE</tspan><tspan x="281.500000" dy="27.500000">(UNSUPPORTED CLAIMS)</tspan></text></g><g class="ZTJlX21ldHJpY3MudXNlcl9zYXRpc2ZhY3Rpb24="><g class="shape" ><ellipse rx="146.000000" ry="48.500000" cx="495.000000" cy="745.500000" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="495.000000" y="743.000000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="495.000000" dy="0.000000">USER SATISFACTION</tspan><tspan x="495.000000" dy="18.500000">(THUMBS UP/DOWN)</tspan></text></g><g class="ZTJlX21ldHJpY3MudGFza19jb21wbGV0aW9u"><g class="shape" ><ellipse rx="133.000000" ry="44.500000" cx="794.000000" cy="745.500000" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="794.000000" y="743.000000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="794.000000" dy="0.000000">TASK COMPLETION</tspan><tspan x="794.000000" dy="18.500000">(SUCCESS RATE)</tspan></text></g><g class="ZTJlX21ldHJpY3MubGF0ZW5jeQ=="><g class="shape" ><ellipse rx="139.500000" ry="46.500000" cx="189.500000" cy="745.500000" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="189.500000" y="743.000000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="189.500000" dy="0.000000">RESPONSE LATENCY</tspan><tspan x="189.500000" dy="18.500000">(TIME TO ANSWER)</tspan></text></g><g class="ZTJlX21ldHJpY3MuY29zdF9lZmZpY2llbmN5"><g class="shape" ><ellipse rx="133.500000" ry="44.500000" cx="1080.500000" cy="745.500000" class="shape stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1080.500000" y="743.000000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="1080.500000" dy="0.000000">COST EFFICIENCY</tspan><tspan x="1080.500000" dy="18.500000">($/QUERY)</tspan></text></g><a href="https://en.wikipedia.org/wiki/Precision_and_recall" xlink:href="https://en.wikipedia.org/wiki/Precision_and_recall"><g class="cmV0cmlldmFsX21ldHJpY3MucHJlY2lzaW9uLndpa2k= _link"><g class="shape" ><rect x="817.000000" y="155.000000" width="77.000000" height="30.000000" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="855.500000" y="175.500000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">wiki</text></g></a><a href="https://en.wikipedia.org/wiki/Precision_and_recall" xlink:href="https://en.wikipedia.org/wiki/Precision_and_recall"><g class="cmV0cmlldmFsX21ldHJpY3MucmVjYWxsLndpa2k= _link"><g class="shape" ><rect x="1360.000000" y="155.000000" width="77.000000" height="30.000000" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="1398.500000" y="175.500000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">wiki</text></g></a><a href="https://en.wikipedia.org/wiki/Mean_reciprocal_rank" xlink:href="https://en.wikipedia.org/wiki/Mean_reciprocal_rank"><g class="cmV0cmlldmFsX21ldHJpY3MubXJyLndpa2k= _link"><g class="shape" ><rect x="273.000000" y="155.000000" width="77.000000" height="30.000000" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="311.500000" y="175.500000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">wiki</text></g></a><a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)" xlink:href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)"><g class="Z2VuZXJhdGlvbl9tZXRyaWNzLmhhbGx1Y2luYXRpb25fcmF0ZS53aWtp _link"><g class="shape" ><rect x="243.000000" y="477.000000" width="77.000000" height="30.000000" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="281.500000" y="497.500000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">wiki</text></g></a><g transform="translate(878 139)" class="appendix-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_3440_35088111-d2-1596241913-OJSXI4TJMV3GC3C7NVSXI4TJMNZS44DSMVRWS43JN5XC453JNNUQ)">
 <path d="M16 31.1109C24.3456 31.1109 31.1111 24.3454 31.1111 15.9998C31.1111 7.65415 24.3456 0.888672 16 0.888672C7.65436 0.888672 0.888885 7.65415 0.888885 15.9998C0.888885 24.3454 7.65436 31.1109 16 31.1109Z" fill="white" stroke="#DEE1EB"/>
 <path d="M14.3909 16.7965C14.7364 17.2584 15.1772 17.6406 15.6834 17.9171C16.1896 18.1938 16.7494 18.3582 17.3248 18.3993C17.9001 18.4405 18.4777 18.3575 19.0181 18.1559C19.5586 17.9543 20.0492 17.6389 20.4571 17.2309L22.8708 14.8173C23.6036 14.0586 24.0089 13.0425 23.9998 11.9877C23.9906 10.933 23.5676 9.92404 22.8217 9.17821C22.0759 8.43237 21.067 8.00931 20.0123 8.00015C18.9575 7.99098 17.9413 8.39644 17.1827 9.1292L15.7988 10.505" stroke="#2E3346" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

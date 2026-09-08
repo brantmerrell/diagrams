@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.9.0" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1289 938"><svg class="d2-4288768299 d2-svg" width="1289" height="938" viewBox="-560 -228 1289 938"><rect x="-560" y="-228" width="1289" height="938" rx="0" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
+<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.8.2" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1289 938"><svg class="d2-4288768299 d2-svg" width="1289" height="938" viewBox="-560 -228 1289 938"><rect x="-560.000000" y="-228.000000" width="1289.000000" height="938.000000" rx="0.000000" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
 .appendix-icon {
 	filter: drop-shadow(0px 0px 32px rgba(31, 36, 58, 0.1));
 }
@@ -37,20 +37,148 @@
 
 		.d2-4288768299 .fill-N1{fill:#000410;}
 		.d2-4288768299 .fill-N2{fill:#000410;}
+		.d2-4288768299 .fill-N3{fill:#9499AB;}
+		.d2-4288768299 .fill-N4{fill:#FFFFFF;}
+		.d2-4288768299 .fill-N5{fill:#FFFFFF;}
+		.d2-4288768299 .fill-N6{fill:#EEF1F8;}
 		.d2-4288768299 .fill-N7{fill:#FFFFFF;}
 		.d2-4288768299 .fill-B1{fill:#000410;}
+		.d2-4288768299 .fill-B2{fill:#000410;}
+		.d2-4288768299 .fill-B3{fill:#FFFFFF;}
+		.d2-4288768299 .fill-B4{fill:#E7E9EE;}
+		.d2-4288768299 .fill-B5{fill:#F5F6F9;}
 		.d2-4288768299 .fill-B6{fill:#FFFFFF;}
+		.d2-4288768299 .fill-AA2{fill:#6D7284;}
 		.d2-4288768299 .fill-AA4{fill:#F5F6F9;}
+		.d2-4288768299 .fill-AA5{fill:#FFFFFF;}
+		.d2-4288768299 .fill-AB4{fill:#F5F6F9;}
+		.d2-4288768299 .fill-AB5{fill:#FFFFFF;}
+		.d2-4288768299 .stroke-N1{stroke:#000410;}
+		.d2-4288768299 .stroke-N2{stroke:#000410;}
+		.d2-4288768299 .stroke-N3{stroke:#9499AB;}
+		.d2-4288768299 .stroke-N4{stroke:#FFFFFF;}
+		.d2-4288768299 .stroke-N5{stroke:#FFFFFF;}
+		.d2-4288768299 .stroke-N6{stroke:#EEF1F8;}
+		.d2-4288768299 .stroke-N7{stroke:#FFFFFF;}
 		.d2-4288768299 .stroke-B1{stroke:#000410;}
-		.d2-4288768299 .stroke-B2{stroke:#000410;}.appendix text.text{fill:#000410}.md{--color-fg-default:#000410;--color-fg-muted:#000410;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#000410;--color-border-muted:#000410;--color-neutral-muted:#EEF1F8;--color-accent-fg:#000410;--color-accent-emphasis:#000410;--color-attention-subtle:#000410;--color-danger-fg:red;}.light-code{display: block}.dark-code{display: none}@media screen and (prefers-color-scheme:dark){
+		.d2-4288768299 .stroke-B2{stroke:#000410;}
+		.d2-4288768299 .stroke-B3{stroke:#FFFFFF;}
+		.d2-4288768299 .stroke-B4{stroke:#E7E9EE;}
+		.d2-4288768299 .stroke-B5{stroke:#F5F6F9;}
+		.d2-4288768299 .stroke-B6{stroke:#FFFFFF;}
+		.d2-4288768299 .stroke-AA2{stroke:#6D7284;}
+		.d2-4288768299 .stroke-AA4{stroke:#F5F6F9;}
+		.d2-4288768299 .stroke-AA5{stroke:#FFFFFF;}
+		.d2-4288768299 .stroke-AB4{stroke:#F5F6F9;}
+		.d2-4288768299 .stroke-AB5{stroke:#FFFFFF;}
+		.d2-4288768299 .background-color-N1{background-color:#000410;}
+		.d2-4288768299 .background-color-N2{background-color:#000410;}
+		.d2-4288768299 .background-color-N3{background-color:#9499AB;}
+		.d2-4288768299 .background-color-N4{background-color:#FFFFFF;}
+		.d2-4288768299 .background-color-N5{background-color:#FFFFFF;}
+		.d2-4288768299 .background-color-N6{background-color:#EEF1F8;}
+		.d2-4288768299 .background-color-N7{background-color:#FFFFFF;}
+		.d2-4288768299 .background-color-B1{background-color:#000410;}
+		.d2-4288768299 .background-color-B2{background-color:#000410;}
+		.d2-4288768299 .background-color-B3{background-color:#FFFFFF;}
+		.d2-4288768299 .background-color-B4{background-color:#E7E9EE;}
+		.d2-4288768299 .background-color-B5{background-color:#F5F6F9;}
+		.d2-4288768299 .background-color-B6{background-color:#FFFFFF;}
+		.d2-4288768299 .background-color-AA2{background-color:#6D7284;}
+		.d2-4288768299 .background-color-AA4{background-color:#F5F6F9;}
+		.d2-4288768299 .background-color-AA5{background-color:#FFFFFF;}
+		.d2-4288768299 .background-color-AB4{background-color:#F5F6F9;}
+		.d2-4288768299 .background-color-AB5{background-color:#FFFFFF;}
+		.d2-4288768299 .color-N1{color:#000410;}
+		.d2-4288768299 .color-N2{color:#000410;}
+		.d2-4288768299 .color-N3{color:#9499AB;}
+		.d2-4288768299 .color-N4{color:#FFFFFF;}
+		.d2-4288768299 .color-N5{color:#FFFFFF;}
+		.d2-4288768299 .color-N6{color:#EEF1F8;}
+		.d2-4288768299 .color-N7{color:#FFFFFF;}
+		.d2-4288768299 .color-B1{color:#000410;}
+		.d2-4288768299 .color-B2{color:#000410;}
+		.d2-4288768299 .color-B3{color:#FFFFFF;}
+		.d2-4288768299 .color-B4{color:#E7E9EE;}
+		.d2-4288768299 .color-B5{color:#F5F6F9;}
+		.d2-4288768299 .color-B6{color:#FFFFFF;}
+		.d2-4288768299 .color-AA2{color:#6D7284;}
+		.d2-4288768299 .color-AA4{color:#F5F6F9;}
+		.d2-4288768299 .color-AA5{color:#FFFFFF;}
+		.d2-4288768299 .color-AB4{color:#F5F6F9;}
+		.d2-4288768299 .color-AB5{color:#FFFFFF;}.appendix text.text{fill:#000410}.md{--color-fg-default:#000410;--color-fg-muted:#000410;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#000410;--color-border-muted:#000410;--color-neutral-muted:#EEF1F8;--color-accent-fg:#000410;--color-accent-emphasis:#000410;--color-attention-subtle:#000410;--color-danger-fg:red;}.sketch-overlay-B1{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-B2{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-B3{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-B4{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-B5{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-B6{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-AA2{fill:url(#streaks-dark-d2-4288768299);mix-blend-mode:overlay}.sketch-overlay-AA4{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-AA5{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-AB4{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-AB5{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-N1{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-N2{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-N3{fill:url(#streaks-normal-d2-4288768299);mix-blend-mode:color-burn}.sketch-overlay-N4{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-N5{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-N6{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-N7{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.light-code{display: block}.dark-code{display: none}@media screen and (prefers-color-scheme:dark){
 		.d2-4288768299 .fill-N1{fill:#F4F6FA;}
 		.d2-4288768299 .fill-N2{fill:#BBBEC9;}
+		.d2-4288768299 .fill-N3{fill:#868A96;}
+		.d2-4288768299 .fill-N4{fill:#676D7D;}
+		.d2-4288768299 .fill-N5{fill:#3A3D49;}
+		.d2-4288768299 .fill-N6{fill:#191C28;}
 		.d2-4288768299 .fill-N7{fill:#000410;}
 		.d2-4288768299 .fill-B1{fill:#F4F6FA;}
+		.d2-4288768299 .fill-B2{fill:#6B8AFB;}
+		.d2-4288768299 .fill-B3{fill:#3733E9;}
+		.d2-4288768299 .fill-B4{fill:#070B67;}
+		.d2-4288768299 .fill-B5{fill:#0B1197;}
 		.d2-4288768299 .fill-B6{fill:#3733E9;}
+		.d2-4288768299 .fill-AA2{fill:#8B5DEE;}
 		.d2-4288768299 .fill-AA4{fill:#4918B1;}
+		.d2-4288768299 .fill-AA5{fill:#7240DD;}
+		.d2-4288768299 .fill-AB4{fill:#00607C;}
+		.d2-4288768299 .fill-AB5{fill:#01799D;}
+		.d2-4288768299 .stroke-N1{stroke:#F4F6FA;}
+		.d2-4288768299 .stroke-N2{stroke:#BBBEC9;}
+		.d2-4288768299 .stroke-N3{stroke:#868A96;}
+		.d2-4288768299 .stroke-N4{stroke:#676D7D;}
+		.d2-4288768299 .stroke-N5{stroke:#3A3D49;}
+		.d2-4288768299 .stroke-N6{stroke:#191C28;}
+		.d2-4288768299 .stroke-N7{stroke:#000410;}
 		.d2-4288768299 .stroke-B1{stroke:#F4F6FA;}
-		.d2-4288768299 .stroke-B2{stroke:#6B8AFB;}.appendix text.text{fill:#F4F6FA}.md{--color-fg-default:#F4F6FA;--color-fg-muted:#BBBEC9;--color-fg-subtle:#868A96;--color-canvas-default:#000410;--color-canvas-subtle:#191C28;--color-border-default:#F4F6FA;--color-border-muted:#6B8AFB;--color-neutral-muted:#191C28;--color-accent-fg:#6B8AFB;--color-accent-emphasis:#6B8AFB;--color-attention-subtle:#BBBEC9;--color-danger-fg:red;}.light-code{display: none}.dark-code{display: block}}]]></style><g class="X3F1YWxpdHk= compiles"><g class="shape" ><rect x="-458" y="-126" width="450" height="118" stroke="Crimson" class=" fill-B6" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" /></g><text x="-233" y="-71.5" fill="Crimson" class="text-mono-bold" style="text-anchor:middle;font-size:32px"><tspan x="-233" dy="0">LAYER QUALITY:</tspan><tspan x="-233" dy="36.5"> pending style review</tspan></text></g><a href="https://en.wikipedia.org/wiki/Multimodal_learning" xlink:href="https://en.wikipedia.org/wiki/Multimodal_learning"><g class="d2lraQ== _link"><g class="shape" ><rect x="12" y="47" width="77" height="30" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="50.5" y="67.5" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">wiki</text></g></a><g class="dGV4dF9lbWJlZGRlcg== ai_assistant"><g class="shape" ><rect x="109" y="12" width="160" height="100" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="189" y="58.5" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="189" dy="0">Text</tspan><tspan x="189" dy="27.5">Embedder</tspan></text></g><g class="aW1hZ2VfZW1iZWRkZXI= ai_assistant"><g class="shape" ><rect x="289" y="12" width="159" height="100" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="368.5" y="58.5" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="368.5" dy="0">Image</tspan><tspan x="368.5" dy="27.5">Embedder</tspan></text></g><g class="YXVkaW9fZW1iZWRkZXI= ai_assistant"><g class="shape" ><rect x="468" y="12" width="160" height="100" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="548" y="58.5" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="548" dy="0">Audio</tspan><tspan x="548" dy="27.5">Embedder</tspan></text></g><g class="dW5pZmllZF92ZWN0b3Jfc3RvcmU= obj_db"><g class="shape" ><path d="M 252 216 C 252 192 356 192 368 192 C 380 192 484 192 484 216 V 324 C 484 348 380 348 368 348 C 356 348 252 348 252 324 V 216 Z" class=" stroke-B1 fill-AA4" style="stroke-width:2;" /><path d="M 252 216 C 252 240 356 240 368 240 C 380 240 484 240 484 216" class=" stroke-B1 fill-AA4" style="stroke-width:2;" /></g><text x="368" y="278.5" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:26px"><tspan x="368" dy="0">Unified</tspan><tspan x="368" dy="29.5">Vector Store</tspan></text></g><g class="bXVsdGltb2RhbF9sbG0= ai_assistant"><g class="shape" ><rect x="232" y="509" width="272" height="100" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="368" y="555.5" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="368" dy="0">Multimodal LLM</tspan><tspan x="368" dy="27.5">(GPT-4V, Gemini)</tspan></text></g><g class="KHRleHRfZW1iZWRkZXIgLSZndDsgdW5pZmllZF92ZWN0b3Jfc3RvcmUpWzBd"><marker id="mk-d2-4288768299-3488378134" markerWidth="10" markerHeight="12" refX="7" refY="6" viewBox="0 0 10 12" orient="auto" markerUnits="userSpaceOnUse"> <polygon points="0,0 10,6 0,12" class="connection fill-B1" stroke-width="2" /> </marker><path d="M 189 114 L 189 152 S 189 152 189 152 L 310.5 152 S 310.5 152 310.5 152 L 310.953492 191.00027" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-4288768299-3488378134)" mask="url(#d2-4288768299)" /></g><g class="KGltYWdlX2VtYmVkZGVyIC0mZ3Q7IHVuaWZpZWRfdmVjdG9yX3N0b3JlKVswXQ=="><path d="M 368.5125 113.999961 L 368.975 188.000078" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-4288768299-3488378134)" mask="url(#d2-4288768299)" /></g><g class="KGF1ZGlvX2VtYmVkZGVyIC0mZ3Q7IHVuaWZpZWRfdmVjdG9yX3N0b3JlKVswXQ=="><path d="M 548 114 L 548 152 S 548 152 548 152 L 426.5 152 S 426.5 152 426.5 152 L 426.953492 191.00027" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-4288768299-3488378134)" mask="url(#d2-4288768299)" /></g><g class="KHVuaWZpZWRfdmVjdG9yX3N0b3JlIC0mZ3Q7IG11bHRpbW9kYWxfbGxtKVswXQ=="><path d="M 368.987578 349.999961 L 368.024844 505.000077" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-4288768299-3488378134)" mask="url(#d2-4288768299)" /><text x="369" y="434" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:16px">MULTIMODAL CONTEXT</text></g><g transform="translate(73 31)" class="appendix-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+		.d2-4288768299 .stroke-B2{stroke:#6B8AFB;}
+		.d2-4288768299 .stroke-B3{stroke:#3733E9;}
+		.d2-4288768299 .stroke-B4{stroke:#070B67;}
+		.d2-4288768299 .stroke-B5{stroke:#0B1197;}
+		.d2-4288768299 .stroke-B6{stroke:#3733E9;}
+		.d2-4288768299 .stroke-AA2{stroke:#8B5DEE;}
+		.d2-4288768299 .stroke-AA4{stroke:#4918B1;}
+		.d2-4288768299 .stroke-AA5{stroke:#7240DD;}
+		.d2-4288768299 .stroke-AB4{stroke:#00607C;}
+		.d2-4288768299 .stroke-AB5{stroke:#01799D;}
+		.d2-4288768299 .background-color-N1{background-color:#F4F6FA;}
+		.d2-4288768299 .background-color-N2{background-color:#BBBEC9;}
+		.d2-4288768299 .background-color-N3{background-color:#868A96;}
+		.d2-4288768299 .background-color-N4{background-color:#676D7D;}
+		.d2-4288768299 .background-color-N5{background-color:#3A3D49;}
+		.d2-4288768299 .background-color-N6{background-color:#191C28;}
+		.d2-4288768299 .background-color-N7{background-color:#000410;}
+		.d2-4288768299 .background-color-B1{background-color:#F4F6FA;}
+		.d2-4288768299 .background-color-B2{background-color:#6B8AFB;}
+		.d2-4288768299 .background-color-B3{background-color:#3733E9;}
+		.d2-4288768299 .background-color-B4{background-color:#070B67;}
+		.d2-4288768299 .background-color-B5{background-color:#0B1197;}
+		.d2-4288768299 .background-color-B6{background-color:#3733E9;}
+		.d2-4288768299 .background-color-AA2{background-color:#8B5DEE;}
+		.d2-4288768299 .background-color-AA4{background-color:#4918B1;}
+		.d2-4288768299 .background-color-AA5{background-color:#7240DD;}
+		.d2-4288768299 .background-color-AB4{background-color:#00607C;}
+		.d2-4288768299 .background-color-AB5{background-color:#01799D;}
+		.d2-4288768299 .color-N1{color:#F4F6FA;}
+		.d2-4288768299 .color-N2{color:#BBBEC9;}
+		.d2-4288768299 .color-N3{color:#868A96;}
+		.d2-4288768299 .color-N4{color:#676D7D;}
+		.d2-4288768299 .color-N5{color:#3A3D49;}
+		.d2-4288768299 .color-N6{color:#191C28;}
+		.d2-4288768299 .color-N7{color:#000410;}
+		.d2-4288768299 .color-B1{color:#F4F6FA;}
+		.d2-4288768299 .color-B2{color:#6B8AFB;}
+		.d2-4288768299 .color-B3{color:#3733E9;}
+		.d2-4288768299 .color-B4{color:#070B67;}
+		.d2-4288768299 .color-B5{color:#0B1197;}
+		.d2-4288768299 .color-B6{color:#3733E9;}
+		.d2-4288768299 .color-AA2{color:#8B5DEE;}
+		.d2-4288768299 .color-AA4{color:#4918B1;}
+		.d2-4288768299 .color-AA5{color:#7240DD;}
+		.d2-4288768299 .color-AB4{color:#00607C;}
+		.d2-4288768299 .color-AB5{color:#01799D;}.appendix text.text{fill:#F4F6FA}.md{--color-fg-default:#F4F6FA;--color-fg-muted:#BBBEC9;--color-fg-subtle:#868A96;--color-canvas-default:#000410;--color-canvas-subtle:#191C28;--color-border-default:#F4F6FA;--color-border-muted:#6B8AFB;--color-neutral-muted:#191C28;--color-accent-fg:#6B8AFB;--color-accent-emphasis:#6B8AFB;--color-attention-subtle:#BBBEC9;--color-danger-fg:red;}.sketch-overlay-B1{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-B2{fill:url(#streaks-normal-d2-4288768299);mix-blend-mode:color-burn}.sketch-overlay-B3{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-B4{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-B5{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-B6{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-AA2{fill:url(#streaks-dark-d2-4288768299);mix-blend-mode:overlay}.sketch-overlay-AA4{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-AA5{fill:url(#streaks-dark-d2-4288768299);mix-blend-mode:overlay}.sketch-overlay-AB4{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-AB5{fill:url(#streaks-dark-d2-4288768299);mix-blend-mode:overlay}.sketch-overlay-N1{fill:url(#streaks-bright-d2-4288768299);mix-blend-mode:darken}.sketch-overlay-N2{fill:url(#streaks-normal-d2-4288768299);mix-blend-mode:color-burn}.sketch-overlay-N3{fill:url(#streaks-dark-d2-4288768299);mix-blend-mode:overlay}.sketch-overlay-N4{fill:url(#streaks-dark-d2-4288768299);mix-blend-mode:overlay}.sketch-overlay-N5{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-N6{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.sketch-overlay-N7{fill:url(#streaks-darker-d2-4288768299);mix-blend-mode:lighten}.light-code{display: none}.dark-code{display: block}}]]></style><g class="X3F1YWxpdHk= compiles"><g class="shape" ><rect x="-458.000000" y="-126.000000" width="450.000000" height="118.000000" stroke="Crimson" class=" fill-B6" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" /></g><text x="-233.000000" y="-71.500000" fill="Crimson" class="text-mono-bold" style="text-anchor:middle;font-size:32px"><tspan x="-233.000000" dy="0.000000">LAYER QUALITY:</tspan><tspan x="-233.000000" dy="36.500000"> pending style review</tspan></text></g><a href="https://en.wikipedia.org/wiki/Multimodal_learning" xlink:href="https://en.wikipedia.org/wiki/Multimodal_learning"><g class="d2lraQ== _link"><g class="shape" ><rect x="12.000000" y="47.000000" width="77.000000" height="30.000000" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="50.500000" y="67.500000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">wiki</text></g></a><g class="dGV4dF9lbWJlZGRlcg== ai_assistant"><g class="shape" ><rect x="109.000000" y="12.000000" width="160.000000" height="100.000000" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="189.000000" y="58.500000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="189.000000" dy="0.000000">Text</tspan><tspan x="189.000000" dy="27.500000">Embedder</tspan></text></g><g class="aW1hZ2VfZW1iZWRkZXI= ai_assistant"><g class="shape" ><rect x="289.000000" y="12.000000" width="159.000000" height="100.000000" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="368.500000" y="58.500000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="368.500000" dy="0.000000">Image</tspan><tspan x="368.500000" dy="27.500000">Embedder</tspan></text></g><g class="YXVkaW9fZW1iZWRkZXI= ai_assistant"><g class="shape" ><rect x="468.000000" y="12.000000" width="160.000000" height="100.000000" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="548.000000" y="58.500000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="548.000000" dy="0.000000">Audio</tspan><tspan x="548.000000" dy="27.500000">Embedder</tspan></text></g><g class="dW5pZmllZF92ZWN0b3Jfc3RvcmU= obj_db"><g class="shape" ><path d="M 252 216 C 252 192 356 192 368 192 C 380 192 484 192 484 216 V 324 C 484 348 380 348 368 348 C 356 348 252 348 252 324 V 216 Z" class=" stroke-B1 fill-AA4" style="stroke-width:2;" /><path d="M 252 216 C 252 240 356 240 368 240 C 380 240 484 240 484 216" class=" stroke-B1 fill-AA4" style="stroke-width:2;" /></g><text x="368.000000" y="278.500000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:26px"><tspan x="368.000000" dy="0.000000">Unified</tspan><tspan x="368.000000" dy="29.500000">Vector Store</tspan></text></g><g class="bXVsdGltb2RhbF9sbG0= ai_assistant"><g class="shape" ><rect x="232.000000" y="509.000000" width="272.000000" height="100.000000" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="368.000000" y="555.500000" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:24px"><tspan x="368.000000" dy="0.000000">Multimodal LLM</tspan><tspan x="368.000000" dy="27.500000">(GPT-4V, Gemini)</tspan></text></g><g class="KHRleHRfZW1iZWRkZXIgLSZndDsgdW5pZmllZF92ZWN0b3Jfc3RvcmUpWzBd"><marker id="mk-d2-4288768299-3488378134" markerWidth="10.000000" markerHeight="12.000000" refX="7.000000" refY="6.000000" viewBox="0.000000 0.000000 10.000000 12.000000" orient="auto" markerUnits="userSpaceOnUse"> <polygon points="0.000000,0.000000 10.000000,6.000000 0.000000,12.000000" class="connection fill-B1" stroke-width="2" /> </marker><path d="M 189.000000 114.000000 L 189.000000 152.000000 S 189.000000 152.000000 189.000000 152.000000 L 310.500000 152.000000 S 310.500000 152.000000 310.500000 152.000000 L 310.953492 191.000270" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-4288768299-3488378134)" mask="url(#d2-4288768299)" /></g><g class="KGltYWdlX2VtYmVkZGVyIC0mZ3Q7IHVuaWZpZWRfdmVjdG9yX3N0b3JlKVswXQ=="><path d="M 368.512500 113.999961 L 368.975000 188.000078" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-4288768299-3488378134)" mask="url(#d2-4288768299)" /></g><g class="KGF1ZGlvX2VtYmVkZGVyIC0mZ3Q7IHVuaWZpZWRfdmVjdG9yX3N0b3JlKVswXQ=="><path d="M 548.000000 114.000000 L 548.000000 152.000000 S 548.000000 152.000000 548.000000 152.000000 L 426.500000 152.000000 S 426.500000 152.000000 426.500000 152.000000 L 426.953492 191.000270" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-4288768299-3488378134)" mask="url(#d2-4288768299)" /></g><g class="KHVuaWZpZWRfdmVjdG9yX3N0b3JlIC0mZ3Q7IG11bHRpbW9kYWxfbGxtKVswXQ=="><path d="M 368.987578 349.999961 L 368.024844 505.000077" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-4288768299-3488378134)" mask="url(#d2-4288768299)" /><text x="369.000000" y="434.000000" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:16px">MULTIMODAL CONTEXT</text></g><g transform="translate(73 31)" class="appendix-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_3440_35088111-d2-4288768299-O5UWW2I)">
 <path d="M16 31.1109C24.3456 31.1109 31.1111 24.3454 31.1111 15.9998C31.1111 7.65415 24.3456 0.888672 16 0.888672C7.65436 0.888672 0.888885 7.65415 0.888885 15.9998C0.888885 24.3454 7.65436 31.1109 16 31.1109Z" fill="white" stroke="#DEE1EB"/>
 <path d="M14.3909 16.7965C14.7364 17.2584 15.1772 17.6406 15.6834 17.9171C16.1896 18.1938 16.7494 18.3582 17.3248 18.3993C17.9001 18.4405 18.4777 18.3575 19.0181 18.1559C19.5586 17.9543 20.0492 17.6389 20.4571 17.2309L22.8708 14.8173C23.6036 14.0586 24.0089 13.0425 23.9998 11.9877C23.9906 10.933 23.5676 9.92404 22.8217 9.17821C22.0759 8.43237 21.067 8.00931 20.0123 8.00015C18.9575 7.99098 17.9413 8.39644 17.1827 9.1292L15.7988 10.505" stroke="#2E3346" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -64,5 +192,5 @@
 </svg>
 </g><mask id="d2-4288768299" maskUnits="userSpaceOnUse" x="-560" y="-228" width="1289" height="938">
 <rect x="-560" y="-228" width="1289" height="938" fill="white"></rect>
-<rect x="280" y="418" width="178" height="21" fill="black"></rect>
+<rect x="280.000000" y="418.000000" width="178" height="21" fill="black"></rect>
 </mask></svg></svg>

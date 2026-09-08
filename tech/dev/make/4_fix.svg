@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.9.0" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1861 490"><svg class="d2-2571458240 d2-svg" width="1861" height="490" viewBox="-560 -228 1861 490"><rect x="-560" y="-228" width="1861" height="490" rx="0" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
+<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.8.2" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1861 490"><svg class="d2-2571458240 d2-svg" width="1861" height="490" viewBox="-560 -228 1861 490"><rect x="-560.000000" y="-228.000000" width="1861.000000" height="490.000000" rx="0.000000" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
 .d2-2571458240 .text-mono {
 	font-family: "d2-2571458240-font-mono";
 }
@@ -26,25 +26,159 @@
 }
 
 		.d2-2571458240 .fill-N1{fill:#000410;}
+		.d2-2571458240 .fill-N2{fill:#0000B8;}
+		.d2-2571458240 .fill-N3{fill:#9499AB;}
+		.d2-2571458240 .fill-N4{fill:#CFD2DD;}
+		.d2-2571458240 .fill-N5{fill:#C3DEF3;}
+		.d2-2571458240 .fill-N6{fill:#EEF1F8;}
 		.d2-2571458240 .fill-N7{fill:#FFFFFF;}
+		.d2-2571458240 .fill-B1{fill:#000410;}
+		.d2-2571458240 .fill-B2{fill:#0000E4;}
+		.d2-2571458240 .fill-B3{fill:#5AA4DC;}
+		.d2-2571458240 .fill-B4{fill:#E7E9EE;}
+		.d2-2571458240 .fill-B5{fill:#F5F6F9;}
 		.d2-2571458240 .fill-B6{fill:#FFFFFF;}
+		.d2-2571458240 .fill-AA2{fill:#008566;}
+		.d2-2571458240 .fill-AA4{fill:#45BBA5;}
+		.d2-2571458240 .fill-AA5{fill:#7ACCBD;}
+		.d2-2571458240 .fill-AB4{fill:#F1C759;}
+		.d2-2571458240 .fill-AB5{fill:#F9E088;}
 		.d2-2571458240 .stroke-N1{stroke:#000410;}
-		.d2-2571458240 .stroke-B2{stroke:#0000E4;}.appendix text.text{fill:#000410}.md{--color-fg-default:#000410;--color-fg-muted:#0000B8;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#000410;--color-border-muted:#0000E4;--color-neutral-muted:#EEF1F8;--color-accent-fg:#0000E4;--color-accent-emphasis:#0000E4;--color-attention-subtle:#0000B8;--color-danger-fg:red;}.light-code{display: block}.dark-code{display: none}@media screen and (prefers-color-scheme:dark){
+		.d2-2571458240 .stroke-N2{stroke:#0000B8;}
+		.d2-2571458240 .stroke-N3{stroke:#9499AB;}
+		.d2-2571458240 .stroke-N4{stroke:#CFD2DD;}
+		.d2-2571458240 .stroke-N5{stroke:#C3DEF3;}
+		.d2-2571458240 .stroke-N6{stroke:#EEF1F8;}
+		.d2-2571458240 .stroke-N7{stroke:#FFFFFF;}
+		.d2-2571458240 .stroke-B1{stroke:#000410;}
+		.d2-2571458240 .stroke-B2{stroke:#0000E4;}
+		.d2-2571458240 .stroke-B3{stroke:#5AA4DC;}
+		.d2-2571458240 .stroke-B4{stroke:#E7E9EE;}
+		.d2-2571458240 .stroke-B5{stroke:#F5F6F9;}
+		.d2-2571458240 .stroke-B6{stroke:#FFFFFF;}
+		.d2-2571458240 .stroke-AA2{stroke:#008566;}
+		.d2-2571458240 .stroke-AA4{stroke:#45BBA5;}
+		.d2-2571458240 .stroke-AA5{stroke:#7ACCBD;}
+		.d2-2571458240 .stroke-AB4{stroke:#F1C759;}
+		.d2-2571458240 .stroke-AB5{stroke:#F9E088;}
+		.d2-2571458240 .background-color-N1{background-color:#000410;}
+		.d2-2571458240 .background-color-N2{background-color:#0000B8;}
+		.d2-2571458240 .background-color-N3{background-color:#9499AB;}
+		.d2-2571458240 .background-color-N4{background-color:#CFD2DD;}
+		.d2-2571458240 .background-color-N5{background-color:#C3DEF3;}
+		.d2-2571458240 .background-color-N6{background-color:#EEF1F8;}
+		.d2-2571458240 .background-color-N7{background-color:#FFFFFF;}
+		.d2-2571458240 .background-color-B1{background-color:#000410;}
+		.d2-2571458240 .background-color-B2{background-color:#0000E4;}
+		.d2-2571458240 .background-color-B3{background-color:#5AA4DC;}
+		.d2-2571458240 .background-color-B4{background-color:#E7E9EE;}
+		.d2-2571458240 .background-color-B5{background-color:#F5F6F9;}
+		.d2-2571458240 .background-color-B6{background-color:#FFFFFF;}
+		.d2-2571458240 .background-color-AA2{background-color:#008566;}
+		.d2-2571458240 .background-color-AA4{background-color:#45BBA5;}
+		.d2-2571458240 .background-color-AA5{background-color:#7ACCBD;}
+		.d2-2571458240 .background-color-AB4{background-color:#F1C759;}
+		.d2-2571458240 .background-color-AB5{background-color:#F9E088;}
+		.d2-2571458240 .color-N1{color:#000410;}
+		.d2-2571458240 .color-N2{color:#0000B8;}
+		.d2-2571458240 .color-N3{color:#9499AB;}
+		.d2-2571458240 .color-N4{color:#CFD2DD;}
+		.d2-2571458240 .color-N5{color:#C3DEF3;}
+		.d2-2571458240 .color-N6{color:#EEF1F8;}
+		.d2-2571458240 .color-N7{color:#FFFFFF;}
+		.d2-2571458240 .color-B1{color:#000410;}
+		.d2-2571458240 .color-B2{color:#0000E4;}
+		.d2-2571458240 .color-B3{color:#5AA4DC;}
+		.d2-2571458240 .color-B4{color:#E7E9EE;}
+		.d2-2571458240 .color-B5{color:#F5F6F9;}
+		.d2-2571458240 .color-B6{color:#FFFFFF;}
+		.d2-2571458240 .color-AA2{color:#008566;}
+		.d2-2571458240 .color-AA4{color:#45BBA5;}
+		.d2-2571458240 .color-AA5{color:#7ACCBD;}
+		.d2-2571458240 .color-AB4{color:#F1C759;}
+		.d2-2571458240 .color-AB5{color:#F9E088;}.appendix text.text{fill:#000410}.md{--color-fg-default:#000410;--color-fg-muted:#0000B8;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#000410;--color-border-muted:#0000E4;--color-neutral-muted:#EEF1F8;--color-accent-fg:#0000E4;--color-accent-emphasis:#0000E4;--color-attention-subtle:#0000B8;--color-danger-fg:red;}.sketch-overlay-B1{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-B2{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-B3{fill:url(#streaks-normal-d2-2571458240);mix-blend-mode:color-burn}.sketch-overlay-B4{fill:url(#streaks-bright-d2-2571458240);mix-blend-mode:darken}.sketch-overlay-B5{fill:url(#streaks-bright-d2-2571458240);mix-blend-mode:darken}.sketch-overlay-B6{fill:url(#streaks-bright-d2-2571458240);mix-blend-mode:darken}.sketch-overlay-AA2{fill:url(#streaks-dark-d2-2571458240);mix-blend-mode:overlay}.sketch-overlay-AA4{fill:url(#streaks-normal-d2-2571458240);mix-blend-mode:color-burn}.sketch-overlay-AA5{fill:url(#streaks-normal-d2-2571458240);mix-blend-mode:color-burn}.sketch-overlay-AB4{fill:url(#streaks-normal-d2-2571458240);mix-blend-mode:color-burn}.sketch-overlay-AB5{fill:url(#streaks-normal-d2-2571458240);mix-blend-mode:color-burn}.sketch-overlay-N1{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-N2{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-N3{fill:url(#streaks-normal-d2-2571458240);mix-blend-mode:color-burn}.sketch-overlay-N4{fill:url(#streaks-normal-d2-2571458240);mix-blend-mode:color-burn}.sketch-overlay-N5{fill:url(#streaks-normal-d2-2571458240);mix-blend-mode:color-burn}.sketch-overlay-N6{fill:url(#streaks-bright-d2-2571458240);mix-blend-mode:darken}.sketch-overlay-N7{fill:url(#streaks-bright-d2-2571458240);mix-blend-mode:darken}.light-code{display: block}.dark-code{display: none}@media screen and (prefers-color-scheme:dark){
 		.d2-2571458240 .fill-N1{fill:#F4F6FA;}
+		.d2-2571458240 .fill-N2{fill:#BBBEC9;}
+		.d2-2571458240 .fill-N3{fill:#868A96;}
+		.d2-2571458240 .fill-N4{fill:#676D7D;}
+		.d2-2571458240 .fill-N5{fill:#3A3D49;}
+		.d2-2571458240 .fill-N6{fill:#191C28;}
 		.d2-2571458240 .fill-N7{fill:#000410;}
+		.d2-2571458240 .fill-B1{fill:#F4F6FA;}
+		.d2-2571458240 .fill-B2{fill:#6B8AFB;}
+		.d2-2571458240 .fill-B3{fill:#3733E9;}
+		.d2-2571458240 .fill-B4{fill:#070B67;}
+		.d2-2571458240 .fill-B5{fill:#0B1197;}
 		.d2-2571458240 .fill-B6{fill:#3733E9;}
+		.d2-2571458240 .fill-AA2{fill:#8B5DEE;}
+		.d2-2571458240 .fill-AA4{fill:#4918B1;}
+		.d2-2571458240 .fill-AA5{fill:#7240DD;}
+		.d2-2571458240 .fill-AB4{fill:#00607C;}
+		.d2-2571458240 .fill-AB5{fill:#01799D;}
 		.d2-2571458240 .stroke-N1{stroke:#F4F6FA;}
-		.d2-2571458240 .stroke-B2{stroke:#6B8AFB;}.appendix text.text{fill:#F4F6FA}.md{--color-fg-default:#F4F6FA;--color-fg-muted:#BBBEC9;--color-fg-subtle:#868A96;--color-canvas-default:#000410;--color-canvas-subtle:#191C28;--color-border-default:#F4F6FA;--color-border-muted:#6B8AFB;--color-neutral-muted:#191C28;--color-accent-fg:#6B8AFB;--color-accent-emphasis:#6B8AFB;--color-attention-subtle:#BBBEC9;--color-danger-fg:red;}.light-code{display: none}.dark-code{display: block}}]]></style><g class="X3F1YWxpdHk= compiles"><g class="shape" ><rect x="-458" y="-126" width="450" height="118" stroke="Crimson" class=" fill-B6" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" /></g><text x="-233" y="-71.5" fill="Crimson" class="text-mono-bold" style="text-anchor:middle;font-size:32px"><tspan x="-233" dy="0">LAYER QUALITY:</tspan><tspan x="-233" dy="36.5"> pending style review</tspan></text></g><g class="bWFrZWZpbGU= to_add"><g class="shape" ></g><g transform="translate(12 26)" class="light-code"><rect width="602" height="120" class="shape stroke-N1" style="fill:#f7f7f7;stroke-width:3;" /><g transform="translate(8 8)"><text class="text-mono" x="0" y="1em"><tspan fill="#6639ba">dev</tspan><tspan fill="#0550ae">:</tspan>
-</text><text class="text-mono" x="0" y="2.3em">&#160;&#160;&#160;&#160;docker-compose&#160;up&#160;-d
-</text><text class="text-mono" x="0" y="3.6em">&#160;&#160;&#160;&#160;<tspan fill="#6639ba">trap</tspan>&#160;<tspan fill="#0a3069">'kill&#160;0'</tspan>&#160;EXIT<tspan fill="#1f2328">;</tspan>&#160;<tspan fill="#0a3069">\
-</tspan></text><text class="text-mono" x="0" y="4.9em">&#160;&#160;&#160;&#160;<tspan fill="#6639ba">cd</tspan>&#160;backend&#160;<tspan fill="#0550ae">&amp;&amp;</tspan>&#160;.venv/bin/uvicorn&#160;app.main:app&#160;--reload&#160;<tspan fill="#1f2328">&amp;</tspan>&#160;<tspan fill="#0a3069">\
-</tspan></text><text class="text-mono" x="0" y="6.2em">&#160;&#160;&#160;&#160;<tspan fill="#6639ba">cd</tspan>&#160;frontend&#160;<tspan fill="#0550ae">&amp;&amp;</tspan>&#160;npm&#160;run&#160;dev
-</text></g></g><g transform="translate(12 26)" class="dark-code"><rect width="602" height="120" class="shape stroke-N1" style="fill:#1e1e2e;stroke-width:3;" /><g transform="translate(8 8)"><text class="text-mono" x="0" y="1em"><tspan fill="#89b4fa">dev</tspan><tspan fill="#89dceb" class="text-mono-bold">:</tspan><tspan fill="#cdd6f4"></tspan><tspan fill="#cdd6f4">
-</tspan></text><text class="text-mono" x="0" y="2.3em"><tspan fill="#cdd6f4">&#160;&#160;&#160;&#160;</tspan><tspan fill="#cdd6f4">docker-compose</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">up</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">-d</tspan><tspan fill="#cdd6f4">
-</tspan></text><text class="text-mono" x="0" y="3.6em"><tspan fill="#cdd6f4">&#160;&#160;&#160;&#160;</tspan><tspan fill="#89dceb">trap</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#a6e3a1">'kill&#160;0'</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">EXIT</tspan><tspan fill="#cdd6f4">;</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#89b4fa">\
-</tspan></text><text class="text-mono" x="0" y="4.9em"><tspan fill="#cdd6f4">&#160;&#160;&#160;&#160;</tspan><tspan fill="#89dceb">cd</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">backend</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#89dceb" class="text-mono-bold">&amp;&amp;</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">.venv/bin/uvicorn</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">app.main:app</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">--reload</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">&amp;</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#89b4fa">\
-</tspan></text><text class="text-mono" x="0" y="6.2em"><tspan fill="#cdd6f4">&#160;&#160;&#160;&#160;</tspan><tspan fill="#89dceb">cd</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">frontend</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#89dceb" class="text-mono-bold">&amp;&amp;</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">npm</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">run</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">dev</tspan><tspan fill="#cdd6f4">
-</tspan></text></g></g></g><g class="bm90ZQ=="><g class="shape" ></g><text x="917" y="28" class="text-mono fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="917" dy="0">TRAP &#39;KILL 0&#39; EXIT FIRES ON NORMAL EXIT AND ON THE SHELL&#39;S</tspan><tspan x="917" dy="16.555556">DEFAULT TERMINATION FROM AN UNHANDLED INT/TERM, SENDING THE</tspan><tspan x="917" dy="16.555556">SIGNAL TO PGID 0 (THE CALLER&#39;S OWN GROUP) - WHICH ALREADY</tspan><tspan x="917" dy="16.555556">CONTAINS EVERY PROCESS HERE, SINCE DASH NEVER SPLITS THEM</tspan><tspan x="917" dy="16.555556">OUT. REPLACES THE DEAD `KILL %1` LINE.</tspan><tspan x="917" dy="16.555556"> </tspan><tspan x="917" dy="16.555556">THIS ONLY HELPS ONCE THE SIGNAL IS ACTUALLY DELIVERED - IT</tspan><tspan x="917" dy="16.555556">DOES NOT FIX THE TMUX PANE-FOCUS MISS, WHICH IS A SEPARATE,</tspan><tspan x="917" dy="16.555556">UNRELATED FAILURE MODE (SEE 1_TMUX_FOCUS LAYER).</tspan></text></g><mask id="d2-2571458240" maskUnits="userSpaceOnUse" x="-560" y="-228" width="1861" height="490">
+		.d2-2571458240 .stroke-N2{stroke:#BBBEC9;}
+		.d2-2571458240 .stroke-N3{stroke:#868A96;}
+		.d2-2571458240 .stroke-N4{stroke:#676D7D;}
+		.d2-2571458240 .stroke-N5{stroke:#3A3D49;}
+		.d2-2571458240 .stroke-N6{stroke:#191C28;}
+		.d2-2571458240 .stroke-N7{stroke:#000410;}
+		.d2-2571458240 .stroke-B1{stroke:#F4F6FA;}
+		.d2-2571458240 .stroke-B2{stroke:#6B8AFB;}
+		.d2-2571458240 .stroke-B3{stroke:#3733E9;}
+		.d2-2571458240 .stroke-B4{stroke:#070B67;}
+		.d2-2571458240 .stroke-B5{stroke:#0B1197;}
+		.d2-2571458240 .stroke-B6{stroke:#3733E9;}
+		.d2-2571458240 .stroke-AA2{stroke:#8B5DEE;}
+		.d2-2571458240 .stroke-AA4{stroke:#4918B1;}
+		.d2-2571458240 .stroke-AA5{stroke:#7240DD;}
+		.d2-2571458240 .stroke-AB4{stroke:#00607C;}
+		.d2-2571458240 .stroke-AB5{stroke:#01799D;}
+		.d2-2571458240 .background-color-N1{background-color:#F4F6FA;}
+		.d2-2571458240 .background-color-N2{background-color:#BBBEC9;}
+		.d2-2571458240 .background-color-N3{background-color:#868A96;}
+		.d2-2571458240 .background-color-N4{background-color:#676D7D;}
+		.d2-2571458240 .background-color-N5{background-color:#3A3D49;}
+		.d2-2571458240 .background-color-N6{background-color:#191C28;}
+		.d2-2571458240 .background-color-N7{background-color:#000410;}
+		.d2-2571458240 .background-color-B1{background-color:#F4F6FA;}
+		.d2-2571458240 .background-color-B2{background-color:#6B8AFB;}
+		.d2-2571458240 .background-color-B3{background-color:#3733E9;}
+		.d2-2571458240 .background-color-B4{background-color:#070B67;}
+		.d2-2571458240 .background-color-B5{background-color:#0B1197;}
+		.d2-2571458240 .background-color-B6{background-color:#3733E9;}
+		.d2-2571458240 .background-color-AA2{background-color:#8B5DEE;}
+		.d2-2571458240 .background-color-AA4{background-color:#4918B1;}
+		.d2-2571458240 .background-color-AA5{background-color:#7240DD;}
+		.d2-2571458240 .background-color-AB4{background-color:#00607C;}
+		.d2-2571458240 .background-color-AB5{background-color:#01799D;}
+		.d2-2571458240 .color-N1{color:#F4F6FA;}
+		.d2-2571458240 .color-N2{color:#BBBEC9;}
+		.d2-2571458240 .color-N3{color:#868A96;}
+		.d2-2571458240 .color-N4{color:#676D7D;}
+		.d2-2571458240 .color-N5{color:#3A3D49;}
+		.d2-2571458240 .color-N6{color:#191C28;}
+		.d2-2571458240 .color-N7{color:#000410;}
+		.d2-2571458240 .color-B1{color:#F4F6FA;}
+		.d2-2571458240 .color-B2{color:#6B8AFB;}
+		.d2-2571458240 .color-B3{color:#3733E9;}
+		.d2-2571458240 .color-B4{color:#070B67;}
+		.d2-2571458240 .color-B5{color:#0B1197;}
+		.d2-2571458240 .color-B6{color:#3733E9;}
+		.d2-2571458240 .color-AA2{color:#8B5DEE;}
+		.d2-2571458240 .color-AA4{color:#4918B1;}
+		.d2-2571458240 .color-AA5{color:#7240DD;}
+		.d2-2571458240 .color-AB4{color:#00607C;}
+		.d2-2571458240 .color-AB5{color:#01799D;}.appendix text.text{fill:#F4F6FA}.md{--color-fg-default:#F4F6FA;--color-fg-muted:#BBBEC9;--color-fg-subtle:#868A96;--color-canvas-default:#000410;--color-canvas-subtle:#191C28;--color-border-default:#F4F6FA;--color-border-muted:#6B8AFB;--color-neutral-muted:#191C28;--color-accent-fg:#6B8AFB;--color-accent-emphasis:#6B8AFB;--color-attention-subtle:#BBBEC9;--color-danger-fg:red;}.sketch-overlay-B1{fill:url(#streaks-bright-d2-2571458240);mix-blend-mode:darken}.sketch-overlay-B2{fill:url(#streaks-normal-d2-2571458240);mix-blend-mode:color-burn}.sketch-overlay-B3{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-B4{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-B5{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-B6{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-AA2{fill:url(#streaks-dark-d2-2571458240);mix-blend-mode:overlay}.sketch-overlay-AA4{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-AA5{fill:url(#streaks-dark-d2-2571458240);mix-blend-mode:overlay}.sketch-overlay-AB4{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-AB5{fill:url(#streaks-dark-d2-2571458240);mix-blend-mode:overlay}.sketch-overlay-N1{fill:url(#streaks-bright-d2-2571458240);mix-blend-mode:darken}.sketch-overlay-N2{fill:url(#streaks-normal-d2-2571458240);mix-blend-mode:color-burn}.sketch-overlay-N3{fill:url(#streaks-dark-d2-2571458240);mix-blend-mode:overlay}.sketch-overlay-N4{fill:url(#streaks-dark-d2-2571458240);mix-blend-mode:overlay}.sketch-overlay-N5{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-N6{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.sketch-overlay-N7{fill:url(#streaks-darker-d2-2571458240);mix-blend-mode:lighten}.light-code{display: none}.dark-code{display: block}}]]></style><g class="X3F1YWxpdHk= compiles"><g class="shape" ><rect x="-458.000000" y="-126.000000" width="450.000000" height="118.000000" stroke="Crimson" class=" fill-B6" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" /></g><text x="-233.000000" y="-71.500000" fill="Crimson" class="text-mono-bold" style="text-anchor:middle;font-size:32px"><tspan x="-233.000000" dy="0.000000">LAYER QUALITY:</tspan><tspan x="-233.000000" dy="36.500000"> pending style review</tspan></text></g><g class="bWFrZWZpbGU= to_add"><g class="shape" ></g><g transform="translate(12.000000 26.000000)" class="light-code"><rect width="602.000000" height="120.000000" class="shape stroke-N1" style="fill:#f7f7f7;stroke-width:3;" /><g transform="translate(8.000000 8.000000)"><text class="text-mono" x="0" y="1.000000em"><tspan fill="#6639ba">dev</tspan><tspan fill="#0550ae">:</tspan>
+</text><text class="text-mono" x="0" y="2.300000em">&#160;&#160;&#160;&#160;docker-compose&#160;up&#160;-d
+</text><text class="text-mono" x="0" y="3.600000em">&#160;&#160;&#160;&#160;<tspan fill="#6639ba">trap</tspan>&#160;<tspan fill="#0a3069">'kill&#160;0'</tspan>&#160;EXIT<tspan fill="#1f2328">;</tspan>&#160;<tspan fill="#0a3069">\
+</tspan></text><text class="text-mono" x="0" y="4.900000em">&#160;&#160;&#160;&#160;<tspan fill="#6639ba">cd</tspan>&#160;backend&#160;<tspan fill="#0550ae">&amp;&amp;</tspan>&#160;.venv/bin/uvicorn&#160;app.main:app&#160;--reload&#160;<tspan fill="#1f2328">&amp;</tspan>&#160;<tspan fill="#0a3069">\
+</tspan></text><text class="text-mono" x="0" y="6.200000em">&#160;&#160;&#160;&#160;<tspan fill="#6639ba">cd</tspan>&#160;frontend&#160;<tspan fill="#0550ae">&amp;&amp;</tspan>&#160;npm&#160;run&#160;dev
+</text></g></g><g transform="translate(12.000000 26.000000)" class="dark-code"><rect width="602.000000" height="120.000000" class="shape stroke-N1" style="fill:#1e1e2e;stroke-width:3;" /><g transform="translate(8.000000 8.000000)"><text class="text-mono" x="0" y="1.000000em"><tspan fill="#89b4fa">dev</tspan><tspan fill="#89dceb" class="text-mono-bold">:</tspan><tspan fill="#cdd6f4"></tspan><tspan fill="#cdd6f4">
+</tspan></text><text class="text-mono" x="0" y="2.300000em"><tspan fill="#cdd6f4">&#160;&#160;&#160;&#160;</tspan><tspan fill="#cdd6f4">docker-compose</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">up</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">-d</tspan><tspan fill="#cdd6f4">
+</tspan></text><text class="text-mono" x="0" y="3.600000em"><tspan fill="#cdd6f4">&#160;&#160;&#160;&#160;</tspan><tspan fill="#89dceb">trap</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#a6e3a1">'kill&#160;0'</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">EXIT</tspan><tspan fill="#cdd6f4">;</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#89b4fa">\
+</tspan></text><text class="text-mono" x="0" y="4.900000em"><tspan fill="#cdd6f4">&#160;&#160;&#160;&#160;</tspan><tspan fill="#89dceb">cd</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">backend</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#89dceb" class="text-mono-bold">&amp;&amp;</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">.venv/bin/uvicorn</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">app.main:app</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">--reload</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">&amp;</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#89b4fa">\
+</tspan></text><text class="text-mono" x="0" y="6.200000em"><tspan fill="#cdd6f4">&#160;&#160;&#160;&#160;</tspan><tspan fill="#89dceb">cd</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">frontend</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#89dceb" class="text-mono-bold">&amp;&amp;</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">npm</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">run</tspan><tspan fill="#cdd6f4">&#160;</tspan><tspan fill="#cdd6f4">dev</tspan><tspan fill="#cdd6f4">
+</tspan></text></g></g></g><g class="bm90ZQ=="><g class="shape" ></g><text x="917.000000" y="28.000000" class="text-mono fill-N1" style="text-anchor:middle;font-size:16px"><tspan x="917.000000" dy="0.000000">TRAP &#39;KILL 0&#39; EXIT FIRES ON NORMAL EXIT AND ON THE SHELL&#39;S</tspan><tspan x="917.000000" dy="16.555556">DEFAULT TERMINATION FROM AN UNHANDLED INT/TERM, SENDING THE</tspan><tspan x="917.000000" dy="16.555556">SIGNAL TO PGID 0 (THE CALLER&#39;S OWN GROUP) - WHICH ALREADY</tspan><tspan x="917.000000" dy="16.555556">CONTAINS EVERY PROCESS HERE, SINCE DASH NEVER SPLITS THEM</tspan><tspan x="917.000000" dy="16.555556">OUT. REPLACES THE DEAD `KILL %1` LINE.</tspan><tspan x="917.000000" dy="16.555556"> </tspan><tspan x="917.000000" dy="16.555556">THIS ONLY HELPS ONCE THE SIGNAL IS ACTUALLY DELIVERED - IT</tspan><tspan x="917.000000" dy="16.555556">DOES NOT FIX THE TMUX PANE-FOCUS MISS, WHICH IS A SEPARATE,</tspan><tspan x="917.000000" dy="16.555556">UNRELATED FAILURE MODE (SEE 1_TMUX_FOCUS LAYER).</tspan></text></g><mask id="d2-2571458240" maskUnits="userSpaceOnUse" x="-560" y="-228" width="1861" height="490">
 <rect x="-560" y="-228" width="1861" height="490" fill="white"></rect>
 
 </mask></svg></svg>
