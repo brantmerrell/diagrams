@@ -1,4 +1,11 @@
 ---
+stories:
+  - ./stories/mahabharat/lineage.d2
+  - ./wiki/Balarama.d2
+  - ./wiki/Bharata_(Mahabharata).d2
+  - ./wiki/Mahabharat_(1988_TV_series).d2
+  - ./wiki/Shantanu.d2
+  - ./wiki/Vyasa.d2
 design-patterns:
   - ./tech/design-patterns/adapter.d2
   - ./tech/design-patterns/api-gateway.d2
@@ -114,6 +121,7 @@ jbm.eco:
 dev:
   - ./tech/dev/docker-recreate-bug.d2
 hackerrank/:
+  - ./tech/hackerrank/generateAngleBracketSequences.d2
   - ./tech/hackerrank/removeKthNodeFromEnd.d2
 d2-documentation:
   3-special-objects:
@@ -134,6 +142,31 @@ d2-documentation:
     - ./tech/examples/5-in-depth/variables.d2
 classes:
   - ./class_legend.d2
-challenges/:
-  pressw/:
-    - ./tech/challenges/pressw/pantrypal_plan.d2
+exercises/:
+  - ./tech/exercises/pantrypal.d2
+# cardforge:
+#   details:
+#     repository: ~/github/telynjp/cardforge
+#     description: Base44 TTRPG learning platform (CardForge)
+#   src/:
+#     main.jsx:
+#       - ./tech/cardforge/architecture.d2
+#     pages/:
+#       LiveSession.jsx:
+#         - ./tech/cardforge/live_session.d2
+#     hooks/:
+#       useWhisperStream.js:
+#         - ./tech/cardforge/live_session.d2
+#       useSessionConsent.js:
+#         - ./tech/cardforge/consent_deletion.d2
+#   base44/:
+#     entities/:
+#       - ./tech/cardforge/data_model.d2
+#     workflows/:
+#       - ./tech/cardforge/automations.d2
+#     functions/:
+#       onSessionCompleted/:
+#         entry.ts:
+#           - ./tech/cardforge/automations.d2
+#       deleteSessionCascade/:
+#         - ./tech/cardforge/consent_deletion.d2

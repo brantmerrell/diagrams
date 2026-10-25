@@ -147,13 +147,15 @@ const DiagramViewer: React.FC = () => {
     }, { replace: true })
   }, [navigate, diagramPathname, pathTheme, searchParams])
 
-  // Writes theme as a path segment after any layer segment — see
-  // splitLayerFromPathname and useDiagramTheme for why theme lives in the
-  // path rather than a query param.
+  // Writes theme as a path segment after any layer segment, and drops any
+  // stale `?theme=` — see splitLayerFromPathname and useDiagramTheme for why
+  // theme lives in the path rather than a query param.
   const handleThemeChange = useCallback((theme: DiagramTheme) => {
+    const params = new URLSearchParams(searchParams)
+    params.delete('theme')
     navigate({
       pathname: `${diagramPathname}${pathLayer ? `/${pathLayer}` : ''}/${theme}`,
-      search: searchParams.toString(),
+      search: params.toString(),
     }, { replace: true })
   }, [navigate, diagramPathname, pathLayer, searchParams])
 

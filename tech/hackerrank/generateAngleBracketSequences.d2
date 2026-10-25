@@ -1,0 +1,109 @@
+direction: down
+vars: @"../vars/hackerrank.d2"
+classes: @"../../classes.d2"
+classes: @"../../tags.d2"
+
+layers: {
+  **.style.text-transform: none
+  0_base: {
+    **.style.text-transform: none
+    _quality: {class: compiles}
+    links: {
+      hackerrank: {
+        label: Hackerrank Link
+        class: _link
+        link: https://www.hackerrank.com/contests/software-engineer-prep-kit/challenges/generate-valid-angle-bracket-sequences/problem?isFullScreen=true
+      }
+    }
+  }
+  1_problem: {
+    **.style.text-transform: none
+    _quality: {class: compiles}
+    description: ||md
+      # Generate Valid Angle Bracket Sequences
+      Given `n`, return all valid sequences of `n` pairs of `<`\
+        and `>` with proper nesting.
+
+      ## Examples
+
+      ### Example 1
+      **Input:** `n = 1`  **Output:** `<>`
+
+      With one pair, the only valid nesting is `<>`.
+
+      ### Example 2
+      **Input:** `n = 2`
+      ```text
+      <><>
+      <<>>
+      ```
+      `<><>` places the two pairs side by side; `<<>>` nests the\
+        second pair inside the first. Built by backtracking: add\
+        `<` when fewer than `n` have been placed, add `>` when\
+        there is an unmatched `<`.
+
+      ### Example 3
+      **Input:** `n = 3`
+      ```text
+      <<<>>>
+      <<><>>
+      <<>><>
+      <><<>>
+      <><><>
+      ```
+      5 valid sequences (Catalan(3)), analogous to balanced\
+        parentheses `((()))`, `(()())`, `(())()`, `()(())`, `()()()`.
+
+      ## Constraints
+      `0 <= n <= 12`, `n` is an integer.
+
+      ## Output Format
+      Return a `STRING_ARRAY` containing every valid sequence of\
+        `2n` characters.
+
+      ## Function signature
+      ```python
+      def generateAngleBracketSequences(n):
+          # accepts INTEGER n, returns STRING_ARRAY
+      ```
+
+      ## Sample Input/Output (from the page, ground truth)
+      | | Input | Output |
+      |---|---|---|
+      | Sample 0 | `1` | `<>` |
+      | Sample 1 | `2` | `<<>>`\n`<><>` |
+    ||
+  }
+  2_err: {
+    **.style.text-transform: none
+    _quality: {class: compiles}
+    description: ||md
+      # HackerRank's "Input Format" section is wrong
+      > The first line contains a single integer, n, representing\
+          the total number of meetings. The next n lines each\
+          contain two space-separated integers, representing the\
+          `start_time` and `end_time` of a single meeting.
+      >
+      > ```text
+      > 6
+      > 1 2
+      > 3 4
+      > 0 6
+      > 5 7
+      > 8 9
+      > 5 9
+      > ```
+
+      This is clearly boilerplate left over from an unrelated\
+        meeting-scheduling problem (merge intervals / meeting\
+        rooms) that HackerRank never edited after templating this\
+        page.
+
+      | | Input Format section (wrong) | Actual problem |
+      |---|---|---|
+      | first line | `n` = number of meetings | `n` = number of bracket pairs |
+      | following lines | n lines of `start end` pairs | none - single integer input |
+      | sample shown | 6 meetings, 6 lines of times | `1` -> `<>`; `2` -> `<<>>`/`<><>` |
+    ||
+  }
+}
