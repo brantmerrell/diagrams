@@ -121,6 +121,8 @@ jbm.eco:
 dev:
   - ./tech/dev/docker-recreate-bug.d2
 hackerrank/:
+  - ./tech/hackerrank/canPlaceSecurityCameras.d2
+  - ./tech/hackerrank/minTasksToCancelForNoConflict.d2
   - ./tech/hackerrank/generateAngleBracketSequences.d2
   - ./tech/hackerrank/removeKthNodeFromEnd.d2
 d2-documentation:

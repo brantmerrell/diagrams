@@ -1,0 +1,45 @@
+direction: down
+vars: @"../vars/hackerrank.d2"
+classes: @"../../classes.d2"
+classes: @"../../tags.d2"
+
+layers: {
+  **.style.text-transform: none
+  0_base: {
+    _quality: {class: compiles}
+    links: {
+      hackerrank: {
+        label: Hackerrank Exercise
+        link: https://www.hackerrank.com/contests/software-engineer-prep-kit/challenges/place-n-cameras-no-conflict-blocked-grid/problem
+        class: _link
+      }
+    }
+  }
+  1_raw: {
+    _quality: {class: compiles}
+    raw: |py
+      def canPlaceSecurityCameras(N, grid):
+          cols=set()
+          diag_used=set()
+          anti_diag_used=set()
+
+          def backtrack(row): 
+              if row==len(grid):
+                  return True
+              for col in range(len(grid)): 
+                  if grid[row][col]==1 or col in cols or (row+col) in diag_used or (row-col) in anti_diag_used: 
+                      continue
+                  cols.add(col)
+                  diag_used.add(row+col)
+                  anti_diag_used.add(row-col)
+                  if backtrack(row+1):
+                      return True
+                  cols.remove(col)
+                  diag_used.remove(row+col)
+                  anti_diag_used.remove(row-col)
+              return False
+          return backtrack(0)
+
+    |
+  }
+}

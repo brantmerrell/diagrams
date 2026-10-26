@@ -104,9 +104,15 @@ layers: {
       label: Subhadra
       link: https://en.wikipedia.org/wiki/Subhadra
     }
-    _union_vasudeva_devaki -> _krishna
-    _union_vasudeva_devaki -> _balarama
-    _union_vasudeva_rohini -> _subhadra
+    _union_vasudeva_devaki -> _krishna: {
+      class: _character
+    }
+    _union_vasudeva_devaki -> _balarama: {
+      class: _character
+    }
+    _union_vasudeva_rohini -> _subhadra: {
+      class: _character
+    }
     _rohini -- _balarama: surrogate\n & foster
 
     # Gokul: Nanda and Yashoda
@@ -232,14 +238,20 @@ layers: {
     }
     _dushyanta -- _union_dushyanta_shakuntala
     _shakuntala -- _union_dushyanta_shakuntala
-    _union_dushyanta_shakuntala -> _bharata
-    _bharata -- _union_bharata_sunanda
-    _sunanda_bharata -- _union_bharata_sunanda
+    _union_dushyanta_shakuntala -> _bharata: {
+      class: _character
+    }
+    _bharata -- _union_bharata_sunanda: {
+      class: father
+    }
+    _sunanda_bharata -- _union_bharata_sunanda: {
+      class: mother
+    }
     _generations: {
       label: ...many\n generations
       shape: oval
     }
-    _bharata -> _generations -> _pratipa
+    _union_bharata_sunanda -> _generations -> _pratipa
     _pratipa -- _union_pratipa_sunanda
     _sunanda_pratipa -- _union_pratipa_sunanda
 
@@ -259,9 +271,15 @@ layers: {
       label: Shantanu
       link: https://en.wikipedia.org/wiki/Shantanu
     }
-    _union_pratipa_sunanda -> _bahlika
-    _union_pratipa_sunanda -> _devapi
-    _union_pratipa_sunanda -> _shantanu
+    _union_pratipa_sunanda -> _bahlika: {
+      class: _character
+    }
+    _union_pratipa_sunanda -> _devapi: {
+      class: _character
+    }
+    _union_pratipa_sunanda -> _shantanu: {
+      class: _character
+    }
 
     # Shantanu and Ganga
     _ganga: {
@@ -277,9 +295,15 @@ layers: {
       label: Bhishma
       link: https://en.wikipedia.org/wiki/Bhishma
     }
-    _shantanu -- _union_shantanu_ganga
-    _ganga -- _union_shantanu_ganga
-    _union_shantanu_ganga -> _bhishma
+    _shantanu -> _union_shantanu_ganga: {
+      class: father
+    }
+    _ganga -> _union_shantanu_ganga: {
+      class: _deity
+    }
+    _union_shantanu_ganga -> _bhishma: {
+      class: _character
+    }
 
     # Satyavati, Parashara and Vyasa
     _dashraj: {
@@ -305,10 +329,16 @@ layers: {
       label: Vyasa
       link: https://en.wikipedia.org/wiki/Vyasa
     }
-    _dashraj -> _satyavati: father
-    _parashara -- _union_parashara_satyavati
-    _satyavati -- _union_parashara_satyavati
-    _union_parashara_satyavati -> _vyasa
+    _dashraj -> _satyavati: {class: father}
+    _parashara -- _union_parashara_satyavati: {
+      class: father
+    }
+    _satyavati -- _union_parashara_satyavati: {
+      class: mother
+    }
+    _union_parashara_satyavati -> _vyasa: {
+      class: _character
+    }
 
     # Shantanu and Satyavati
     _union_shantanu_satyavati: {
@@ -324,8 +354,12 @@ layers: {
       label: Vichitravirya
       link: https://en.wikipedia.org/wiki/Vichitravirya
     }
-    _shantanu -- _union_shantanu_satyavati
-    _satyavati -- _union_shantanu_satyavati
+    _shantanu -- _union_shantanu_satyavati: {
+      class: father
+    }
+    _satyavati -- _union_shantanu_satyavati: {
+      class: mother
+    }
     _union_shantanu_satyavati -> _chitrangada
     _union_shantanu_satyavati -> _vichitravirya
 
@@ -357,11 +391,21 @@ layers: {
       label: Ambalika
       link: https://en.wikipedia.org/wiki/Ambalika
     }
-    _kashya -- _union_kashya_kausalya
-    _kausalya -- _union_kashya_kausalya
-    _union_kashya_kausalya -> _amba
-    _union_kashya_kausalya -> _ambika
-    _union_kashya_kausalya -> _ambalika
+    _kashya -> _union_kashya_kausalya: {
+      class: father
+    }
+    _kausalya -- _union_kashya_kausalya: {
+      class: mother
+    }
+    _union_kashya_kausalya -> _amba: {
+      class: _character
+    }
+    _union_kashya_kausalya -> _ambika: {
+      class: _character
+    }
+    _union_kashya_kausalya -> _ambalika: {
+      class: _character
+    }
 
     # Vichitravirya and his queens
     _union_vichitravirya_ambika: {
@@ -370,15 +414,10 @@ layers: {
     _union_vichitravirya_ambalika: {
       class: _union_legal
     }
-    _union_vichitravirya_maid_ambika: {
-      class: _union_legal
-    }
     _vichitravirya -- _union_vichitravirya_ambika
     _ambika -- _union_vichitravirya_ambika
     _vichitravirya -- _union_vichitravirya_ambalika
     _ambalika -- _union_vichitravirya_ambalika
-    _vichitravirya -- _union_vichitravirya_maid_ambika
-    _ambika_maid -- _union_vichitravirya_maid_ambika
 
     # Niyoga: Vyasa fathers the heirs
     _ambika_maid: {
@@ -416,12 +455,21 @@ layers: {
       label: Vidura
       link: https://en.wikipedia.org/wiki/Vidura
     }
-    _union_vyasa_ambika -> _dhritarashtra
-    _union_vyasa_ambalika -> _pandu
-    _union_vyasa_maid_ambika -> _vidura
-    _union_vichitravirya_ambika -> _dhritarashtra
-    _union_vichitravirya_ambalika -> _pandu
-    _union_vichitravirya_maid_ambika -> _vidura
+    _union_vyasa_ambika -> _dhritarashtra: {
+      class: _character
+    }
+    _union_vyasa_ambalika -> _pandu: {
+      class: _character
+    }
+    _union_vyasa_maid_ambika -> _vidura: {
+      class: _character
+    }
+    _union_vichitravirya_ambika -> _dhritarashtra: {
+      class: _character
+    }
+    _union_vichitravirya_ambalika -> _pandu: {
+      class: _character
+    }
 
     # Vidura's wife
     _sulabha: {
@@ -433,85 +481,6 @@ layers: {
     }
     _vidura -- _union_vidura_sulabha
     _sulabha -- _union_vidura_sulabha
-
-    # Where sources disagree
-    notes: {
-      _note_vidura_father: {
-        label: ""
-        grid-columns: 1
-        text: |md
-          **Vidura's father**\
-          Vidura's infobox: Vyasa (biological) and Vichitravirya (legal).\
-          His prose says Vichitravirya adopted only Dhritarashtra and\
-          Pandu. The cast list gives Vyasa as father of all three and\
-          Vichitravirya of Dhritarashtra and Pandu.
-        | {class: note; style.font-size: 16}
-        _src0: {
-          label: wiki/Vidura
-          link: "https://en.wikipedia.org/wiki/Vidura"
-          class: _link
-        }
-        _src1: {
-          label: wiki/Vichitravirya
-          link: "https://en.wikipedia.org/wiki/Vichitravirya"
-          class: _link
-        }
-        _src2: {
-          label: wiki/Dhritarashtra
-          link: "https://en.wikipedia.org/wiki/Dhritarashtra"
-          class: _link
-        }
-        _src3: {
-          label: wiki/Mahabharat_(1988) # Recurring
-          link: "https://en.wikipedia.org/wiki/Mahabharat_(1988_TV_series)#Recurring"
-          class: _link
-        }
-      }
-      _note_two_sunandas: {
-        grid-columns: 1
-        label: ""
-        text: |md
-          **Two Sunandas**\
-          Bharata's wife is the daughter of Sarvasena of Kashi;\
-          Pratipa's is Sunanda of the Shibis. Same name, different\
-          women. Bharata's article also tells a second story of\
-          Bhumanyu's birth.
-        | {class: note; style.font-size: 16}
-        _src0: {
-          label: wiki/Bharata_(Mahabharata)
-          link: "https://en.wikipedia.org/wiki/Bharata_(Mahabharata)"
-          class: _link
-        }
-        _src1: {
-          label: wiki/Pratipa
-          link: "https://en.wikipedia.org/wiki/Pratipa"
-          class: _link
-        }
-      }
-      _note_satyavati_father: {
-        grid-columns: 1
-        label: ""
-        text: |md
-          **Satyavati's father**\
-          The cast list calls Dashraj her father. Her article makes\
-          him her foster father (Dasharaja, a fisherman chief) and\
-          names the Chedi king Uparichara Vasu as her biological one.
-        | {class: note; style.font-size: 16}
-        _src0: {
-          label: wiki/Satyavati
-          link: "https://en.wikipedia.org/wiki/Satyavati"
-          class: _link
-        }
-        _src1: {
-          label: wiki/Mahabharat_(1988) # Recurring
-          link: "https://en.wikipedia.org/wiki/Mahabharat_(1988_TV_series)#Recurring"
-          class: _link
-        }
-      }
-    }
-    notes._note_vidura_father -- _vidura: {style: {stroke-dash: 3}}
-    notes._note_two_sunandas -- _sunanda_pratipa: {style: {stroke-dash: 3}}
-    notes._note_satyavati_father -- _dashraj: {style: {stroke-dash: 3}}
   }
   3_pandavas_kauravas: {
     **.style.text-transform: none
@@ -566,10 +535,18 @@ layers: {
       label: Dushala
       link: https://en.wikipedia.org/wiki/Duhshala
     }
-    _union_dhritarashtra_gandhari -> _duryodhana
-    _union_dhritarashtra_gandhari -> _dushasana
-    _union_dhritarashtra_gandhari -> _vikarna
-    _union_dhritarashtra_gandhari -> _dushala
+    _union_dhritarashtra_gandhari -> _duryodhana: {
+      class: _character
+    }
+    _union_dhritarashtra_gandhari -> _dushasana: {
+      class: _character
+    }
+    _union_dhritarashtra_gandhari -> _vikarna: {
+      class: _character
+    }
+    _union_dhritarashtra_gandhari -> _dushala: {
+      class: _character
+    }
     _jayadratha: {
       class: _character
       label: Jayadratha
@@ -695,17 +672,39 @@ layers: {
       label: Sahadeva
       link: https://en.wikipedia.org/wiki/Sahadeva
     }
-    _union_yama_kunti -> _yudhishthira
-    _union_vayu_kunti -> _bhima
-    _union_indra_kunti -> _arjuna
-    _union_surya_kunti -> _karna
-    _union_ashvins_madri -> _nakula
-    _union_ashvins_madri -> _sahadeva
-    _union_pandu_kunti -> _yudhishthira
-    _union_pandu_kunti -> _bhima
-    _union_pandu_kunti -> _arjuna
-    _union_pandu_madri -> _nakula
-    _union_pandu_madri -> _sahadeva
+    _union_yama_kunti -> _yudhishthira: {
+      class: _character
+    }
+    _union_vayu_kunti -> _bhima: {
+      class: _character
+    }
+    _union_indra_kunti -> _arjuna: {
+      class: _character
+    }
+    _union_surya_kunti -> _karna: {
+      class: _character
+    }
+    _union_ashvins_madri -> _nakula: {
+      class: _character
+    }
+    _union_ashvins_madri -> _sahadeva: {
+      class: _character
+    }
+    _union_pandu_kunti -> _yudhishthira: {
+      class: _character
+    }
+    _union_pandu_kunti -> _bhima: {
+      class: _character
+    }
+    _union_pandu_kunti -> _arjuna: {
+      class: _character
+    }
+    _union_pandu_madri -> _nakula: {
+      class: _character
+    }
+    _union_pandu_madri -> _sahadeva: {
+      class: _character
+    }
 
     # Karna's foster parents
     _adhiratha: {
@@ -736,7 +735,9 @@ layers: {
     }
     _bhima -- _union_bhima_hidimbi
     _hidimbi -- _union_bhima_hidimbi
-    _union_bhima_hidimbi -> _ghatotkacha
+    _union_bhima_hidimbi -> _ghatotkacha: {
+      class: _character
+    }
 
     # Panchala: Drupada and his children
     _drupada: {
@@ -774,9 +775,15 @@ layers: {
     }
     _drupada -- _union_drupada_prishati
     _prishati -- _union_drupada_prishati
-    _union_drupada_prishati -> _draupadi
-    _union_drupada_prishati -> _dhrishtadyumna
-    _union_drupada_prishati -> _shikandi
+    _union_drupada_prishati -> _draupadi: {
+      class: _character
+    }
+    _union_drupada_prishati -> _dhrishtadyumna: {
+      class: _character
+    }
+    _union_drupada_prishati -> _shikandi: {
+      class: _character
+    }
     _amba -> _shikandi: reincarnation
     _union_draupadi_pandavas: {
       class: _union
@@ -804,7 +811,9 @@ layers: {
     }
     _arjuna -- _union_arjuna_subhadra
     _subhadra -- _union_arjuna_subhadra
-    _union_arjuna_subhadra -> _abhimanyu
+    _union_arjuna_subhadra -> _abhimanyu: {
+      class: _character
+    }
 
     # Matsya: Virata and his children
     _virata: {
@@ -832,8 +841,12 @@ layers: {
     }
     _virata -- _union_virata_sudeshna
     _sudeshna -- _union_virata_sudeshna
-    _union_virata_sudeshna -> _uttar
-    _union_virata_sudeshna -> _uttara
+    _union_virata_sudeshna -> _uttar: {
+      class: _character
+    }
+    _union_virata_sudeshna -> _uttara: {
+      class: _character
+    }
     _union_abhimanyu_uttara: {
       class: _union_biological
     }
@@ -844,7 +857,9 @@ layers: {
     }
     _abhimanyu -- _union_abhimanyu_uttara
     _uttara -- _union_abhimanyu_uttara
-    _union_abhimanyu_uttara -> _parikshit
+    _union_abhimanyu_uttara -> _parikshit: {
+      class: _character
+    }
 
     # Drona, Kripi and Ashvatthama
     _drona: {
@@ -872,7 +887,9 @@ layers: {
     }
     _drona -- _union_drona_kripi
     _kripi -- _union_drona_kripi
-    _union_drona_kripi -> _ashvatthama
+    _union_drona_kripi -> _ashvatthama: {
+      class: _character
+    }
     _kripa -- _kripi: siblings
 
     # Where sources disagree
