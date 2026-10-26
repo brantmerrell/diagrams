@@ -15,6 +15,7 @@ layers: {
       near: top-center
     }
     links: {
+      label: links
       grid-columns: 1
       load-balancer: {
         label: "sd-notes/tools / load_balancer.d2"

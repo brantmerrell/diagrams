@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/hackerrank/minTasksToCancelForNoConflict/0_base.svg"
+    },
+    {
+      "name": "1_raw_itertools",
+      "path": "/tech/hackerrank/minTasksToCancelForNoConflict/1_raw_itertools.svg"
+    },
+    {
+      "name": "2_raw_dfs",
+      "path": "/tech/hackerrank/minTasksToCancelForNoConflict/2_raw_dfs.svg"
+    }
+  ]
+}

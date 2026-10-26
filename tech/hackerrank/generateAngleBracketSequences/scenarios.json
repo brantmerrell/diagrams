@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/tech/hackerrank/generateAngleBracketSequences/0_base.svg"
+    },
+    {
+      "name": "1_problem",
+      "path": "/tech/hackerrank/generateAngleBracketSequences/1_problem.svg"
+    },
+    {
+      "name": "2_err",
+      "path": "/tech/hackerrank/generateAngleBracketSequences/2_err.svg"
+    }
+  ]
+}

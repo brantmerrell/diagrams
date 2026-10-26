@@ -1,0 +1,925 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 3
+    dark-theme-id: 200
+  }
+}
+classes: @"../../classes"
+classes: @"../../story_classes"
+classes: @"../../tags"
+
+layers: {
+  0_base: {
+    **.style.text-transform: none
+    _quality: {class: compiles}
+    legend: |md
+      ## Lineage of the 1988 *Mahabharat*
+      A character is **major** (blue) when it is both in the\
+      series' *Recurring* cast and has a devoted Wikipedia page.\
+      Those without one are **minor** (gray), linked to the\
+      character list where an anchor exists. Gods are orange.\
+      A union with a **thick** outline is biological parentage;\
+      a **dashed** one is legal parentage (e.g. Pandu and the Pandavas);\
+      a thin one has no children shown.
+    |
+    links: {
+      grid-columns: 1
+      _mahabharat: {
+        label: wiki/Mahabharata
+        link: https://en.wikipedia.org/wiki/Mahabharata
+        class: _link
+      }
+      _mahabharat_1988: {
+        label: wiki/Mahabharat_(1988_TV_series)
+        link: https://en.wikipedia.org/wiki/Mahabharat_(1988_TV_series)
+        class: _link
+      }
+    }
+  }
+  1_vasudeva: {
+    **.style.text-transform: none
+    _quality: {class: compiles}
+
+    # Mathura: Ugrasena, Kansa and the Vrishni line
+    _ugrasena: {
+      class: _character
+      label: Ugrasena
+      link: https://en.wikipedia.org/wiki/Ugrasena
+    }
+    _kansa: {
+      class: _character
+      label: Kansa
+      link: https://en.wikipedia.org/wiki/Kamsa
+    }
+    _devaki: {
+      class: _character
+      label: Devaki
+      link: https://en.wikipedia.org/wiki/Devaki
+    }
+    _ugrasena -> _kansa
+    _ugrasena -> _devaki
+
+    # Vasudeva and his two wives
+    _vasudeva: {
+      class: _character
+      label: Vasudeva
+      link: https://en.wikipedia.org/wiki/Vasudeva
+    }
+    _rohini: {
+      class: _character
+      label: Rohini Devi
+      link: https://en.wikipedia.org/wiki/Rohini_Devi
+    }
+    _union_vasudeva_devaki: {
+      class: _union_biological
+    }
+    _union_vasudeva_rohini: {
+      class: _union_biological
+    }
+    _vasudeva -- _union_vasudeva_devaki
+    _devaki -- _union_vasudeva_devaki
+    _vasudeva -- _union_vasudeva_rohini
+    _rohini -- _union_vasudeva_rohini
+    _kunti: {
+      class: _character
+      label: Kunti
+      link: https://en.wikipedia.org/wiki/Kunti
+    }
+    _vasudeva -- _kunti: siblings
+
+    # Children
+    _krishna: {
+      class: _deity
+      label: Krishna
+      link: https://en.wikipedia.org/wiki/Krishna
+    }
+    _balarama: {
+      class: _deity
+      label: Balarama
+      link: https://en.wikipedia.org/wiki/Balarama
+    }
+    _subhadra: {
+      class: _deity
+      label: Subhadra
+      link: https://en.wikipedia.org/wiki/Subhadra
+    }
+    _union_vasudeva_devaki -> _krishna: {
+      class: _character
+    }
+    _union_vasudeva_devaki -> _balarama: {
+      class: _character
+    }
+    _union_vasudeva_rohini -> _subhadra: {
+      class: _character
+    }
+    _rohini -- _balarama: surrogate\n & foster
+
+    # Gokul: Nanda and Yashoda
+    _nandagopa: {
+      class: _character
+      label: Nandagopa / Nanda
+      link: https://en.wikipedia.org/wiki/Nandagopa
+    }
+    _yashoda: {
+      class: _character
+      label: Yashoda
+      link: https://en.wikipedia.org/wiki/Yashoda
+    }
+    _union_nandagopa_yashoda: {
+      class: _union
+      style: {
+        stroke-width: 0
+      }
+    }
+    _yashoda -- _union_nandagopa_yashoda: {
+      style: {
+        stroke-width: 0
+      }
+    }
+    _nandagopa -- _union_nandagopa_yashoda: {
+      style: {
+        stroke-width: 0
+      }
+    }
+    _yashoda -> _krishna: foster
+    _nandagopa -- _krishna: foster
+
+    # Krishna's consorts
+    _rukmini: {
+      class: _deity
+      label: Rukmini
+      link: https://en.wikipedia.org/wiki/Rukmini
+    }
+    _radha: {
+      class: _deity
+      label: Radha
+      link: https://en.wikipedia.org/wiki/Radha
+    }
+    _union_krishna_rukmini: {
+      class: _union
+    }
+    _krishna -- _union_krishna_rukmini
+    _rukmini -- _union_krishna_rukmini
+    _krishna -- _radha: consort
+
+    # Where sources disagree
+    notes: {
+      _note_subhadra_mother: {
+        grid-columns: 1
+        text: |md
+          **Subhadra's mother**\
+          Subhadra: Rohini in the Mahabharata, Devaki in the\
+          Bhagavata Purana. The cast list says both: "Vasudev's and\
+          Rohini's daughter" (Subhadra) but "mother of Krishna and\
+          Subhadra" (Devaki). This layer follows Rohini.
+        | {class: note; style.font-size: 16}
+        _src0: {
+          label: wiki/Subhadra
+          link: "https://en.wikipedia.org/wiki/Subhadra"
+          class: _link
+        }
+        _src1: {
+          label: wiki/Devaki
+          link: "https://en.wikipedia.org/wiki/Devaki"
+          class: _link
+        }
+        _src2: {
+          label: wiki/Mahabharat_(1988) # Recurring
+          link: "https://en.wikipedia.org/wiki/Mahabharat_(1988_TV_series)#Recurring"
+          class: _link
+        }
+      }
+    }
+    notes._note_subhadra_mother -- _subhadra: {style: {stroke-dash: 3}}
+  }
+  2_lineage: {
+    **.style.text-transform: none
+    direction: right
+    _quality: {class: compiles}
+
+    # Bharata to Pratipa
+    _dushyanta: {
+      class: _character
+      label: Dushyanta
+      link: https://en.wikipedia.org/wiki/Dushyanta
+    }
+    _shakuntala: {
+      class: _character
+      label: Shakuntala
+      link: https://en.wikipedia.org/wiki/Shakuntala
+    }
+    _union_dushyanta_shakuntala: {
+      class: _union_biological
+    }
+    _bharata: {
+      class: _character
+      label: Bharata
+      link: https://en.wikipedia.org/wiki/Bharata_(Mahabharata)
+    }
+    _sunanda_bharata: {
+      class: _character_minor
+      label: Sunanda
+    }
+    _union_bharata_sunanda: {
+      class: _union
+    }
+    _pratipa: {
+      class: _character
+      label: Pratipa
+      link: https://en.wikipedia.org/wiki/Pratipa
+    }
+    _sunanda_pratipa: {
+      class: _character_minor
+      label: Sunanda
+    }
+    _union_pratipa_sunanda: {
+      class: _union_biological
+    }
+    _dushyanta -- _union_dushyanta_shakuntala
+    _shakuntala -- _union_dushyanta_shakuntala
+    _union_dushyanta_shakuntala -> _bharata: {
+      class: _character
+    }
+    _bharata -- _union_bharata_sunanda: {
+      class: father
+    }
+    _sunanda_bharata -- _union_bharata_sunanda: {
+      class: mother
+    }
+    _generations: {
+      label: ...many\n generations
+      shape: oval
+    }
+    _union_bharata_sunanda -> _generations -> _pratipa
+    _pratipa -- _union_pratipa_sunanda
+    _sunanda_pratipa -- _union_pratipa_sunanda
+
+    # Shantanu and his brothers
+    _bahlika: {
+      class: _character
+      label: Bahlika
+      link: https://en.wikipedia.org/wiki/Bahlika_(Mahabharata)
+    }
+    _devapi: {
+      class: _character
+      label: Devapi
+      link: https://en.wikipedia.org/wiki/Devapi
+    }
+    _shantanu: {
+      class: _character
+      label: Shantanu
+      link: https://en.wikipedia.org/wiki/Shantanu
+    }
+    _union_pratipa_sunanda -> _bahlika: {
+      class: _character
+    }
+    _union_pratipa_sunanda -> _devapi: {
+      class: _character
+    }
+    _union_pratipa_sunanda -> _shantanu: {
+      class: _character
+    }
+
+    # Shantanu and Ganga
+    _ganga: {
+      class: _deity
+      label: Ganga
+      link: https://en.wikipedia.org/wiki/Ganga_(goddess)
+    }
+    _union_shantanu_ganga: {
+      class: [_deity; _union_biological]
+    }
+    _bhishma: {
+      class: _character
+      label: Bhishma
+      link: https://en.wikipedia.org/wiki/Bhishma
+    }
+    _shantanu -> _union_shantanu_ganga: {
+      class: father
+    }
+    _ganga -> _union_shantanu_ganga: {
+      class: _deity
+    }
+    _union_shantanu_ganga -> _bhishma: {
+      class: _character
+    }
+
+    # Satyavati, Parashara and Vyasa
+    _dashraj: {
+      class: _character_minor
+      label: Dashraj
+      link: "https://en.wikipedia.org/wiki/List_of_characters_in_the_Mahabharata#Dashraj"
+    }
+    _satyavati: {
+      class: _character
+      label: Satyavati
+      link: https://en.wikipedia.org/wiki/Satyavati
+    }
+    _parashara: {
+      class: _character
+      label: Parashara
+      link: https://en.wikipedia.org/wiki/Parashara
+    }
+    _union_parashara_satyavati: {
+      class: _union_biological
+    }
+    _vyasa: {
+      class: _character
+      label: Vyasa
+      link: https://en.wikipedia.org/wiki/Vyasa
+    }
+    _dashraj -> _satyavati: {class: father}
+    _parashara -- _union_parashara_satyavati: {
+      class: father
+    }
+    _satyavati -- _union_parashara_satyavati: {
+      class: mother
+    }
+    _union_parashara_satyavati -> _vyasa: {
+      class: _character
+    }
+
+    # Shantanu and Satyavati
+    _union_shantanu_satyavati: {
+      class: _union_biological
+    }
+    _chitrangada: {
+      class: _character
+      label: Chitrangada
+      link: https://en.wikipedia.org/wiki/Chitrangada_(king)
+    }
+    _vichitravirya: {
+      class: _character
+      label: Vichitravirya
+      link: https://en.wikipedia.org/wiki/Vichitravirya
+    }
+    _shantanu -- _union_shantanu_satyavati: {
+      class: father
+    }
+    _satyavati -- _union_shantanu_satyavati: {
+      class: mother
+    }
+    _union_shantanu_satyavati -> _chitrangada
+    _union_shantanu_satyavati -> _vichitravirya
+
+    # The princesses of Kashi
+    _kashya: {
+      class: _character_minor
+      label: Kashya
+      link: "https://en.wikipedia.org/wiki/List_of_characters_in_the_Mahabharata#Kashya"
+    }
+    _kausalya: {
+      class: _character_minor
+      label: Kausalya
+    }
+    _union_kashya_kausalya: {
+      class: _union_biological
+    }
+    _amba: {
+      class: _character
+      label: Amba
+      link: https://en.wikipedia.org/wiki/Amba_(Mahabharata)
+    }
+    _ambika: {
+      class: _character
+      label: Ambika
+      link: https://en.wikipedia.org/wiki/Ambika_(Mahabharata)
+    }
+    _ambalika: {
+      class: _character
+      label: Ambalika
+      link: https://en.wikipedia.org/wiki/Ambalika
+    }
+    _kashya -> _union_kashya_kausalya: {
+      class: father
+    }
+    _kausalya -- _union_kashya_kausalya: {
+      class: mother
+    }
+    _union_kashya_kausalya -> _amba: {
+      class: _character
+    }
+    _union_kashya_kausalya -> _ambika: {
+      class: _character
+    }
+    _union_kashya_kausalya -> _ambalika: {
+      class: _character
+    }
+
+    # Vichitravirya and his queens
+    _union_vichitravirya_ambika: {
+      class: _union_legal
+    }
+    _union_vichitravirya_ambalika: {
+      class: _union_legal
+    }
+    _vichitravirya -- _union_vichitravirya_ambika
+    _ambika -- _union_vichitravirya_ambika
+    _vichitravirya -- _union_vichitravirya_ambalika
+    _ambalika -- _union_vichitravirya_ambalika
+
+    # Niyoga: Vyasa fathers the heirs
+    _ambika_maid: {
+      class: _character_minor
+      label: Ambika's Maid
+      link: "https://en.wikipedia.org/wiki/List_of_characters_in_the_Mahabharata#Ambika's_maid"
+    }
+    _union_vyasa_ambika: {
+      class: _union_biological
+    }
+    _union_vyasa_ambalika: {
+      class: _union_biological
+    }
+    _union_vyasa_maid_ambika: {
+      class: _union_biological
+    }
+    _vyasa -- _union_vyasa_ambika
+    _ambika -- _union_vyasa_ambika
+    _vyasa -- _union_vyasa_ambalika
+    _ambalika -- _union_vyasa_ambalika
+    _vyasa -- _union_vyasa_maid_ambika
+    _ambika_maid -- _union_vyasa_maid_ambika
+    _dhritarashtra: {
+      class: _character
+      label: Dhritarashtra
+      link: https://en.wikipedia.org/wiki/Dhritarashtra
+    }
+    _pandu: {
+      class: _character
+      label: Pandu
+      link: https://en.wikipedia.org/wiki/Pandu
+    }
+    _vidura: {
+      class: _character
+      label: Vidura
+      link: https://en.wikipedia.org/wiki/Vidura
+    }
+    _union_vyasa_ambika -> _dhritarashtra: {
+      class: _character
+    }
+    _union_vyasa_ambalika -> _pandu: {
+      class: _character
+    }
+    _union_vyasa_maid_ambika -> _vidura: {
+      class: _character
+    }
+    _union_vichitravirya_ambika -> _dhritarashtra: {
+      class: _character
+    }
+    _union_vichitravirya_ambalika -> _pandu: {
+      class: _character
+    }
+
+    # Vidura's wife
+    _sulabha: {
+      class: _character_minor
+      label: Sulabha
+    }
+    _union_vidura_sulabha: {
+      class: _union
+    }
+    _vidura -- _union_vidura_sulabha
+    _sulabha -- _union_vidura_sulabha
+  }
+  3_pandavas_kauravas: {
+    **.style.text-transform: none
+    direction: right
+    _quality: {class: compiles}
+
+    # Kauravas: Dhritarashtra and Gandhari
+    _subala: {
+      class: _character_minor
+      label: Subala
+      link: "https://en.wikipedia.org/wiki/List_of_characters_in_the_Mahabharata#Subala"
+    }
+    _gandhari: {
+      class: _character
+      label: Gandhari
+      link: https://en.wikipedia.org/wiki/Gandhari
+    }
+    _shakuni: {
+      class: _character
+      label: Shakuni
+      link: https://en.wikipedia.org/wiki/Shakuni
+    }
+    _subala -> _gandhari
+    _subala -> _shakuni
+    _dhritarashtra: {
+      class: _character
+      label: Dhritarashtra
+      link: https://en.wikipedia.org/wiki/Dhritarashtra
+    }
+    _union_dhritarashtra_gandhari: {
+      class: _union_biological
+    }
+    _dhritarashtra -- _union_dhritarashtra_gandhari
+    _gandhari -- _union_dhritarashtra_gandhari
+    _duryodhana: {
+      class: _character
+      label: Duryodhana
+      link: https://en.wikipedia.org/wiki/Duryodhana
+    }
+    _dushasana: {
+      class: _character
+      label: Dushasana
+      link: https://en.wikipedia.org/wiki/Duhshasana
+    }
+    _vikarna: {
+      class: _character
+      label: Vikarna
+      link: https://en.wikipedia.org/wiki/Vikarna
+    }
+    _dushala: {
+      class: _character
+      label: Dushala
+      link: https://en.wikipedia.org/wiki/Duhshala
+    }
+    _union_dhritarashtra_gandhari -> _duryodhana: {
+      class: _character
+    }
+    _union_dhritarashtra_gandhari -> _dushasana: {
+      class: _character
+    }
+    _union_dhritarashtra_gandhari -> _vikarna: {
+      class: _character
+    }
+    _union_dhritarashtra_gandhari -> _dushala: {
+      class: _character
+    }
+    _jayadratha: {
+      class: _character
+      label: Jayadratha
+      link: https://en.wikipedia.org/wiki/Jayadratha
+    }
+    _union_jayadratha_dushala: {
+      class: _union
+    }
+    _jayadratha -- _union_jayadratha_dushala
+    _dushala -- _union_jayadratha_dushala
+
+    # Pandavas: Pandu's sons
+    _pandu: {
+      class: _character
+      label: Pandu
+      link: https://en.wikipedia.org/wiki/Pandu
+    }
+    _kunti: {
+      class: _character
+      label: Kunti
+      link: https://en.wikipedia.org/wiki/Kunti
+    }
+    _madri: {
+      class: _character
+      label: Madri
+      link: https://en.wikipedia.org/wiki/Madri
+    }
+    _shalya: {
+      class: _character
+      label: Shalya
+      link: https://en.wikipedia.org/wiki/Shalya
+    }
+    _union_pandu_kunti: {
+      class: _union_legal
+    }
+    _union_pandu_madri: {
+      class: _union_legal
+    }
+    _pandu -- _union_pandu_kunti
+    _kunti -- _union_pandu_kunti
+    _pandu -- _union_pandu_madri
+    _madri -- _union_pandu_madri
+    _shalya -- _madri: siblings
+
+    # The gods who fathered them
+    _yama: {
+      class: _deity
+      label: Dharma / Yama
+      link: https://en.wikipedia.org/wiki/Yama
+    }
+    _vayu: {
+      class: _deity
+      label: Vayu
+      link: https://en.wikipedia.org/wiki/Vayu
+    }
+    _indra: {
+      class: _deity
+      label: Indra
+      link: https://en.wikipedia.org/wiki/Indra
+    }
+    _surya: {
+      class: _deity
+      label: Surya
+      link: https://en.wikipedia.org/wiki/Surya
+    }
+    _ashvins: {
+      class: _deity
+      label: Ashvins
+      link: https://en.wikipedia.org/wiki/Ashvins
+    }
+    _union_yama_kunti: {
+      class: [_deity; _union_biological]
+    }
+    _union_vayu_kunti: {
+      class: [_deity; _union_biological]
+    }
+    _union_indra_kunti: {
+      class: [_deity; _union_biological]
+    }
+    _union_surya_kunti: {
+      class: [_deity; _union_biological]
+    }
+    _union_ashvins_madri: {
+      class: [_deity; _union_biological]
+    }
+    _yama -- _union_yama_kunti
+    _vayu -- _union_vayu_kunti
+    _indra -- _union_indra_kunti
+    _surya -- _union_surya_kunti
+    _ashvins -- _union_ashvins_madri
+    _kunti -- _union_yama_kunti
+    _kunti -- _union_vayu_kunti
+    _kunti -- _union_indra_kunti
+    _kunti -- _union_surya_kunti
+    _madri -- _union_ashvins_madri
+    _yudhishthira: {
+      class: _character
+      label: Yudhishthira
+      link: https://en.wikipedia.org/wiki/Yudhishthira
+    }
+    _bhima: {
+      class: _character
+      label: Bhima
+      link: https://en.wikipedia.org/wiki/Bhima
+    }
+    _arjuna: {
+      class: _character
+      label: Arjuna
+      link: https://en.wikipedia.org/wiki/Arjuna
+    }
+    _karna: {
+      class: _character
+      label: Karna
+      link: https://en.wikipedia.org/wiki/Karna
+    }
+    _nakula: {
+      class: _character
+      label: Nakula
+      link: https://en.wikipedia.org/wiki/Nakula
+    }
+    _sahadeva: {
+      class: _character
+      label: Sahadeva
+      link: https://en.wikipedia.org/wiki/Sahadeva
+    }
+    _union_yama_kunti -> _yudhishthira: {
+      class: _character
+    }
+    _union_vayu_kunti -> _bhima: {
+      class: _character
+    }
+    _union_indra_kunti -> _arjuna: {
+      class: _character
+    }
+    _union_surya_kunti -> _karna: {
+      class: _character
+    }
+    _union_ashvins_madri -> _nakula: {
+      class: _character
+    }
+    _union_ashvins_madri -> _sahadeva: {
+      class: _character
+    }
+    _union_pandu_kunti -> _yudhishthira: {
+      class: _character
+    }
+    _union_pandu_kunti -> _bhima: {
+      class: _character
+    }
+    _union_pandu_kunti -> _arjuna: {
+      class: _character
+    }
+    _union_pandu_madri -> _nakula: {
+      class: _character
+    }
+    _union_pandu_madri -> _sahadeva: {
+      class: _character
+    }
+
+    # Karna's foster parents
+    _adhiratha: {
+      class: _character_minor
+      label: Adhiratha
+      link: "https://en.wikipedia.org/wiki/List_of_characters_in_the_Mahabharata#Adhiratha"
+    }
+    _radha_foster: {
+      class: _character_minor
+      label: Radha
+    }
+    _adhiratha -> _karna: foster
+    _radha_foster -> _karna: foster
+
+    # Bhima and Hidimbi
+    _hidimbi: {
+      class: _character
+      label: Hidimbi
+      link: https://en.wikipedia.org/wiki/Hidimbi
+    }
+    _ghatotkacha: {
+      class: _character
+      label: Ghatotkacha
+      link: https://en.wikipedia.org/wiki/Ghatotkacha
+    }
+    _union_bhima_hidimbi: {
+      class: _union_biological
+    }
+    _bhima -- _union_bhima_hidimbi
+    _hidimbi -- _union_bhima_hidimbi
+    _union_bhima_hidimbi -> _ghatotkacha: {
+      class: _character
+    }
+
+    # Panchala: Drupada and his children
+    _drupada: {
+      class: _character
+      label: Drupada
+      link: https://en.wikipedia.org/wiki/Drupada
+    }
+    _prishati: {
+      class: _character_minor
+      label: Prishati
+      link: "https://en.wikipedia.org/wiki/List_of_characters_in_the_Mahabharata#Prishati"
+    }
+    _union_drupada_prishati: {
+      class: _union_biological
+    }
+    _draupadi: {
+      class: _character
+      label: Draupadi
+      link: https://en.wikipedia.org/wiki/Draupadi
+    }
+    _dhrishtadyumna: {
+      class: _character
+      label: Dhrishtadyumna
+      link: https://en.wikipedia.org/wiki/Dhrishtadyumna
+    }
+    _shikandi: {
+      class: _character
+      label: Shikhandi
+      link: https://en.wikipedia.org/wiki/Shikhandi
+    }
+    _amba: {
+      class: _character
+      label: Amba
+      link: https://en.wikipedia.org/wiki/Amba_(Mahabharata)
+    }
+    _drupada -- _union_drupada_prishati
+    _prishati -- _union_drupada_prishati
+    _union_drupada_prishati -> _draupadi: {
+      class: _character
+    }
+    _union_drupada_prishati -> _dhrishtadyumna: {
+      class: _character
+    }
+    _union_drupada_prishati -> _shikandi: {
+      class: _character
+    }
+    _amba -> _shikandi: reincarnation
+    _union_draupadi_pandavas: {
+      class: _union
+    }
+    _draupadi -- _union_draupadi_pandavas
+    _yudhishthira -- _union_draupadi_pandavas
+    _bhima -- _union_draupadi_pandavas
+    _arjuna -- _union_draupadi_pandavas
+    _nakula -- _union_draupadi_pandavas
+    _sahadeva -- _union_draupadi_pandavas
+
+    # Arjuna, Subhadra and the next generation
+    _subhadra: {
+      class: _deity
+      label: Subhadra
+      link: https://en.wikipedia.org/wiki/Subhadra
+    }
+    _union_arjuna_subhadra: {
+      class: _union_biological
+    }
+    _abhimanyu: {
+      class: _character
+      label: Abhimanyu
+      link: https://en.wikipedia.org/wiki/Abhimanyu
+    }
+    _arjuna -- _union_arjuna_subhadra
+    _subhadra -- _union_arjuna_subhadra
+    _union_arjuna_subhadra -> _abhimanyu: {
+      class: _character
+    }
+
+    # Matsya: Virata and his children
+    _virata: {
+      class: _character
+      label: Virata
+      link: https://en.wikipedia.org/wiki/Virata
+    }
+    _sudeshna: {
+      class: _character
+      label: Sudeshna
+      link: https://en.wikipedia.org/wiki/Sudeshna
+    }
+    _union_virata_sudeshna: {
+      class: _union_biological
+    }
+    _uttar: {
+      class: _character
+      label: Uttar
+      link: https://en.wikipedia.org/wiki/Uttara_(Mahabharata)
+    }
+    _uttara: {
+      class: _character
+      label: Uttara
+      link: https://en.wikipedia.org/wiki/Uttar%C4%81
+    }
+    _virata -- _union_virata_sudeshna
+    _sudeshna -- _union_virata_sudeshna
+    _union_virata_sudeshna -> _uttar: {
+      class: _character
+    }
+    _union_virata_sudeshna -> _uttara: {
+      class: _character
+    }
+    _union_abhimanyu_uttara: {
+      class: _union_biological
+    }
+    _parikshit: {
+      class: _character
+      label: Parikshit
+      link: https://en.wikipedia.org/wiki/Parikshit
+    }
+    _abhimanyu -- _union_abhimanyu_uttara
+    _uttara -- _union_abhimanyu_uttara
+    _union_abhimanyu_uttara -> _parikshit: {
+      class: _character
+    }
+
+    # Drona, Kripi and Ashvatthama
+    _drona: {
+      class: _character
+      label: Drona
+      link: https://en.wikipedia.org/wiki/Drona
+    }
+    _kripi: {
+      class: _character_minor
+      label: Kripi
+      link: "https://en.wikipedia.org/wiki/List_of_characters_in_the_Mahabharata#Kripi"
+    }
+    _kripa: {
+      class: _character
+      label: Kripa
+      link: https://en.wikipedia.org/wiki/Kripa
+    }
+    _ashvatthama: {
+      class: _character
+      label: Ashvatthama
+      link: https://en.wikipedia.org/wiki/Ashvatthama
+    }
+    _union_drona_kripi: {
+      class: _union_biological
+    }
+    _drona -- _union_drona_kripi
+    _kripi -- _union_drona_kripi
+    _union_drona_kripi -> _ashvatthama: {
+      class: _character
+    }
+    _kripa -- _kripi: siblings
+
+    # Where sources disagree
+    notes: {
+      _note_shikhandi_amba: {
+        grid-columns: 1
+        text: |md
+          **Shikhandi and Amba**\
+          Shikhandi is Amba reborn in the majority of versions; the\
+          cast list and his article also tell of a sex exchange with\
+          a yaksha. The cast list credits the same actor as\
+          "Sudama / Shikhandi".
+        | {class: note; style.font-size: 16}
+        _src0: {
+          label: wiki/Shikhandi
+          link: "https://en.wikipedia.org/wiki/Shikhandi"
+          class: _link
+        }
+        _src1: {
+          label: wiki/Amba_(Mahabharata)
+          link: "https://en.wikipedia.org/wiki/Amba_(Mahabharata)"
+          class: _link
+        }
+        _src2: {
+          label: wiki/Mahabharat_(1988) # Recurring
+          link: "https://en.wikipedia.org/wiki/Mahabharat_(1988_TV_series)#Recurring"
+          class: _link
+        }
+      }
+    }
+    notes._note_shikhandi_amba -- _shikandi: {style: {stroke-dash: 3}}
+  }
+}

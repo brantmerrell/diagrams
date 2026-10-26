@@ -1,0 +1,22 @@
+vars: {
+  d2-config: {
+    layout-engine: tala
+    theme-id: 300
+    dark-theme-id: 200
+  }
+}
+classes: @"../classes"
+classes: @"../tags"
+
+layers: {
+  **.style.text-transform: none
+  0_base: {
+    links: {
+      wiki: {
+        label: Wiki page
+        link: https://en.wikipedia.org/wiki/Mahabharat_(1988_TV_series)
+        class: _link
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/stories/mahabharat/lineage/0_base.svg"
+    },
+    {
+      "name": "1_vasudeva",
+      "path": "/stories/mahabharat/lineage/1_vasudeva.svg"
+    },
+    {
+      "name": "2_lineage",
+      "path": "/stories/mahabharat/lineage/2_lineage.svg"
+    },
+    {
+      "name": "3_pandavas_kauravas",
+      "path": "/stories/mahabharat/lineage/3_pandavas_kauravas.svg"
+    }
+  ]
+}

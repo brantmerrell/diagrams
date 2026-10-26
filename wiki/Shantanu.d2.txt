@@ -1,0 +1,22 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 3
+    dark-theme-id: 200
+  }
+}
+classes: @"../story_classes"
+classes: @"../tags"
+
+layers: {
+  **.style.text-transform: none
+  0_base: {
+    links: {
+      wiki: {
+        label: Wiki page
+        link: https://en.wikipedia.org/wiki/Shantanu
+      }
+    }
+  }
+  1_family
+}

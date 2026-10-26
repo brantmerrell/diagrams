@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.8.2" preserveAspectRatio="xMinYMin meet" viewBox="0 0 2690 1481"><svg class="d2-4106306814 d2-svg" width="2690" height="1481" viewBox="-89 -151 2690 1481"><rect x="-89.000000" y="-151.000000" width="2690.000000" height="1481.000000" rx="0.000000" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
+<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.9.0" preserveAspectRatio="xMinYMin meet" viewBox="0 0 2690 1481"><svg class="d2-4106306814 d2-svg" width="2690" height="1481" viewBox="-89 -151 2690 1481"><rect x="-89" y="-151" width="2690" height="1481" rx="0" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
 .d2-4106306814 .text-mono {
 	font-family: "d2-4106306814-font-mono";
 }
@@ -27,157 +27,29 @@
 
 		.d2-4106306814 .fill-N1{fill:#000410;}
 		.d2-4106306814 .fill-N2{fill:#0000B8;}
-		.d2-4106306814 .fill-N3{fill:#9499AB;}
-		.d2-4106306814 .fill-N4{fill:#CFD2DD;}
-		.d2-4106306814 .fill-N5{fill:#C3DEF3;}
-		.d2-4106306814 .fill-N6{fill:#EEF1F8;}
 		.d2-4106306814 .fill-N7{fill:#FFFFFF;}
 		.d2-4106306814 .fill-B1{fill:#000410;}
 		.d2-4106306814 .fill-B2{fill:#0000E4;}
-		.d2-4106306814 .fill-B3{fill:#5AA4DC;}
-		.d2-4106306814 .fill-B4{fill:#E7E9EE;}
 		.d2-4106306814 .fill-B5{fill:#F5F6F9;}
-		.d2-4106306814 .fill-B6{fill:#FFFFFF;}
-		.d2-4106306814 .fill-AA2{fill:#008566;}
-		.d2-4106306814 .fill-AA4{fill:#45BBA5;}
-		.d2-4106306814 .fill-AA5{fill:#7ACCBD;}
-		.d2-4106306814 .fill-AB4{fill:#F1C759;}
-		.d2-4106306814 .fill-AB5{fill:#F9E088;}
-		.d2-4106306814 .stroke-N1{stroke:#000410;}
-		.d2-4106306814 .stroke-N2{stroke:#0000B8;}
-		.d2-4106306814 .stroke-N3{stroke:#9499AB;}
-		.d2-4106306814 .stroke-N4{stroke:#CFD2DD;}
-		.d2-4106306814 .stroke-N5{stroke:#C3DEF3;}
-		.d2-4106306814 .stroke-N6{stroke:#EEF1F8;}
-		.d2-4106306814 .stroke-N7{stroke:#FFFFFF;}
 		.d2-4106306814 .stroke-B1{stroke:#000410;}
-		.d2-4106306814 .stroke-B2{stroke:#0000E4;}
-		.d2-4106306814 .stroke-B3{stroke:#5AA4DC;}
-		.d2-4106306814 .stroke-B4{stroke:#E7E9EE;}
-		.d2-4106306814 .stroke-B5{stroke:#F5F6F9;}
-		.d2-4106306814 .stroke-B6{stroke:#FFFFFF;}
-		.d2-4106306814 .stroke-AA2{stroke:#008566;}
-		.d2-4106306814 .stroke-AA4{stroke:#45BBA5;}
-		.d2-4106306814 .stroke-AA5{stroke:#7ACCBD;}
-		.d2-4106306814 .stroke-AB4{stroke:#F1C759;}
-		.d2-4106306814 .stroke-AB5{stroke:#F9E088;}
-		.d2-4106306814 .background-color-N1{background-color:#000410;}
-		.d2-4106306814 .background-color-N2{background-color:#0000B8;}
-		.d2-4106306814 .background-color-N3{background-color:#9499AB;}
-		.d2-4106306814 .background-color-N4{background-color:#CFD2DD;}
-		.d2-4106306814 .background-color-N5{background-color:#C3DEF3;}
-		.d2-4106306814 .background-color-N6{background-color:#EEF1F8;}
-		.d2-4106306814 .background-color-N7{background-color:#FFFFFF;}
-		.d2-4106306814 .background-color-B1{background-color:#000410;}
-		.d2-4106306814 .background-color-B2{background-color:#0000E4;}
-		.d2-4106306814 .background-color-B3{background-color:#5AA4DC;}
-		.d2-4106306814 .background-color-B4{background-color:#E7E9EE;}
-		.d2-4106306814 .background-color-B5{background-color:#F5F6F9;}
-		.d2-4106306814 .background-color-B6{background-color:#FFFFFF;}
-		.d2-4106306814 .background-color-AA2{background-color:#008566;}
-		.d2-4106306814 .background-color-AA4{background-color:#45BBA5;}
-		.d2-4106306814 .background-color-AA5{background-color:#7ACCBD;}
-		.d2-4106306814 .background-color-AB4{background-color:#F1C759;}
-		.d2-4106306814 .background-color-AB5{background-color:#F9E088;}
-		.d2-4106306814 .color-N1{color:#000410;}
-		.d2-4106306814 .color-N2{color:#0000B8;}
-		.d2-4106306814 .color-N3{color:#9499AB;}
-		.d2-4106306814 .color-N4{color:#CFD2DD;}
-		.d2-4106306814 .color-N5{color:#C3DEF3;}
-		.d2-4106306814 .color-N6{color:#EEF1F8;}
-		.d2-4106306814 .color-N7{color:#FFFFFF;}
-		.d2-4106306814 .color-B1{color:#000410;}
-		.d2-4106306814 .color-B2{color:#0000E4;}
-		.d2-4106306814 .color-B3{color:#5AA4DC;}
-		.d2-4106306814 .color-B4{color:#E7E9EE;}
-		.d2-4106306814 .color-B5{color:#F5F6F9;}
-		.d2-4106306814 .color-B6{color:#FFFFFF;}
-		.d2-4106306814 .color-AA2{color:#008566;}
-		.d2-4106306814 .color-AA4{color:#45BBA5;}
-		.d2-4106306814 .color-AA5{color:#7ACCBD;}
-		.d2-4106306814 .color-AB4{color:#F1C759;}
-		.d2-4106306814 .color-AB5{color:#F9E088;}.appendix text.text{fill:#000410}.md{--color-fg-default:#000410;--color-fg-muted:#0000B8;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#000410;--color-border-muted:#0000E4;--color-neutral-muted:#EEF1F8;--color-accent-fg:#0000E4;--color-accent-emphasis:#0000E4;--color-attention-subtle:#0000B8;--color-danger-fg:red;}.sketch-overlay-B1{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-B2{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-B3{fill:url(#streaks-normal-d2-4106306814);mix-blend-mode:color-burn}.sketch-overlay-B4{fill:url(#streaks-bright-d2-4106306814);mix-blend-mode:darken}.sketch-overlay-B5{fill:url(#streaks-bright-d2-4106306814);mix-blend-mode:darken}.sketch-overlay-B6{fill:url(#streaks-bright-d2-4106306814);mix-blend-mode:darken}.sketch-overlay-AA2{fill:url(#streaks-dark-d2-4106306814);mix-blend-mode:overlay}.sketch-overlay-AA4{fill:url(#streaks-normal-d2-4106306814);mix-blend-mode:color-burn}.sketch-overlay-AA5{fill:url(#streaks-normal-d2-4106306814);mix-blend-mode:color-burn}.sketch-overlay-AB4{fill:url(#streaks-normal-d2-4106306814);mix-blend-mode:color-burn}.sketch-overlay-AB5{fill:url(#streaks-normal-d2-4106306814);mix-blend-mode:color-burn}.sketch-overlay-N1{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-N2{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-N3{fill:url(#streaks-normal-d2-4106306814);mix-blend-mode:color-burn}.sketch-overlay-N4{fill:url(#streaks-normal-d2-4106306814);mix-blend-mode:color-burn}.sketch-overlay-N5{fill:url(#streaks-normal-d2-4106306814);mix-blend-mode:color-burn}.sketch-overlay-N6{fill:url(#streaks-bright-d2-4106306814);mix-blend-mode:darken}.sketch-overlay-N7{fill:url(#streaks-bright-d2-4106306814);mix-blend-mode:darken}.light-code{display: block}.dark-code{display: none}@media screen and (prefers-color-scheme:dark){
+		.d2-4106306814 .stroke-B2{stroke:#0000E4;}.appendix text.text{fill:#000410}.md{--color-fg-default:#000410;--color-fg-muted:#0000B8;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#000410;--color-border-muted:#0000E4;--color-neutral-muted:#EEF1F8;--color-accent-fg:#0000E4;--color-accent-emphasis:#0000E4;--color-attention-subtle:#0000B8;--color-danger-fg:red;}.light-code{display: block}.dark-code{display: none}@media screen and (prefers-color-scheme:dark){
 		.d2-4106306814 .fill-N1{fill:#F4F6FA;}
 		.d2-4106306814 .fill-N2{fill:#BBBEC9;}
-		.d2-4106306814 .fill-N3{fill:#868A96;}
-		.d2-4106306814 .fill-N4{fill:#676D7D;}
-		.d2-4106306814 .fill-N5{fill:#3A3D49;}
-		.d2-4106306814 .fill-N6{fill:#191C28;}
 		.d2-4106306814 .fill-N7{fill:#000410;}
 		.d2-4106306814 .fill-B1{fill:#F4F6FA;}
 		.d2-4106306814 .fill-B2{fill:#6B8AFB;}
-		.d2-4106306814 .fill-B3{fill:#3733E9;}
-		.d2-4106306814 .fill-B4{fill:#070B67;}
 		.d2-4106306814 .fill-B5{fill:#0B1197;}
-		.d2-4106306814 .fill-B6{fill:#3733E9;}
-		.d2-4106306814 .fill-AA2{fill:#8B5DEE;}
-		.d2-4106306814 .fill-AA4{fill:#4918B1;}
-		.d2-4106306814 .fill-AA5{fill:#7240DD;}
-		.d2-4106306814 .fill-AB4{fill:#00607C;}
-		.d2-4106306814 .fill-AB5{fill:#01799D;}
-		.d2-4106306814 .stroke-N1{stroke:#F4F6FA;}
-		.d2-4106306814 .stroke-N2{stroke:#BBBEC9;}
-		.d2-4106306814 .stroke-N3{stroke:#868A96;}
-		.d2-4106306814 .stroke-N4{stroke:#676D7D;}
-		.d2-4106306814 .stroke-N5{stroke:#3A3D49;}
-		.d2-4106306814 .stroke-N6{stroke:#191C28;}
-		.d2-4106306814 .stroke-N7{stroke:#000410;}
 		.d2-4106306814 .stroke-B1{stroke:#F4F6FA;}
-		.d2-4106306814 .stroke-B2{stroke:#6B8AFB;}
-		.d2-4106306814 .stroke-B3{stroke:#3733E9;}
-		.d2-4106306814 .stroke-B4{stroke:#070B67;}
-		.d2-4106306814 .stroke-B5{stroke:#0B1197;}
-		.d2-4106306814 .stroke-B6{stroke:#3733E9;}
-		.d2-4106306814 .stroke-AA2{stroke:#8B5DEE;}
-		.d2-4106306814 .stroke-AA4{stroke:#4918B1;}
-		.d2-4106306814 .stroke-AA5{stroke:#7240DD;}
-		.d2-4106306814 .stroke-AB4{stroke:#00607C;}
-		.d2-4106306814 .stroke-AB5{stroke:#01799D;}
-		.d2-4106306814 .background-color-N1{background-color:#F4F6FA;}
-		.d2-4106306814 .background-color-N2{background-color:#BBBEC9;}
-		.d2-4106306814 .background-color-N3{background-color:#868A96;}
-		.d2-4106306814 .background-color-N4{background-color:#676D7D;}
-		.d2-4106306814 .background-color-N5{background-color:#3A3D49;}
-		.d2-4106306814 .background-color-N6{background-color:#191C28;}
-		.d2-4106306814 .background-color-N7{background-color:#000410;}
-		.d2-4106306814 .background-color-B1{background-color:#F4F6FA;}
-		.d2-4106306814 .background-color-B2{background-color:#6B8AFB;}
-		.d2-4106306814 .background-color-B3{background-color:#3733E9;}
-		.d2-4106306814 .background-color-B4{background-color:#070B67;}
-		.d2-4106306814 .background-color-B5{background-color:#0B1197;}
-		.d2-4106306814 .background-color-B6{background-color:#3733E9;}
-		.d2-4106306814 .background-color-AA2{background-color:#8B5DEE;}
-		.d2-4106306814 .background-color-AA4{background-color:#4918B1;}
-		.d2-4106306814 .background-color-AA5{background-color:#7240DD;}
-		.d2-4106306814 .background-color-AB4{background-color:#00607C;}
-		.d2-4106306814 .background-color-AB5{background-color:#01799D;}
-		.d2-4106306814 .color-N1{color:#F4F6FA;}
-		.d2-4106306814 .color-N2{color:#BBBEC9;}
-		.d2-4106306814 .color-N3{color:#868A96;}
-		.d2-4106306814 .color-N4{color:#676D7D;}
-		.d2-4106306814 .color-N5{color:#3A3D49;}
-		.d2-4106306814 .color-N6{color:#191C28;}
-		.d2-4106306814 .color-N7{color:#000410;}
-		.d2-4106306814 .color-B1{color:#F4F6FA;}
-		.d2-4106306814 .color-B2{color:#6B8AFB;}
-		.d2-4106306814 .color-B3{color:#3733E9;}
-		.d2-4106306814 .color-B4{color:#070B67;}
-		.d2-4106306814 .color-B5{color:#0B1197;}
-		.d2-4106306814 .color-B6{color:#3733E9;}
-		.d2-4106306814 .color-AA2{color:#8B5DEE;}
-		.d2-4106306814 .color-AA4{color:#4918B1;}
-		.d2-4106306814 .color-AA5{color:#7240DD;}
-		.d2-4106306814 .color-AB4{color:#00607C;}
-		.d2-4106306814 .color-AB5{color:#01799D;}.appendix text.text{fill:#F4F6FA}.md{--color-fg-default:#F4F6FA;--color-fg-muted:#BBBEC9;--color-fg-subtle:#868A96;--color-canvas-default:#000410;--color-canvas-subtle:#191C28;--color-border-default:#F4F6FA;--color-border-muted:#6B8AFB;--color-neutral-muted:#191C28;--color-accent-fg:#6B8AFB;--color-accent-emphasis:#6B8AFB;--color-attention-subtle:#BBBEC9;--color-danger-fg:red;}.sketch-overlay-B1{fill:url(#streaks-bright-d2-4106306814);mix-blend-mode:darken}.sketch-overlay-B2{fill:url(#streaks-normal-d2-4106306814);mix-blend-mode:color-burn}.sketch-overlay-B3{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-B4{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-B5{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-B6{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-AA2{fill:url(#streaks-dark-d2-4106306814);mix-blend-mode:overlay}.sketch-overlay-AA4{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-AA5{fill:url(#streaks-dark-d2-4106306814);mix-blend-mode:overlay}.sketch-overlay-AB4{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-AB5{fill:url(#streaks-dark-d2-4106306814);mix-blend-mode:overlay}.sketch-overlay-N1{fill:url(#streaks-bright-d2-4106306814);mix-blend-mode:darken}.sketch-overlay-N2{fill:url(#streaks-normal-d2-4106306814);mix-blend-mode:color-burn}.sketch-overlay-N3{fill:url(#streaks-dark-d2-4106306814);mix-blend-mode:overlay}.sketch-overlay-N4{fill:url(#streaks-dark-d2-4106306814);mix-blend-mode:overlay}.sketch-overlay-N5{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-N6{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.sketch-overlay-N7{fill:url(#streaks-darker-d2-4106306814);mix-blend-mode:lighten}.light-code{display: none}.dark-code{display: block}}]]></style><g class="X3F1YWxpdHk= styled"><g class="shape" ><rect x="2262.000000" y="-50.000000" width="238.000000" height="82.000000" stroke="Yellow" class=" fill-N7" style="stroke-width:2;stroke-dasharray:8.000000,7.892511;" /></g><text x="2381.000000" y="-11.500000" fill="Yellow" class="text-mono" style="text-anchor:middle;font-size:16px"><tspan x="2381.000000" dy="0.000000">LAYER QUALITY:</tspan><tspan x="2381.000000" dy="18.500000"> pending tech review</tspan></text></g><g class="Y2xpZW50 obj_client"><g class="shape" ><path d="M 12 119 C 12 108 23 98 33 98 H 110 C 121 98 131 109 131 119 V 163 C 131 174 120 184 110 184 H 33 C 22 184 12 173 12 163 Z" class=" stroke-B1 fill-B5" style="stroke-width:2;" /><path d="M 71 52 C 85 52 97 64 97 78 C 97 92 85 104 71 104 C 57 104 45 92 45 78 C 45 64 57 52 71 52" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="71.000000" y="150.864000" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">client</text></g><g class="YXBw obj_server"><g class="shape" ><rect x="645.000000" y="106.000000" width="150.000000" height="78.000000" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="720.000000" y="154.500000" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">FastAPI</text></g><g class="cm91dGVy obj_service"><g class="shape" ><rect x="928.000000" y="106.000000" width="277.000000" height="78.000000" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1066.500000" y="154.500000" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">endpoint router</text></g><g class="Y2hlc3M= obj_service"><g class="shape" ><rect x="1368.000000" y="106.000000" width="229.000000" height="78.000000" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1482.500000" y="154.500000" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">python-chess</text></g><g class="bmV0d29ya3g= obj_service"><g class="shape" ><rect x="1644.000000" y="106.000000" width="168.000000" height="78.000000" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1728.000000" y="154.500000" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">NetworkX</text></g><g class="ZGlhZ29u obj_service"><g class="shape" ><rect x="1852.000000" y="106.000000" width="199.000000" height="78.000000" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1951.500000" y="154.500000" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">diagon CLI</text></g><g class="dXZpY29ybg== obj_server"><g class="shape" ><rect x="2091.000000" y="106.000000" width="151.000000" height="78.000000" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="2166.500000" y="154.500000" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">uvicorn</text></g><g class="KGNsaWVudCAtLSApWzBd"><path d="M 71.000000 186.000000 L 71.000000 1228.000000" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KGFwcCAtLSApWzBd"><path d="M 720.000000 186.000000 L 720.000000 1228.000000" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KHJvdXRlciAtLSApWzBd"><path d="M 1066.500000 186.000000 L 1066.500000 1228.000000" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KGNoZXNzIC0tIClbMF0="><path d="M 1482.500000 186.000000 L 1482.500000 1228.000000" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KG5ldHdvcmt4IC0tIClbMF0="><path d="M 1728.000000 186.000000 L 1728.000000 1228.000000" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KGRpYWdvbiAtLSApWzBd"><path d="M 1951.500000 186.000000 L 1951.500000 1228.000000" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KHV2aWNvcm4gLS0gKVswXQ=="><path d="M 2166.500000 186.000000 L 2166.500000 1228.000000" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KGFwcCAtJmd0OyB1dmljb3JuKVswXQ=="><marker id="mk-d2-4106306814-3488378134" markerWidth="10.000000" markerHeight="12.000000" refX="7.000000" refY="6.000000" viewBox="0.000000 0.000000 10.000000 12.000000" orient="auto" markerUnits="userSpaceOnUse"> <polygon points="0.000000,0.000000 10.000000,6.000000 0.000000,12.000000" class="connection fill-B1" stroke-width="2" /> </marker><path d="M 722.000000 264.000000 L 2162.500000 264.000000" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-4106306814-3488378134)" mask="url(#d2-4106306814)" /><text x="1443.500000" y="270.000000" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:16px">SERVE ON 0.0.0.0:</text></g><g class="KGNsaWVudCAtJmd0OyBhcHApWzBd edge_request"><marker id="mk-d2-4106306814-43695958" markerWidth="13.000000" markerHeight="16.000000" refX="8.500000" refY="8.000000" viewBox="0.000000 0.000000 13.000000 16.000000" orient="auto" markerUnits="userSpaceOnUse"> <polygon points="0.000000,0.000000 13.000000,8.000000 0.000000,16.000000" class="connection fill-B2" stroke-width="3" /> </marker><path d="M 73.500000 359.000000 L 714.500000 359.000000" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:15.000000,14.583620;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="395.500000" y="368.000000" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">GET /links?fen_string=&lt;FEN&gt;&amp;heatmap=false</text></g><g class="KGFwcCAtJmd0OyByb3V0ZXIpWzBd edge_request"><path d="M 722.500000 459.000000 L 1061.000000 459.000000" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:15.000000,14.583620;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="893.500000" y="468.000000" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">route to links.py</text></g><g class="KHJvdXRlciAtJmd0OyBjaGVzcylbMF0= edge_query"><path d="M 1069.000000 559.000000 L 1477.000000 559.000000" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="1274.500000" y="568.000000" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">parse FEN → board</text></g><g class="KHJvdXRlciAtJmd0OyBjaGVzcylbMV0= edge_query"><path d="M 1069.000000 659.000000 L 1477.000000 659.000000" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="1275.000000" y="668.000000" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">get_nodes(board, heatmap)</text></g><g class="KHJvdXRlciAtJmd0OyBjaGVzcylbMl0= edge_query"><path d="M 1069.000000 759.000000 L 1477.000000 759.000000" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="1274.500000" y="768.000000" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">get_edges(board)</text></g><g class="KGNsaWVudCAtJmd0OyBhcHApWzFd edge_request"><path d="M 73.500000 859.000000 L 714.500000 859.000000" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:15.000000,14.583620;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="396.000000" y="868.000000" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">PUT /graphdag</text></g><g class="KGFwcCAtJmd0OyByb3V0ZXIpWzFd edge_request"><path d="M 722.500000 959.000000 L 1061.000000 959.000000" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:15.000000,14.583620;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="893.000000" y="968.000000" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">route to graphdag.py</text></g><g class="KHJvdXRlciAtJmd0OyBuZXR3b3JreClbMF0= edge_query"><path d="M 1069.000000 1059.000000 L 1722.500000 1059.000000" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="1397.500000" y="1068.000000" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">build_acyclic_graph(edges)</text></g><g class="KHJvdXRlciAtJmd0OyBkaWFnb24pWzBd edge_request"><path d="M 1069.000000 1159.000000 L 1946.000000 1159.000000" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:15.000000,14.583620;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="1509.500000" y="1168.000000" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">pipe edge list to stdin</text></g><mask id="d2-4106306814" maskUnits="userSpaceOnUse" x="-89" y="-151" width="2690" height="1481">
+		.d2-4106306814 .stroke-B2{stroke:#6B8AFB;}.appendix text.text{fill:#F4F6FA}.md{--color-fg-default:#F4F6FA;--color-fg-muted:#BBBEC9;--color-fg-subtle:#868A96;--color-canvas-default:#000410;--color-canvas-subtle:#191C28;--color-border-default:#F4F6FA;--color-border-muted:#6B8AFB;--color-neutral-muted:#191C28;--color-accent-fg:#6B8AFB;--color-accent-emphasis:#6B8AFB;--color-attention-subtle:#BBBEC9;--color-danger-fg:red;}.light-code{display: none}.dark-code{display: block}}]]></style><g class="X3F1YWxpdHk= styled"><g class="shape" ><rect x="2262" y="-50" width="238" height="82" stroke="Yellow" class=" fill-N7" style="stroke-width:2;stroke-dasharray:8.000000,7.892511;" /></g><text x="2381" y="-11.5" fill="Yellow" class="text-mono" style="text-anchor:middle;font-size:16px"><tspan x="2381" dy="0">LAYER QUALITY:</tspan><tspan x="2381" dy="18.5"> pending tech review</tspan></text></g><g class="Y2xpZW50 obj_client"><g class="shape" ><path d="M 12 119 C 12 108 23 98 33 98 H 110 C 121 98 131 109 131 119 V 163 C 131 174 120 184 110 184 H 33 C 22 184 12 173 12 163 Z" class=" stroke-B1 fill-B5" style="stroke-width:2;" /><path d="M 71 52 C 85 52 97 64 97 78 C 97 92 85 104 71 104 C 57 104 45 92 45 78 C 45 64 57 52 71 52" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="71" y="150.864" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">client</text></g><g class="YXBw obj_server"><g class="shape" ><rect x="645" y="106" width="150" height="78" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="720" y="154.5" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">FastAPI</text></g><g class="cm91dGVy obj_service"><g class="shape" ><rect x="928" y="106" width="277" height="78" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1066.5" y="154.5" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">endpoint router</text></g><g class="Y2hlc3M= obj_service"><g class="shape" ><rect x="1368" y="106" width="229" height="78" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1482.5" y="154.5" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">python-chess</text></g><g class="bmV0d29ya3g= obj_service"><g class="shape" ><rect x="1644" y="106" width="168" height="78" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1728" y="154.5" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">NetworkX</text></g><g class="ZGlhZ29u obj_service"><g class="shape" ><rect x="1852" y="106" width="199" height="78" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="1951.5" y="154.5" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">diagon CLI</text></g><g class="dXZpY29ybg== obj_server"><g class="shape" ><rect x="2091" y="106" width="151" height="78" class=" stroke-B1 fill-B5" style="stroke-width:2;" /></g><text x="2166.5" y="154.5" class="text-mono fill-N1" style="text-anchor:middle;font-size:26px">uvicorn</text></g><g class="KGNsaWVudCAtLSApWzBd"><path d="M 71 186 L 71 1228" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KGFwcCAtLSApWzBd"><path d="M 720 186 L 720 1228" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KHJvdXRlciAtLSApWzBd"><path d="M 1066.5 186 L 1066.5 1228" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KGNoZXNzIC0tIClbMF0="><path d="M 1482.5 186 L 1482.5 1228" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KG5ldHdvcmt4IC0tIClbMF0="><path d="M 1728 186 L 1728 1228" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KGRpYWdvbiAtLSApWzBd"><path d="M 1951.5 186 L 1951.5 1228" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KHV2aWNvcm4gLS0gKVswXQ=="><path d="M 2166.5 186 L 2166.5 1228" fill="none" class="connection stroke-B2" style="stroke-width:2;stroke-dasharray:12.000000,11.838767;" mask="url(#d2-4106306814)" /></g><g class="KGFwcCAtJmd0OyB1dmljb3JuKVswXQ=="><marker id="mk-d2-4106306814-3488378134" markerWidth="10" markerHeight="12" refX="7" refY="6" viewBox="0 0 10 12" orient="auto" markerUnits="userSpaceOnUse"> <polygon points="0,0 10,6 0,12" class="connection fill-B1" stroke-width="2" /> </marker><path d="M 722 264 L 2162.5 264" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-4106306814-3488378134)" mask="url(#d2-4106306814)" /><text x="1443.5" y="270" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:16px">SERVE ON 0.0.0.0:</text></g><g class="KGNsaWVudCAtJmd0OyBhcHApWzBd edge_request"><marker id="mk-d2-4106306814-43695958" markerWidth="13" markerHeight="16" refX="8.5" refY="8" viewBox="0 0 13 16" orient="auto" markerUnits="userSpaceOnUse"> <polygon points="0,0 13,8 0,16" class="connection fill-B2" stroke-width="3" /> </marker><path d="M 73.5 359 L 714.5 359" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:15.000000,14.583620;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="395.5" y="368" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">GET /links?fen_string=&lt;FEN&gt;&amp;heatmap=false</text></g><g class="KGFwcCAtJmd0OyByb3V0ZXIpWzBd edge_request"><path d="M 722.5 459 L 1061 459" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:15.000000,14.583620;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="893.5" y="468" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">route to links.py</text></g><g class="KHJvdXRlciAtJmd0OyBjaGVzcylbMF0= edge_query"><path d="M 1069 559 L 1477 559" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="1274.5" y="568" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">parse FEN → board</text></g><g class="KHJvdXRlciAtJmd0OyBjaGVzcylbMV0= edge_query"><path d="M 1069 659 L 1477 659" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="1275" y="668" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">get_nodes(board, heatmap)</text></g><g class="KHJvdXRlciAtJmd0OyBjaGVzcylbMl0= edge_query"><path d="M 1069 759 L 1477 759" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="1274.5" y="768" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">get_edges(board)</text></g><g class="KGNsaWVudCAtJmd0OyBhcHApWzFd edge_request"><path d="M 73.5 859 L 714.5 859" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:15.000000,14.583620;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="396" y="868" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">PUT /graphdag</text></g><g class="KGFwcCAtJmd0OyByb3V0ZXIpWzFd edge_request"><path d="M 722.5 959 L 1061 959" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:15.000000,14.583620;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="893" y="968" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">route to graphdag.py</text></g><g class="KHJvdXRlciAtJmd0OyBuZXR3b3JreClbMF0= edge_query"><path d="M 1069 1059 L 1722.5 1059" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:12.000000,11.666896;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="1397.5" y="1068" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">build_acyclic_graph(edges)</text></g><g class="KHJvdXRlciAtJmd0OyBkaWFnb24pWzBd edge_request"><path d="M 1069 1159 L 1946 1159" fill="none" class="connection stroke-B2" style="stroke-width:3;stroke-dasharray:15.000000,14.583620;" marker-end="url(#mk-d2-4106306814-43695958)" mask="url(#d2-4106306814)" /><text x="1509.5" y="1168" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:24px">pipe edge list to stdin</text></g><mask id="d2-4106306814" maskUnits="userSpaceOnUse" x="-89" y="-151" width="2690" height="1481">
 <rect x="-89" y="-151" width="2690" height="1481" fill="white"></rect>
-<rect x="1361.000000" y="254.000000" width="165" height="21" fill="black"></rect>
-<rect x="99.000000" y="344.000000" width="593" height="31" fill="black"></rect>
-<rect x="770.000000" y="444.000000" width="247" height="31" fill="black"></rect>
-<rect x="1149.000000" y="544.000000" width="251" height="31" fill="black"></rect>
-<rect x="1095.000000" y="644.000000" width="360" height="31" fill="black"></rect>
-<rect x="1159.000000" y="744.000000" width="231" height="31" fill="black"></rect>
-<rect x="301.000000" y="844.000000" width="190" height="31" fill="black"></rect>
-<rect x="748.000000" y="944.000000" width="290" height="31" fill="black"></rect>
-<rect x="1210.000000" y="1044.000000" width="375" height="31" fill="black"></rect>
-<rect x="1342.000000" y="1144.000000" width="335" height="31" fill="black"></rect>
+<rect x="1361" y="254" width="165" height="21" fill="black"></rect>
+<rect x="99" y="344" width="593" height="31" fill="black"></rect>
+<rect x="770" y="444" width="247" height="31" fill="black"></rect>
+<rect x="1149" y="544" width="251" height="31" fill="black"></rect>
+<rect x="1095" y="644" width="360" height="31" fill="black"></rect>
+<rect x="1159" y="744" width="231" height="31" fill="black"></rect>
+<rect x="301" y="844" width="190" height="31" fill="black"></rect>
+<rect x="748" y="944" width="290" height="31" fill="black"></rect>
+<rect x="1210" y="1044" width="375" height="31" fill="black"></rect>
+<rect x="1342" y="1144" width="335" height="31" fill="black"></rect>
 </mask></svg></svg>

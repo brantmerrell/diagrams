@@ -162,7 +162,7 @@ layers: {
       array -> pop -> result
     }
   }
-  2_cases: {
+  3_cases: {
     _quality: {class: compiles}
     example: {
       grid-rows: 2
@@ -186,7 +186,7 @@ layers: {
       o: expected\noutput=0
     }
   }
-  3_iterator_pattern: {
+  4_iterator_pattern: {
     ...@"../design-patterns/iterator".layers.1_pattern
     client.label: "print_singly_linked_list\n(caller)"
     aggregate.label: "SinglyLinkedList\n(head)"

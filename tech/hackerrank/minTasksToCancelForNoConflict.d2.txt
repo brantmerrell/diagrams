@@ -1,0 +1,67 @@
+direction: down
+vars: @"../vars/hackerrank.d2"
+classes: @"../../classes.d2"
+classes: @"../../tags.d2"
+
+layers: {
+  **.style.text-transform: none
+  0_base: {
+    _quality: {class: coherent}
+    links: {
+      hackerrank: {
+        label: Hackerrank Exercise
+        class: _link
+        link: https://www.hackerrank.com/contests/software-engineer-prep-kit/challenges/lexicographical-letter-combinations-phone-digits/problem
+      }
+    }
+  }
+  1_raw_itertools: {
+    _quality: {class: compiles}
+    python: |py
+      def minTasksToCancelForNoConflict(digits):
+          import itertools
+          phone_keys = [
+              '0', '1', 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz'
+          ]
+          my_map = []
+          for digit in digits:
+              my_map.append(phone_keys[int(digit)])
+          output = []
+          for m in itertools.product(*my_map):
+              output.append(''.join(m))
+          return(output)
+    |
+  }
+  2_raw_dfs: {
+    _quality: {class: compiles}
+    python: |py
+      def minTasksToCancelForNoConflict(digits):
+          if not len(digits):
+              return []
+          keypad_map = {
+              '0': ['0'],
+              '1': ['1'],
+              '2': ['a', 'b','c'],
+              '3': ['d', 'e', 'f'],
+              '4': ['g', 'h', 'i'],
+              '5': ['j', 'k', 'l'],
+              '6': ['m', 'n', 'o'],
+              '7': ['p', 'q', 'r', 's'],
+              '8': ['t', 'u', 'v'],
+              '9': ['w', 'x', 'y', 'z']
+          }
+          result = []
+          path = []
+          def dfs(depth_i):
+              if depth_i == len(digits):
+                  result.append(''.join(path))
+                  return
+              for ch in keypad_map[digits[depth_i]]:
+                  path.append(ch)
+                  lexical(i + 1)
+                  path.pop()
+          dfs(0)
+          return result
+    |
+  }
+}

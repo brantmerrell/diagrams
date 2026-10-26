@@ -5,8 +5,8 @@
     "coherent"
   ],
   "tags": {
-    "/tech/challenges/pressw/pantrypal_plan.d2": [
-      "styled"
+    "/stories/mahabharat/lineage.d2": [
+      "compiles"
     ],
     "/tech/clipboard.d2": [
       "compiles"
@@ -70,6 +70,19 @@
     ],
     "/tech/examples/3-special-objects/uml.d2": [
       "styled"
+    ],
+    "/tech/exercises/pantrypal.d2": [
+      "styled"
+    ],
+    "/tech/hackerrank/canPlaceSecurityCameras.d2": [
+      "compiles"
+    ],
+    "/tech/hackerrank/generateAngleBracketSequences.d2": [
+      "compiles"
+    ],
+    "/tech/hackerrank/minTasksToCancelForNoConflict.d2": [
+      "coherent",
+      "compiles"
     ],
     "/tech/hackerrank/removeKthNodeFromEnd.d2": [
       "coherent",
