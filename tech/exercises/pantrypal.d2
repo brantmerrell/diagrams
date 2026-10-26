@@ -1,6 +1,6 @@
-vars: @"../../vars/jbm.d2"
-classes: @"../../../classes"
-classes: @"../../../tags"
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
 classes: {
   chip_pm: {shape: square; width: 30; height: 30; style: {fill: "#4C6EF5"}}
   chip_ceo: {shape: square; width: 30; height: 30; style: {fill: "#F76707"}}
@@ -33,7 +33,7 @@ layers: {
     }
   }
   1_facade_pattern: {
-    ...@"../../design-patterns/facade".layers.1_pattern
+    ...@"../design-patterns/facade".layers.1_pattern
     client.label: "api_chat\nPOST /chat"
     facade.label: "agent_loop\n(tool-calling loop)"
     facade.start.label: "invoke"
@@ -46,7 +46,7 @@ layers: {
     hd.read.label: "tool call"
   }
   2_adapter_pattern: {
-    ...@"../../design-patterns/adapter".layers.1_pattern
+    ...@"../design-patterns/adapter".layers.1_pattern
     client.label: "chat_ui\n(voice_ui future)"
     target.label: "channel_adapter"
     target.request.label: "normalized message"
@@ -176,7 +176,7 @@ layers: {
     docker_compose -> client.chat_ui: {class: edge_spawn; label: up}
   }
   4_chain_of_responsibility_pattern: {
-    ...@"../../design-patterns/chain-of-responsibility".layers.1_pattern
+    ...@"../design-patterns/chain-of-responsibility".layers.1_pattern
     client.label: "agent_loop"
     handler1.label: "allergen_mw\n(disclosure injector)"
     handler1.handle.label: "inject allergen\ndisclosure"
