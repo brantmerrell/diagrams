@@ -1,0 +1,8 @@
+{
+  "scenarios": [
+    {
+      "name": "0_base",
+      "path": "/ai-news-cycle/0_base.svg"
+    }
+  ]
+}
