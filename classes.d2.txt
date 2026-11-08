@@ -18,6 +18,7 @@ unchanged: {
   }
 }
 future: {
+  # how is this different from to_add?
   style: {
     stroke-width: 3
     stroke-dash: 3
@@ -48,16 +49,19 @@ edge_no_signal: {
     stroke-width: 2
   }
 }
-TODO: give classes font-size above 25
+TODO: give all classes font-size above 25
 cond: {
   shape: diamond
 }
 highlight: {
+  label: 🔖
   style: {
-    stroke-width: 5
+    font-color: Crimson
     font-size: 24
-    stroke: Crimson
     stroke-width: 4
+    stroke-width: 5
+    stroke: Crimson
+    fill: DarkSlateGray
   }
 }
 invis: {
@@ -89,12 +93,14 @@ op: {
   shape: parallelogram
 }
 scalar: {
+  # is this used anywhere other than in legend?
   style: {
     stroke-dash: 4
     stroke-width: 3
   }
 }
 data: {
+  # is this used anywhere other than in legend?
   style: {
     stroke-dash: 3
     stroke-width: 3
@@ -116,7 +122,7 @@ generic_node: {
 generic_edge: {
   # not a well-named class; a placeholder for plain sequencing edges with no other class
   style: {
-    font-size: 26
+    font-size: 20
   }
 }
 gate_and: {
@@ -148,11 +154,13 @@ gate_not: {
   icon: ./icons/gate_not.svg
 }
 obj_socket: {
+  # too specific; consolidate into _obj
   style: {
     font-size: 32
   }
 }
 obj_port: {
+  # too specific; consolidate into _obj
   style: {
     font-size: 30
   }
@@ -194,7 +202,7 @@ notes: {
 note: {
   shape: page
   style: {
-    font-size: 30
+    font-size: 24
   }
 }
 edge_invis: {
@@ -219,7 +227,7 @@ edge_write: {
   }
 }
 edge_query: {
-  label: Q
+  label: 🕶
   style: {
     font-size: 24
     stroke-dash: 4

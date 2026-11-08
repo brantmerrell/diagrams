@@ -5,7 +5,11 @@
     "coherent"
   ],
   "tags": {
+    "/ai-news-cycle.d2": [
+      "compiles"
+    ],
     "/stories/mahabharat/lineage.d2": [
+      "styled",
       "compiles"
     ],
     "/tech/clipboard.d2": [
@@ -184,6 +188,9 @@
     "/tech/sd-notes/tools/vector_database.d2": [
       "compiles"
     ],
+    "/tech/self/drive.d2": [
+      "compiles"
+    ],
     "/tech/self/setup.d2": [
       "compiles",
       "styled"
@@ -193,6 +200,21 @@
     ],
     "/tech/self/view.d2": [
       "styled"
+    ],
+    "/wiki/Balarama.d2": [
+      "compiles"
+    ],
+    "/wiki/Bharata_(Mahabharata).d2": [
+      "compiles"
+    ],
+    "/wiki/Mahabharat_(1988_TV_series).d2": [
+      "compiles"
+    ],
+    "/wiki/Shantanu.d2": [
+      "compiles"
+    ],
+    "/wiki/Vyasa.d2": [
+      "compiles"
     ]
   }
 }

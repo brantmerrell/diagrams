@@ -13,8 +13,12 @@
       "path": "/stories/mahabharat/lineage/2_lineage.svg"
     },
     {
-      "name": "3_pandavas_kauravas",
-      "path": "/stories/mahabharat/lineage/3_pandavas_kauravas.svg"
+      "name": "3_pandavas",
+      "path": "/stories/mahabharat/lineage/3_pandavas.svg"
+    },
+    {
+      "name": "4_kauravas",
+      "path": "/stories/mahabharat/lineage/4_kauravas.svg"
     }
   ]
 }
