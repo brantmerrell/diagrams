@@ -16,7 +16,14 @@ const EXCLUDE_DIRS = new Set(['node_modules', 'dist', 'src', '.git', '.github', 
 
 export function* walkD2Files(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.isDirectory()) {
+    // Private mounts (e.g. tech/cardforge → a Drive-synced folder outside the
+    // repo) are symlinks, which Dirent reports as neither file nor directory.
+    // Follow them; a dangling one (folder not synced yet) is skipped.
+    let isDir = entry.isDirectory()
+    if (entry.isSymbolicLink()) {
+      try { isDir = fs.statSync(path.join(dir, entry.name)).isDirectory() } catch { continue }
+    }
+    if (isDir) {
       if (EXCLUDE_DIRS.has(entry.name)) continue
       yield* walkD2Files(path.join(dir, entry.name))
     } else if (entry.name.endsWith('.d2')) {

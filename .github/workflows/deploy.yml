@@ -90,6 +90,11 @@ jobs:
           find . -maxdepth 1 -name '*.d2' | while read -r f; do
             svg="${f%.d2}.svg"
             [ -f "$svg" ] && cp "$svg" dist/
+            # Multi-board root diagrams compile into a sibling dir (foo.d2 →
+            # foo/<layer>.svg + scenarios.json). The dir loop above skips it
+            # because it holds no .d2/.mmd sources, so copy it here.
+            outdir="${f%.d2}"
+            [ -d "$outdir" ] && mkdir -p "dist/$outdir" && rsync -a "$outdir/" "dist/$outdir/"
             cp "$f" "dist/$f.txt"
           done
           cp pointers.yaml dist/

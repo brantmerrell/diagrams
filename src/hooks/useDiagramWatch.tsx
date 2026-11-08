@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { normalizeToCanonical, canonicalToSvgPath } from '../lib/yamlExtract'
-import { openLinkAnchorsInNewTab } from '../lib/svgLinks'
+import { openLinkAnchorsInNewTab, resolveRelativeDiagramLinks, diagramDirOf } from '../lib/svgLinks'
 import { makeThemeToggleable } from '../lib/svgTheme'
 
 export interface Scenario {
@@ -42,6 +42,10 @@ export function useDiagramWatch(
   const scenariosRef = useRef<Scenario[] | null>(null)
   const activeScenarioIndexRef = useRef(activeScenarioIndex)
   activeScenarioIndexRef.current = activeScenarioIndex
+  // Directory of the current diagram (e.g. /tech/foo/), used to resolve relative
+  // `link:` hrefs in its SVGs. Set per diagram in the load effect below; read
+  // through a ref because loadSvgFromPath is a stable callback.
+  const linkBaseDirRef = useRef('/')
 
   const loadSvgFromPath = useCallback(async (svgPath: string, signal: AbortSignal, silent = false) => {
     try {
@@ -52,7 +56,9 @@ export function useDiagramWatch(
         // in that window gets an empty or truncated body. Keep the last good
         // render instead of blanking — the write's own SSE event refetches soon.
         if (!text.includes('<svg')) return
-        const withLinkTargets = makeThemeToggleable(openLinkAnchorsInNewTab(text))
+        const withLinkTargets = makeThemeToggleable(
+          openLinkAnchorsInNewTab(resolveRelativeDiagramLinks(text, linkBaseDirRef.current)),
+        )
         // Skip the re-render when a sibling layer's compile fired this reload but
         // the active layer's own SVG didn't actually change — avoids a visible flash.
         setSvgContent(prev => withLinkTargets === prev ? prev : withLinkTargets)
@@ -119,6 +125,7 @@ export function useDiagramWatch(
     const dp = normalizeToCanonical(diagramPath)    // e.g. /tech/foo.d2
     const svgPath = canonicalToSvgPath(dp)          // e.g. /tech/foo.svg
     const eventPath = dp.slice(1)                   // e.g. tech/foo.d2 (no leading /)
+    linkBaseDirRef.current = diagramDirOf(dp)       // e.g. /tech/ — see resolveRelativeDiagramLinks
 
     const loadSvg = () => loadSvgFromPath(svgPath, ac.signal)
 

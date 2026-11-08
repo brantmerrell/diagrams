@@ -5,3 +5,12 @@ dist/
 *.svg
 *.json
 tech/tags.json
+
+# Private mounts: symlinks to cloud-synced folders outside the repo (Drive,
+# OneDrive, Dropbox…) holding diagrams that must never be published. Their
+# pointers.yaml entries stay; they render crossed out on the public site.
+# See scripts/private-mounts/README.md.
+tech/cardforge
+
+# Playwright MCP page snapshots/console logs
+.playwright-mcp/

@@ -1,0 +1,7 @@
+[Unit]
+Description=Bisync private diagram mount %i with its cloud folder
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/github/brantmerrell/diagrams/scripts/private-mounts/sync.sh %i

@@ -1,0 +1,112 @@
+vars: @"../vars/jbm.d2"
+classes: @"../../classes"
+classes: @"../../tags"
+
+layers: {
+  0_overview: {
+    direction: right
+    _quality: {class: compiles}
+    design_pattern: {
+      label: "design pattern: none"
+      link: ../design-patterns/none.d2
+      class: _link
+    }
+
+    local: {
+      label: "local machine"
+      repo: {
+        label: "~/github/brantmerrell/diagrams"
+        public: {class: obj_db; label: "tech/**/*.d2\n(public diagrams)"}
+        mount: {class: obj_db; label: "tech/anonymous_client\n(symlink)"}
+        ignores: {class: security_layer; label: ".gitignore\n.dockerignore\nlist tech/anonymous_client"}
+        viewer: {class: obj_server; label: "viewer\n(bun run start)"}
+        viewer -> public: {class: edge_query; label: "compile + serve"}
+        viewer -> mount: {class: edge_query; label: "compile + serve"}
+      }
+      folder: {
+        class: obj_db
+        label: "~/anonymous_client/drive/\nTech Architecture\n(.d2 + raw SVGs)"
+      }
+      cache: {
+        class: obj_cache
+        label: "~/.cache/diagrams-private-mounts/\nanonymous_client\n(themed PNGs)"
+      }
+      repo.mount -> folder: {class: edge_own; label: "points to"}
+      folder -> cache: {class: edge_write; label: "bake + render"}
+    }
+
+    drive: {
+      label: "Google Drive\nanonymous_client's shared folder"
+      d2: {class: obj_db; label: "*.d2\nother docs"}
+      png: {class: obj_db; label: "foo/<layer>.png"}
+    }
+
+    github: {
+      label: "GitHub\nbrantmerrell/diagrams"
+      tree: {class: obj_db; label: "repo\n(no tech/anonymous_client)"}
+    }
+    site: {class: obj_server; label: "diagrams.jbm.eco\n(anonymous_client entries\ncrossed out)"}
+
+    local.folder <-> drive.d2: {class: edge_write; label: "rclone bisync\n(both ways)"}
+    local.cache -> drive.png: {class: edge_write; label: "rclone sync\n(one way)"}
+    local.repo.public -> github.tree: {class: edge_write; label: "git push"}
+    local.repo.mount -> github.tree: {
+      class: negative
+      label: "withheld"
+      style.stroke-dash: 4
+    }
+    local.repo.ignores -> local.repo.mount: {class: edge_own; label: "excludes"}
+    github.tree -> site: {class: edge_write; label: "deploy\n(checkout only)"}
+  }
+
+  1_sync: {
+    direction: down
+    _quality: {class: compiles}
+    design_pattern: {
+      label: "design pattern: none"
+      link: ../design-patterns/none.d2
+      class: _link
+    }
+
+    triggers: {
+      class: generic_node
+      label: "triggers"
+      timer: {class: obj_service; label: "systemd timer\ndiagrams-sync@anonymous_client\n(every 5 min)"}
+      start: {class: obj_service; label: "bun run start\n(scripts/dev.sh)"}
+    }
+    lock: {class: security_layer; label: "flock\n(one run per mount)"}
+    pass1: {
+      class: obj_service
+      label: "pass 1: rclone bisync\nexcludes foo/*.svg|png"
+    }
+    pass2: {
+      label: "pass 2 (local → Drive only)"
+      class: generic_node
+      bake: {class: obj_service; label: "bake_svgs.py\nflatten viewer theme\nto plain CSS"}
+      render: {class: obj_service; label: "headless Chrome\nPNG at 2×\n(cap 8192 px)"}
+      push: {class: obj_service; label: "rclone sync\nfoo/<layer>.png only"}
+      bake -> render: {class: edge_write; label: "changed SVGs"}
+      render -> push: {class: edge_write; label: "PNGs"}
+    }
+    folder: {class: obj_db; label: "local folder\n.d2 + raw SVGs"}
+    drive: {class: obj_db; label: "Google Drive\nshared folder"}
+
+    triggers.timer -> lock: {class: edge_spawn; label: "sync.sh"}
+    triggers.start -> lock: {class: edge_spawn; label: "start service\n(immediate sync)"}
+    lock -> pass1: {class: edge_call; label: "then"}
+    pass1 -> pass2.bake: {class: edge_call; label: "then"}
+    pass1 <-> folder: {class: edge_write; label: ".d2, docs"}
+    pass1 <-> drive: {class: edge_write; label: ".d2, docs"}
+    folder -> pass2.bake: {class: edge_query; label: "raw SVGs"}
+    pass2.push -> drive: {class: edge_write; label: "PNGs"}
+
+    why: |md
+      **Why not sync the SVGs directly?** The viewer themes raw d2 SVGs in the\
+      browser (light/dark toggle plus `diagramSemanticThemes.css`), so the raw\
+      files look wrong anywhere else. Drive's previewer also rejects attribute\
+      selectors and rasterizes SVGs blurrily. So the theme is flattened into\
+      the file and rendered to PNG. All of that happens in `~/.cache`, never\
+      in the mount.
+    | {class: note; width: 700}
+  }
+}
