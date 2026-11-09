@@ -1,6 +1,7 @@
-vars: @"./tech/vars/jbm.d2"
-classes: @"./classes"
-classes: @"./tags"
+vars: @"tech/vars/jbm.d2"
+classes: @classes
+classes: @tags
+
 layers: {
   1_legend: {
     grid-columns: 5
@@ -15,12 +16,6 @@ layers: {
     scalar: {class: scalar; label: "scalar"}
     data: {class: data; label: "data"}
     generic_node: {class: generic_node; label: "generic_node"}
-    generic_edge_demo: {
-      label: "generic_edge"
-      A: {label: "A"}
-      B: {label: "B"}
-      A -> B: {class: generic_edge}
-    }
     gate_and: {class: gate_and; label: "gate_and"}
     gate_or: {class: gate_or; label: "gate_or"}
     gate_nand: {class: gate_nand; label: "gate_nand"}
@@ -81,11 +76,11 @@ layers: {
       B: {label: "B"}
       A -> B: {class: edge_request}
     }
-    edge_write_demo: {
-      label: "edge_write"
+    generic_edge_demo: {
+      label: "generic_edge"
       A: {label: "A"}
       B: {label: "B"}
-      A -> B: {class: edge_write}
+      A -> B: {class: generic_edge}
     }
     edge_query_demo: {
       label: "edge_query"
@@ -97,24 +92,6 @@ layers: {
     to_remove: {class: to_remove; label: "to_remove"}
     unchanged: {class: unchanged; label: "unchanged"}
     obj_proc: {class: obj_proc; label: "obj_proc"}
-    edge_spawn_demo: {
-      label: "edge_spawn"
-      A: {label: "A"}
-      B: {label: "B"}
-      A -> B: {class: edge_spawn}
-    }
-    edge_signal_demo: {
-      label: "edge_signal"
-      A: {label: "A"}
-      B: {label: "B"}
-      A -> B: {class: edge_signal}
-    }
-    edge_no_signal_demo: {
-      label: "edge_no_signal"
-      A: {label: "A"}
-      B: {label: "B"}
-      A -> B: {class: edge_no_signal}
-    }
     user: {class: user; label: "user"}
     frontend: {class: frontend; label: "frontend"}
     pipeline: {class: pipeline; label: "pipeline"}

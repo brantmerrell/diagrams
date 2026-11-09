@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   **.style.text-transform: none
   0_base: {
@@ -45,7 +46,7 @@ layers: {
     }
     client -> target.request: "expects" {class: edge_request}
     client -> adapter.request: "calls" {class: edge_request}
-    adapter.request -> adaptee.specificRequest: "translates to" {class: edge_write}
+    adapter.request -> adaptee.specificRequest: "translates to" {class: generic_edge}
     note: |md
       The client only ever calls the `Target` interface's `request()`.\
       `Adapter` implements that interface and internally translates the\

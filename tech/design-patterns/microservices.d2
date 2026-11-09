@@ -42,10 +42,10 @@ layers: {
     gateway -> svc_a: {class: edge_request}
     gateway -> svc_b: {class: edge_request}
     gateway -> svc_c: {class: edge_request}
-    svc_a -> svc_a.db: {class: edge_write}
-    svc_b -> svc_b.db: {class: edge_write}
-    svc_c -> svc_c.db: {class: edge_write}
-    svc_a -> bus: "publishes" {class: edge_write}
+    svc_a -> svc_a.db: {class: generic_edge}
+    svc_b -> svc_b.db: {class: generic_edge}
+    svc_c -> svc_c.db: {class: generic_edge}
+    svc_a -> bus: "publishes" {class: generic_edge}
     bus -> svc_c: "consumes" {class: edge_query}
     svc_b -- note: {class: invis}
     note: |md

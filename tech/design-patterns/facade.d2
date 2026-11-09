@@ -58,10 +58,10 @@ layers: {
       read: "read()" {class: obj_service}
     }
     client -> facade.start: "calls" {class: edge_request}
-    facade.start -> cpu.freeze: {class: edge_write}
+    facade.start -> cpu.freeze: {class: generic_edge}
     facade.start -> hd.read: {class: edge_query}
-    hd.read -> memory.load: "boot data" {class: edge_write}
-    facade.start -> cpu.execute: {class: edge_write}
+    hd.read -> memory.load: "boot data" {class: generic_edge}
+    facade.start -> cpu.execute: {class: generic_edge}
     client -- note: {class: invis}
   }
 }

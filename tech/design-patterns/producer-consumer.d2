@@ -36,14 +36,13 @@ layers: {
       c2: "Consumer 2" {class: obj_service}
     }
     backpressure: "back-pressure\n(block / shed / buffer)" {class: cond}
-    producers.p1 -> queue: "enqueue" {class: edge_write}
-    producers.p2 -> queue: "enqueue" {class: edge_write}
+    producers.p1 -> queue: "enqueue" {class: generic_edge}
+    producers.p2 -> queue: "enqueue" {class: generic_edge}
     queue -> consumers.c1: "dequeue" {class: edge_query}
     queue -> consumers.c2: "dequeue" {class: edge_query}
-    queue -> backpressure: "full" {class: edge_signal}
+    queue -> backpressure: "full" {class: generic_edge}
     producers.p1 <- backpressure: {
-      class: edge_signal
-      class: highlight
+      class: generic_edge
     }
     note: |md
       The interesting design work is not the queue — it is what happens\

@@ -149,31 +149,31 @@ layers: {
     client.chat_ui -> channel_adapter: {class: edge_request; label: message}
     client.voice_ui -> channel_adapter: {class: [edge_request; future]; label: "message\n(future)"}
     channel_adapter -> api_chat: {class: edge_request}
-    api_chat -> core.agent_loop: {class: edge_write; label: invoke}
+    api_chat -> core.agent_loop: {class: generic_edge; label: invoke}
     core.agent_loop -> core.lane_guardrail: {class: edge_query; label: loads}
     core.agent_loop -> core.personality: {class: [edge_query; future]; label: "loads\n(future)"}
-    core.agent_loop -> core.conversation_context: {class: edge_write; label: "reads/writes\nturn history"}
+    core.agent_loop -> core.conversation_context: {class: generic_edge; label: "reads/writes\nturn history"}
     core.agent_loop -> external.llm_provider: {class: edge_request; label: "reason / generate"}
     core.agent_loop -> tools.tool_search: {class: edge_query; label: "tool call\n(model-decided)"}
     core.agent_loop -> tools.tool_equipment: {class: edge_query; label: "tool call\n(model-decided)"}
     core.agent_loop -> tools.tool_router: {class: [edge_query; future]; label: "tool call\n(future)"}
     tools.tool_search -> external.tavily_api: {class: edge_request}
     core.conversation_context <- tools.tool_equipment: {class: edge_query; label: "reads stated\nequipment"}
-    core.conversation_context -> state.profile_store: {class: edge_write; label: "captures stated\npreferences (non-health)"}
-    core.agent_loop -> guardrails.allergen_mw: {class: edge_write; label: response}
-    guardrails.allergen_mw -> guardrails.health_note: {class: edge_write}
-    api_chat <- guardrails.health_note: {class: edge_write; label: "final response"}
-    api_chat -> channel_adapter: {class: edge_write}
-    client.chat_ui <- channel_adapter: {class: edge_write}
-    core.agent_loop -> state.favorites_store: {class: [edge_write; future]; label: "future: save\nliked recipe"}
+    core.conversation_context -> state.profile_store: {class: generic_edge; label: "captures stated\npreferences (non-health)"}
+    core.agent_loop -> guardrails.allergen_mw: {class: generic_edge; label: response}
+    guardrails.allergen_mw -> guardrails.health_note: {class: generic_edge}
+    api_chat <- guardrails.health_note: {class: generic_edge; label: "final response"}
+    api_chat -> channel_adapter: {class: generic_edge}
+    client.chat_ui <- channel_adapter: {class: generic_edge}
+    core.agent_loop -> state.favorites_store: {class: [generic_edge; future]; label: "future: save\nliked recipe"}
     state.profile_store -> external.grocery_export: {class: [edge_query; future]; label: "future: meal\nhistory → list"}
     state.recipe_kb <- external.pdf_ingest: {
-      class: [edge_write; future]
+      class: [generic_edge; future]
       label: future
     }
     core.agent_loop <- state.recipe_kb: {class: [edge_query; future]; label: "future: richer\nrecipe grounding"}
-    docker_compose -> api_chat: {class: edge_spawn; label: up}
-    docker_compose -> client.chat_ui: {class: edge_spawn; label: up}
+    docker_compose -> api_chat: {class: generic_edge; label: up}
+    docker_compose -> client.chat_ui: {class: generic_edge; label: up}
   }
   4_chain_of_responsibility_pattern: {
     ...@"../design-patterns/chain-of-responsibility".layers.1_pattern

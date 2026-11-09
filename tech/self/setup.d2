@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   1_dev: {
     direction: down
@@ -36,22 +37,23 @@ layers: {
       ## .env.local
       VITE_BACKEND_PORT=_
     | {class: obj_db}
-    developer -> coordinator: {class: edge_spawn; label: "bun run start"}
-    coordinator -> express: {class: edge_write; label: "spawn:\nPORT=_"}
-    coordinator -> env_local: {class: edge_write; label: "write\nVITE_BACKEND_PORT"}
+    developer -> coordinator: {class: generic_edge; label: "bun run start"}
+    coordinator -> express: {class: generic_edge; label: "spawn:\nPORT=_"}
+    coordinator -> env_local: {class: generic_edge; label: "write\nVITE_BACKEND_PORT"}
     coordinator -> vite: {
-      class: edge_write
+      class: generic_edge
       label: "vite --port _\n--strictPort"
     }
     vite -> env_local: {
-      class: edge_query; label: "loadEnv() reads\nVITE_BACKEND_PORT"
+      class: edge_query
+      label: "loadEnv() reads\nVITE_BACKEND_PORT"
     }
     browser -> vite: {class: edge_request; label: "SPA routes \n+ assets"}
     vite -> express.api_proxy: {class: edge_request; label: proxy}
     vite -> express.svg_proxy: {class: edge_request; label: proxy}
-    express -> d2watch: {class: edge_spawn; label: "spawn on /api/tech/watch"}
+    express -> d2watch: {class: generic_edge; label: "spawn on /api/tech/watch"}
     d2watch -> sources: {class: edge_query; label: "compile"}
-    express -> browser: {class: edge_write; label: "SSE: svg updated"}
+    express -> browser: {class: generic_edge; label: "SSE: svg updated"}
   }
   2_pages: {
     direction: down
@@ -98,12 +100,12 @@ layers: {
     }
     artifacts -- artifacts_list: {class: edge_invis}
     actions -> artifacts: {
-      class: edge_write
+      class: generic_edge
       label: publish
     }
     artifacts -> pages: {
       label: served as\n dist/tech/
-      class: edge_write
+      class: generic_edge
     }
     browser -> pages.svg: {class: edge_request; label: GET}
     browser -> pages.tags: {class: edge_request; label: GET}
@@ -145,7 +147,7 @@ layers: {
     browser -> heroku: {class: edge_request; label: "SPA +\n/api/*"}
     # spacing to avoid overlap in edge names:
     container -- heroku: {class: edge_invis}
-    container -> heroku: {class: edge_write; label: "deployed\n as image"}
+    container -> heroku: {class: generic_edge; label: "deployed\n as image"}
     heroku -> express: {class: edge_request; label: "runs container,\nbinds PORT env var"}
   }
   5_proxy_pattern: {

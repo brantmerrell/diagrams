@@ -1,6 +1,7 @@
 vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
+
 layers: {
   **.style.text-transform: none
   0_base: {
@@ -19,7 +20,7 @@ layers: {
     # Transaction System
     transaction: {
       label: Database Transaction
-      shape: hexagon 
+      shape: hexagon
     }
     # ACID Properties as simultaneous guarantees
     acid_properties: {
@@ -57,7 +58,7 @@ layers: {
       }
     }
     transaction -- acid_properties.atomicity
-    transaction -- acid_properties.consistency  
+    transaction -- acid_properties.consistency
     transaction -- acid_properties.isolation
     transaction -- acid_properties.durability
   }
@@ -75,7 +76,7 @@ layers: {
     replication: {
       label: Replication
       master_slave: {
-        label: Master-Slave 
+        label: Master-Slave
       }
       master_master: {
         label: Master-Master
@@ -86,7 +87,7 @@ layers: {
       by_feature: Split by business function
     }
     sharding: {
-      label: Sharding\nHorizontal Partitioning  
+      label: Sharding\nHorizontal Partitioning
       by_data: Split by data distribution
     }
     denormalization: {
@@ -106,7 +107,8 @@ layers: {
     replication -> federation: outgrown single function # is this really a sequential relationship?
     federation -> sharding: outgrown functional split # is this really a sequential relationship?
     sharding -> denormalization: join complexity # is this really a sequential relationship?
-    denormalization -> sql_tuning: write performance issues # is this really a sequential relationship?
+    denormalization -> sql_tuning: write performance issues
+    # is this really a sequential relationship?
     # these aren't sequential; at most their relationships to scaling_type can include numbers.
   }
   3_systems: {
@@ -127,7 +129,7 @@ layers: {
         class: negative
         shape: oval
       }
-      app_servers -> database: { class: edge_query }
+      app_servers -> database: {class: edge_query}
       database -- bottleneck
     }
     read_replica_system: {
@@ -146,9 +148,9 @@ layers: {
         class: objs_db
         label: Read Replicas
       }
-      app_servers -> master_db: {class: edge_write}
+      app_servers -> master_db: {class: generic_edge}
       app_servers -> read_replicas: {class: edge_query}
-      master_db -> read_replicas: {class: edge_write, label: replication}
+      master_db -> read_replicas: {class: generic_edge, label: replication}
     }
     # Federation Solution
     federation_system: {
