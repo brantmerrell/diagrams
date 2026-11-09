@@ -32,7 +32,7 @@ layers: {
         label: "~/.cache/diagrams-private-mounts/\nanonymous_client\n(themed PNGs)"
       }
       repo.mount -> folder: {class: edge_own; label: "points to"}
-      folder -> cache: {class: edge_write; label: "bake + render"}
+      folder -> cache: {class: generic_edge; label: "bake + render"}
     }
 
     drive: {
@@ -47,16 +47,16 @@ layers: {
     }
     site: {class: obj_server; label: "diagrams.jbm.eco\n(anonymous_client entries\ncrossed out)"}
 
-    local.folder <-> drive.d2: {class: edge_write; label: "rclone bisync\n(both ways)"}
-    local.cache -> drive.png: {class: edge_write; label: "rclone sync\n(one way)"}
-    local.repo.public -> github.tree: {class: edge_write; label: "git push"}
+    local.folder <-> drive.d2: {class: generic_edge; label: "rclone bisync\n(both ways)"}
+    local.cache -> drive.png: {class: generic_edge; label: "rclone sync\n(one way)"}
+    local.repo.public -> github.tree: {class: generic_edge; label: "git push"}
     local.repo.mount -> github.tree: {
       class: negative
       label: "withheld"
       style.stroke-dash: 4
     }
     local.repo.ignores -> local.repo.mount: {class: edge_own; label: "excludes"}
-    github.tree -> site: {class: edge_write; label: "deploy\n(checkout only)"}
+    github.tree -> site: {class: generic_edge; label: "deploy\n(checkout only)"}
   }
 
   1_sync: {
@@ -85,20 +85,20 @@ layers: {
       bake: {class: obj_service; label: "bake_svgs.py\nflatten viewer theme\nto plain CSS"}
       render: {class: obj_service; label: "headless Chrome\nPNG at 2×\n(cap 8192 px)"}
       push: {class: obj_service; label: "rclone sync\nfoo/<layer>.png only"}
-      bake -> render: {class: edge_write; label: "changed SVGs"}
-      render -> push: {class: edge_write; label: "PNGs"}
+      bake -> render: {class: generic_edge; label: "changed SVGs"}
+      render -> push: {class: generic_edge; label: "PNGs"}
     }
     folder: {class: obj_db; label: "local folder\n.d2 + raw SVGs"}
     drive: {class: obj_db; label: "Google Drive\nshared folder"}
 
-    triggers.timer -> lock: {class: edge_spawn; label: "sync.sh"}
-    triggers.start -> lock: {class: edge_spawn; label: "start service\n(immediate sync)"}
+    triggers.timer -> lock: {class: generic_edge; label: "sync.sh"}
+    triggers.start -> lock: {class: generic_edge; label: "start service\n(immediate sync)"}
     lock -> pass1: {class: edge_call; label: "then"}
     pass1 -> pass2.bake: {class: edge_call; label: "then"}
-    pass1 <-> folder: {class: edge_write; label: ".d2, docs"}
-    pass1 <-> drive: {class: edge_write; label: ".d2, docs"}
+    pass1 <-> folder: {class: generic_edge; label: ".d2, docs"}
+    pass1 <-> drive: {class: generic_edge; label: ".d2, docs"}
     folder -> pass2.bake: {class: edge_query; label: "raw SVGs"}
-    pass2.push -> drive: {class: edge_write; label: "PNGs"}
+    pass2.push -> drive: {class: generic_edge; label: "PNGs"}
 
     why: |md
       **Why not sync the SVGs directly?** The viewer themes raw d2 SVGs in the\

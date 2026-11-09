@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_main: {
     _quality: {class: styled}
@@ -13,7 +14,7 @@ layers: {
     chesscom: {label: Chess.com API; class: obj_service}
     browser -> index_tsx: {class: edge_request; label: "load page"}
     index_tsx -> App: render {class: edge_request}
-    App -> Redux: {class: edge_write; label: "initialize store"}
+    App -> Redux: {class: generic_edge; label: "initialize store"}
     Redux.note: |md
       * positions
       * puzzles
@@ -24,7 +25,7 @@ layers: {
     }
     App -> connector: {class: edge_request; label: "GET /none?fen_string=<starting FEN>"}
     browser -> App: {class: edge_request; label: "change connection type or FEN"}
-    App -> Redux: {class: edge_write; label: "dispatch loadFen / setConnectionType"}
+    App -> Redux: {class: generic_edge; label: "dispatch loadFen / setConnectionType"}
     App -> connector: {class: edge_request; label: "GET /<endpoint>?fen_string=<FEN>"}
     browser -> App: {class: edge_request; label: "load daily puzzle"}
     App -> chesscom: {class: edge_request; label: "GET /pub/puzzle"}

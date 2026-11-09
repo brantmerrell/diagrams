@@ -5,6 +5,7 @@ direction: down
 vars: @"../../vars/system-design.d2"
 classes: @"../../../classes"
 classes: @"../../../tags"
+
 layers: {
   **.style.text-transform: none
   0_base: {
@@ -209,9 +210,9 @@ layers: {
       | {class: objs_service}
     }
     Analytics -> ObjectStore: {class: edge_query}
-    Analytics -> SQLAnalytics: {class: edge_write}
+    Analytics -> SQLAnalytics: {class: generic_edge}
     LoadBalancer -> WebServer: {class: edge_request}
-    CDN -> ObjectStore: {class: edge_write}
+    CDN -> ObjectStore: {class: generic_edge}
     Client -> CDN: {
       class: edge_request
       # label: POST -- is this correct?
@@ -225,8 +226,8 @@ layers: {
     ReadAPI -> MemoryCache: {class: edge_query}
     ReadAPI -> ObjectStore: {class: edge_query}
     WebServer -> ReadAPI: {class: edge_query}
-    WebServer -> WriteAPI: {class: edge_write}
+    WebServer -> WriteAPI: {class: generic_edge}
     WriteAPI -> SQLWriteMasterSlave: {class: edge_query}
-    WriteAPI -> SQLWriteMasterSlave: {class: edge_write}
+    WriteAPI -> SQLWriteMasterSlave: {class: generic_edge}
   }
 }

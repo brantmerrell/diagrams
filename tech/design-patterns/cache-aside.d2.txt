@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_base: {
     **.style.text-transform: none
@@ -31,10 +32,10 @@ layers: {
     db: "Database" {class: obj_db}
     check: "in cache?" {class: cond}
     app -> cache: "1. read" {class: edge_query}
-    cache -> check {class: generic_edge}
+    cache -> check: {class: generic_edge}
     check -> app: "hit — return" {class: edge_query}
     check -> db: "miss — 2. read" {class: edge_query}
-    db -> cache: "3. populate (with TTL)" {class: edge_write}
+    db -> cache: "3. populate (with TTL)" {class: generic_edge}
     cache -> app: "4. return" {class: edge_query}
     note: |md
       Contrast with read-through, where the cache itself loads from the\

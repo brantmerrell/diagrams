@@ -30,38 +30,18 @@ obj_proc: {
     font-size: 16
   }
 }
-edge_spawn: {
-  label: "forks/execs"
-  style: {
-    stroke-width: 1
-  }
-}
-edge_signal: {
-  label: "SIGINT"
-  style: {
-    stroke-width: 2
-  }
-}
-edge_no_signal: {
-  label: "SIGINT"
-  style: {
-    stroke-dash: 3
-    stroke-width: 2
-  }
-}
 TODO: give all classes font-size above 25
 cond: {
   shape: diamond
 }
-highlight: {
-  label: 🔖
+bookmark: {
+  # label: 🔖
   style: {
     font-color: Crimson
     font-size: 24
     stroke-width: 4
     stroke-width: 5
     stroke: Crimson
-    fill: DarkSlateGray
   }
 }
 invis: {
@@ -211,18 +191,9 @@ edge_invis: {
   }
 }
 edge_request: {
-  label: rq
   style: {
     font-size: 24
     stroke-dash: 5
-    stroke-width: 3
-  }
-}
-edge_write: {
-  label: W
-  style: {
-    font-size: 24
-    stroke-dash: 2
     stroke-width: 3
   }
 }

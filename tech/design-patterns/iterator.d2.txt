@@ -37,7 +37,7 @@ layers: {
       next: "next()" {class: obj_service}
     }
     client -> aggregate.createIterator: "requests" {class: edge_request}
-    aggregate.createIterator -> iterator.hasNext: "returns" {class: edge_write}
+    aggregate.createIterator -> iterator.hasNext: "returns" {class: generic_edge}
     client -> iterator.hasNext: "checks" {class: edge_query}
     client -> iterator.next: "advances" {class: edge_request}
     note: |md

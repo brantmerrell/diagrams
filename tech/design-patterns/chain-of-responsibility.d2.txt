@@ -46,6 +46,6 @@ layers: {
       handle: "handle()" {class: obj_service}
     }
     client -> handler1.handle: "request" {class: edge_request}
-    handler1.handle -> handler2.handle: "passes along" {class: edge_write}
+    handler1.handle -> handler2.handle: "passes along" {class: generic_edge}
   }
 }

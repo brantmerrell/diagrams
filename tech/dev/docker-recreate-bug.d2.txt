@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   **.style.text-transform: none
   0_base: {
@@ -39,13 +40,13 @@ layers: {
     create_container: {class: obj_proc; label: "create_container\nservice.py:330"}
     volume_merge: {class: obj_proc; label: "_build_container_volume_options\nservice.py:960"}
     get_data_volumes: {class: obj_proc; label: "get_container_data_volumes\nservice.py:1579"}
-    make_dev -> compose_up: {class: edge_spawn}
-    project_up <- compose_up: {class: edge_spawn}
-    project_up -> convergence: {class: edge_spawn; label: "existing hi-db-1\nneeds recreating"}
-    recreate <- convergence: {class: edge_spawn}
-    recreate -> create_container: {class: edge_spawn}
-    volume_merge <- create_container: {class: edge_spawn}
-    volume_merge -> get_data_volumes: {class: edge_spawn}
+    make_dev -> compose_up: {class: generic_edge}
+    project_up <- compose_up: {class: generic_edge}
+    project_up -> convergence: {class: generic_edge; label: "existing hi-db-1\nneeds recreating"}
+    recreate <- convergence: {class: generic_edge}
+    recreate -> create_container: {class: generic_edge}
+    volume_merge <- create_container: {class: generic_edge}
+    volume_merge -> get_data_volumes: {class: generic_edge}
     note: {
       shape: text
       label: "get_container_data_volumes unconditionally reads\ncontainer.image_config['ContainerConfig'] to find the\nold container's declared volumes before merging them\ninto the new one. Both hi-db-1 and its child db\ncontainer failed here with the identical KeyError."
@@ -63,7 +64,7 @@ layers: {
     note: {
       shape: text
       label: "This is a known docker-compose v1.29.2 incompatibility:\nit was last updated for an image metadata shape that\nnewer Docker Engine versions no longer produce, and v1 has\nno further releases to fix it. It only surfaces on\n*recreate* (an existing container already present) - never\non a first-time up with no prior container."
-    }  # See README lines 112-132
+    } # See README lines 112-132
   }
   3_fix: {
     direction: down

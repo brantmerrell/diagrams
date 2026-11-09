@@ -50,7 +50,7 @@ layers: {
     concrete_a: "ConcreteStrategyA" {class: obj_service}
     concrete_b: "ConcreteStrategyB" {class: obj_service}
     concrete_c: "ConcreteStrategyC" {class: obj_service}
-    client -> context.slot: "chooses" {class: edge_write}
+    client -> context.slot: "chooses" {class: generic_edge}
     client -> context.execute: "calls" {class: edge_request}
     context.execute -> iface.run: "delegates" {class: edge_query}
     concrete_a -> iface: "implements" {class: edge}

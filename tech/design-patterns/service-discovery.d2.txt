@@ -34,9 +34,9 @@ layers: {
     instance_2: "Instance 2\n:ephemeral" {class: obj_server}
     client: "Client" {class: obj_client}
     registry.entries <- instance_1: "register" {
-      class: edge_write
+      class: generic_edge
     }
-    registry.entries <- instance_2: "register" {class: edge_write}
+    registry.entries <- instance_2: "register" {class: generic_edge}
     registry.health -> instance_1: "probe" {class: edge_query}
     registry.health -> instance_2: "probe" {class: edge_query}
     client -> registry.entries: "resolve(name)" {class: edge_query}

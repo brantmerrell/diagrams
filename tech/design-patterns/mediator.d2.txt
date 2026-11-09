@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_base: {
     **.style.text-transform: none
@@ -31,12 +32,12 @@ layers: {
     colleague_a: "ColleagueA" {class: obj_service}
     colleague_b: "ColleagueB" {class: obj_service}
     colleague_c: "ColleagueC" {class: obj_service}
-    colleague_a -> mediator.notify {class: edge_request}
-    colleague_b -> mediator.notify {class: edge_request}
-    colleague_c -> mediator.notify {class: edge_request}
-    mediator.notify -> colleague_a {class: edge_write}
-    mediator.notify -> colleague_b {class: edge_write}
-    mediator.notify -> colleague_c {class: edge_write}
+    colleague_a -> mediator.notify: {class: edge_request}
+    colleague_b -> mediator.notify: {class: edge_request}
+    colleague_c -> mediator.notify: {class: edge_request}
+    mediator.notify -> colleague_a: {class: generic_edge}
+    mediator.notify -> colleague_b: {class: generic_edge}
+    mediator.notify -> colleague_c: {class: generic_edge}
     note: |md
       Without the mediator these three colleagues need six directed\
       edges and mutual knowledge of each other. With it, each knows\

@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_spawn: {
     design_pattern: {
@@ -28,17 +29,17 @@ layers: {
       w3: {class: obj_proc; label: "d2 -w ports.d2"}
       more: {shape: text; label: "... one per diagram\never viewed this session"}
     }
-    bun_start -> concurrently: {class: edge_spawn}
-    concurrently -> sh_server: {class: edge_spawn}
-    sh_server -> bun_server: {class: edge_spawn}
-    bun_server -> node_server: {class: edge_spawn}
-    concurrently -> sh_dev: {class: edge_spawn}
-    sh_dev -> bun_dev: {class: edge_spawn}
-    bun_dev -> vite: {class: edge_spawn}
-    vite -> esbuild: {class: edge_spawn}
-    node_server -> d2_watchers.w1: {class: edge_spawn; label: "POST /api/tech/watch"}
-    node_server -> d2_watchers.w2: {class: edge_spawn; label: "revisit"}
-    node_server -> d2_watchers.w3: {class: edge_spawn}
+    bun_start -> concurrently: {class: generic_edge}
+    concurrently -> sh_server: {class: generic_edge}
+    sh_server -> bun_server: {class: generic_edge}
+    bun_server -> node_server: {class: generic_edge}
+    concurrently -> sh_dev: {class: generic_edge}
+    sh_dev -> bun_dev: {class: generic_edge}
+    bun_dev -> vite: {class: generic_edge}
+    vite -> esbuild: {class: generic_edge}
+    node_server -> d2_watchers.w1: {class: generic_edge; label: "POST /api/tech/watch"}
+    node_server -> d2_watchers.w2: {class: generic_edge; label: "revisit"}
+    node_server -> d2_watchers.w3: {class: generic_edge}
     note: {
       shape: text
       label: "Confirmed on a live session: node server.js, every d2 -w child,\nvite and esbuild all share ONE process group (pgid = bun run\nstart's own pid). Before the fix, nothing ever told a watcher to\nstop when the frontend navigated to a different diagram, so each\nview leaked one process for the life of the server, and a fast\nrevisit could orphan the previous process from the tracking Map\nbefore it had actually exited (see stopWatcher in server.js)."
@@ -55,9 +56,9 @@ layers: {
       d2_a: {class: obj_proc; label: "d2 -w mint.d2"}
       d2_b: {class: obj_proc; label: "d2 -w mint.d2\n(orphaned from the Map,\nstill in the same pgid)"}
     }
-    keyboard -> group.node_server: {class: edge_signal}
-    keyboard -> group.d2_a: {class: edge_signal; label: "SIGINT - same pgid,\ndelivered directly by the OS"}
-    keyboard -> group.d2_b: {class: edge_signal; label: "SIGINT still arrives -\npgid membership survives\nbeing dropped from the Map"}
+    keyboard -> group.node_server: {class: generic_edge}
+    keyboard -> group.d2_a: {class: generic_edge; label: "SIGINT - same pgid,\ndelivered directly by the OS"}
+    keyboard -> group.d2_b: {class: generic_edge; label: "SIGINT still arrives -\npgid membership survives\nbeing dropped from the Map"}
     note: {
       shape: text
       label: "Measured directly: d2 does catch SIGINT (\"received signal\ninterrupt: shutting down...\") and exits roughly 1-2s later, and\nevery process here shares the terminal's foreground process\ngroup, so the signal reaches all of them without node forwarding\nanything. Before the fix, node itself had no SIGINT/SIGTERM\nhandler at all - it just died instantly, leaving cleanup entirely\nto the OS delivering the same signal to the rest of the group by\nluck, not by design."
@@ -79,8 +80,8 @@ layers: {
         proc: {class: obj_proc; label: "bun run start\npgid 2114546"}
       }
     }
-    keyboard -> tmux.pane_active.proc: {class: edge_signal; label: "delivered here instead"}
-    keyboard -> tmux.pane_server.proc: {class: edge_no_signal}
+    keyboard -> tmux.pane_active.proc: {class: generic_edge; label: "delivered here instead"}
+    keyboard -> tmux.pane_server.proc: {class: generic_edge}
     note: {
       shape: text
       label: "Same failure mode already diagrammed for the hi/make setup (see\ndev/make.d2, layer 1): tmux routes a keystroke to whichever pane\nhas focus, not to the pane the user means to target. If bun run\nstart is running in a background pane, Ctrl+C typed in the active\npane never reaches pgid 2114546 at all - the whole tree, including\nevery already-leaked d2 -w process, just keeps running."

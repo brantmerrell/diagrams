@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_base: {
     design_pattern: {
@@ -73,8 +74,8 @@ layers: {
         pane_pts18: {class: obj_proc; label: "pane .1 - pts/18\nClaude Code session\nactive=1"}
       }
     }
-    _ctrl_c -> tmux.window_hi.pane_pts18: {class: edge_signal; label: "delivered here instead"}
-    _ctrl_c -> tmux.window_background.pane_pts16: {class: edge_no_signal}
+    _ctrl_c -> tmux.window_hi.pane_pts18: {class: generic_edge; label: "delivered here instead"}
+    _ctrl_c -> tmux.window_background.pane_pts16: {class: generic_edge}
     unsorted: |md
       was pts/18 confirmed active *at the moment*  
       of the failed Ctrl+C, or inferred after the  
@@ -95,12 +96,12 @@ layers: {
       npm_dev: {class: obj_proc; label: "npm run dev\npid 243728"}
       sh_vite: {class: obj_proc; label: "sh -c vite --open\npid 243755"}
       vite_node: {class: obj_proc; label: "node vite\npid 243756"}
-      make_proc -> sh_recipe: {class: edge_spawn}
-      sh_recipe -> uvicorn_reloader: {class: edge_spawn; label: "& (backgrounded)"}
-      uvicorn_reloader -> uvicorn_worker: {class: edge_spawn; label: "reload supervises"}
-      sh_recipe -> npm_dev: {class: edge_spawn; label: "foreground"}
-      npm_dev -> sh_vite: {class: edge_spawn}
-      sh_vite -> vite_node: {class: edge_spawn}
+      make_proc -> sh_recipe: {class: generic_edge}
+      sh_recipe -> uvicorn_reloader: {class: generic_edge; label: "& (backgrounded)"}
+      uvicorn_reloader -> uvicorn_worker: {class: generic_edge; label: "reload supervises"}
+      sh_recipe -> npm_dev: {class: generic_edge; label: "foreground"}
+      npm_dev -> sh_vite: {class: generic_edge}
+      sh_vite -> vite_node: {class: generic_edge}
     }
     note: {
       shape: text

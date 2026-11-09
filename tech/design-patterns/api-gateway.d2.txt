@@ -57,9 +57,9 @@ layers: {
     clients.mobile -> gateway.auth: {class: edge_request}
     clients.partner -> gateway.auth: {class: edge_request}
     gateway.auth -> gateway.route: {class: edge_query}
-    gateway.route -> services.svc_a: {class: edge_write}
-    gateway.route -> services.svc_b: {class: edge_write}
-    gateway.route -> services.svc_c: {class: edge_write}
+    gateway.route -> services.svc_a: {class: generic_edge}
+    gateway.route -> services.svc_b: {class: generic_edge}
+    gateway.route -> services.svc_c: {class: generic_edge}
     gateway.aggregate <- services.svc_a: {class: edge_query}
     gateway.aggregate <- services.svc_b: {class: edge_query}
     direction: right

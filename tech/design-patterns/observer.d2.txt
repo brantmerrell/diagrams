@@ -43,9 +43,9 @@ layers: {
     observer_b -> subject.attach: "registers" {class: edge_request}
     subject.state -> subject.notify: "changed" {class: edge_query}
     observer_a.update <- subject.notify: "push" {
-      class: edge_write
+      class: generic_edge
     }
-    observer_b.update <- subject.notify: "push" {class: edge_write}
+    observer_b.update <- subject.notify: "push" {class: generic_edge}
     observer_a.update -> subject.state: "pulls detail" {class: edge_query}
     note: |md
       The subject broadcasts that *something* changed; observers decide\

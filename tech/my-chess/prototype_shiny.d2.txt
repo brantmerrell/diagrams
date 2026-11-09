@@ -1,6 +1,7 @@
 vars: @"../vars/jbm.d2"
 classes: @"../../classes"
 classes: @"../../tags"
+
 layers: {
   0_base: {
     _quality: {class: styled}
@@ -21,12 +22,12 @@ layers: {
     shiny: {class: obj_server}
     app_R -> shiny: shinyApp(ui, server) on port 3838
     user -> server: {class: edge_request; label: "select preset FEN or submit FEN"}
-    server -> chess_py: {class: edge_write; label: "board.set_fen(fen)"}
+    server -> chess_py: {class: generic_edge; label: "board.set_fen(fen)"}
     server -> connector: {class: edge_request; label: "GET /links?fen_string=<FEN>"}
     user -> server: {class: edge_request; label: "submit move"}
-    server -> chess_py: {class: edge_write; label: "board.push_san(move)"}
+    server -> chess_py: {class: generic_edge; label: "board.push_san(move)"}
     server -> connector: {class: edge_request; label: "GET /links?fen_string=<updated FEN>"}
     user -> server: {class: edge_request; label: "undo"}
-    server -> chess_py: {class: edge_write; label: "board.pop()"}
+    server -> chess_py: {class: generic_edge; label: "board.pop()"}
   }
 }
